@@ -9,30 +9,183 @@
 #define INCLUDED_TRANSPORT_TRANSPORT_LAYER_IMPL_H
 
 #include <gnuradio/transport/transport_layer.h>
+#include <pmt/pmt.h>
+
+#include <boost/asio.hpp>
+#include <boost/system/error_code.hpp>
+
+#include <atomic>
+#include <cstdint>
+#include <memory>
+#include <mutex>
+#include <random>
+#include <string>
+#include <thread>
+#include <vector>
 
 namespace gr {
   namespace transport {
 
+    // -----------------------------------------------------------------------
+    // Finite-State Machine states
+    // -----------------------------------------------------------------------
+    enum class NodeState {
+        IDLE,       ///< Default — listening; both roles start here
+        SYN_SENT,   ///< Initiator: SYN sent, awaiting SYN_ACK
+        SYN_RCVD,   ///< Responder: SYN_ACK sent, awaiting first DATA
+        TX_ACTIVE,  ///< Initiator: SR-ARQ sliding window in progress
+        RX_ACTIVE,  ///< Responder: buffering/reassembling DATA frames
+        FIN_SENT,   ///< Initiator: FIN sent, awaiting FIN_ACK
+    };
+
+    // -----------------------------------------------------------------------
+    // Application bitstream header constants (see docs/APP_BITSTREAM_FORMAT.md)
+    // -----------------------------------------------------------------------
+    static constexpr uint8_t  APP_MAGIC_0    = 0xAB;
+    static constexpr uint8_t  APP_MAGIC_1    = 0xCD;
+    static constexpr uint8_t  APP_TYPE_TEXT  = 0x01;
+    static constexpr uint8_t  APP_TYPE_IMAGE = 0x02;
+    static constexpr uint8_t  APP_TYPE_AUDIO = 0x03;
+    static constexpr size_t   APP_HDR_SIZE   = 8;    ///< Fixed header length (bytes)
+
+    // -----------------------------------------------------------------------
+    // Transport layer implementation
+    // -----------------------------------------------------------------------
     class transport_layer_impl : public transport_layer
     {
      private:
-      // Nothing to declare in this block.
+      // --- Protocol constants (set at construction, immutable) -----------
+      const int d_m;              ///< Sequence-number bits (4)
+      const int d_seq_space;      ///< 2^m  — total sequence number space (16)
+      const int d_window_size;    ///< 2^(m-1) — max window size (8, SR constraint)
+      const int d_mtu_bytes;      ///< Max DATA payload bytes per packet
+      const int d_rto_ms;         ///< Retransmission timeout (ms)
+      const std::string d_role;   ///< "initiator" or "responder"
+
+      // --- FSM state (protected by d_mutex) ------------------------------
+      NodeState d_state;
+
+      // --- Session metadata ----------------------------------------------
+      uint64_t    d_session_id;       ///< Random nonce agreed during handshake
+      pmt::pmt_t  d_payload_type_pmt; ///< PMT symbol: "text", "image", "audio"
+
+      // --- TX sliding window state (initiator) ---------------------------
+      int d_send_base;           ///< Absolute index of oldest unACK'd packet
+      int d_next_seq_abs;        ///< Absolute index of next packet to send
+      int d_total_packets_tx;    ///< Total DATA frames for this session
+      std::vector<pmt::pmt_t> d_tx_buffer; ///< [slot] = u8vector chunk; slot = abs%SEQ_SPACE
+      std::vector<bool>       d_acked;     ///< [slot] = true when ACK received
+
+      // --- RX sliding window state (responder) ---------------------------
+      int d_rcv_base;            ///< Modular seq_no of next expected in-order frame
+      int d_total_packets_rx;    ///< Total expected DATA frames
+      int d_packets_delivered;   ///< Count of in-order packets delivered to app
+      std::vector<pmt::pmt_t> d_rx_buffer;  ///< [slot] = out-of-order buffered chunk
+      std::vector<bool>       d_received;   ///< [slot] = true when frame is buffered
+      std::vector<uint8_t>    d_reassembled_data; ///< Growing reassembly buffer
+
+      // --- Boost.Asio timer infrastructure -------------------------------
+      /// One timer per sequence slot + one extra slot (d_seq_space-1) for
+      /// SYN and FIN retransmits. Total: d_seq_space timers.
+      boost::asio::io_context  d_io_ctx;
+      boost::asio::executor_work_guard<boost::asio::io_context::executor_type>
+                               d_work_guard;
+      std::thread              d_io_thread;  ///< Runs d_io_ctx.run()
+      std::vector<std::shared_ptr<boost::asio::steady_timer>> d_timers;
+
+      // --- Thread safety -------------------------------------------------
+      std::mutex d_mutex; ///< Guards all state between scheduler & io_thread
+
+      // --- PRNG for session IDs ------------------------------------------
+      std::mt19937_64 d_rng;
+
+      // -----------------------------------------------------------------------
+      // Message handlers (called by GNU Radio scheduler)
+      // -----------------------------------------------------------------------
+      /// Entry point for PDUs arriving from the PHY/MAC layer.
+      void handle_pdu_in(pmt::pmt_t msg);
+      /// Entry point for application bitstream PDUs (initiator only).
+      void handle_app_in(pmt::pmt_t msg);
+
+      // -----------------------------------------------------------------------
+      // FSM state handlers (called from handle_pdu_in, mutex held by caller)
+      // -----------------------------------------------------------------------
+      void fsm_idle     (pmt::pmt_t meta, pmt::pmt_t data, const std::string& pkt_type);
+      void fsm_syn_sent (pmt::pmt_t meta, pmt::pmt_t data, const std::string& pkt_type);
+      void fsm_syn_rcvd (pmt::pmt_t meta, pmt::pmt_t data, const std::string& pkt_type);
+      void fsm_tx_active(pmt::pmt_t meta, pmt::pmt_t data, const std::string& pkt_type);
+      void fsm_rx_active(pmt::pmt_t meta, pmt::pmt_t data, const std::string& pkt_type);
+      void fsm_fin_sent (pmt::pmt_t meta, pmt::pmt_t data, const std::string& pkt_type);
+
+      // -----------------------------------------------------------------------
+      // Window management (called with d_mutex held)
+      // -----------------------------------------------------------------------
+      /// Slide the send window forward over consecutive ACK'd slots.
+      /// Sends next buffered packet per slot advanced; triggers FIN when done.
+      void advance_send_window();
+
+      /// Deliver contiguous in-order received packets to app_out.
+      /// Sends FIN_ACK and resets state when all packets are delivered.
+      void try_deliver_rx_buffer();
+
+      // -----------------------------------------------------------------------
+      // Packetization (called with d_mutex held)
+      // -----------------------------------------------------------------------
+      /// Fragment raw bytes into MTU-sized chunks; populate d_tx_buffer[].
+      void packetize(const std::vector<uint8_t>& raw);
+
+      // -----------------------------------------------------------------------
+      // Retransmission timers (timer callbacks run on d_io_thread)
+      // -----------------------------------------------------------------------
+      /// Arm (or re-arm) the RTO timer for the given sequence slot.
+      void start_timer(int slot);
+      /// Cancel the RTO timer for the given sequence slot.
+      void cancel_timer(int slot);
+      /// Timer expiry callback — retransmits the unACK'd packet.
+      void on_timeout(int slot, const boost::system::error_code& ec);
+
+      // -----------------------------------------------------------------------
+      // Send helpers (may be called from either thread)
+      // -----------------------------------------------------------------------
+      /// Build a PMT metadata dictionary for a control or data frame.
+      pmt::pmt_t build_meta(const std::string& pkt_type,
+                             int seq_no,
+                             uint64_t session_id,
+                             int total_packets = 0,
+                             const std::string& payload_type_str = "");
+
+      /// Transmit a zero-payload control frame (SYN, SYN_ACK, ACK, FIN, FIN_ACK).
+      void send_ctrl_frame(const std::string& pkt_type,
+                           uint64_t session_id,
+                           int seq_no           = -1,
+                           int total_packets    = 0,
+                           const std::string& payload_type_str = "");
+
+      /// Transmit the DATA frame stored at the given window slot.
+      /// Caller must hold d_mutex.
+      void send_data_packet_locked(int slot);
+
+      /// Publish a PMT cons pair to the pdu_out message port.
+      void send_pdu(pmt::pmt_t meta, pmt::pmt_t data);
+
+      // -----------------------------------------------------------------------
+      // Utility (called with d_mutex held)
+      // -----------------------------------------------------------------------
+      /// Reset all session state and return FSM to IDLE.
+      void reset_state();
+      /// Generate a random 64-bit session identifier.
+      uint64_t generate_session_id();
 
      public:
-      transport_layer_impl();
+      transport_layer_impl(int m,
+                           int rto_ms,
+                           const std::string& node_role,
+                           int mtu_bytes);
       ~transport_layer_impl();
-
-      // Where all the action really happens
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
-
-      int general_work(int noutput_items,
-           gr_vector_int &ninput_items,
-           gr_vector_const_void_star &input_items,
-           gr_vector_void_star &output_items);
-
     };
 
   } // namespace transport
 } // namespace gr
 
 #endif /* INCLUDED_TRANSPORT_TRANSPORT_LAYER_IMPL_H */
+
