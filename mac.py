@@ -17,6 +17,7 @@ MAX_FRAME_LEN = 300  # Safeguard: max expected bytes between flags
 RX_STALL_TIMEOUT = 0.15     #150ms to clear imcomplete/corrupted frames
 
 rx_buffer = bytearray()     #gloabal buffer for receival
+last_rx_data_time = 0.0
 
 #socket setup
 tx_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
