@@ -1,0 +1,17 @@
+/usr/local/include/gnuradio/DLC/api.h
+/usr/local/include/gnuradio/DLC/addFlags.h
+/usr/local/include/gnuradio/DLC/removeFlags.h
+/usr/local/include/gnuradio/DLC/bitStuffing.h
+/usr/local/lib64/libgnuradio-DLC.so.1.0.0.0
+/usr/local/lib64/libgnuradio-DLC.so.1.0.0
+/usr/local/lib64/libgnuradio-DLC.so
+/usr/local/lib64/cmake/gnuradio-DLC/gnuradio-DLCTargets.cmake
+/usr/local/lib64/cmake/gnuradio-DLC/gnuradio-DLCTargets-release.cmake
+/usr/local/lib64/cmake/gnuradio-DLC/gnuradio-DLCConfig.cmake
+/usr/local/lib64/python3.14/site-packages/gnuradio/DLC/DLC_python.cpython-314-x86_64-linux-gnu.so
+/usr/local/lib64/python3.14/site-packages/gnuradio/DLC/__init__.py
+/usr/local/share/gnuradio/grc/blocks/DLC_addFlags.block.yml
+/usr/local/share/gnuradio/grc/blocks/DLC_removeFlags.block.yml
+/usr/local/share/gnuradio/grc/blocks/DLC_bitStuffing.block.yml
+/usr/local/lib64/cmake/gnuradio-DLC/gnuradio-DLCConfig.cmake
+/usr/local/share/gnuradio/manifests/DLC/MANIFEST-1.0.00.yml
