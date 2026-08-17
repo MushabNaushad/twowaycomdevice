@@ -481,7 +481,6 @@ connections:
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_tag_debug_0, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', digital_header_payload_demux_0, '0']
 - [digital_header_payload_demux_0, '0', blocks_repack_bits_bb_1, '0']
-- [digital_header_payload_demux_0, '1', blocks_char_to_float_0, '0']
 - [digital_header_payload_demux_0, '1', blocks_repack_bits_bb_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 - [digital_protocol_parser_b_0, info, digital_header_payload_demux_0, header_data]

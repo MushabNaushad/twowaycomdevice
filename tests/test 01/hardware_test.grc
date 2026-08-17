@@ -280,7 +280,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 708.0]
+    coordinate: [1256, 552.0]
     rotation: 180
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -442,7 +442,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 576.0]
+    coordinate: [1256, 648.0]
     rotation: 180
     state: enabled
 - name: rational_resampler_xxx_0
@@ -544,4 +544,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.12.0
+  grc_version: 3.10.9.2
