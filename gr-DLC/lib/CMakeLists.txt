@@ -13,7 +13,8 @@ include(GrPlatform) #define LIB_SUFFIX
 list(APPEND DLC_sources
     addFlags_impl.cc
     removeFlags_impl.cc
-    bitStuffing_impl.cc )
+    bitStuffing_impl.cc
+    deStuffing_impl.cc )
 
 set(DLC_sources
     "${DLC_sources}"
