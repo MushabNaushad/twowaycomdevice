@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classgr_1_1DLC_1_1CRCGen__impl" kind="class" language="C++" prot="public">
+    <compoundname>gr::DLC::CRCGen_impl</compoundname>
+    <basecompoundref refid="classgr_1_1DLC_1_1CRCGen" prot="public" virt="non-virtual">gr::DLC::CRCGen</basecompoundref>
+    <includes refid="CRCGen__impl_8h" local="no">CRCGen_impl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classgr_1_1DLC_1_1CRCGen__impl_1ae8d4cde5f9a38ea4cdd941288af126cc" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::DLC::CRCGen_impl::d_scheme</definition>
+        <argsstring></argsstring>
+        <name>d_scheme</name>
+        <qualifiedname>gr::DLC::CRCGen_impl::d_scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/CRCGen_impl.h" line="19" column="9" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/lib/CRCGen_impl.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classgr_1_1DLC_1_1CRCGen__impl_1a43c4f08a9a2645e1846dbfc5f7a6cde9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::DLC::CRCGen_impl::generate_crc</definition>
+        <argsstring>(pmt::pmt_t msg)</argsstring>
+        <name>generate_crc</name>
+        <qualifiedname>gr::DLC::CRCGen_impl::generate_crc</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/CRCGen_impl.h" line="20" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classgr_1_1DLC_1_1CRCGen__impl_1a885621172603544f5adac0010e4bfe10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::DLC::CRCGen_impl::CRCGen_impl</definition>
+        <argsstring>(int scheme)</argsstring>
+        <name>CRCGen_impl</name>
+        <qualifiedname>gr::DLC::CRCGen_impl::CRCGen_impl</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/CRCGen_impl.h" line="23" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1DLC_1_1CRCGen__impl_1a521c9ad385e444b90c874607e7b3dbb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::DLC::CRCGen_impl::~CRCGen_impl</definition>
+        <argsstring>()</argsstring>
+        <name>~CRCGen_impl</name>
+        <qualifiedname>gr::DLC::CRCGen_impl::~CRCGen_impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/CRCGen_impl.h" line="24" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>gr::DLC::CRCGen</label>
+        <link refid="classgr_1_1DLC_1_1CRCGen"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::DLC::CRCGen_impl</label>
+        <link refid="classgr_1_1DLC_1_1CRCGen__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>gr::DLC::CRCGen</label>
+        <link refid="classgr_1_1DLC_1_1CRCGen"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::DLC::CRCGen_impl</label>
+        <link refid="classgr_1_1DLC_1_1CRCGen__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/CRCGen_impl.h" line="16" column="1" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/lib/CRCGen_impl.h" bodystart="17" bodyend="25"/>
+    <listofallmembers>
+      <member refid="classgr_1_1DLC_1_1CRCGen__impl_1a885621172603544f5adac0010e4bfe10" prot="public" virt="non-virtual"><scope>gr::DLC::CRCGen_impl</scope><name>CRCGen_impl</name></member>
+      <member refid="classgr_1_1DLC_1_1CRCGen__impl_1ae8d4cde5f9a38ea4cdd941288af126cc" prot="private" virt="non-virtual"><scope>gr::DLC::CRCGen_impl</scope><name>d_scheme</name></member>
+      <member refid="classgr_1_1DLC_1_1CRCGen__impl_1a43c4f08a9a2645e1846dbfc5f7a6cde9" prot="private" virt="non-virtual"><scope>gr::DLC::CRCGen_impl</scope><name>generate_crc</name></member>
+      <member refid="classgr_1_1DLC_1_1CRCGen_1a10f855140ffebac486445e72fd101cd6" prot="public" virt="non-virtual"><scope>gr::DLC::CRCGen_impl</scope><name>make</name></member>
+      <member refid="classgr_1_1DLC_1_1CRCGen_1a0e468d91bd91b57e6328cdd735fdd012" prot="public" virt="non-virtual"><scope>gr::DLC::CRCGen_impl</scope><name>sptr</name></member>
+      <member refid="classgr_1_1DLC_1_1CRCGen__impl_1a521c9ad385e444b90c874607e7b3dbb7" prot="public" virt="non-virtual"><scope>gr::DLC::CRCGen_impl</scope><name>~CRCGen_impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

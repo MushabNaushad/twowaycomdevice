@@ -47,6 +47,9 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_addFlags.block.yml"
     "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_removeFlags.block.yml"
     "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_bitStuffing.block.yml"
+    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_deStuffing.block.yml"
+    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_CRCGen.block.yml"
+    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_CRCCheck.block.yml"
     )
 endif()
 

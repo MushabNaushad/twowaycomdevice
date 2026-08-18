@@ -185,6 +185,54 @@ gnuradio-DLC/fast:
 	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/build
 .PHONY : gnuradio-DLC/fast
 
+CRCCheck_impl.o: CRCCheck_impl.cc.o
+.PHONY : CRCCheck_impl.o
+
+# target to build an object file
+CRCCheck_impl.cc.o:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/CRCCheck_impl.cc.o
+.PHONY : CRCCheck_impl.cc.o
+
+CRCCheck_impl.i: CRCCheck_impl.cc.i
+.PHONY : CRCCheck_impl.i
+
+# target to preprocess a source file
+CRCCheck_impl.cc.i:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/CRCCheck_impl.cc.i
+.PHONY : CRCCheck_impl.cc.i
+
+CRCCheck_impl.s: CRCCheck_impl.cc.s
+.PHONY : CRCCheck_impl.s
+
+# target to generate assembly for a file
+CRCCheck_impl.cc.s:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/CRCCheck_impl.cc.s
+.PHONY : CRCCheck_impl.cc.s
+
+CRCGen_impl.o: CRCGen_impl.cc.o
+.PHONY : CRCGen_impl.o
+
+# target to build an object file
+CRCGen_impl.cc.o:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/CRCGen_impl.cc.o
+.PHONY : CRCGen_impl.cc.o
+
+CRCGen_impl.i: CRCGen_impl.cc.i
+.PHONY : CRCGen_impl.i
+
+# target to preprocess a source file
+CRCGen_impl.cc.i:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/CRCGen_impl.cc.i
+.PHONY : CRCGen_impl.cc.i
+
+CRCGen_impl.s: CRCGen_impl.cc.s
+.PHONY : CRCGen_impl.s
+
+# target to generate assembly for a file
+CRCGen_impl.cc.s:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/CRCGen_impl.cc.s
+.PHONY : CRCGen_impl.cc.s
+
 addFlags_impl.o: addFlags_impl.cc.o
 .PHONY : addFlags_impl.o
 
@@ -233,6 +281,30 @@ bitStuffing_impl.cc.s:
 	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/bitStuffing_impl.cc.s
 .PHONY : bitStuffing_impl.cc.s
 
+deStuffing_impl.o: deStuffing_impl.cc.o
+.PHONY : deStuffing_impl.o
+
+# target to build an object file
+deStuffing_impl.cc.o:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/deStuffing_impl.cc.o
+.PHONY : deStuffing_impl.cc.o
+
+deStuffing_impl.i: deStuffing_impl.cc.i
+.PHONY : deStuffing_impl.i
+
+# target to preprocess a source file
+deStuffing_impl.cc.i:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/deStuffing_impl.cc.i
+.PHONY : deStuffing_impl.cc.i
+
+deStuffing_impl.s: deStuffing_impl.cc.s
+.PHONY : deStuffing_impl.s
+
+# target to generate assembly for a file
+deStuffing_impl.cc.s:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/gnuradio-DLC.dir/build.make lib/CMakeFiles/gnuradio-DLC.dir/deStuffing_impl.cc.s
+.PHONY : deStuffing_impl.cc.s
+
 removeFlags_impl.o: removeFlags_impl.cc.o
 .PHONY : removeFlags_impl.o
 
@@ -271,12 +343,21 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... gnuradio-DLC"
+	@echo "... CRCCheck_impl.o"
+	@echo "... CRCCheck_impl.i"
+	@echo "... CRCCheck_impl.s"
+	@echo "... CRCGen_impl.o"
+	@echo "... CRCGen_impl.i"
+	@echo "... CRCGen_impl.s"
 	@echo "... addFlags_impl.o"
 	@echo "... addFlags_impl.i"
 	@echo "... addFlags_impl.s"
 	@echo "... bitStuffing_impl.o"
 	@echo "... bitStuffing_impl.i"
 	@echo "... bitStuffing_impl.s"
+	@echo "... deStuffing_impl.o"
+	@echo "... deStuffing_impl.i"
+	@echo "... deStuffing_impl.s"
 	@echo "... removeFlags_impl.o"
 	@echo "... removeFlags_impl.i"
 	@echo "... removeFlags_impl.s"

@@ -16,7 +16,9 @@ namespace DLC {
 class deStuffing_impl : public deStuffing
 {
 private:
-    // Nothing to declare in this block.
+    uint8_t d_flag;
+
+    void destuff_bits(pmt::pmt_t msg);
 
 public:
     deStuffing_impl(uint8_t flag);

@@ -198,6 +198,19 @@ gnuradio-DLC/fast:
 .PHONY : gnuradio-DLC/fast
 
 #=============================================================================
+# Target rules for targets named doxygen_target
+
+# Build rule for target.
+doxygen_target: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 doxygen_target
+.PHONY : doxygen_target
+
+# fast build rule for target.
+doxygen_target/fast:
+	$(MAKE) $(MAKESILENT) -f docs/doxygen/CMakeFiles/doxygen_target.dir/build.make docs/doxygen/CMakeFiles/doxygen_target.dir/build
+.PHONY : doxygen_target/fast
+
+#=============================================================================
 # Target rules for targets named pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d
 
 # Build rule for target.
@@ -237,6 +250,19 @@ DLC_python/fast:
 .PHONY : DLC_python/fast
 
 #=============================================================================
+# Target rules for targets named extracted_docstrings
+
+# Build rule for target.
+extracted_docstrings: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 extracted_docstrings
+.PHONY : extracted_docstrings
+
+# fast build rule for target.
+extracted_docstrings/fast:
+	$(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/build.make python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/build
+.PHONY : extracted_docstrings/fast
+
+#=============================================================================
 # Target rules for targets named DLC_docstrings
 
 # Build rule for target.
@@ -264,6 +290,8 @@ help:
 	@echo "... test"
 	@echo "... DLC_docstrings"
 	@echo "... copy_module_for_tests"
+	@echo "... doxygen_target"
+	@echo "... extracted_docstrings"
 	@echo "... pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d"
 	@echo "... uninstall"
 	@echo "... DLC_python"

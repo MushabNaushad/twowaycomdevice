@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="CRCGen__pydoc__template_8h" kind="file" language="C++">
+    <compoundname>CRCGen_pydoc_template.h</compoundname>
+    <includes local="yes">pydoc_macros.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>CRCGen_pydoc_template.h</label>
+        <link refid="CRCGen__pydoc__template_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pydoc_macros.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="CRCGen__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" prot="public" static="no">
+        <name>D</name>
+        <param><defname>...</defname></param>
+        <initializer><ref refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a4e578031ec998eaeb933d5caa6a7d28a" kindref="member">DOC</ref>(<ref refid="namespacegr" kindref="compound">gr</ref>, DLC, __VA_ARGS__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" line="10" column="10" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" bodystart="10" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="CRCGen__pydoc__template_8h_1a57969d991b429f0018f1dcb9bd2872cc" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* __doc_gr_DLC_CRCGen</definition>
+        <argsstring></argsstring>
+        <name>__doc_gr_DLC_CRCGen</name>
+        <initializer>= R&quot;doc()doc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" line="19" column="20" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="CRCGen__pydoc__template_8h_1a8bb8ec6bc1f3d1fb73b008fc1db6cb61" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* __doc_gr_DLC_CRCGen_CRCGen_0</definition>
+        <argsstring></argsstring>
+        <name>__doc_gr_DLC_CRCGen_CRCGen_0</name>
+        <initializer>= R&quot;doc()doc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" line="22" column="20" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="CRCGen__pydoc__template_8h_1a4aa034eef4e189d05b60810b8d1a2e2b" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* __doc_gr_DLC_CRCGen_make</definition>
+        <argsstring></argsstring>
+        <name>__doc_gr_DLC_CRCGen_make</name>
+        <initializer>= R&quot;doc()doc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" line="25" column="20" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/CRCGen_pydoc_template.h"/>
+  </compounddef>
+</doxygen>

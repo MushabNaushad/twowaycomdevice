@@ -186,6 +186,20 @@ DLC_python/fast:
 .PHONY : DLC_python/fast
 
 # Convenience name for target.
+python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/rule:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/rule
+.PHONY : python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/rule
+
+# Convenience name for target.
+extracted_docstrings: python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/rule
+.PHONY : extracted_docstrings
+
+# fast build rule for target.
+extracted_docstrings/fast:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/build.make python/DLC/bindings/CMakeFiles/extracted_docstrings.dir/build
+.PHONY : extracted_docstrings/fast
+
+# Convenience name for target.
 python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/rule:
 	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/rule
 .PHONY : python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/rule
@@ -198,6 +212,54 @@ DLC_docstrings: python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/rule
 DLC_docstrings/fast:
 	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/build.make python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/build
 .PHONY : DLC_docstrings/fast
+
+CRCCheck_python.o: CRCCheck_python.cc.o
+.PHONY : CRCCheck_python.o
+
+# target to build an object file
+CRCCheck_python.cc.o:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/CRCCheck_python.cc.o
+.PHONY : CRCCheck_python.cc.o
+
+CRCCheck_python.i: CRCCheck_python.cc.i
+.PHONY : CRCCheck_python.i
+
+# target to preprocess a source file
+CRCCheck_python.cc.i:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/CRCCheck_python.cc.i
+.PHONY : CRCCheck_python.cc.i
+
+CRCCheck_python.s: CRCCheck_python.cc.s
+.PHONY : CRCCheck_python.s
+
+# target to generate assembly for a file
+CRCCheck_python.cc.s:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/CRCCheck_python.cc.s
+.PHONY : CRCCheck_python.cc.s
+
+CRCGen_python.o: CRCGen_python.cc.o
+.PHONY : CRCGen_python.o
+
+# target to build an object file
+CRCGen_python.cc.o:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/CRCGen_python.cc.o
+.PHONY : CRCGen_python.cc.o
+
+CRCGen_python.i: CRCGen_python.cc.i
+.PHONY : CRCGen_python.i
+
+# target to preprocess a source file
+CRCGen_python.cc.i:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/CRCGen_python.cc.i
+.PHONY : CRCGen_python.cc.i
+
+CRCGen_python.s: CRCGen_python.cc.s
+.PHONY : CRCGen_python.s
+
+# target to generate assembly for a file
+CRCGen_python.cc.s:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/CRCGen_python.cc.s
+.PHONY : CRCGen_python.cc.s
 
 addFlags_python.o: addFlags_python.cc.o
 .PHONY : addFlags_python.o
@@ -246,6 +308,30 @@ bitStuffing_python.s: bitStuffing_python.cc.s
 bitStuffing_python.cc.s:
 	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/bitStuffing_python.cc.s
 .PHONY : bitStuffing_python.cc.s
+
+deStuffing_python.o: deStuffing_python.cc.o
+.PHONY : deStuffing_python.o
+
+# target to build an object file
+deStuffing_python.cc.o:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/deStuffing_python.cc.o
+.PHONY : deStuffing_python.cc.o
+
+deStuffing_python.i: deStuffing_python.cc.i
+.PHONY : deStuffing_python.i
+
+# target to preprocess a source file
+deStuffing_python.cc.i:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/deStuffing_python.cc.i
+.PHONY : deStuffing_python.cc.i
+
+deStuffing_python.s: deStuffing_python.cc.s
+.PHONY : deStuffing_python.s
+
+# target to generate assembly for a file
+deStuffing_python.cc.s:
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/bindings/CMakeFiles/DLC_python.dir/build.make python/DLC/bindings/CMakeFiles/DLC_python.dir/deStuffing_python.cc.s
+.PHONY : deStuffing_python.cc.s
 
 python_bindings.o: python_bindings.cc.o
 .PHONY : python_bindings.o
@@ -309,13 +395,23 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... DLC_docstrings"
+	@echo "... extracted_docstrings"
 	@echo "... DLC_python"
+	@echo "... CRCCheck_python.o"
+	@echo "... CRCCheck_python.i"
+	@echo "... CRCCheck_python.s"
+	@echo "... CRCGen_python.o"
+	@echo "... CRCGen_python.i"
+	@echo "... CRCGen_python.s"
 	@echo "... addFlags_python.o"
 	@echo "... addFlags_python.i"
 	@echo "... addFlags_python.s"
 	@echo "... bitStuffing_python.o"
 	@echo "... bitStuffing_python.i"
 	@echo "... bitStuffing_python.s"
+	@echo "... deStuffing_python.o"
+	@echo "... deStuffing_python.i"
+	@echo "... deStuffing_python.s"
 	@echo "... python_bindings.o"
 	@echo "... python_bindings.i"
 	@echo "... python_bindings.s"

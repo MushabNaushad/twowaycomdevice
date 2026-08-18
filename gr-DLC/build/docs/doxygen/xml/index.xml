@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.16.1" xml:lang="en-US">
+  <compound refid="classgr_1_1DLC_1_1addFlags" kind="class"><name>gr::DLC::addFlags</name>
+    <member refid="classgr_1_1DLC_1_1addFlags_1af57c15815f5edde1440f6730c7b7faab" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1DLC_1_1addFlags_1ad881eb904d7e007fb4f838720f618386" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1addFlags__impl" kind="class"><name>gr::DLC::addFlags_impl</name>
+    <member refid="classgr_1_1DLC_1_1addFlags__impl_1af0975a3854739c590533deac5d2a8296" kind="variable"><name>d_flag</name></member>
+    <member refid="classgr_1_1DLC_1_1addFlags__impl_1a774499217e614e15a7766eb3f34d5f03" kind="variable"><name>d_bothEnds</name></member>
+    <member refid="classgr_1_1DLC_1_1addFlags__impl_1a2254e263808da99fc6eb47866d2e2c5d" kind="function"><name>process_packet</name></member>
+    <member refid="classgr_1_1DLC_1_1addFlags__impl_1a5009ad35865d7739b446ad3d0769a136" kind="function"><name>addFlags_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1addFlags__impl_1a56eea8b0b2333cc49cfab9a7bd0901f8" kind="function"><name>~addFlags_impl</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1bitStuffing" kind="class"><name>gr::DLC::bitStuffing</name>
+    <member refid="classgr_1_1DLC_1_1bitStuffing_1ae8d6ffaaeb85064501389a2983b51007" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1DLC_1_1bitStuffing_1a6fbd27fb1f9df69517d058388ab0509d" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1bitStuffing__impl" kind="class"><name>gr::DLC::bitStuffing_impl</name>
+    <member refid="classgr_1_1DLC_1_1bitStuffing__impl_1a98c1fbc6c83f1e72034b8463a1ce6274" kind="variable"><name>d_flag</name></member>
+    <member refid="classgr_1_1DLC_1_1bitStuffing__impl_1ada84f2c0a2095468eda63351a484d112" kind="function"><name>stuff_bits</name></member>
+    <member refid="classgr_1_1DLC_1_1bitStuffing__impl_1a549dad7bf0a5ea48237e9576819a8fec" kind="function"><name>bitStuffing_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1bitStuffing__impl_1a539815320e3d72a5a132a04671fbbd4f" kind="function"><name>~bitStuffing_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1bitStuffing__impl_1aa04d2a4bb2dc08379f12987d321969df" kind="function"><name>forecast</name></member>
+    <member refid="classgr_1_1DLC_1_1bitStuffing__impl_1a8d45f813be3e56422d7f8f743b995ea5" kind="function"><name>general_work</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1CRCCheck" kind="class"><name>gr::DLC::CRCCheck</name>
+    <member refid="classgr_1_1DLC_1_1CRCCheck_1a1855f62e475cf4763b4b18fdd8549ee3" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCCheck_1a81cbdb78c593d8453b0470a154acb197" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1CRCCheck__impl" kind="class"><name>gr::DLC::CRCCheck_impl</name>
+    <member refid="classgr_1_1DLC_1_1CRCCheck__impl_1ace53e35ba921c67be67e184e1e676416" kind="variable"><name>d_scheme</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCCheck__impl_1aa21f77bab7c5cd6674d96a84623d8190" kind="function"><name>check_crc</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCCheck__impl_1a93cdf3102918c9856f31b744c3d7d756" kind="function"><name>CRCCheck_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCCheck__impl_1a0ce875e9beab80b74af9fc9dc5fdca27" kind="function"><name>~CRCCheck_impl</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1CRCGen" kind="class"><name>gr::DLC::CRCGen</name>
+    <member refid="classgr_1_1DLC_1_1CRCGen_1a0e468d91bd91b57e6328cdd735fdd012" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCGen_1a10f855140ffebac486445e72fd101cd6" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1CRCGen__impl" kind="class"><name>gr::DLC::CRCGen_impl</name>
+    <member refid="classgr_1_1DLC_1_1CRCGen__impl_1ae8d4cde5f9a38ea4cdd941288af126cc" kind="variable"><name>d_scheme</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCGen__impl_1a43c4f08a9a2645e1846dbfc5f7a6cde9" kind="function"><name>generate_crc</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCGen__impl_1a885621172603544f5adac0010e4bfe10" kind="function"><name>CRCGen_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1CRCGen__impl_1a521c9ad385e444b90c874607e7b3dbb7" kind="function"><name>~CRCGen_impl</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1deStuffing" kind="class"><name>gr::DLC::deStuffing</name>
+    <member refid="classgr_1_1DLC_1_1deStuffing_1a839da8e94121c5c148225204565f4bb4" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1DLC_1_1deStuffing_1a528ac0c1211509a991e7a11be666bf45" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1deStuffing__impl" kind="class"><name>gr::DLC::deStuffing_impl</name>
+    <member refid="classgr_1_1DLC_1_1deStuffing__impl_1ae538bbb01280b70bbb6b353f2d1fa2ff" kind="variable"><name>d_flag</name></member>
+    <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a1b0639438958fa76027080543236e576" kind="function"><name>destuff_bits</name></member>
+    <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a227cb9a8d3742774949406452b9c17b1" kind="function"><name>deStuffing_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a3572a514148e481b0441ef9abf874b9a" kind="function"><name>~deStuffing_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a2a14a0a781583373ef8ef9e13ce3df03" kind="function"><name>forecast</name></member>
+    <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a985383154919c5b9ef2667cb3e0752bd" kind="function"><name>general_work</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1removeFlags" kind="class"><name>gr::DLC::removeFlags</name>
+    <member refid="classgr_1_1DLC_1_1removeFlags_1a1ee3a22ec7ea0dbcf5451e07923c9f89" kind="typedef"><name>sptr</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags_1a9b70c965dd8311505b82352467119d8d" kind="function"><name>make</name></member>
+  </compound>
+  <compound refid="classgr_1_1DLC_1_1removeFlags__impl" kind="class"><name>gr::DLC::removeFlags_impl</name>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a53951662ed8209d01ec58eb6a23334ef" kind="variable"><name>d_flag</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1abee047e7baea4fcb49e0adfe685e256e" kind="variable"><name>d_shift_reg</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a28fda82ea89f06cc2e3d2a9c93c13349" kind="variable"><name>d_in_frame</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a98036c0585fd0ae2825f1d6e47f2c461" kind="variable"><name>d_pdu_buffer</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a768b343414c9dccfdc410f87c6f0dcc3" kind="function"><name>removeFlags_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a961867b568e518faccd48846d502c496" kind="function"><name>~removeFlags_impl</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a8e4d1d9f8ede438a3b4d7977b437f82c" kind="function"><name>forecast</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a21456f4a0ccba7bda71c54c41540df16" kind="function"><name>general_work</name></member>
+  </compound>
+  <compound refid="namespacegr" kind="namespace"><name>gr</name>
+  </compound>
+  <compound refid="namespacegr_1_1DLC" kind="namespace"><name>gr::DLC</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="group__defs_8dox" kind="file"><name>group_defs.dox</name>
+  </compound>
+  <compound refid="main__page_8dox" kind="file"><name>main_page.dox</name>
+  </compound>
+  <compound refid="build_2python_2DLC_2bindings_2pydoc__macros_8h" kind="file"><name>build/python/DLC/bindings/pydoc_macros.h</name>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1afa7cf06549cf7fd295f622ef6f376357" kind="define"><name>__EXPAND</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a251b23a2efed48ff2ba2d6f449ed33a3" kind="define"><name>__COUNT</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a2815f7ab197591ba9559415c694f9ce0" kind="define"><name>__VA_SIZE</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1afdd58e017733f2235c227ef8dd3b2de8" kind="define"><name>__CAT1</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1af08fe30f2a41cef10658f6a892d20543" kind="define"><name>__CAT2</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a43c147206df4346db5e9d6445aab28ae" kind="define"><name>__DOC1</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a53738db606593bc1554371d718695fed" kind="define"><name>__DOC2</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a21baf08c04d32485764f227c32b5bf5d" kind="define"><name>__DOC3</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a9463ba0ad86bcb4c59b5aecf8a37174c" kind="define"><name>__DOC4</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a942579d548421ddb2906af7094e5789c" kind="define"><name>__DOC5</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a31ea356761360e78d16525aa69d2dae6" kind="define"><name>__DOC6</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a6f1e731f1c6d2893ff1bf98582a7de6e" kind="define"><name>__DOC7</name></member>
+    <member refid="build_2python_2DLC_2bindings_2pydoc__macros_8h_1a4e578031ec998eaeb933d5caa6a7d28a" kind="define"><name>DOC</name></member>
+  </compound>
+  <compound refid="docs_2doxygen_2pydoc__macros_8h" kind="file"><name>docs/doxygen/pydoc_macros.h</name>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1afa7cf06549cf7fd295f622ef6f376357" kind="define"><name>__EXPAND</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a251b23a2efed48ff2ba2d6f449ed33a3" kind="define"><name>__COUNT</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a2815f7ab197591ba9559415c694f9ce0" kind="define"><name>__VA_SIZE</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1afdd58e017733f2235c227ef8dd3b2de8" kind="define"><name>__CAT1</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1af08fe30f2a41cef10658f6a892d20543" kind="define"><name>__CAT2</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a43c147206df4346db5e9d6445aab28ae" kind="define"><name>__DOC1</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a53738db606593bc1554371d718695fed" kind="define"><name>__DOC2</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a21baf08c04d32485764f227c32b5bf5d" kind="define"><name>__DOC3</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a9463ba0ad86bcb4c59b5aecf8a37174c" kind="define"><name>__DOC4</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a942579d548421ddb2906af7094e5789c" kind="define"><name>__DOC5</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a31ea356761360e78d16525aa69d2dae6" kind="define"><name>__DOC6</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a6f1e731f1c6d2893ff1bf98582a7de6e" kind="define"><name>__DOC7</name></member>
+    <member refid="docs_2doxygen_2pydoc__macros_8h_1a4e578031ec998eaeb933d5caa6a7d28a" kind="define"><name>DOC</name></member>
+  </compound>
+  <compound refid="addFlags_8h" kind="file"><name>addFlags.h</name>
+  </compound>
+  <compound refid="api_8h" kind="file"><name>api.h</name>
+    <member refid="api_8h_1a3398c66cd31af2fd0ca732fa5d58e2a7" kind="define"><name>DLC_API</name></member>
+  </compound>
+  <compound refid="bitStuffing_8h" kind="file"><name>bitStuffing.h</name>
+  </compound>
+  <compound refid="CRCCheck_8h" kind="file"><name>CRCCheck.h</name>
+  </compound>
+  <compound refid="CRCGen_8h" kind="file"><name>CRCGen.h</name>
+  </compound>
+  <compound refid="deStuffing_8h" kind="file"><name>deStuffing.h</name>
+  </compound>
+  <compound refid="removeFlags_8h" kind="file"><name>removeFlags.h</name>
+  </compound>
+  <compound refid="addFlags__impl_8h" kind="file"><name>addFlags_impl.h</name>
+  </compound>
+  <compound refid="bitStuffing__impl_8h" kind="file"><name>bitStuffing_impl.h</name>
+  </compound>
+  <compound refid="CRCCheck__impl_8h" kind="file"><name>CRCCheck_impl.h</name>
+  </compound>
+  <compound refid="CRCGen__impl_8h" kind="file"><name>CRCGen_impl.h</name>
+  </compound>
+  <compound refid="deStuffing__impl_8h" kind="file"><name>deStuffing_impl.h</name>
+  </compound>
+  <compound refid="removeFlags__impl_8h" kind="file"><name>removeFlags_impl.h</name>
+  </compound>
+  <compound refid="python_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h" kind="file"><name>python/DLC/bindings/docstrings/addFlags_pydoc_template.h</name>
+    <member refid="python_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="python_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1a7e2597afa3c73291314ccdffa37cb019" kind="variable"><name>__doc_gr_DLC_addFlags</name></member>
+    <member refid="python_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1a90b04299ab3687228f2900b29e59c906" kind="variable"><name>__doc_gr_DLC_addFlags_addFlags_0</name></member>
+    <member refid="python_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1adaa36da2e7d024d9e5e0371509c5a0fc" kind="variable"><name>__doc_gr_DLC_addFlags_make</name></member>
+  </compound>
+  <compound refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h" kind="file"><name>trash/test_modules/gnuradio/DLC/bindings/docstrings/addFlags_pydoc_template.h</name>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1a7e2597afa3c73291314ccdffa37cb019" kind="variable"><name>__doc_gr_DLC_addFlags</name></member>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1a90b04299ab3687228f2900b29e59c906" kind="variable"><name>__doc_gr_DLC_addFlags_addFlags_0</name></member>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h_1adaa36da2e7d024d9e5e0371509c5a0fc" kind="variable"><name>__doc_gr_DLC_addFlags_make</name></member>
+  </compound>
+  <compound refid="bitStuffing__pydoc__template_8h" kind="file"><name>bitStuffing_pydoc_template.h</name>
+    <member refid="bitStuffing__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="bitStuffing__pydoc__template_8h_1a97bdbd58ba1164644f0c00f364fcda55" kind="variable"><name>__doc_gr_DLC_bitStuffing</name></member>
+    <member refid="bitStuffing__pydoc__template_8h_1a2da9a791f587cca13c3930233967d35e" kind="variable"><name>__doc_gr_DLC_bitStuffing_bitStuffing_0</name></member>
+    <member refid="bitStuffing__pydoc__template_8h_1affead6a30a69d79ba55dca5e51d311cf" kind="variable"><name>__doc_gr_DLC_bitStuffing_make</name></member>
+  </compound>
+  <compound refid="CRCCheck__pydoc__template_8h" kind="file"><name>CRCCheck_pydoc_template.h</name>
+    <member refid="CRCCheck__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="CRCCheck__pydoc__template_8h_1a225e4f4ae116eabf6cdbd57f0b2abb8b" kind="variable"><name>__doc_gr_DLC_CRCCheck</name></member>
+    <member refid="CRCCheck__pydoc__template_8h_1ac75b6f4f727a896f108e8f10a4cb49ff" kind="variable"><name>__doc_gr_DLC_CRCCheck_CRCCheck_0</name></member>
+    <member refid="CRCCheck__pydoc__template_8h_1a60ea9efb108b692fac7a7d14bb4399ad" kind="variable"><name>__doc_gr_DLC_CRCCheck_make</name></member>
+  </compound>
+  <compound refid="CRCGen__pydoc__template_8h" kind="file"><name>CRCGen_pydoc_template.h</name>
+    <member refid="CRCGen__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="CRCGen__pydoc__template_8h_1a57969d991b429f0018f1dcb9bd2872cc" kind="variable"><name>__doc_gr_DLC_CRCGen</name></member>
+    <member refid="CRCGen__pydoc__template_8h_1a8bb8ec6bc1f3d1fb73b008fc1db6cb61" kind="variable"><name>__doc_gr_DLC_CRCGen_CRCGen_0</name></member>
+    <member refid="CRCGen__pydoc__template_8h_1a4aa034eef4e189d05b60810b8d1a2e2b" kind="variable"><name>__doc_gr_DLC_CRCGen_make</name></member>
+  </compound>
+  <compound refid="deStuffing__pydoc__template_8h" kind="file"><name>deStuffing_pydoc_template.h</name>
+    <member refid="deStuffing__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="deStuffing__pydoc__template_8h_1a75735de6850872d615c3aebc32b55969" kind="variable"><name>__doc_gr_DLC_deStuffing</name></member>
+    <member refid="deStuffing__pydoc__template_8h_1af34f7899333a8bc8659a156c7a67d0c4" kind="variable"><name>__doc_gr_DLC_deStuffing_deStuffing_0</name></member>
+    <member refid="deStuffing__pydoc__template_8h_1a7ef05a6b1ffa9319ecaf6b02a476c27d" kind="variable"><name>__doc_gr_DLC_deStuffing_make</name></member>
+  </compound>
+  <compound refid="python_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h" kind="file"><name>python/DLC/bindings/docstrings/removeFlags_pydoc_template.h</name>
+    <member refid="python_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="python_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h_1a0539a0dab8ac49e96e79d903fb2db8b4" kind="variable"><name>__doc_gr_DLC_removeFlags</name></member>
+    <member refid="python_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h_1a46c51980a3e8cae05fa8adf93cd884bb" kind="variable"><name>__doc_gr_DLC_removeFlags_make</name></member>
+  </compound>
+  <compound refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h" kind="file"><name>trash/test_modules/gnuradio/DLC/bindings/docstrings/removeFlags_pydoc_template.h</name>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h_1a74021f021dcdfbb22891787b79c5529d" kind="define"><name>D</name></member>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h_1a0539a0dab8ac49e96e79d903fb2db8b4" kind="variable"><name>__doc_gr_DLC_removeFlags</name></member>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h_1a794afe7047c15e43f1cc69dfe8be4c12" kind="variable"><name>__doc_gr_DLC_removeFlags_removeFlags_0</name></member>
+    <member refid="trash_2test__modules_2gnuradio_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h_1a46c51980a3e8cae05fa8adf93cd884bb" kind="variable"><name>__doc_gr_DLC_removeFlags_make</name></member>
+  </compound>
+  <compound refid="group__block" kind="group"><name>block</name>
+  </compound>
+  <compound refid="dir_92b93e356e21db3aa44672431d6f0c83" kind="dir"><name>bindings</name>
+  </compound>
+  <compound refid="dir_385d1a01657c065907a50902fc180c01" kind="dir"><name>bindings</name>
+  </compound>
+  <compound refid="dir_2abae7b53bcf4cf89c48a8eac720233a" kind="dir"><name>bindings</name>
+  </compound>
+  <compound refid="dir_d20d6dd6dbfe19dce34addd3ac803c77" kind="dir"><name>DLC</name>
+  </compound>
+  <compound refid="dir_7eaf397d086b715685e94d971bea2053" kind="dir"><name>DLC</name>
+  </compound>
+  <compound refid="dir_8f0ea11b9603858e044bb6347f6a2286" kind="dir"><name>DLC</name>
+  </compound>
+  <compound refid="dir_1763b12b777fd9379a9ba69d1ddce1f6" kind="dir"><name>DLC</name>
+  </compound>
+  <compound refid="dir_49e56c817e5e54854c35e136979f97ca" kind="dir"><name>docs</name>
+  </compound>
+  <compound refid="dir_a4a183eba39124939eefa6cded8dcbd6" kind="dir"><name>docstrings</name>
+  </compound>
+  <compound refid="dir_f6ae99df6bd3810a380b48127d6605ac" kind="dir"><name>docstrings</name>
+  </compound>
+  <compound refid="dir_359d2bec989c9a8deeeb9aee335c1c76" kind="dir"><name>doxygen</name>
+  </compound>
+  <compound refid="dir_902d6fe55786be073ae6681293cdb979" kind="dir"><name>gnuradio</name>
+  </compound>
+  <compound refid="dir_7131b275f15fa9f1883a6b99093d177a" kind="dir"><name>gnuradio</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_97aefd0d527b934f1d99a682da8fe6a9" kind="dir"><name>lib</name>
+  </compound>
+  <compound refid="dir_f2cd86917185299abf5a1f0679072f3c" kind="dir"><name>other</name>
+  </compound>
+  <compound refid="dir_ab3dd591509f89c87d6a9fd8136a6d03" kind="dir"><name>python</name>
+  </compound>
+  <compound refid="dir_7837fde3ab9c1fb2fc5be7b717af8d79" kind="dir"><name>python</name>
+  </compound>
+  <compound refid="dir_55642c1ef9d8553aac3b5435bd665bd5" kind="dir"><name>test_modules</name>
+  </compound>
+  <compound refid="dir_15a3458a516119eb06a14a9eabc6725b" kind="dir"><name>trash</name>
+  </compound>
+  <compound refid="indexpage" kind="page"><name>index</name>
+  </compound>
+</doxygenindex>

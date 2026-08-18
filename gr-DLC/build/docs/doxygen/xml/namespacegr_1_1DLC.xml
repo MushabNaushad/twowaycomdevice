@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="namespacegr_1_1DLC" kind="namespace" language="C++">
+    <compoundname>gr::DLC</compoundname>
+    <innerclass refid="classgr_1_1DLC_1_1addFlags" prot="public">gr::DLC::addFlags</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1bitStuffing" prot="public">gr::DLC::bitStuffing</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1CRCCheck" prot="public">gr::DLC::CRCCheck</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1CRCGen" prot="public">gr::DLC::CRCGen</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1deStuffing" prot="public">gr::DLC::deStuffing</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1removeFlags" prot="public">gr::DLC::removeFlags</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1addFlags__impl" prot="public">gr::DLC::addFlags_impl</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1bitStuffing__impl" prot="public">gr::DLC::bitStuffing_impl</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1CRCCheck__impl" prot="public">gr::DLC::CRCCheck_impl</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1CRCGen__impl" prot="public">gr::DLC::CRCGen_impl</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1deStuffing__impl" prot="public">gr::DLC::deStuffing_impl</innerclass>
+    <innerclass refid="classgr_1_1DLC_1_1removeFlags__impl" prot="public">gr::DLC::removeFlags_impl</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/addFlags.h" line="15" column="1"/>
+  </compounddef>
+</doxygen>

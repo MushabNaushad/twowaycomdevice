@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_1763b12b777fd9379a9ba69d1ddce1f6" kind="dir">
+    <compoundname>DLC</compoundname>
+    <innerdir refid="dir_2abae7b53bcf4cf89c48a8eac720233a">bindings</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/trash/test_modules/gnuradio/DLC/"/>
+  </compounddef>
+</doxygen>
