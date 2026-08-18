@@ -25,6 +25,8 @@ namespace py = pybind11;
     void bind_removeFlags(py::module& m);
     void bind_bitStuffing(py::module& m);
     void bind_deStuffing(py::module& m);
+    void bind_CRCGen(py::module& m);
+    void bind_CRCCheck(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 
@@ -57,5 +59,7 @@ PYBIND11_MODULE(DLC_python, m)
     bind_removeFlags(m);
     bind_bitStuffing(m);
     bind_deStuffing(m);
+    bind_CRCGen(m);
+    bind_CRCCheck(m);
     // ) END BINDING_FUNCTION_CALLS
 }

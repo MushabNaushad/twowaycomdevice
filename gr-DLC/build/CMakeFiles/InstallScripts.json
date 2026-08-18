@@ -7,6 +7,7 @@
 		"/home/maduwage/twowaycomdevice/gr-DLC/build/apps/cmake_install.cmake",
 		"/home/maduwage/twowaycomdevice/gr-DLC/build/examples/cmake_install.cmake",
 		"/home/maduwage/twowaycomdevice/gr-DLC/build/docs/cmake_install.cmake",
+		"/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/cmake_install.cmake",
 		"/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/cmake_install.cmake",
 		"/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/cmake_install.cmake",
 		"/home/maduwage/twowaycomdevice/gr-DLC/build/grc/cmake_install.cmake"

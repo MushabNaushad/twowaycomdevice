@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_7eaf397d086b715685e94d971bea2053" kind="dir">
+    <compoundname>DLC</compoundname>
+    <innerfile refid="addFlags_8h">addFlags.h</innerfile>
+    <innerfile refid="api_8h">api.h</innerfile>
+    <innerfile refid="bitStuffing_8h">bitStuffing.h</innerfile>
+    <innerfile refid="CRCCheck_8h">CRCCheck.h</innerfile>
+    <innerfile refid="CRCGen_8h">CRCGen.h</innerfile>
+    <innerfile refid="deStuffing_8h">deStuffing.h</innerfile>
+    <innerfile refid="removeFlags_8h">removeFlags.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/"/>
+  </compounddef>
+</doxygen>

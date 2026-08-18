@@ -9,4 +9,6 @@ install(FILES
     DLC_addFlags.block.yml
     DLC_removeFlags.block.yml
     DLC_bitStuffing.block.yml
-    DLC_deStuffing.block.yml DESTINATION share/gnuradio/grc/blocks)
+    DLC_deStuffing.block.yml
+    DLC_CRCGen.block.yml
+    DLC_CRCCheck.block.yml DESTINATION share/gnuradio/grc/blocks)

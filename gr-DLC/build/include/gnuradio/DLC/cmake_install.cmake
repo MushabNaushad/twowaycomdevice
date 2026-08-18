@@ -48,6 +48,9 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/addFlags.h"
     "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/removeFlags.h"
     "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/bitStuffing.h"
+    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/deStuffing.h"
+    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/CRCGen.h"
+    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/CRCCheck.h"
     )
 endif()
 

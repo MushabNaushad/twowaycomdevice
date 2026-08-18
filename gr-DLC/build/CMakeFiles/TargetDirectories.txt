@@ -42,6 +42,14 @@
 /home/maduwage/twowaycomdevice/gr-DLC/build/docs/CMakeFiles/install.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/docs/CMakeFiles/install/local.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/docs/CMakeFiles/install/strip.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/doxygen_target.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/test.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/edit_cache.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/rebuild_cache.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/list_install_components.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/install.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/install/local.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/docs/doxygen/CMakeFiles/install/strip.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/CMakeFiles/copy_module_for_tests.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/CMakeFiles/test.dir
@@ -52,6 +60,7 @@
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/CMakeFiles/install/local.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/CMakeFiles/install/strip.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/DLC_python.dir
+/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/extracted_docstrings.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/DLC_docstrings.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/test.dir
 /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/edit_cache.dir

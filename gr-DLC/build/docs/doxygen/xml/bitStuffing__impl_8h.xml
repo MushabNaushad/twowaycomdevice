@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="bitStuffing__impl_8h" kind="file" language="C++">
+    <compoundname>bitStuffing_impl.h</compoundname>
+    <includes refid="bitStuffing_8h" local="no">gnuradio/DLC/bitStuffing.h</includes>
+    <includes local="no">pmt/pmt.h</includes>
+    <includes local="no">cstdint</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>gnuradio/DLC/api.h</label>
+        <link refid="api_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gnuradio/DLC/bitStuffing.h</label>
+        <link refid="bitStuffing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>bitStuffing_impl.h</label>
+        <link refid="bitStuffing__impl_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>gnuradio/attributes.h</label>
+      </node>
+      <node id="5">
+        <label>gnuradio/block.h</label>
+      </node>
+      <node id="6">
+        <label>pmt/pmt.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classgr_1_1DLC_1_1bitStuffing__impl" prot="public">gr::DLC::bitStuffing_impl</innerclass>
+    <innernamespace refid="namespacegr">gr</innernamespace>
+    <innernamespace refid="namespacegr_1_1DLC">gr::DLC</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/bitStuffing_impl.h"/>
+  </compounddef>
+</doxygen>

@@ -26,7 +26,10 @@ include(GrPybind)
 list(APPEND DLC_python_files
     addFlags_python.cc
     removeFlags_python.cc
-    bitStuffing_python.cc python_bindings.cc)
+    bitStuffing_python.cc
+    deStuffing_python.cc
+    CRCGen_python.cc
+    CRCCheck_python.cc python_bindings.cc)
 
 gr_pybind_make_oot(DLC ../../.. gr::DLC "${DLC_python_files}")
 

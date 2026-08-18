@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_a4a183eba39124939eefa6cded8dcbd6" kind="dir">
+    <compoundname>docstrings</compoundname>
+    <innerfile refid="python_2DLC_2bindings_2docstrings_2addFlags__pydoc__template_8h">python/DLC/bindings/docstrings/addFlags_pydoc_template.h</innerfile>
+    <innerfile refid="bitStuffing__pydoc__template_8h">bitStuffing_pydoc_template.h</innerfile>
+    <innerfile refid="CRCCheck__pydoc__template_8h">CRCCheck_pydoc_template.h</innerfile>
+    <innerfile refid="CRCGen__pydoc__template_8h">CRCGen_pydoc_template.h</innerfile>
+    <innerfile refid="deStuffing__pydoc__template_8h">deStuffing_pydoc_template.h</innerfile>
+    <innerfile refid="python_2DLC_2bindings_2docstrings_2removeFlags__pydoc__template_8h">python/DLC/bindings/docstrings/removeFlags_pydoc_template.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings/"/>
+  </compounddef>
+</doxygen>

@@ -4,6 +4,9 @@ DLC_python.cpython-314-x86_64-linux-gnu.so: \
   CMakeFiles/DLC_python.dir/addFlags_python.cc.o \
   CMakeFiles/DLC_python.dir/removeFlags_python.cc.o \
   CMakeFiles/DLC_python.dir/bitStuffing_python.cc.o \
+  CMakeFiles/DLC_python.dir/deStuffing_python.cc.o \
+  CMakeFiles/DLC_python.dir/CRCGen_python.cc.o \
+  CMakeFiles/DLC_python.dir/CRCCheck_python.cc.o \
   CMakeFiles/DLC_python.dir/python_bindings.cc.o \
   /usr/lib64/libboost_regex.so.1.90.0 \
   /usr/lib64/libboost_unit_test_framework.so.1.90.0 \
@@ -64,6 +67,12 @@ CMakeFiles/DLC_python.dir/addFlags_python.cc.o:
 CMakeFiles/DLC_python.dir/removeFlags_python.cc.o:
 
 CMakeFiles/DLC_python.dir/bitStuffing_python.cc.o:
+
+CMakeFiles/DLC_python.dir/deStuffing_python.cc.o:
+
+CMakeFiles/DLC_python.dir/CRCGen_python.cc.o:
+
+CMakeFiles/DLC_python.dir/CRCCheck_python.cc.o:
 
 CMakeFiles/DLC_python.dir/python_bindings.cc.o:
 

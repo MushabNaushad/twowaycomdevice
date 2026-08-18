@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classgr_1_1DLC_1_1deStuffing__impl" kind="class" language="C++" prot="public">
+    <compoundname>gr::DLC::deStuffing_impl</compoundname>
+    <basecompoundref refid="classgr_1_1DLC_1_1deStuffing" prot="public" virt="non-virtual">gr::DLC::deStuffing</basecompoundref>
+    <includes refid="deStuffing__impl_8h" local="no">deStuffing_impl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classgr_1_1DLC_1_1deStuffing__impl_1ae538bbb01280b70bbb6b353f2d1fa2ff" prot="private" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::DLC::deStuffing_impl::d_flag</definition>
+        <argsstring></argsstring>
+        <name>d_flag</name>
+        <qualifiedname>gr::DLC::deStuffing_impl::d_flag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" line="19" column="13" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classgr_1_1DLC_1_1deStuffing__impl_1a1b0639438958fa76027080543236e576" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::DLC::deStuffing_impl::destuff_bits</definition>
+        <argsstring>(pmt::pmt_t msg)</argsstring>
+        <name>destuff_bits</name>
+        <qualifiedname>gr::DLC::deStuffing_impl::destuff_bits</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" line="21" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classgr_1_1DLC_1_1deStuffing__impl_1a227cb9a8d3742774949406452b9c17b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::DLC::deStuffing_impl::deStuffing_impl</definition>
+        <argsstring>(uint8_t flag)</argsstring>
+        <name>deStuffing_impl</name>
+        <qualifiedname>gr::DLC::deStuffing_impl::deStuffing_impl</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1DLC_1_1deStuffing__impl_1a3572a514148e481b0441ef9abf874b9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::DLC::deStuffing_impl::~deStuffing_impl</definition>
+        <argsstring>()</argsstring>
+        <name>~deStuffing_impl</name>
+        <qualifiedname>gr::DLC::deStuffing_impl::~deStuffing_impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" line="25" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1DLC_1_1deStuffing__impl_1a2a14a0a781583373ef8ef9e13ce3df03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::DLC::deStuffing_impl::forecast</definition>
+        <argsstring>(int noutput_items, gr_vector_int &amp;ninput_items_required)</argsstring>
+        <name>forecast</name>
+        <qualifiedname>gr::DLC::deStuffing_impl::forecast</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>noutput_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_int &amp;</type>
+          <declname>ninput_items_required</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" line="28" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1DLC_1_1deStuffing__impl_1a985383154919c5b9ef2667cb3e0752bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int gr::DLC::deStuffing_impl::general_work</definition>
+        <argsstring>(int noutput_items, gr_vector_int &amp;ninput_items, gr_vector_const_void_star &amp;input_items, gr_vector_void_star &amp;output_items)</argsstring>
+        <name>general_work</name>
+        <qualifiedname>gr::DLC::deStuffing_impl::general_work</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>noutput_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_int &amp;</type>
+          <declname>ninput_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_const_void_star &amp;</type>
+          <declname>input_items</declname>
+        </param>
+        <param>
+          <type>gr_vector_void_star &amp;</type>
+          <declname>output_items</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" line="30" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>gr::DLC::deStuffing</label>
+        <link refid="classgr_1_1DLC_1_1deStuffing"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::DLC::deStuffing_impl</label>
+        <link refid="classgr_1_1DLC_1_1deStuffing__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>gr::DLC::deStuffing</label>
+        <link refid="classgr_1_1DLC_1_1deStuffing"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::DLC::deStuffing_impl</label>
+        <link refid="classgr_1_1DLC_1_1deStuffing__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" line="16" column="1" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/lib/deStuffing_impl.h" bodystart="17" bodyend="34"/>
+    <listofallmembers>
+      <member refid="classgr_1_1DLC_1_1deStuffing__impl_1ae538bbb01280b70bbb6b353f2d1fa2ff" prot="private" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>d_flag</name></member>
+      <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a1b0639438958fa76027080543236e576" prot="private" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>destuff_bits</name></member>
+      <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a227cb9a8d3742774949406452b9c17b1" prot="public" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>deStuffing_impl</name></member>
+      <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a2a14a0a781583373ef8ef9e13ce3df03" prot="public" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>forecast</name></member>
+      <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a985383154919c5b9ef2667cb3e0752bd" prot="public" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>general_work</name></member>
+      <member refid="classgr_1_1DLC_1_1deStuffing_1a528ac0c1211509a991e7a11be666bf45" prot="public" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>make</name></member>
+      <member refid="classgr_1_1DLC_1_1deStuffing_1a839da8e94121c5c148225204565f4bb4" prot="public" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>sptr</name></member>
+      <member refid="classgr_1_1DLC_1_1deStuffing__impl_1a3572a514148e481b0441ef9abf874b9a" prot="public" virt="non-virtual"><scope>gr::DLC::deStuffing_impl</scope><name>~deStuffing_impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

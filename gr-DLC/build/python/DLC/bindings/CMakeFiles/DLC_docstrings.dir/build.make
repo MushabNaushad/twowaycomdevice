@@ -69,8 +69,8 @@ include python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/progress.make
 python/DLC/bindings/CMakeFiles/DLC_docstrings: python/DLC/bindings/docstring_status
 
 python/DLC/bindings/docstring_status:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Copying DLC docstring templates as pybind headers ..."
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings && /usr/bin/python3 /home/maduwage/twowaycomdevice/gr-DLC/docs/doxygen/update_pydoc.py copy --bindings_dir /home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings --output_dir /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Adding docstrings into DLC pybind headers ..."
+	cd /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings && /usr/bin/python3 /home/maduwage/twowaycomdevice/gr-DLC/docs/doxygen/update_pydoc.py sub --json_path /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/extracted_docstrings.json --bindings_dir /home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings --output_dir /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings --filter gr::DLC
 
 python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/codegen:
 .PHONY : python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/codegen

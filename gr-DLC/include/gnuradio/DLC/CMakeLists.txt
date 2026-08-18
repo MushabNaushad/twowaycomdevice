@@ -13,4 +13,6 @@ install(FILES api.h
     addFlags.h
     removeFlags.h
     bitStuffing.h
-    deStuffing.h DESTINATION include/gnuradio/DLC)
+    deStuffing.h
+    CRCGen.h
+    CRCCheck.h DESTINATION include/gnuradio/DLC)
