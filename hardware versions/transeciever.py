@@ -13,7 +13,6 @@ from PyQt5 import Qt
 from gnuradio import qtgui
 from gnuradio import analog
 from gnuradio import blocks
-import numpy
 from gnuradio import blocks, gr
 from gnuradio import digital
 from gnuradio import filter
@@ -78,14 +77,16 @@ class transeciever(gr.top_block, Qt.QWidget):
         4, 2, 2, 1, 1).base()
         self.sym_bw = sym_bw = .045
         self.rcc_taps = rcc_taps = firdes.root_raised_cosine(1, samp_rate,samp_rate/float(sps), alpha, (nfilts*sps))
+        self.preamble_size = preamble_size = 20
+        self.postamble_size = postamble_size = 8
         self.payload_size = payload_size = 64
-        self.packets = packets = 5
+        self.packets = packets = 25
         self.hdr = hdr = digital.header_format_default(digital.packet_utils.default_access_code, 0)
         self.fll_loop_bw = fll_loop_bw = 2 * pi * 0.005
         self.costas_bw = costas_bw = 2 * pi * 0.01
         self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( QPSK_CONST, .0001, 1).base()
-        self.SDR_CF = SDR_CF = 433e6
-        self.CH_GAIN = CH_GAIN = 30
+        self.SDR_CF = SDR_CF = 433.98e6
+        self.CH_GAIN = CH_GAIN = 60
         self.ADDR = ADDR = "192.168.8.1"
 
         ##################################################
@@ -126,6 +127,97 @@ class transeciever(gr.top_block, Qt.QWidget):
                 (samp_rate/float(sps)),
                 alpha,
                 (11*sps)))
+        self.qtgui_time_sink_x_0 = qtgui.time_sink_f(
+            2048, #size
+            samp_rate, #samp_rate
+            "", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_time_sink_x_0.set_update_time(0.10)
+        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_0.enable_tags(True)
+        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_0.enable_autoscale(False)
+        self.qtgui_time_sink_x_0.enable_grid(False)
+        self.qtgui_time_sink_x_0.enable_axis_labels(True)
+        self.qtgui_time_sink_x_0.enable_control_panel(False)
+        self.qtgui_time_sink_x_0.enable_stem_plot(False)
+
+
+        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_time_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
+        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_f(
+            2048, #size
+            window.WIN_BLACKMAN_hARRIS, #wintype
+            0, #fc
+            samp_rate, #bw
+            "", #name
+            1,
+            None # parent
+        )
+        self.qtgui_freq_sink_x_0.set_update_time(0.10)
+        self.qtgui_freq_sink_x_0.set_y_axis((-140), 10)
+        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
+        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
+        self.qtgui_freq_sink_x_0.enable_autoscale(False)
+        self.qtgui_freq_sink_x_0.enable_grid(False)
+        self.qtgui_freq_sink_x_0.set_fft_average(1.0)
+        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
+        self.qtgui_freq_sink_x_0.enable_control_panel(False)
+        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
+
+
+        self.qtgui_freq_sink_x_0.set_plot_pos_half(not True)
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ["blue", "red", "green", "black", "cyan",
+            "magenta", "yellow", "dark red", "dark green", "dark blue"]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
+            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
+            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             1024, #size
             "", #name
@@ -182,7 +274,6 @@ class transeciever(gr.top_block, Qt.QWidget):
             [])
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr, 'packet_len')
         self.digital_map_bb_0 = digital.map_bb([0,1,3,2])
-        self.digital_fll_band_edge_cc_0 = digital.fll_band_edge_cc(sps, alpha, (2* sps +1), fll_loop_bw)
         self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(4, digital.DIFF_DIFFERENTIAL)
         self.digital_crc32_bb_1 = digital.crc32_bb(True, 'packet_len', True)
         self.digital_crc32_bb_0 = digital.crc32_bb(False, "packet_len", True)
@@ -199,19 +290,26 @@ class transeciever(gr.top_block, Qt.QWidget):
             log=False,
             truncate=False)
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(QPSK_CONST)
+        self.dc_blocker_xx_0 = filter.dc_blocker_cc(32, True)
+        self.blocks_vector_source_x_2 = blocks.vector_source_b([p +48 for p in range(packets) for _ in range(payload_size)], False, 1, )
+        self.blocks_vector_source_x_0_0_0 = blocks.vector_source_b([0xc0, 0xaf], True, 1, [])
+        self.blocks_vector_source_x_0_0 = blocks.vector_source_b([0xc0, 0xaf], True, 1, [])
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
         self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_char * 1, False)
         self.blocks_tag_gate_0.set_single_key("")
+        self.blocks_stream_to_tagged_stream_0_0_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, postamble_size, "packet_len")
+        self.blocks_stream_to_tagged_stream_0_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, preamble_size, "packet_len")
         self.blocks_stream_to_tagged_stream_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, payload_size, "packet_len")
-        self.blocks_skiphead_0 = blocks.skiphead(gr.sizeof_gr_complex*1, int(samp_rate))
         self.blocks_repack_bits_bb_1 = blocks.repack_bits_bb(1, 8, 'packet_len', True, gr.GR_MSB_FIRST)
         self.blocks_message_debug_0 = blocks.message_debug(True, gr.log_levels.info)
         self.blocks_copy_2 = blocks.copy(gr.sizeof_gr_complex*1)
         self.blocks_copy_2.set_enabled(True)
+        self.blocks_copy_1 = blocks.copy(gr.sizeof_gr_complex*1)
+        self.blocks_copy_1.set_enabled(True)
         self.blocks_copy_0 = blocks.copy(gr.sizeof_char*1)
         self.blocks_copy_0.set_enabled(True)
-        self.analog_random_source_x_1 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 2, 1000))), True)
+        self.blocks_char_to_float_0 = blocks.char_to_float(1, 1)
         self.analog_agc_xx_0 = analog.agc_cc((1e-4), 1.0, 1.0, 65536)
 
 
@@ -219,31 +317,38 @@ class transeciever(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.msg_connect((self.pdu_tagged_stream_to_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print'))
-        self.connect((self.analog_agc_xx_0, 0), (self.digital_fll_band_edge_cc_0, 0))
-        self.connect((self.analog_random_source_x_1, 0), (self.blocks_stream_to_tagged_stream_0_0_0, 0))
+        self.connect((self.analog_agc_xx_0, 0), (self.blocks_copy_1, 0))
+        self.connect((self.blocks_char_to_float_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_char_to_float_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_copy_0, 0), (self.blocks_tag_gate_0, 0))
+        self.connect((self.blocks_copy_1, 0), (self.root_raised_cosine_filter_0, 0))
         self.connect((self.blocks_copy_2, 0), (self.digital_costas_loop_cc_0, 0))
         self.connect((self.blocks_repack_bits_bb_1, 0), (self.digital_crc32_bb_1, 0))
-        self.connect((self.blocks_skiphead_0, 0), (self.root_raised_cosine_filter_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0_0, 0), (self.digital_crc32_bb_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 3))
         self.connect((self.blocks_tag_gate_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_copy_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
+        self.connect((self.blocks_vector_source_x_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0_0, 0))
+        self.connect((self.blocks_vector_source_x_0_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0_0_0, 0))
+        self.connect((self.blocks_vector_source_x_2, 0), (self.blocks_stream_to_tagged_stream_0_0_0, 0))
+        self.connect((self.dc_blocker_xx_0, 0), (self.analog_agc_xx_0, 0))
         self.connect((self.digital_constellation_decoder_cb_0, 0), (self.digital_diff_decoder_bb_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.soapy_bladerf_sink_0, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_repack_bits_bb_1, 0))
         self.connect((self.digital_costas_loop_cc_0, 0), (self.digital_constellation_decoder_cb_0, 0))
         self.connect((self.digital_costas_loop_cc_0, 0), (self.qtgui_const_sink_x_0, 0))
-        self.connect((self.digital_crc32_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
+        self.connect((self.digital_crc32_bb_0, 0), (self.blocks_tagged_stream_mux_0, 2))
         self.connect((self.digital_crc32_bb_0, 0), (self.digital_protocol_formatter_bb_0, 0))
         self.connect((self.digital_crc32_bb_1, 0), (self.pdu_tagged_stream_to_pdu_0, 0))
         self.connect((self.digital_diff_decoder_bb_0, 0), (self.digital_map_bb_0, 0))
-        self.connect((self.digital_fll_band_edge_cc_0, 0), (self.blocks_skiphead_0, 0))
         self.connect((self.digital_map_bb_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
-        self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 0))
+        self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
         self.connect((self.digital_symbol_sync_xx_0, 0), (self.blocks_copy_2, 0))
         self.connect((self.root_raised_cosine_filter_0, 0), (self.digital_symbol_sync_xx_0, 0))
-        self.connect((self.soapy_bladerf_source_0, 0), (self.analog_agc_xx_0, 0))
+        self.connect((self.soapy_bladerf_source_0, 0), (self.dc_blocker_xx_0, 0))
 
 
     def closeEvent(self, event):
@@ -269,6 +374,8 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_rcc_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/float(self.sps), self.alpha, (self.nfilts*self.sps)))
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
         self.soapy_bladerf_sink_0.set_sample_rate(0, self.samp_rate)
         self.soapy_bladerf_source_0.set_sample_rate(0, self.samp_rate)
@@ -316,6 +423,22 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_rcc_taps(self, rcc_taps):
         self.rcc_taps = rcc_taps
 
+    def get_preamble_size(self):
+        return self.preamble_size
+
+    def set_preamble_size(self, preamble_size):
+        self.preamble_size = preamble_size
+        self.blocks_stream_to_tagged_stream_0_0_0_0.set_packet_len(self.preamble_size)
+        self.blocks_stream_to_tagged_stream_0_0_0_0.set_packet_len_pmt(self.preamble_size)
+
+    def get_postamble_size(self):
+        return self.postamble_size
+
+    def set_postamble_size(self, postamble_size):
+        self.postamble_size = postamble_size
+        self.blocks_stream_to_tagged_stream_0_0_0_0_0.set_packet_len(self.postamble_size)
+        self.blocks_stream_to_tagged_stream_0_0_0_0_0.set_packet_len_pmt(self.postamble_size)
+
     def get_payload_size(self):
         return self.payload_size
 
@@ -323,12 +446,14 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.payload_size = payload_size
         self.blocks_stream_to_tagged_stream_0_0_0.set_packet_len(self.payload_size)
         self.blocks_stream_to_tagged_stream_0_0_0.set_packet_len_pmt(self.payload_size)
+        self.blocks_vector_source_x_2.set_data([p +48 for p in range(self.packets) for _ in range(self.payload_size)], )
 
     def get_packets(self):
         return self.packets
 
     def set_packets(self, packets):
         self.packets = packets
+        self.blocks_vector_source_x_2.set_data([p +48 for p in range(self.packets) for _ in range(self.payload_size)], )
 
     def get_hdr(self):
         return self.hdr
@@ -342,7 +467,6 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_fll_loop_bw(self, fll_loop_bw):
         self.fll_loop_bw = fll_loop_bw
-        self.digital_fll_band_edge_cc_0.set_loop_bandwidth(self.fll_loop_bw)
 
     def get_costas_bw(self):
         return self.costas_bw
