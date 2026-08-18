@@ -1,0 +1,54 @@
+id: transport_transport_layer
+label: Transport Layer (SR-ARQ)
+category: '[transport]'
+
+templates:
+  imports: from gnuradio import transport
+  make: transport.transport_layer(${m}, ${rto_ms}, ${node_role}, ${mtu_bytes})
+
+parameters:
+- id: m
+  label: Sequence Number Bits (m)
+  dtype: int
+  default: 4
+  options: [2, 3, 4, 5, 6, 7, 8]
+  option_labels: ['2 (space=4, win=2)', '3 (space=8, win=4)',
+                  '4 (space=16, win=8)', '5 (space=32, win=16)',
+                  '6 (space=64, win=32)', '7 (space=128, win=64)',
+                  '8 (space=256, win=128)']
+
+- id: rto_ms
+  label: Retransmission Timeout (ms)
+  dtype: int
+  default: 500
+
+- id: node_role
+  label: Node Role
+  dtype: string
+  default: '"initiator"'
+  options: ['"initiator"', '"responder"']
+  option_labels: [Initiator (TX side), Responder (RX side)]
+
+- id: mtu_bytes
+  label: MTU (bytes per DATA frame)
+  dtype: int
+  default: 200
+
+inputs:
+- label: pdu_in
+  domain: message
+  optional: 0
+
+- label: app_in
+  domain: message
+  optional: 1
+
+outputs:
+- label: pdu_out
+  domain: message
+
+- label: app_out
+  domain: message
+
+file_format: 1
+
