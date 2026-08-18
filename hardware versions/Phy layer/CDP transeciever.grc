@@ -401,7 +401,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [384, 1820.0]
+    coordinate: [264, 1800.0]
     rotation: 0
     state: disabled
 - name: blocks_char_to_float_0
@@ -551,7 +551,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 1640.0]
+    coordinate: [1264, 1680.0]
     rotation: 0
     state: enabled
 - name: blocks_copy_3_0
@@ -588,6 +588,26 @@ blocks:
     coordinate: [2008, 1284.0]
     rotation: 0
     state: enabled
+- name: blocks_repack_bits_bb_0
+  id: blocks_repack_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    align_output: 'False'
+    comment: ''
+    endianness: gr.GR_LSB_FIRST
+    k: '1'
+    l: '8'
+    len_tag_key: '""'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 1720.0]
+    rotation: 0
+    state: enabled
 - name: blocks_repack_bits_bb_1
   id: blocks_repack_bits_bb
   parameters:
@@ -605,7 +625,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 1312.0]
+    coordinate: [1160, 1312.0]
     rotation: 0
     state: enabled
 - name: blocks_skiphead_0
@@ -642,7 +662,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [528, 1704.0]
+    coordinate: [992, 1720.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0
@@ -661,7 +681,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1280, 1516.0]
+    coordinate: [1672, 1536.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0_0
@@ -680,7 +700,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 1828.0]
+    coordinate: [1656, 1840.0]
     rotation: 0
     state: enabled
 - name: blocks_tag_gate_0
@@ -719,7 +739,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1512, 1700.0]
+    coordinate: [1904, 1712.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -759,6 +779,22 @@ blocks:
     coordinate: [1480, 1148.0]
     rotation: 0
     state: enabled
+- name: blocks_unpack_k_bits_bb_1
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 1728.0]
+    rotation: 0
+    state: enabled
 - name: blocks_vector_source_x_0
   id: blocks_vector_source_x
   parameters:
@@ -796,7 +832,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1048, 1504.0]
+    coordinate: [1440, 1520.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_0_0_0
@@ -816,7 +852,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 1816.0]
+    coordinate: [1456, 1832.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_2
@@ -836,7 +872,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [248, 1696.0]
+    coordinate: [224, 1712.0]
     rotation: 0
     state: enabled
 - name: channels_channel_model_0
@@ -968,7 +1004,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 1696.0]
+    coordinate: [1240, 1736.0]
     rotation: 0
     state: disabled
 - name: digital_crc32_bb_1
@@ -1004,7 +1040,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1224, 1304.0]
+    coordinate: [1016, 1304.0]
     rotation: 0
     state: enabled
 - name: digital_diff_decoder_bb_0
@@ -1095,7 +1131,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1200, 1612.0]
+    coordinate: [1592, 1632.0]
     rotation: 0
     state: enabled
 - name: digital_scrambler_bb_0
@@ -1113,7 +1149,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 1696.0]
+    coordinate: [616, 1712.0]
     rotation: 0
     state: enabled
 - name: digital_symbol_sync_xx_0
@@ -1689,7 +1725,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1776, 1700.0]
+    coordinate: [2168, 1720.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_1
@@ -1884,7 +1920,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [232, 1640.0]
+    coordinate: [208, 1656.0]
     rotation: 0
     state: disabled
 
@@ -1894,7 +1930,7 @@ connections:
 - [analog_random_source_x_0, '0', blocks_copy_0, '0']
 - [analog_random_source_x_0, '0', blocks_throttle2_0, '0']
 - [analog_random_source_x_0, '0', virtual_sink_0_0, '0']
-- [analog_random_source_x_1, '0', blocks_stream_to_tagged_stream_0_0_0, '0']
+- [analog_random_source_x_1, '0', blocks_unpack_k_bits_bb_1, '0']
 - [blocks_char_to_float_0, '0', virtual_sink_4, '0']
 - [blocks_char_to_float_0, '0', virtual_sink_5, '0']
 - [blocks_copy_0, '0', digital_constellation_modulator_0, '0']
@@ -1905,9 +1941,12 @@ connections:
 - [blocks_copy_1_1, '0', blocks_copy_1_0, '0']
 - [blocks_copy_1_2, '0', root_raised_cosine_filter_0, '0']
 - [blocks_copy_2, '0', digital_costas_loop_cc_0, '0']
-- [blocks_copy_3, '0', digital_scrambler_bb_0, '0']
+- [blocks_copy_3, '0', blocks_tagged_stream_mux_0, '2']
+- [blocks_copy_3, '0', digital_protocol_formatter_bb_0, '0']
 - [blocks_copy_3_0, '0', pdu_tagged_stream_to_pdu_0, '0']
-- [blocks_repack_bits_bb_1, '0', digital_descrambler_bb_0, '0']
+- [blocks_repack_bits_bb_0, '0', blocks_stream_to_tagged_stream_0_0_0, '0']
+- [blocks_repack_bits_bb_1, '0', blocks_copy_3_0, '0']
+- [blocks_repack_bits_bb_1, '0', digital_crc32_bb_1, '0']
 - [blocks_skiphead_0, '0', fft_filter_xxx_0, '0']
 - [blocks_skiphead_0, '0', root_raised_cosine_filter_0, '0']
 - [blocks_stream_to_tagged_stream_0_0_0, '0', blocks_copy_3, '0']
@@ -1921,32 +1960,32 @@ connections:
 - [blocks_tagged_stream_mux_0, '0', virtual_sink_0_1, '0']
 - [blocks_throttle2_0, '0', digital_constellation_modulator_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', virtual_sink_2, '0']
+- [blocks_unpack_k_bits_bb_1, '0', digital_scrambler_bb_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_copy_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_throttle2_0, '0']
 - [blocks_vector_source_x_0, '0', virtual_sink_0_0, '0']
 - [blocks_vector_source_x_0_0, '0', blocks_stream_to_tagged_stream_0_0_0_0, '0']
 - [blocks_vector_source_x_0_0_0, '0', blocks_stream_to_tagged_stream_0_0_0_0_0, '0']
-- [blocks_vector_source_x_2, '0', blocks_stream_to_tagged_stream_0_0_0, '0']
+- [blocks_vector_source_x_2, '0', blocks_unpack_k_bits_bb_1, '0']
 - [channels_channel_model_0, '0', virtual_sink_1, '0']
 - [dc_blocker_xx_0, '0', analog_agc_xx_0, '0']
 - [dc_blocker_xx_0, '0', blocks_copy_1_0, '0']
 - [digital_constellation_decoder_cb_0, '0', digital_diff_decoder_bb_0, '0']
 - [digital_constellation_modulator_0, '0', blocks_tag_gate_0, '0']
-- [digital_correlate_access_code_xx_ts_0, '0', blocks_repack_bits_bb_1, '0']
+- [digital_correlate_access_code_xx_ts_0, '0', digital_descrambler_bb_0, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_freq_sink_x_1, '0']
 - [digital_costas_loop_cc_0, '0', virtual_sink_3, '0']
-- [digital_crc32_bb_0, '0', digital_scrambler_bb_0, '0']
+- [digital_crc32_bb_0, '0', blocks_tagged_stream_mux_0, '2']
+- [digital_crc32_bb_0, '0', digital_protocol_formatter_bb_0, '0']
 - [digital_crc32_bb_1, '0', pdu_tagged_stream_to_pdu_0, '0']
-- [digital_descrambler_bb_0, '0', blocks_copy_3_0, '0']
-- [digital_descrambler_bb_0, '0', digital_crc32_bb_1, '0']
+- [digital_descrambler_bb_0, '0', blocks_repack_bits_bb_1, '0']
 - [digital_diff_decoder_bb_0, '0', digital_map_bb_0, '0']
 - [digital_fll_band_edge_cc_0, '0', blocks_copy_1_2, '0']
 - [digital_fll_band_edge_cc_0, '0', blocks_skiphead_0, '0']
 - [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '1']
-- [digital_scrambler_bb_0, '0', blocks_tagged_stream_mux_0, '2']
-- [digital_scrambler_bb_0, '0', digital_protocol_formatter_bb_0, '0']
+- [digital_scrambler_bb_0, '0', blocks_repack_bits_bb_0, '0']
 - [digital_symbol_sync_xx_0, '0', blocks_copy_2, '0']
 - [digital_symbol_sync_xx_0, '0', digital_linear_equalizer_0, '0']
 - [fft_filter_xxx_0, '0', digital_symbol_sync_xx_0, '0']
@@ -1969,7 +2008,7 @@ connections:
 - [virtual_source_2_0, '0', digital_correlate_access_code_xx_ts_0, '0']
 - [virtual_source_3, '0', qtgui_time_sink_x_0, '0']
 - [virtual_source_4, '0', qtgui_freq_sink_x_0, '0']
-- [virtual_source_5, '0', blocks_stream_to_tagged_stream_0_0_0, '0']
+- [virtual_source_5, '0', blocks_unpack_k_bits_bb_1, '0']
 
 metadata:
   file_format: 1
