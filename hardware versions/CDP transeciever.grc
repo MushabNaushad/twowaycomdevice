@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '"192.168.8.1"'
+    value: '"ip:192.168.1.10"'
   states:
     bus_sink: false
     bus_source: false
@@ -49,7 +49,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '60'
+    value: '30'
   states:
     bus_sink: false
     bus_source: false
@@ -86,7 +86,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 92.0]
+    coordinate: [320, 92.0]
     rotation: 0
     state: enabled
 - name: adpt_alg
@@ -122,7 +122,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2 * pi * 0.01
+    value: '0.0628'
   states:
     bus_sink: false
     bus_source: false
@@ -154,7 +154,7 @@ blocks:
     start: '-0.1'
     step: '0.001'
     stop: '0.1'
-    value: '0.025'
+    value: '0.005'
     widget: counter_slider
   states:
     bus_sink: false
@@ -201,7 +201,7 @@ blocks:
     start: '0'
     step: '0.1'
     stop: '1'
-    value: '0.5'
+    value: '0.1'
     widget: counter_slider
   states:
     bus_sink: false
@@ -214,7 +214,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '25'
+    value: '40'
   states:
     bus_sink: false
     bus_source: false
@@ -291,7 +291,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2e6
+    value: 2.2e6
   states:
     bus_sink: false
     bus_source: false
@@ -335,7 +335,7 @@ blocks:
     start: '0.999'
     step: '0.000001'
     stop: '1.001'
-    value: '1'
+    value: '1.00001'
     widget: counter_slider
   states:
     bus_sink: false
@@ -418,9 +418,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1656, 972.0]
+    coordinate: [2088, 140.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_copy_0
   id: blocks_copy
   parameters:
@@ -458,7 +458,7 @@ blocks:
     bus_structure: null
     coordinate: [968, 828.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_copy_1_0
   id: blocks_copy
   parameters:
@@ -478,6 +478,44 @@ blocks:
     coordinate: [736, 828.0]
     rotation: 0
     state: disabled
+- name: blocks_copy_1_1
+  id: blocks_copy
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    showports: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [528, 828.0]
+    rotation: 0
+    state: enabled
+- name: blocks_copy_1_2
+  id: blocks_copy
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    showports: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1248, 820.0]
+    rotation: 0
+    state: enabled
 - name: blocks_copy_2
   id: blocks_copy
   parameters:
@@ -509,7 +547,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1928, 1212.0]
+    coordinate: [2008, 1284.0]
     rotation: 0
     state: enabled
 - name: blocks_repack_bits_bb_1
@@ -529,7 +567,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [992, 1244.0]
+    coordinate: [1072, 1316.0]
     rotation: 0
     state: enabled
 - name: blocks_skiphead_0
@@ -547,7 +585,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1256, 660.0]
+    coordinate: [1264, 660.0]
     rotation: 0
     state: disabled
 - name: blocks_stream_to_tagged_stream_0_0_0
@@ -585,7 +623,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1272, 1516.0]
+    coordinate: [1280, 1516.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0_0
@@ -680,7 +718,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1400, 1076.0]
+    coordinate: [1480, 1148.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_0
@@ -781,7 +819,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2096, 312.0]
+    coordinate: [2400, 312.0]
     rotation: 0
     state: disabled
 - name: dc_blocker_xx_0
@@ -801,7 +839,7 @@ blocks:
     bus_structure: null
     coordinate: [536, 700.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_constellation_decoder_cb_0
   id: digital_constellation_decoder_cb
   parameters:
@@ -815,7 +853,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 1076.0]
+    coordinate: [760, 1148.0]
     rotation: 0
     state: enabled
 - name: digital_constellation_modulator_0
@@ -850,13 +888,13 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     tagname: packet_len
-    threshold: '1'
+    threshold: '2'
     type: byte
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 1232.0]
+    coordinate: [752, 1304.0]
     rotation: 0
     state: enabled
 - name: digital_costas_loop_cc_0
@@ -910,7 +948,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1240, 1232.0]
+    coordinate: [1320, 1304.0]
     rotation: 0
     state: enabled
 - name: digital_diff_decoder_bb_0
@@ -927,7 +965,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 1068.0]
+    coordinate: [1040, 1140.0]
     rotation: 0
     state: enabled
 - name: digital_fll_band_edge_cc_0
@@ -949,7 +987,7 @@ blocks:
     bus_structure: null
     coordinate: [960, 676.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: digital_linear_equalizer_0
   id: digital_linear_equalizer
   parameters:
@@ -984,7 +1022,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1224, 1076.0]
+    coordinate: [1304, 1148.0]
     rotation: 0
     state: enabled
 - name: digital_protocol_formatter_bb_0
@@ -1051,6 +1089,63 @@ blocks:
     coordinate: [1472, 544.0]
     rotation: 0
     state: disabled
+- name: iio_pluto_sink_0
+  id: iio_pluto_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    attenuation1: CH_GAIN
+    bandwidth: '20000000'
+    buffer_size: '32768'
+    comment: ''
+    cyclic: 'False'
+    filter: ''
+    filter_source: '''Auto'''
+    fpass: '0'
+    frequency: int(SDR_CF)
+    fstop: '0'
+    len_tag_key: ''
+    samplerate: int(samp_rate)
+    type: fc32
+    uri: ADDR
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1664, 188.0]
+    rotation: 0
+    state: enabled
+- name: iio_pluto_source_0
+  id: iio_pluto_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bandwidth: '20000000'
+    bbdc: 'True'
+    buffer_size: '32768'
+    comment: ''
+    filter: ''
+    filter_source: '''Auto'''
+    fpass: '0'
+    frequency: int(SDR_CF)
+    fstop: '0'
+    gain1: '''slow_attack'''
+    len_tag_key: packet_len
+    manual_gain1: '64'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    quadrature: 'True'
+    rfdc: 'True'
+    samplerate: int(samp_rate)
+    type: fc32
+    uri: ADDR
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 820.0]
+    rotation: 0
+    state: enabled
 - name: pdu_tagged_stream_to_pdu_0
   id: pdu_tagged_stream_to_pdu
   parameters:
@@ -1065,7 +1160,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1552, 1252.0]
+    coordinate: [1632, 1324.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -1157,9 +1252,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 964.0]
+    coordinate: [824, 1036.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -1218,7 +1313,7 @@ blocks:
     tr_level: '0.0'
     tr_mode: qtgui.TRIG_MODE_FREE
     tr_tag: '""'
-    type: float
+    type: complex
     units: dB
     update_time: '0.10'
     width1: '1'
@@ -1239,6 +1334,87 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [880, 2088.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_freq_sink_x_1
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    norm_window: 'False'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2896, 704.0]
     rotation: 0
     state: enabled
 - name: qtgui_time_sink_x_0
@@ -1337,7 +1513,7 @@ blocks:
     bus_structure: null
     coordinate: [880, 1984.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: root_raised_cosine_filter_0
   id: root_raised_cosine_filter
   parameters:
@@ -1378,9 +1554,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1544, 308.0]
+    coordinate: [1664, 396.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: soapy_bladerf_source_0
   id: soapy_bladerf_source
   parameters:
@@ -1400,9 +1576,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 688.0]
+    coordinate: [224, 640.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: virtual_sink_0
   id: virtual_sink
   parameters:
@@ -1413,7 +1589,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1544, 412.0]
+    coordinate: [1664, 476.0]
     rotation: 0
     state: disabled
 - name: virtual_sink_0_0
@@ -1452,7 +1628,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2416, 364.0]
+    coordinate: [2720, 364.0]
     rotation: 0
     state: disabled
 - name: virtual_sink_2
@@ -1465,7 +1641,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1624, 1068.0]
+    coordinate: [1704, 1140.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_3
@@ -1491,9 +1667,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1912, 964.0]
+    coordinate: [2344, 140.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: virtual_sink_5
   id: virtual_sink
   parameters:
@@ -1504,7 +1680,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1912, 1028.0]
+    coordinate: [2352, 204.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0
@@ -1543,7 +1719,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 620.0]
+    coordinate: [296, 572.0]
     rotation: 0
     state: disabled
 - name: virtual_source_1
@@ -1556,7 +1732,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1856, 364.0]
+    coordinate: [2160, 364.0]
     rotation: 0
     state: disabled
 - name: virtual_source_1_0
@@ -1569,7 +1745,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 796.0]
+    coordinate: [296, 748.0]
     rotation: 0
     state: disabled
 - name: virtual_source_2
@@ -1582,7 +1758,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 1076.0]
+    coordinate: [504, 1148.0]
     rotation: 0
     state: enabled
 - name: virtual_source_2_0
@@ -1595,7 +1771,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [416, 1252.0]
+    coordinate: [496, 1324.0]
     rotation: 0
     state: enabled
 - name: virtual_source_3
@@ -1610,7 +1786,7 @@ blocks:
     bus_structure: null
     coordinate: [704, 2004.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: virtual_source_4
   id: virtual_source
   parameters:
@@ -1638,6 +1814,9 @@ connections:
 - [blocks_copy_1, '0', root_raised_cosine_filter_0, '0']
 - [blocks_copy_1_0, '0', blocks_copy_1, '0']
 - [blocks_copy_1_0, '0', digital_fll_band_edge_cc_0, '0']
+- [blocks_copy_1_1, '0', analog_agc_xx_0, '0']
+- [blocks_copy_1_1, '0', blocks_copy_1_0, '0']
+- [blocks_copy_1_2, '0', root_raised_cosine_filter_0, '0']
 - [blocks_copy_2, '0', digital_costas_loop_cc_0, '0']
 - [blocks_repack_bits_bb_1, '0', digital_crc32_bb_1, '0']
 - [blocks_skiphead_0, '0', fft_filter_xxx_0, '0']
@@ -1645,11 +1824,12 @@ connections:
 - [blocks_stream_to_tagged_stream_0_0_0, '0', digital_crc32_bb_0, '0']
 - [blocks_stream_to_tagged_stream_0_0_0_0, '0', blocks_tagged_stream_mux_0, '0']
 - [blocks_stream_to_tagged_stream_0_0_0_0_0, '0', blocks_tagged_stream_mux_0, '3']
+- [blocks_tag_gate_0, '0', iio_pluto_sink_0, '0']
 - [blocks_tag_gate_0, '0', soapy_bladerf_sink_0, '0']
 - [blocks_tag_gate_0, '0', virtual_sink_0, '0']
+- [blocks_tag_gate_0, '0', virtual_sink_5, '0']
 - [blocks_tagged_stream_mux_0, '0', virtual_sink_0_1, '0']
 - [blocks_throttle2_0, '0', digital_constellation_modulator_0, '0']
-- [blocks_unpack_k_bits_bb_0, '0', blocks_char_to_float_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', virtual_sink_2, '0']
 - [blocks_vector_source_x_0, '0', blocks_copy_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_throttle2_0, '0']
@@ -1663,11 +1843,13 @@ connections:
 - [digital_constellation_decoder_cb_0, '0', digital_diff_decoder_bb_0, '0']
 - [digital_constellation_modulator_0, '0', blocks_tag_gate_0, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_repack_bits_bb_1, '0']
+- [digital_costas_loop_cc_0, '0', qtgui_freq_sink_x_1, '0']
 - [digital_costas_loop_cc_0, '0', virtual_sink_3, '0']
 - [digital_crc32_bb_0, '0', blocks_tagged_stream_mux_0, '2']
 - [digital_crc32_bb_0, '0', digital_protocol_formatter_bb_0, '0']
 - [digital_crc32_bb_1, '0', pdu_tagged_stream_to_pdu_0, '0']
 - [digital_diff_decoder_bb_0, '0', digital_map_bb_0, '0']
+- [digital_fll_band_edge_cc_0, '0', blocks_copy_1_2, '0']
 - [digital_fll_band_edge_cc_0, '0', blocks_skiphead_0, '0']
 - [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
@@ -1675,14 +1857,19 @@ connections:
 - [digital_symbol_sync_xx_0, '0', blocks_copy_2, '0']
 - [digital_symbol_sync_xx_0, '0', digital_linear_equalizer_0, '0']
 - [fft_filter_xxx_0, '0', digital_symbol_sync_xx_0, '0']
+- [iio_pluto_source_0, '0', blocks_copy_1_1, '0']
+- [iio_pluto_source_0, '0', dc_blocker_xx_0, '0']
 - [pdu_tagged_stream_to_pdu_0, pdus, blocks_message_debug_0, print]
 - [root_raised_cosine_filter_0, '0', digital_symbol_sync_xx_0, '0']
+- [soapy_bladerf_source_0, '0', blocks_copy_1_1, '0']
 - [soapy_bladerf_source_0, '0', dc_blocker_xx_0, '0']
 - [virtual_source_0_0, '0', blocks_copy_0, '0']
 - [virtual_source_0_0, '0', blocks_throttle2_0, '0']
 - [virtual_source_0_0, '0', virtual_sink_0_0, '0']
+- [virtual_source_0_0_0, '0', blocks_copy_1_1, '0']
 - [virtual_source_0_0_0, '0', dc_blocker_xx_0, '0']
 - [virtual_source_1, '0', channels_channel_model_0, '0']
+- [virtual_source_1_0, '0', blocks_copy_1_1, '0']
 - [virtual_source_1_0, '0', dc_blocker_xx_0, '0']
 - [virtual_source_2, '0', digital_constellation_decoder_cb_0, '0']
 - [virtual_source_2, '0', qtgui_const_sink_x_0, '0']
