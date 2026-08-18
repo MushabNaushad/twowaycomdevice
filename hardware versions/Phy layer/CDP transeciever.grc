@@ -567,7 +567,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1072, 1316.0]
+    coordinate: [1032, 1312.0]
     rotation: 0
     state: enabled
 - name: blocks_skiphead_0
@@ -604,7 +604,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [632, 1708.0]
+    coordinate: [528, 1704.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0
@@ -798,7 +798,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 1696.0]
+    coordinate: [248, 1696.0]
     rotation: 0
     state: enabled
 - name: channels_channel_model_0
@@ -930,7 +930,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [920, 1696.0]
+    coordinate: [760, 1696.0]
     rotation: 0
     state: enabled
 - name: digital_crc32_bb_1
@@ -948,7 +948,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1320, 1304.0]
+    coordinate: [1384, 1304.0]
+    rotation: 0
+    state: enabled
+- name: digital_descrambler_bb_0
+  id: digital_descrambler_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    len: '7'
+    mask: '0x8A'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    seed: '0x7F'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1224, 1304.0]
     rotation: 0
     state: enabled
 - name: digital_diff_decoder_bb_0
@@ -1040,6 +1058,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1200, 1612.0]
+    rotation: 0
+    state: enabled
+- name: digital_scrambler_bb_0
+  id: digital_scrambler_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    len: '7'
+    mask: '0x8A'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    seed: '0x7F'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [984, 1696.0]
     rotation: 0
     state: enabled
 - name: digital_symbol_sync_xx_0
@@ -1160,7 +1196,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1632, 1324.0]
+    coordinate: [1640, 1320.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -1818,7 +1854,7 @@ connections:
 - [blocks_copy_1_1, '0', blocks_copy_1_0, '0']
 - [blocks_copy_1_2, '0', root_raised_cosine_filter_0, '0']
 - [blocks_copy_2, '0', digital_costas_loop_cc_0, '0']
-- [blocks_repack_bits_bb_1, '0', digital_crc32_bb_1, '0']
+- [blocks_repack_bits_bb_1, '0', digital_descrambler_bb_0, '0']
 - [blocks_skiphead_0, '0', fft_filter_xxx_0, '0']
 - [blocks_skiphead_0, '0', root_raised_cosine_filter_0, '0']
 - [blocks_stream_to_tagged_stream_0_0_0, '0', digital_crc32_bb_0, '0']
@@ -1845,15 +1881,17 @@ connections:
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_repack_bits_bb_1, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_freq_sink_x_1, '0']
 - [digital_costas_loop_cc_0, '0', virtual_sink_3, '0']
-- [digital_crc32_bb_0, '0', blocks_tagged_stream_mux_0, '2']
-- [digital_crc32_bb_0, '0', digital_protocol_formatter_bb_0, '0']
+- [digital_crc32_bb_0, '0', digital_scrambler_bb_0, '0']
 - [digital_crc32_bb_1, '0', pdu_tagged_stream_to_pdu_0, '0']
+- [digital_descrambler_bb_0, '0', digital_crc32_bb_1, '0']
 - [digital_diff_decoder_bb_0, '0', digital_map_bb_0, '0']
 - [digital_fll_band_edge_cc_0, '0', blocks_copy_1_2, '0']
 - [digital_fll_band_edge_cc_0, '0', blocks_skiphead_0, '0']
 - [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '1']
+- [digital_scrambler_bb_0, '0', blocks_tagged_stream_mux_0, '2']
+- [digital_scrambler_bb_0, '0', digital_protocol_formatter_bb_0, '0']
 - [digital_symbol_sync_xx_0, '0', blocks_copy_2, '0']
 - [digital_symbol_sync_xx_0, '0', digital_linear_equalizer_0, '0']
 - [fft_filter_xxx_0, '0', digital_symbol_sync_xx_0, '0']
@@ -1879,4 +1917,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.12.0
+  grc_version: 3.10.9.2
