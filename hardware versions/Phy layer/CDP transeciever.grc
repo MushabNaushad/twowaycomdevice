@@ -49,7 +49,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '30'
+    value: '20'
   states:
     bus_sink: false
     bus_source: false
@@ -116,6 +116,18 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [384, 12.0]
+    rotation: 0
+    state: enabled
+- name: amble
+  id: variable
+  parameters:
+    comment: ''
+    value: '[0xc0, 0xaf]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 252.0]
     rotation: 0
     state: enabled
 - name: costas_bw
@@ -214,7 +226,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '40'
+    value: '100'
   states:
     bus_sink: false
     bus_source: false
@@ -255,7 +267,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [792, 92.0]
+    coordinate: [816, 92.0]
     rotation: 0
     state: true
 - name: preamble_size
@@ -267,7 +279,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [664, 92.0]
+    coordinate: [688, 92.0]
+    rotation: 0
+    state: enabled
+- name: preamble_symbols
+  id: variable
+  parameters:
+    comment: ''
+    value: '[1+1j, -1-1j, -1-1j, -1-1j, 1-1j, 1-1j, 1+1j, 1+1j]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [208, 332.0]
     rotation: 0
     state: enabled
 - name: rcc_taps
@@ -291,7 +315,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2.2e6
+    value: 2.5e6
   states:
     bus_sink: false
     bus_source: false
@@ -344,6 +368,18 @@ blocks:
     coordinate: [1528, 8.0]
     rotation: 0
     state: disabled
+- name: training_seq
+  id: variable
+  parameters:
+    comment: ''
+    value: '[1+1j, -1-1j, -1-1j, -1-1j, 1-1j, 1-1j, 1+1j, 1+1j]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 252.0]
+    rotation: 0
+    state: enabled
 - name: analog_agc_xx_0
   id: analog_agc_xx
   parameters:
@@ -401,7 +437,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 1800.0]
+    coordinate: [264, 1820.0]
     rotation: 0
     state: disabled
 - name: blocks_char_to_float_0
@@ -513,7 +549,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1248, 820.0]
+    coordinate: [1248, 748.0]
     rotation: 0
     state: enabled
 - name: blocks_copy_2
@@ -551,7 +587,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 1680.0]
+    coordinate: [1296, 1676.0]
     rotation: 0
     state: enabled
 - name: blocks_copy_3_0
@@ -571,6 +607,44 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1416, 1400.0]
+    rotation: 0
+    state: enabled
+- name: blocks_copy_4
+  id: blocks_copy
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    showports: 'False'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [976, 1428.0]
+    rotation: 0
+    state: enabled
+- name: blocks_copy_5
+  id: blocks_copy
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    showports: 'False'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600, 1828.0]
     rotation: 0
     state: enabled
 - name: blocks_message_debug_0
@@ -605,7 +679,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [760, 1720.0]
+    coordinate: [768, 1724.0]
     rotation: 0
     state: enabled
 - name: blocks_repack_bits_bb_1
@@ -625,7 +699,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1160, 1312.0]
+    coordinate: [1160, 1316.0]
     rotation: 0
     state: enabled
 - name: blocks_skiphead_0
@@ -662,7 +736,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [992, 1720.0]
+    coordinate: [1008, 1724.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0
@@ -826,13 +900,13 @@ blocks:
     repeat: 'True'
     tags: '[]'
     type: byte
-    vector: '[0xc0, 0xaf]'
+    vector: amble
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1440, 1520.0]
+    coordinate: [1288, 1448.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_0_0_0
@@ -846,7 +920,7 @@ blocks:
     repeat: 'True'
     tags: '[]'
     type: byte
-    vector: '[0xc0, 0xaf]'
+    vector: amble
     vlen: '1'
   states:
     bus_sink: false
@@ -952,6 +1026,26 @@ blocks:
     coordinate: [992, 340.0]
     rotation: 0
     state: enabled
+- name: digital_corr_est_cc_0
+  id: digital_corr_est_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    mark_delay: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    sps: sps
+    symbols: preamble_symbols
+    threshold: '0.9'
+    threshold_method: digital.THRESHOLD_ABSOLUTE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1216, 844.0]
+    rotation: 0
+    state: disabled
 - name: digital_correlate_access_code_xx_ts_0
   id: digital_correlate_access_code_xx_ts
   parameters:
@@ -968,7 +1062,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 1304.0]
+    coordinate: [656, 1304.0]
     rotation: 0
     state: enabled
 - name: digital_costas_loop_cc_0
@@ -1004,7 +1098,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1240, 1736.0]
+    coordinate: [1256, 1744.0]
     rotation: 0
     state: disabled
 - name: digital_crc32_bb_1
@@ -1022,7 +1116,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1384, 1304.0]
+    coordinate: [1384, 1296.0]
     rotation: 0
     state: disabled
 - name: digital_descrambler_bb_0
@@ -1040,9 +1134,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 1304.0]
+    coordinate: [984, 1304.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_diff_decoder_bb_0
   id: digital_diff_decoder_bb
   parameters:
@@ -1131,7 +1225,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1592, 1632.0]
+    coordinate: [1592, 1636.0]
     rotation: 0
     state: enabled
 - name: digital_scrambler_bb_0
@@ -1151,7 +1245,7 @@ blocks:
     bus_structure: null
     coordinate: [616, 1712.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_symbol_sync_xx_0
   id: digital_symbol_sync_xx
   parameters:
@@ -1881,7 +1975,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [496, 1324.0]
+    coordinate: [400, 1324.0]
     rotation: 0
     state: enabled
 - name: virtual_source_3
@@ -1920,7 +2014,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [208, 1656.0]
+    coordinate: [208, 1644.0]
     rotation: 0
     state: disabled
 
@@ -1944,6 +2038,8 @@ connections:
 - [blocks_copy_3, '0', blocks_tagged_stream_mux_0, '2']
 - [blocks_copy_3, '0', digital_protocol_formatter_bb_0, '0']
 - [blocks_copy_3_0, '0', pdu_tagged_stream_to_pdu_0, '0']
+- [blocks_copy_4, '0', blocks_repack_bits_bb_1, '0']
+- [blocks_copy_5, '0', blocks_repack_bits_bb_0, '0']
 - [blocks_repack_bits_bb_0, '0', blocks_stream_to_tagged_stream_0_0_0, '0']
 - [blocks_repack_bits_bb_1, '0', blocks_copy_3_0, '0']
 - [blocks_repack_bits_bb_1, '0', digital_crc32_bb_1, '0']
@@ -1960,6 +2056,7 @@ connections:
 - [blocks_tagged_stream_mux_0, '0', virtual_sink_0_1, '0']
 - [blocks_throttle2_0, '0', digital_constellation_modulator_0, '0']
 - [blocks_unpack_k_bits_bb_0, '0', virtual_sink_2, '0']
+- [blocks_unpack_k_bits_bb_1, '0', blocks_copy_5, '0']
 - [blocks_unpack_k_bits_bb_1, '0', digital_scrambler_bb_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_copy_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_throttle2_0, '0']
@@ -1972,6 +2069,8 @@ connections:
 - [dc_blocker_xx_0, '0', blocks_copy_1_0, '0']
 - [digital_constellation_decoder_cb_0, '0', digital_diff_decoder_bb_0, '0']
 - [digital_constellation_modulator_0, '0', blocks_tag_gate_0, '0']
+- [digital_corr_est_cc_0, '0', root_raised_cosine_filter_0, '0']
+- [digital_correlate_access_code_xx_ts_0, '0', blocks_copy_4, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', digital_descrambler_bb_0, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_freq_sink_x_1, '0']
 - [digital_costas_loop_cc_0, '0', virtual_sink_3, '0']
@@ -1982,6 +2081,7 @@ connections:
 - [digital_diff_decoder_bb_0, '0', digital_map_bb_0, '0']
 - [digital_fll_band_edge_cc_0, '0', blocks_copy_1_2, '0']
 - [digital_fll_band_edge_cc_0, '0', blocks_skiphead_0, '0']
+- [digital_fll_band_edge_cc_0, '0', digital_corr_est_cc_0, '0']
 - [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
 - [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '1']
@@ -2012,4 +2112,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.9.2
+  grc_version: 3.10.12.0
