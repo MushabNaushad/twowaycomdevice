@@ -11,13 +11,11 @@
 
 from PyQt5 import Qt
 from gnuradio import qtgui
-from gnuradio import analog
 from gnuradio import blocks
-from gnuradio import blocks, gr
+import numpy
 from gnuradio import digital
-from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
+from gnuradio.filter import firdes
 from gnuradio.fft import window
 import sys
 import signal
@@ -25,7 +23,6 @@ from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-from gnuradio import gr, pdu
 from gnuradio import iio
 import sip
 import threading
@@ -80,7 +77,12 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.preamble_symbols = preamble_symbols = [1+1j, -1-1j, -1-1j, -1-1j, 1-1j, 1-1j, 1+1j, 1+1j]
         self.preamble_size = preamble_size = 20
         self.postamble_size = postamble_size = 8
+<<<<<<< HEAD
         self.packets = packets = 100
+=======
+        self.payload_size = payload_size = 64
+        self.packets = packets = 300
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
         self.hdr = hdr = digital.header_format_default(digital.packet_utils.default_access_code, 0)
         self.fll_loop_bw = fll_loop_bw = 2 * pi * 0.005
         self.costas_bw = costas_bw = 0.0628
@@ -94,6 +96,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
+<<<<<<< HEAD
         self.root_raised_cosine_filter_0 = filter.fir_filter_ccf(
             1,
             firdes.root_raised_cosine(
@@ -146,11 +149,16 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.top_layout.addWidget(self._qtgui_freq_sink_x_3_win)
         self.qtgui_freq_sink_x_2 = qtgui.freq_sink_c(
             1024, #size
+=======
+        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
+            2048, #size
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
             window.WIN_BLACKMAN_hARRIS, #wintype
             0, #fc
             samp_rate, #bw
             "", #name
             1,
+<<<<<<< HEAD
             None # parent
         )
         self.qtgui_freq_sink_x_2.set_update_time(0.10)
@@ -332,6 +340,8 @@ class transeciever(gr.top_block, Qt.QWidget):
             1024, #size
             "after costas", #name
             1, #number of inputs
+=======
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
             None # parent
         )
         self.qtgui_const_sink_x_2.set_update_time(0.10)
@@ -367,6 +377,7 @@ class transeciever(gr.top_block, Qt.QWidget):
             self.qtgui_const_sink_x_2.set_line_marker(i, markers[i])
             self.qtgui_const_sink_x_2.set_line_alpha(i, alphas[i])
 
+<<<<<<< HEAD
         self._qtgui_const_sink_x_2_win = sip.wrapinstance(self.qtgui_const_sink_x_2.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_2_win)
         self.qtgui_const_sink_x_1 = qtgui.const_sink_c(
@@ -495,11 +506,50 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.blocks_copy_1_1 = blocks.copy(gr.sizeof_gr_complex*1)
         self.blocks_copy_1_1.set_enabled(True)
         self.analog_agc_xx_0 = analog.agc_cc((1e-4), 1.0, 1.0, 65536)
+=======
+        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.iio_pluto_sink_0 = iio.fmcomms2_sink_fc32(ADDR if ADDR else iio.get_pluto_uri(), [True, True], 32768, False)
+        self.iio_pluto_sink_0.set_len_tag_key('')
+        self.iio_pluto_sink_0.set_bandwidth(20000000)
+        self.iio_pluto_sink_0.set_frequency(int(SDR_CF))
+        self.iio_pluto_sink_0.set_samplerate(int(samp_rate))
+        self.iio_pluto_sink_0.set_attenuation(0, CH_GAIN)
+        self.iio_pluto_sink_0.set_filter_params('Auto', '', 0, 0)
+        self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr, 'packet_len')
+        self.digital_constellation_modulator_0 = digital.generic_mod(
+            constellation=QPSK_CONST,
+            differential=True,
+            samples_per_symbol=sps,
+            pre_diff_code=True,
+            excess_bw=alpha,
+            verbose=False,
+            log=False,
+            truncate=False)
+        self.blocks_vector_source_x_0_0_0 = blocks.vector_source_b(amble, True, 1, [])
+        self.blocks_vector_source_x_0_0 = blocks.vector_source_b(amble, True, 1, [])
+        self.blocks_unpack_k_bits_bb_1 = blocks.unpack_k_bits_bb(8)
+        self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
+        self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_gr_complex * 1, False)
+        self.blocks_tag_gate_0.set_single_key("")
+        self.blocks_stream_to_tagged_stream_0_0_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, postamble_size, "packet_len")
+        self.blocks_stream_to_tagged_stream_0_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, preamble_size, "packet_len")
+        self.blocks_stream_to_tagged_stream_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, payload_size, "packet_len")
+        self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(1, 8, "", False, gr.GR_LSB_FIRST)
+        self.blocks_copy_5 = blocks.copy(gr.sizeof_char*1)
+        self.blocks_copy_5.set_enabled(True)
+        self.blocks_copy_3 = blocks.copy(gr.sizeof_char*1)
+        self.blocks_copy_3.set_enabled(True)
+        self.blocks_copy_0 = blocks.copy(gr.sizeof_char*1)
+        self.blocks_copy_0.set_enabled(True)
+        self.analog_random_source_x_1 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 256, 1000))), True)
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
 
 
         ##################################################
         # Connections
         ##################################################
+<<<<<<< HEAD
         self.msg_connect((self.pdu_tagged_stream_to_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print'))
         self.connect((self.analog_agc_xx_0, 0), (self.digital_fll_band_edge_cc_0, 0))
         self.connect((self.blocks_copy_1_1, 0), (self.analog_agc_xx_0, 0))
@@ -526,6 +576,25 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.connect((self.iio_pluto_source_0, 0), (self.blocks_copy_1_1, 0))
         self.connect((self.iio_pluto_source_0, 0), (self.qtgui_freq_sink_x_2, 0))
         self.connect((self.root_raised_cosine_filter_0, 0), (self.digital_symbol_sync_xx_0, 0))
+=======
+        self.connect((self.analog_random_source_x_1, 0), (self.blocks_unpack_k_bits_bb_1, 0))
+        self.connect((self.blocks_copy_0, 0), (self.digital_constellation_modulator_0, 0))
+        self.connect((self.blocks_copy_3, 0), (self.blocks_tagged_stream_mux_0, 2))
+        self.connect((self.blocks_copy_3, 0), (self.digital_protocol_formatter_bb_0, 0))
+        self.connect((self.blocks_copy_5, 0), (self.blocks_repack_bits_bb_0, 0))
+        self.connect((self.blocks_repack_bits_bb_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0_0, 0), (self.blocks_copy_3, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 0))
+        self.connect((self.blocks_stream_to_tagged_stream_0_0_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 3))
+        self.connect((self.blocks_tag_gate_0, 0), (self.iio_pluto_sink_0, 0))
+        self.connect((self.blocks_tag_gate_0, 0), (self.qtgui_freq_sink_x_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_copy_0, 0))
+        self.connect((self.blocks_unpack_k_bits_bb_1, 0), (self.blocks_copy_5, 0))
+        self.connect((self.blocks_vector_source_x_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0_0, 0))
+        self.connect((self.blocks_vector_source_x_0_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0_0_0, 0))
+        self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_tag_gate_0, 0))
+        self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
 
 
     def closeEvent(self, event):
@@ -542,10 +611,13 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_sps(self, sps):
         self.sps = sps
         self.set_rcc_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/float(self.sps), self.alpha, (self.nfilts*self.sps)))
+<<<<<<< HEAD
         self.digital_symbol_sync_xx_0.set_sps(self.sps)
         self.qtgui_eye_sink_x_0.set_samp_per_symbol(self.sps)
         self.qtgui_eye_sink_x_1.set_samp_per_symbol(self.sps)
         self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
+=======
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -553,6 +625,7 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_rcc_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/float(self.sps), self.alpha, (self.nfilts*self.sps)))
+<<<<<<< HEAD
         self.iio_pluto_source_0.set_samplerate(int(self.samp_rate))
         self.qtgui_eye_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_eye_sink_x_1.set_samp_rate(self.samp_rate)
@@ -560,6 +633,10 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_2.set_frequency_range(0, self.samp_rate)
         self.qtgui_freq_sink_x_3.set_frequency_range(0, self.samp_rate)
         self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
+=======
+        self.iio_pluto_sink_0.set_samplerate(int(self.samp_rate))
+        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
 
     def get_pi(self):
         return self.pi
@@ -581,21 +658,18 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_alpha(self, alpha):
         self.alpha = alpha
         self.set_rcc_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/float(self.sps), self.alpha, (self.nfilts*self.sps)))
-        self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
 
     def get_QPSK_CONST(self):
         return self.QPSK_CONST
 
     def set_QPSK_CONST(self, QPSK_CONST):
         self.QPSK_CONST = QPSK_CONST
-        self.digital_constellation_decoder_cb_0.set_constellation(self.QPSK_CONST)
 
     def get_sym_bw(self):
         return self.sym_bw
 
     def set_sym_bw(self, sym_bw):
         self.sym_bw = sym_bw
-        self.digital_symbol_sync_xx_0.set_loop_bandwidth(self.sym_bw)
 
     def get_rcc_taps(self):
         return self.rcc_taps
@@ -620,6 +694,19 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_postamble_size(self, postamble_size):
         self.postamble_size = postamble_size
+<<<<<<< HEAD
+=======
+        self.blocks_stream_to_tagged_stream_0_0_0_0_0.set_packet_len(self.postamble_size)
+        self.blocks_stream_to_tagged_stream_0_0_0_0_0.set_packet_len_pmt(self.postamble_size)
+
+    def get_payload_size(self):
+        return self.payload_size
+
+    def set_payload_size(self, payload_size):
+        self.payload_size = payload_size
+        self.blocks_stream_to_tagged_stream_0_0_0.set_packet_len(self.payload_size)
+        self.blocks_stream_to_tagged_stream_0_0_0.set_packet_len_pmt(self.payload_size)
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
 
     def get_packets(self):
         return self.packets
@@ -638,14 +725,12 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_fll_loop_bw(self, fll_loop_bw):
         self.fll_loop_bw = fll_loop_bw
-        self.digital_fll_band_edge_cc_0.set_loop_bandwidth(self.fll_loop_bw)
 
     def get_costas_bw(self):
         return self.costas_bw
 
     def set_costas_bw(self, costas_bw):
         self.costas_bw = costas_bw
-        self.digital_costas_loop_cc_0.set_loop_bandwidth(self.costas_bw)
 
     def get_amble(self):
         return self.amble
@@ -664,7 +749,11 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_SDR_CF(self, SDR_CF):
         self.SDR_CF = SDR_CF
+<<<<<<< HEAD
         self.iio_pluto_source_0.set_frequency(int(self.SDR_CF))
+=======
+        self.iio_pluto_sink_0.set_frequency(int(self.SDR_CF))
+>>>>>>> 7ecdd35bf8a03786faad8b1a9e1e7c1eb7e79633
 
     def get_CH_GAIN(self):
         return self.CH_GAIN
