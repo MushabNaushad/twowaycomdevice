@@ -40,6 +40,8 @@ blocks:
     rto_ms: '500'
     node_role: '"initiator"'
     mtu_bytes: '200'
+    local_addr: '1'
+    local_port: '1'
   states:
     coordinate: [300, 200]
     rotation: 0
@@ -52,6 +54,8 @@ blocks:
     rto_ms: '500'
     node_role: '"responder"'
     mtu_bytes: '200'
+    local_addr: '2'
+    local_port: '1'
   states:
     coordinate: [600, 200]
     rotation: 0
@@ -60,7 +64,7 @@ blocks:
 - name: blocks_message_strobe_0
   id: blocks_message_strobe
   parameters:
-    msg: pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [171, 205, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Strobe"]))
+    msg: pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Strobe"]))
     period: '2000'
   states:
     coordinate: [50, 220]
