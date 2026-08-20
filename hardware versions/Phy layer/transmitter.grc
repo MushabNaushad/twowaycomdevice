@@ -589,7 +589,7 @@ blocks:
     bus_structure: null
     coordinate: [1296, 1676.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_copy_3_0
   id: blocks_copy
   parameters:
@@ -646,7 +646,7 @@ blocks:
     bus_structure: null
     coordinate: [600, 1828.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_message_debug_0
   id: blocks_message_debug
   parameters:
@@ -681,7 +681,7 @@ blocks:
     bus_structure: null
     coordinate: [768, 1724.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_repack_bits_bb_1
   id: blocks_repack_bits_bb
   parameters:
@@ -738,7 +738,7 @@ blocks:
     bus_structure: null
     coordinate: [1008, 1724.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0
   id: blocks_stream_to_tagged_stream
   parameters:
@@ -757,7 +757,7 @@ blocks:
     bus_structure: null
     coordinate: [1672, 1536.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0_0
   id: blocks_stream_to_tagged_stream
   parameters:
@@ -776,7 +776,7 @@ blocks:
     bus_structure: null
     coordinate: [1656, 1840.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_tag_gate_0
   id: blocks_tag_gate
   parameters:
@@ -815,7 +815,7 @@ blocks:
     bus_structure: null
     coordinate: [1904, 1712.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_throttle2_0
   id: blocks_throttle2
   parameters:
@@ -868,7 +868,7 @@ blocks:
     bus_structure: null
     coordinate: [456, 1728.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_vector_source_x_0
   id: blocks_vector_source_x
   parameters:
@@ -908,7 +908,7 @@ blocks:
     bus_structure: null
     coordinate: [1288, 1448.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_vector_source_x_0_0_0
   id: blocks_vector_source_x
   parameters:
@@ -928,7 +928,7 @@ blocks:
     bus_structure: null
     coordinate: [1456, 1832.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_vector_source_x_2
   id: blocks_vector_source_x
   parameters:
@@ -948,7 +948,7 @@ blocks:
     bus_structure: null
     coordinate: [224, 1712.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: channels_channel_model_0
   id: channels_channel_model
   parameters:
@@ -1227,7 +1227,7 @@ blocks:
     bus_structure: null
     coordinate: [1592, 1636.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: digital_scrambler_bb_0
   id: digital_scrambler_bb
   parameters:
@@ -1821,7 +1821,7 @@ blocks:
     bus_structure: null
     coordinate: [2168, 1720.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: virtual_sink_1
   id: virtual_sink
   parameters:
