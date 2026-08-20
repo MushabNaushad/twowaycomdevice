@@ -66,7 +66,7 @@ $(function(){initNavTree('removeFlags__impl_8h_source.html','',''); });
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#define INCLUDED_DLC_REMOVEFLAGS_IMPL_H</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;<a class="code" href="removeFlags_8h.html">gnuradio/DLC/removeFlags.h</a>&gt;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;pmt/pmt.h&gt;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
@@ -82,27 +82,19 @@ $(function(){initNavTree('removeFlags__impl_8h_source.html','',''); });
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">bool</span> d_in_frame;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    std::vector&lt;uint8_t&gt; d_pdu_buffer;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classgr_1_1DLC_1_1removeFlags__impl.html#a768b343414c9dccfdc410f87c6f0dcc3">   28</a></span>    <a class="code hl_function" href="classgr_1_1DLC_1_1removeFlags__impl.html#a768b343414c9dccfdc410f87c6f0dcc3">removeFlags_impl</a>(uint8_t flag);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classgr_1_1DLC_1_1removeFlags__impl.html#a961867b568e518faccd48846d502c496">   29</a></span>    <a class="code hl_function" href="classgr_1_1DLC_1_1removeFlags__impl.html#a961867b568e518faccd48846d502c496">~removeFlags_impl</a>();</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// Where all the action really happens</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classgr_1_1DLC_1_1removeFlags__impl.html#a8e4d1d9f8ede438a3b4d7977b437f82c">   32</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classgr_1_1DLC_1_1removeFlags__impl.html#a8e4d1d9f8ede438a3b4d7977b437f82c">forecast</a>(<span class="keywordtype">int</span> noutput_items, gr_vector_int&amp; ninput_items_required);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classgr_1_1DLC_1_1removeFlags__impl.html#a21456f4a0ccba7bda71c54c41540df16">   34</a></span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classgr_1_1DLC_1_1removeFlags__impl.html#a21456f4a0ccba7bda71c54c41540df16">general_work</a>(<span class="keywordtype">int</span> noutput_items,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                     gr_vector_int&amp; ninput_items,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                     gr_vector_const_void_star&amp; input_items,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                     gr_vector_void_star&amp; output_items);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>};</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">void</span> handle_msg(pmt::pmt_t msg);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classgr_1_1DLC_1_1removeFlags__impl.html#a768b343414c9dccfdc410f87c6f0dcc3">   30</a></span>    <a class="code hl_function" href="classgr_1_1DLC_1_1removeFlags__impl.html#a768b343414c9dccfdc410f87c6f0dcc3">removeFlags_impl</a>(uint8_t flag);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classgr_1_1DLC_1_1removeFlags__impl.html#a961867b568e518faccd48846d502c496">   31</a></span>    <a class="code hl_function" href="classgr_1_1DLC_1_1removeFlags__impl.html#a961867b568e518faccd48846d502c496">~removeFlags_impl</a>();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>};</div>
 </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>} <span class="comment">// namespace DLC</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>} <span class="comment">// namespace gr</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#endif </span><span class="comment">/* INCLUDED_DLC_REMOVEFLAGS_IMPL_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="aclassgr_1_1DLC_1_1removeFlags__impl_html_a21456f4a0ccba7bda71c54c41540df16"><div class="ttname"><a href="classgr_1_1DLC_1_1removeFlags__impl.html#a21456f4a0ccba7bda71c54c41540df16">gr::DLC::removeFlags_impl::general_work</a></div><div class="ttdeci">int general_work(int noutput_items, gr_vector_int &amp;ninput_items, gr_vector_const_void_star &amp;input_items, gr_vector_void_star &amp;output_items)</div></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>} <span class="comment">// namespace DLC</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>} <span class="comment">// namespace gr</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif </span><span class="comment">/* INCLUDED_DLC_REMOVEFLAGS_IMPL_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="aclassgr_1_1DLC_1_1removeFlags__impl_html_a768b343414c9dccfdc410f87c6f0dcc3"><div class="ttname"><a href="classgr_1_1DLC_1_1removeFlags__impl.html#a768b343414c9dccfdc410f87c6f0dcc3">gr::DLC::removeFlags_impl::removeFlags_impl</a></div><div class="ttdeci">removeFlags_impl(uint8_t flag)</div></div>
-<div class="ttc" id="aclassgr_1_1DLC_1_1removeFlags__impl_html_a8e4d1d9f8ede438a3b4d7977b437f82c"><div class="ttname"><a href="classgr_1_1DLC_1_1removeFlags__impl.html#a8e4d1d9f8ede438a3b4d7977b437f82c">gr::DLC::removeFlags_impl::forecast</a></div><div class="ttdeci">void forecast(int noutput_items, gr_vector_int &amp;ninput_items_required)</div></div>
 <div class="ttc" id="aclassgr_1_1DLC_1_1removeFlags__impl_html_a961867b568e518faccd48846d502c496"><div class="ttname"><a href="classgr_1_1DLC_1_1removeFlags__impl.html#a961867b568e518faccd48846d502c496">gr::DLC::removeFlags_impl::~removeFlags_impl</a></div><div class="ttdeci">~removeFlags_impl()</div></div>
 <div class="ttc" id="aclassgr_1_1DLC_1_1removeFlags_html"><div class="ttname"><a href="classgr_1_1DLC_1_1removeFlags.html">gr::DLC::removeFlags</a></div><div class="ttdoc">&lt;+description of block+&gt;</div><div class="ttdef"><b>Definition</b> removeFlags.h:26</div></div>
 <div class="ttc" id="anamespacegr_1_1DLC_html"><div class="ttname"><a href="namespacegr_1_1DLC.html">gr::DLC</a></div><div class="ttdef"><b>Definition</b> addFlags.h:15</div></div>

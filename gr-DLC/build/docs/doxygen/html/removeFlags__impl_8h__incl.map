@@ -1,11 +1,13 @@
 <map id="removeFlags_impl.h" name="removeFlags_impl.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="359,5,498,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="398,5,536,32"/>
 <area shape="rect" id="Node000002" href="$removeFlags_8h.html" title=" " alt="" coords="199,80,391,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="403,34,333,75,330,70,407,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="435,34,340,76,338,71,439,31"/>
 <area shape="rect" id="Node000006" title=" " alt="" coords="398,155,458,181"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="430,31,431,140,426,138,426,34"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="466,80,524,107"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="441,30,476,69,471,68,439,35"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="466,31,438,141,433,138,462,34"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="466,80,546,107"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="475,30,494,67,489,66,473,35"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="570,80,628,107"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="490,30,566,72,560,72,490,35"/>
 <area shape="rect" id="Node000003" href="$api_8h.html" title=" " alt="" coords="8,155,142,181"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="255,109,129,152,127,147,258,105"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="166,155,282,181"/>

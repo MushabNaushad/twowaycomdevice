@@ -340,23 +340,6 @@ blocks:
     coordinate: [104, 848.0]
     rotation: 0
     state: enabled
-- name: pdu_pdu_to_tagged_stream_0
-  id: pdu_pdu_to_tagged_stream
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    tag: packet_len
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1160, 328.0]
-    rotation: 0
-    state: enabled
 - name: pdu_pdu_to_tagged_stream_1
   id: pdu_pdu_to_tagged_stream
   parameters:
@@ -431,7 +414,7 @@ blocks:
 connections:
 - [DLC_CRCCheck_0, out, pdu_pdu_to_tagged_stream_1, pdus]
 - [DLC_CRCGen_0, out, DLC_bitStuffing_0, in]
-- [DLC_addFlags_0, out, pdu_pdu_to_tagged_stream_0, pdus]
+- [DLC_addFlags_0, out, DLC_removeFlags_0, pdu_in]
 - [DLC_bitStuffing_0, out, DLC_addFlags_0, in]
 - [DLC_deStuffing_0, out, DLC_CRCCheck_0, in]
 - [DLC_deStuffing_0, out, blocks_message_debug_0_0, print]
@@ -441,7 +424,6 @@ connections:
 - [blocks_stream_to_tagged_stream_0, '0', pdu_tagged_stream_to_pdu_0, '0']
 - [blocks_throttle2_0, '0', blocks_stream_to_tagged_stream_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_throttle2_0, '0']
-- [pdu_pdu_to_tagged_stream_0, '0', DLC_removeFlags_0, '0']
 - [pdu_pdu_to_tagged_stream_1, '0', blocks_repack_bits_bb_0, '0']
 - [pdu_random_pdu_0, pdus, DLC_CRCGen_0, in]
 - [pdu_tagged_stream_to_pdu_1, pdus, blocks_message_debug_0_1, print]

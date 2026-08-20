@@ -3,6 +3,7 @@
   <compounddef id="removeFlags__impl_8h" kind="file" language="C++">
     <compoundname>removeFlags_impl.h</compoundname>
     <includes refid="removeFlags_8h" local="no">gnuradio/DLC/removeFlags.h</includes>
+    <includes local="no">pmt/pmt.h</includes>
     <includes local="no">cstdint</includes>
     <includes local="no">vector</includes>
     <incdepgraph>
@@ -29,9 +30,11 @@
         <link refid="removeFlags__impl_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -47,6 +50,9 @@
         <label>memory</label>
       </node>
       <node id="8">
+        <label>pmt/pmt.h</label>
+      </node>
+      <node id="9">
         <label>vector</label>
       </node>
     </incdepgraph>

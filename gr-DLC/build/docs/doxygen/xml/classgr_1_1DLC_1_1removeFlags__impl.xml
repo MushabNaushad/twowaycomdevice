@@ -62,6 +62,26 @@
         <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="25" column="17" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" bodystart="25" bodyend="-1"/>
       </memberdef>
     </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classgr_1_1DLC_1_1removeFlags__impl_1a19d9e49d379b41ff5da983d3cf81e8c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::DLC::removeFlags_impl::handle_msg</definition>
+        <argsstring>(pmt::pmt_t msg)</argsstring>
+        <name>handle_msg</name>
+        <qualifiedname>gr::DLC::removeFlags_impl::handle_msg</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="27" column="10"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="classgr_1_1DLC_1_1removeFlags__impl_1a768b343414c9dccfdc410f87c6f0dcc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -79,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="28" column="5"/>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="30" column="5"/>
       </memberdef>
       <memberdef kind="function" id="classgr_1_1DLC_1_1removeFlags__impl_1a961867b568e518faccd48846d502c496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -93,59 +113,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="29" column="5"/>
-      </memberdef>
-      <memberdef kind="function" id="classgr_1_1DLC_1_1removeFlags__impl_1a8e4d1d9f8ede438a3b4d7977b437f82c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>void</type>
-        <definition>void gr::DLC::removeFlags_impl::forecast</definition>
-        <argsstring>(int noutput_items, gr_vector_int &amp;ninput_items_required)</argsstring>
-        <name>forecast</name>
-        <qualifiedname>gr::DLC::removeFlags_impl::forecast</qualifiedname>
-        <param>
-          <type>int</type>
-          <declname>noutput_items</declname>
-        </param>
-        <param>
-          <type>gr_vector_int &amp;</type>
-          <declname>ninput_items_required</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="32" column="10"/>
-      </memberdef>
-      <memberdef kind="function" id="classgr_1_1DLC_1_1removeFlags__impl_1a21456f4a0ccba7bda71c54c41540df16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>int</type>
-        <definition>int gr::DLC::removeFlags_impl::general_work</definition>
-        <argsstring>(int noutput_items, gr_vector_int &amp;ninput_items, gr_vector_const_void_star &amp;input_items, gr_vector_void_star &amp;output_items)</argsstring>
-        <name>general_work</name>
-        <qualifiedname>gr::DLC::removeFlags_impl::general_work</qualifiedname>
-        <param>
-          <type>int</type>
-          <declname>noutput_items</declname>
-        </param>
-        <param>
-          <type>gr_vector_int &amp;</type>
-          <declname>ninput_items</declname>
-        </param>
-        <param>
-          <type>gr_vector_const_void_star &amp;</type>
-          <declname>input_items</declname>
-        </param>
-        <param>
-          <type>gr_vector_void_star &amp;</type>
-          <declname>output_items</declname>
-        </param>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="34" column="9"/>
+        <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="31" column="5"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -186,14 +154,13 @@
         <label>gr::block</label>
       </node>
     </collaborationgraph>
-    <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="19" column="1" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" bodystart="20" bodyend="38"/>
+    <location file="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" line="19" column="1" bodyfile="/home/maduwage/twowaycomdevice/gr-DLC/lib/removeFlags_impl.h" bodystart="20" bodyend="32"/>
     <listofallmembers>
       <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a53951662ed8209d01ec58eb6a23334ef" prot="private" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>d_flag</name></member>
       <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a28fda82ea89f06cc2e3d2a9c93c13349" prot="private" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>d_in_frame</name></member>
       <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a98036c0585fd0ae2825f1d6e47f2c461" prot="private" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>d_pdu_buffer</name></member>
       <member refid="classgr_1_1DLC_1_1removeFlags__impl_1abee047e7baea4fcb49e0adfe685e256e" prot="private" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>d_shift_reg</name></member>
-      <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a8e4d1d9f8ede438a3b4d7977b437f82c" prot="public" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>forecast</name></member>
-      <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a21456f4a0ccba7bda71c54c41540df16" prot="public" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>general_work</name></member>
+      <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a19d9e49d379b41ff5da983d3cf81e8c9" prot="private" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>handle_msg</name></member>
       <member refid="classgr_1_1DLC_1_1removeFlags_1a9b70c965dd8311505b82352467119d8d" prot="public" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>make</name></member>
       <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a768b343414c9dccfdc410f87c6f0dcc3" prot="public" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>removeFlags_impl</name></member>
       <member refid="classgr_1_1DLC_1_1removeFlags_1a1ee3a22ec7ea0dbcf5451e07923c9f89" prot="public" virt="non-virtual"><scope>gr::DLC::removeFlags_impl</scope><name>sptr</name></member>
