@@ -172,20 +172,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/rule:
-	cd /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/rule
-.PHONY : python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/rule
-
-# Convenience name for target.
-transport_layer_python.cc_regen_bindings: python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/rule
-.PHONY : transport_layer_python.cc_regen_bindings
-
-# fast build rule for target.
-transport_layer_python.cc_regen_bindings/fast:
-	cd /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build && $(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build.make python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build
-.PHONY : transport_layer_python.cc_regen_bindings/fast
-
-# Convenience name for target.
 python/transport/bindings/CMakeFiles/transport_python.dir/rule:
 	cd /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/transport/bindings/CMakeFiles/transport_python.dir/rule
 .PHONY : python/transport/bindings/CMakeFiles/transport_python.dir/rule
@@ -275,7 +261,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... transport_docstrings"
-	@echo "... transport_layer_python.cc_regen_bindings"
 	@echo "... transport_python"
 	@echo "... python_bindings.o"
 	@echo "... python_bindings.i"

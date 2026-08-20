@@ -246,13 +246,11 @@ python/transport/clean: python/transport/bindings/clean
 # Directory level rules for directory python/transport/bindings
 
 # Recursive "all" directory target.
-python/transport/bindings/all: python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/all
 python/transport/bindings/all: python/transport/bindings/CMakeFiles/transport_python.dir/all
 python/transport/bindings/all: python/transport/bindings/CMakeFiles/transport_docstrings.dir/all
 .PHONY : python/transport/bindings/all
 
 # Recursive "codegen" directory target.
-python/transport/bindings/codegen: python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/codegen
 python/transport/bindings/codegen: python/transport/bindings/CMakeFiles/transport_python.dir/codegen
 python/transport/bindings/codegen: python/transport/bindings/CMakeFiles/transport_docstrings.dir/codegen
 .PHONY : python/transport/bindings/codegen
@@ -262,7 +260,6 @@ python/transport/bindings/preinstall:
 .PHONY : python/transport/bindings/preinstall
 
 # Recursive "clean" directory target.
-python/transport/bindings/clean: python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/clean
 python/transport/bindings/clean: python/transport/bindings/CMakeFiles/transport_python.dir/clean
 python/transport/bindings/clean: python/transport/bindings/CMakeFiles/transport_docstrings.dir/clean
 .PHONY : python/transport/bindings/clean
@@ -396,52 +393,19 @@ python/transport/CMakeFiles/copy_module_for_tests.dir/clean:
 .PHONY : python/transport/CMakeFiles/copy_module_for_tests.dir/clean
 
 #=============================================================================
-# Target rules for target python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir
-
-# All Build rule for target.
-python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/all:
-	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build.make python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/depend
-	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build.make python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles --progress-num=5 "Built target transport_layer_python.cc_regen_bindings"
-.PHONY : python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/all
-
-# Build rule for subdir invocation for target.
-python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles 1
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles 0
-.PHONY : python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/rule
-
-# Convenience name for target.
-transport_layer_python.cc_regen_bindings: python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/rule
-.PHONY : transport_layer_python.cc_regen_bindings
-
-# codegen rule for target.
-python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build.make python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles --progress-num=5 "Finished codegen for target transport_layer_python.cc_regen_bindings"
-.PHONY : python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/codegen
-
-# clean rule for target.
-python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/clean:
-	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build.make python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/clean
-.PHONY : python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/clean
-
-#=============================================================================
 # Target rules for target python/transport/bindings/CMakeFiles/transport_python.dir
 
 # All Build rule for target.
 python/transport/bindings/CMakeFiles/transport_python.dir/all: lib/CMakeFiles/gnuradio-transport.dir/all
-python/transport/bindings/CMakeFiles/transport_python.dir/all: python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/all
 python/transport/bindings/CMakeFiles/transport_python.dir/all: python/transport/bindings/CMakeFiles/transport_docstrings.dir/all
 	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_python.dir/build.make python/transport/bindings/CMakeFiles/transport_python.dir/depend
 	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_python.dir/build.make python/transport/bindings/CMakeFiles/transport_python.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles --progress-num=6,7,8 "Built target transport_python"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles --progress-num=5,6,7 "Built target transport_python"
 .PHONY : python/transport/bindings/CMakeFiles/transport_python.dir/all
 
 # Build rule for subdir invocation for target.
 python/transport/bindings/CMakeFiles/transport_python.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/transport/bindings/CMakeFiles/transport_python.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles 0
 .PHONY : python/transport/bindings/CMakeFiles/transport_python.dir/rule
@@ -451,10 +415,9 @@ transport_python: python/transport/bindings/CMakeFiles/transport_python.dir/rule
 .PHONY : transport_python
 
 # codegen rule for target.
-python/transport/bindings/CMakeFiles/transport_python.dir/codegen: python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/all
 python/transport/bindings/CMakeFiles/transport_python.dir/codegen: python/transport/bindings/CMakeFiles/transport_docstrings.dir/all
 	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_python.dir/build.make python/transport/bindings/CMakeFiles/transport_python.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles --progress-num=6,7,8 "Finished codegen for target transport_python"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/CMakeFiles --progress-num=5,6,7 "Finished codegen for target transport_python"
 .PHONY : python/transport/bindings/CMakeFiles/transport_python.dir/codegen
 
 # clean rule for target.

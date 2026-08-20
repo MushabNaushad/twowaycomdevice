@@ -51,7 +51,6 @@
 /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/CMakeFiles/install.dir
 /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/CMakeFiles/install/local.dir
 /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/CMakeFiles/install/strip.dir
-/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir
 /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/CMakeFiles/transport_python.dir
 /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/CMakeFiles/transport_docstrings.dir
 /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/CMakeFiles/test.dir

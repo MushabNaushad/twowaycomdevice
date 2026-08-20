@@ -224,19 +224,6 @@ copy_module_for_tests/fast:
 .PHONY : copy_module_for_tests/fast
 
 #=============================================================================
-# Target rules for targets named transport_layer_python.cc_regen_bindings
-
-# Build rule for target.
-transport_layer_python.cc_regen_bindings: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 transport_layer_python.cc_regen_bindings
-.PHONY : transport_layer_python.cc_regen_bindings
-
-# fast build rule for target.
-transport_layer_python.cc_regen_bindings/fast:
-	$(MAKE) $(MAKESILENT) -f python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build.make python/transport/bindings/CMakeFiles/transport_layer_python.cc_regen_bindings.dir/build
-.PHONY : transport_layer_python.cc_regen_bindings/fast
-
-#=============================================================================
 # Target rules for targets named transport_python
 
 # Build rule for target.
@@ -278,7 +265,6 @@ help:
 	@echo "... copy_module_for_tests"
 	@echo "... pygen_python_transport_30ef9ce77cf0bec271dce4843b73d261"
 	@echo "... transport_docstrings"
-	@echo "... transport_layer_python.cc_regen_bindings"
 	@echo "... uninstall"
 	@echo "... gnuradio-transport"
 	@echo "... transport_python"
