@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classgr_1_1transport_1_1transport__layer" kind="class" language="C++" prot="public">
+    <compoundname>gr::transport::transport_layer</compoundname>
+    <basecompoundref prot="public" virt="virtual">gr::block</basecompoundref>
+    <basecompoundref prot="public" virt="virtual">gr::block</basecompoundref>
+    <derivedcompoundref refid="classgr_1_1transport_1_1transport__layer__impl" prot="public" virt="non-virtual">gr::transport::transport_layer_impl</derivedcompoundref>
+    <includes refid="gnuradio_2transport_2transport__layer_8h" local="no">transport_layer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classgr_1_1transport_1_1transport__layer" kindref="compound">transport_layer</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;transport_layer&gt; gr::transport::transport_layer::sptr</definition>
+        <argsstring></argsstring>
+        <name>sptr</name>
+        <qualifiedname>gr::transport::transport_layer::sptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/gnuradio/transport/transport_layer.h" line="51" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/gnuradio/transport/transport_layer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classgr_1_1transport_1_1transport__layer" kindref="compound">transport_layer</ref> &gt;</type>
+        <definition>typedef std::shared_ptr&lt;transport_layer&gt; gr::transport::transport_layer::sptr</definition>
+        <argsstring></argsstring>
+        <name>sptr</name>
+        <qualifiedname>gr::transport::transport_layer::sptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/transport/transport_layer.h" line="51" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/transport/transport_layer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer_1a3acbdcd95703f049c1c527ee2a025e86" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" kindref="member">sptr</ref></type>
+        <definition>static sptr gr::transport::transport_layer::make</definition>
+        <argsstring>(int m=4, int rto_ms=500, const std::string &amp;node_role=&quot;initiator&quot;, int mtu_bytes=200)</argsstring>
+        <name>make</name>
+        <qualifiedname>gr::transport::transport_layer::make</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>m</declname>
+          <defval>4</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rto_ms</declname>
+          <defval>500</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_role</declname>
+          <defval>&quot;initiator&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mtu_bytes</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classgr_1_1transport_1_1transport__layer" kindref="compound">transport_layer</ref> block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of sequence-number bits (1–8). Sequence space = 2^m, maximum window = 2^(m-1). Default: 4. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rto_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retransmission timeout in milliseconds. Default: 500. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Either &quot;initiator&quot; (sends data) or &quot;responder&quot; (receives data). Default: &quot;initiator&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mtu_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum payload bytes per DATA frame. Default: 200. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/gnuradio/transport/transport_layer.h" line="63" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer_1a3acbdcd95703f049c1c527ee2a025e86" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" kindref="member">sptr</ref></type>
+        <definition>static sptr gr::transport::transport_layer::make</definition>
+        <argsstring>(int m=4, int rto_ms=500, const std::string &amp;node_role=&quot;initiator&quot;, int mtu_bytes=200)</argsstring>
+        <name>make</name>
+        <qualifiedname>gr::transport::transport_layer::make</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>m</declname>
+          <defval>4</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rto_ms</declname>
+          <defval>500</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_role</declname>
+          <defval>&quot;initiator&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mtu_bytes</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classgr_1_1transport_1_1transport__layer" kindref="compound">transport_layer</ref> block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of sequence-number bits (1–8). Sequence space = 2^m, maximum window = 2^(m-1). Default: 4. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rto_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retransmission timeout in milliseconds. Default: 500. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Either &quot;initiator&quot; (sends data) or &quot;responder&quot; (receives data). Default: &quot;initiator&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mtu_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum payload bytes per DATA frame. Default: 200. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/transport/transport_layer.h" line="63" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Connection-oriented Selective-Repeat ARQ transport layer block. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <bold>pure message-passing</bold> GNU Radio block (no stream I/O). It implements a full connection-oriented transport protocol over a half-duplex PDU link with:</para>
+<para><itemizedlist>
+<listitem><para>Three-phase operation: SYN/SYN-ACK handshake → SR-ARQ sliding window data transfer → FIN/FIN-ACK teardown.</para>
+</listitem><listitem><para>Selective-Repeat windowing with sequence number space 2^m and maximum window size 2^(m-1) (SR constraint satisfied by design).</para>
+</listitem><listitem><para>Per-packet retransmission timers via Boost.Asio on a dedicated background thread (non-blocking, flowgraph-safe).</para>
+</listitem><listitem><para>Application bitstream header parsing (see docs/APP_BITSTREAM_FORMAT.md) to auto-detect payload type (text / image / audio).</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="classgr_1_1transport_1_1transport__layer_1autotoc_md0_1s1"><sect2 id="classgr_1_1transport_1_1transport__layer_1autotoc_md0">
+<title>Message Ports</title><para>Inputs:<itemizedlist>
+<listitem><para>pdu_in (message) : PDUs arriving from the physical / MAC layer.</para>
+</listitem><listitem><para>app_in (message) : Raw application bitstream PDU from the local app. [initiator role only]</para>
+</listitem></itemizedlist>
+</para>
+<para>Outputs:<itemizedlist>
+<listitem><para>pdu_out (message) : PDUs to be sent to the physical / MAC layer.</para>
+</listitem><listitem><para>app_out (message) : Reassembled application bitstream delivered to the local application. [responder role only]</para>
+</listitem></itemizedlist>
+</para>
+<para>This is a <bold>pure message-passing</bold> GNU Radio block (no stream I/O). It implements a full connection-oriented transport protocol over a half-duplex PDU link with:</para>
+<para><itemizedlist>
+<listitem><para>Three-phase operation: SYN/SYN-ACK handshake → SR-ARQ sliding window data transfer → FIN/FIN-ACK teardown.</para>
+</listitem><listitem><para>Selective-Repeat windowing with sequence number space 2^m and maximum window size 2^(m-1) (SR constraint satisfied by design).</para>
+</listitem><listitem><para>Per-packet retransmission timers via Boost.Asio on a dedicated background thread (non-blocking, flowgraph-safe).</para>
+</listitem><listitem><para>Application bitstream header parsing (see docs/APP_BITSTREAM_FORMAT.md) to auto-detect payload type (text / image / audio).</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classgr_1_1transport_1_1transport__layer_1autotoc_md1_1s1"><sect2 id="classgr_1_1transport_1_1transport__layer_1autotoc_md1">
+<title>Message Ports</title><para>Inputs:<itemizedlist>
+<listitem><para>pdu_in (message) : PDUs arriving from the physical / MAC layer.</para>
+</listitem><listitem><para>app_in (message) : Raw application bitstream PDU from the local app. [initiator role only]</para>
+</listitem></itemizedlist>
+</para>
+<para>Outputs:<itemizedlist>
+<listitem><para>pdu_out (message) : PDUs to be sent to the physical / MAC layer.</para>
+</listitem><listitem><para>app_out (message) : Reassembled application bitstream delivered to the local application. [responder role only] </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>gr::block</label>
+      </node>
+      <node id="1">
+        <label>gr::transport::transport_layer</label>
+        <link refid="classgr_1_1transport_1_1transport__layer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>gr::transport::transport_layer_impl</label>
+        <link refid="classgr_1_1transport_1_1transport__layer__impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>gr::block</label>
+      </node>
+      <node id="1">
+        <label>gr::transport::transport_layer</label>
+        <link refid="classgr_1_1transport_1_1transport__layer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/gnuradio/transport/transport_layer.h" line="48" column="5" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/gnuradio/transport/transport_layer.h" bodystart="49" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a3acbdcd95703f049c1c527ee2a025e86" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer</scope><name>make</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a3acbdcd95703f049c1c527ee2a025e86" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer</scope><name>make</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer</scope><name>sptr</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer</scope><name>sptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
