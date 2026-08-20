@@ -33,60 +33,56 @@ options:
     state: enabled
 
 blocks:
-- name: transport_transport_layer_0
-  id: transport_transport_layer
+- name: blocks_message_debug_0
+  id: blocks_message_debug
   parameters:
-    m: '4'
-    rto_ms: '500'
-    node_role: '"initiator"'
-    mtu_bytes: '200'
-    local_addr: '1'
-    local_port: '1'
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
   states:
-    coordinate: [300, 200]
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [900, 200]
     rotation: 0
     state: enabled
-
-- name: transport_transport_layer_1
-  id: transport_transport_layer
-  parameters:
-    m: '4'
-    rto_ms: '500'
-    node_role: '"responder"'
-    mtu_bytes: '200'
-    local_addr: '2'
-    local_port: '1'
-  states:
-    coordinate: [600, 200]
-    rotation: 0
-    state: enabled
-
 - name: blocks_message_strobe_0
   id: blocks_message_strobe
   parameters:
     msg: pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Strobe"]))
     period: '2000'
   states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
     coordinate: [50, 220]
     rotation: 0
     state: enabled
-
-- name: blocks_message_debug_0
-  id: blocks_message_debug
+- name: blocks_null_sink_0
+  id: blocks_null_sink
   parameters:
-    en_uvec: 'True'
-    log_level: 'info'
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: complex
+    vlen: '1'
   states:
-    coordinate: [900, 200]
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 400]
     rotation: 0
     state: enabled
-
 - name: blocks_null_source_0
   id: blocks_null_source
   parameters:
-    bus_structure_source: '[[0,],]'
     affinity: ''
     alias: ''
+    bus_structure_source: '[[0,],]'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -100,7 +96,6 @@ blocks:
     coordinate: [24, 400]
     rotation: 0
     state: enabled
-
 - name: blocks_throttle2_0
   id: blocks_throttle2
   parameters:
@@ -122,34 +117,54 @@ blocks:
     coordinate: [200, 400]
     rotation: 0
     state: enabled
-
-- name: blocks_null_sink_0
-  id: blocks_null_sink
+- name: transport_transport_layer_0
+  id: transport_transport_layer
   parameters:
     affinity: ''
     alias: ''
-    bus_structure_sink: '[[0,],]'
     comment: ''
-    num_inputs: '1'
-    type: complex
-    vlen: '1'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '500'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 400]
+    coordinate: [320, 192.0]
+    rotation: 0
+    state: enabled
+- name: transport_transport_layer_1
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [592, 208.0]
     rotation: 0
     state: enabled
 
 connections:
 - [blocks_message_strobe_0, strobe, transport_transport_layer_0, app_in]
-- [transport_transport_layer_0, pdu_out, transport_transport_layer_1, pdu_in]
-- [transport_transport_layer_1, pdu_out, transport_transport_layer_0, pdu_in]
-- [transport_transport_layer_1, app_out, blocks_message_debug_0, print_pdu]
-- [transport_transport_layer_0, app_out, blocks_message_debug_0, print_pdu]
 - [blocks_null_source_0, '0', blocks_throttle2_0, '0']
 - [blocks_throttle2_0, '0', blocks_null_sink_0, '0']
+- [transport_transport_layer_0, app_out, blocks_message_debug_0, print_pdu]
+- [transport_transport_layer_0, pdu_out, transport_transport_layer_1, pdu_in]
+- [transport_transport_layer_1, app_out, blocks_message_debug_0, print_pdu]
+- [transport_transport_layer_1, pdu_out, transport_transport_layer_0, pdu_in]
 
 metadata:
   file_format: 1
-  grc_version: 3.10.9.2
+  grc_version: 3.10.12.0

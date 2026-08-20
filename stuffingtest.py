@@ -76,7 +76,6 @@ class stuffingtest(gr.top_block, Qt.QWidget):
         self.pdu_tagged_stream_to_pdu_0 = pdu.tagged_stream_to_pdu(gr.types.byte_t, 'packet_len')
         self.pdu_random_pdu_0 = pdu.random_pdu(1, 2, 0xFF, 1)
         self.pdu_pdu_to_tagged_stream_1 = pdu.pdu_to_tagged_stream(gr.types.byte_t, 'packet_len')
-        self.pdu_pdu_to_tagged_stream_0 = pdu.pdu_to_tagged_stream(gr.types.byte_t, 'packet_len')
         self.blocks_vector_source_x_0 = blocks.vector_source_b((1,0,1,1,0,1,0,1,1,1,1,1,1,0,1,1,0), False, 1, [])
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_char*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
         self.blocks_stream_to_tagged_stream_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, 17, "packet_len")
@@ -100,7 +99,7 @@ class stuffingtest(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.DLC_CRCCheck_0, 'out'), (self.pdu_pdu_to_tagged_stream_1, 'pdus'))
         self.msg_connect((self.DLC_CRCGen_0, 'out'), (self.DLC_bitStuffing_0, 'in'))
-        self.msg_connect((self.DLC_addFlags_0, 'out'), (self.pdu_pdu_to_tagged_stream_0, 'pdus'))
+        self.msg_connect((self.DLC_addFlags_0, 'out'), (self.DLC_removeFlags_0, 'pdu_in'))
         self.msg_connect((self.DLC_bitStuffing_0, 'out'), (self.DLC_addFlags_0, 'in'))
         self.msg_connect((self.DLC_deStuffing_0, 'out'), (self.DLC_CRCCheck_0, 'in'))
         self.msg_connect((self.DLC_deStuffing_0, 'out'), (self.blocks_message_debug_0_0, 'print'))
@@ -112,7 +111,6 @@ class stuffingtest(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_stream_to_tagged_stream_0, 0), (self.pdu_tagged_stream_to_pdu_0, 0))
         self.connect((self.blocks_throttle2_0, 0), (self.blocks_stream_to_tagged_stream_0, 0))
         self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_throttle2_0, 0))
-        self.connect((self.pdu_pdu_to_tagged_stream_0, 0), (self.DLC_removeFlags_0, 0))
         self.connect((self.pdu_pdu_to_tagged_stream_1, 0), (self.blocks_repack_bits_bb_0, 0))
 
 

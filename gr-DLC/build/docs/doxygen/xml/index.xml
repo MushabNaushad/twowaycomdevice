@@ -64,10 +64,9 @@
     <member refid="classgr_1_1DLC_1_1removeFlags__impl_1abee047e7baea4fcb49e0adfe685e256e" kind="variable"><name>d_shift_reg</name></member>
     <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a28fda82ea89f06cc2e3d2a9c93c13349" kind="variable"><name>d_in_frame</name></member>
     <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a98036c0585fd0ae2825f1d6e47f2c461" kind="variable"><name>d_pdu_buffer</name></member>
+    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a19d9e49d379b41ff5da983d3cf81e8c9" kind="function"><name>handle_msg</name></member>
     <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a768b343414c9dccfdc410f87c6f0dcc3" kind="function"><name>removeFlags_impl</name></member>
     <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a961867b568e518faccd48846d502c496" kind="function"><name>~removeFlags_impl</name></member>
-    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a8e4d1d9f8ede438a3b4d7977b437f82c" kind="function"><name>forecast</name></member>
-    <member refid="classgr_1_1DLC_1_1removeFlags__impl_1a21456f4a0ccba7bda71c54c41540df16" kind="function"><name>general_work</name></member>
   </compound>
   <compound refid="namespacegr" kind="namespace"><name>gr</name>
   </compound>

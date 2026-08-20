@@ -24,15 +24,15 @@ removeFlags::sptr removeFlags::make(uint8_t flag)
  */
 removeFlags_impl::removeFlags_impl(uint8_t flag)
     : gr::block("removeFlags",
-                gr::io_signature::make(
-                    1 /* min inputs */, 1 /* max inputs */, sizeof(input_type)),
-                gr::io_signature::make(
-                    0 /* min outputs */, 0 /*max outputs */, 0)),
+                gr::io_signature::make(0, 0, 0),
+                gr::io_signature::make(0, 0, 0)),
       d_flag(flag),          // CRITICAL: Assign the parameter to the state variable
       d_shift_reg(0),        // Initialize the shift register to zero
       d_in_frame(false)      // Start safely outside of a frame
 {
+    message_port_register_in(pmt::mp("pdu_in"));
     message_port_register_out(pmt::mp("pdu_out"));
+    set_msg_handler(pmt::mp("pdu_in"), [this](pmt::pmt_t msg) { this->handle_msg(msg); });
 }
 
 /*
@@ -40,22 +40,18 @@ removeFlags_impl::removeFlags_impl(uint8_t flag)
  */
 removeFlags_impl::~removeFlags_impl() {}
 
-void removeFlags_impl::forecast(int noutput_items, gr_vector_int& ninput_items_required)
+void removeFlags_impl::handle_msg(pmt::pmt_t msg)
 {
-    // Tell the scheduler we need at least 1 input byte to do any work
-    ninput_items_required[0] = 1;
-}
+    if (!pmt::is_pair(msg)) return;
+    pmt::pmt_t meta = pmt::car(msg);
+    pmt::pmt_t v = pmt::cdr(msg);
+    if (!pmt::is_u8vector(v)) return;
 
-int removeFlags_impl::general_work(int noutput_items,
-                                   gr_vector_int& ninput_items,
-                                   gr_vector_const_void_star& input_items,
-                                   gr_vector_void_star& output_items)
-{
-    auto in = static_cast<const uint8_t*>(input_items[0]);
-    int n_input = ninput_items[0];
+    size_t len;
+    const uint8_t *in = pmt::u8vector_elements(v, len);
 
     // 1. Iterate through each packed byte in the input chunk
-    for (int i = 0; i < n_input; i++) {
+    for (size_t i = 0; i < len; i++) {
         uint8_t current_byte = in[i];
         
         // 2. Extract each bit (Assuming MSB-first)
@@ -84,11 +80,11 @@ int removeFlags_impl::general_work(int noutput_items,
 
                     // --- PUBLISH UNPACKED PDU ---
                     if (!d_pdu_buffer.empty()) {
-                        pmt::pmt_t meta = pmt::make_dict();
+                        pmt::pmt_t new_meta = pmt::make_dict();
                         
                         // d_pdu_buffer already holds unpacked bits, so we just pass it directly
                         pmt::pmt_t pdu_vector = pmt::init_u8vector(d_pdu_buffer.size(), d_pdu_buffer.data());
-                        pmt::pmt_t pdu = pmt::cons(meta, pdu_vector);
+                        pmt::pmt_t pdu = pmt::cons(new_meta, pdu_vector);
                         
                         message_port_pub(pmt::mp("pdu_out"), pdu);
                     }
@@ -100,10 +96,6 @@ int removeFlags_impl::general_work(int noutput_items,
             }
         }
     }
-
-    // Tell runtime we consumed all input bytes
-    consume_each(n_input);
-    return 0;
 }
 
 } /* namespace DLC */
