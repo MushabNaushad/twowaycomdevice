@@ -81,7 +81,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 433.98e6
+    value: 443e6
   states:
     bus_sink: false
     bus_source: false
@@ -226,7 +226,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '100'
+    value: '300'
   states:
     bus_sink: false
     bus_source: false
@@ -426,7 +426,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    max: '2'
+    max: '256'
     maxoutbuf: '0'
     min: '0'
     minoutbuf: '0'
@@ -439,7 +439,7 @@ blocks:
     bus_structure: null
     coordinate: [264, 1820.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_char_to_float_0
   id: blocks_char_to_float
   parameters:
@@ -948,7 +948,7 @@ blocks:
     bus_structure: null
     coordinate: [224, 1712.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: channels_channel_model_0
   id: channels_channel_model
   parameters:
