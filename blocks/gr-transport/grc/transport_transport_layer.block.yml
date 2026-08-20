@@ -4,7 +4,7 @@ category: '[transport]'
 
 templates:
   imports: from gnuradio import transport
-  make: transport.transport_layer(${m}, ${rto_ms}, ${node_role}, ${mtu_bytes})
+  make: transport.transport_layer(${m}, ${rto_ms}, ${node_role}, ${mtu_bytes}, ${local_addr}, ${local_port})
 
 parameters:
 - id: m
@@ -33,6 +33,18 @@ parameters:
   label: MTU (bytes per DATA frame)
   dtype: int
   default: 200
+
+- id: local_addr
+  label: Local Address
+  dtype: int
+  default: 0
+  hide: none
+
+- id: local_port
+  label: Local Port
+  dtype: int
+  default: 0
+  hide: none
 
 inputs:
 - label: pdu_in

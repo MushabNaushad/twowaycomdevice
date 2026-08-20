@@ -64,12 +64,12 @@ class test_transport(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self.transport_transport_layer_1 = transport.transport_layer(4, 500, "responder", 200)
-        self.transport_transport_layer_0 = transport.transport_layer(4, 500, "initiator", 200)
+        self.transport_transport_layer_1 = transport.transport_layer(4, 500, "responder", 200, 2, 1)
+        self.transport_transport_layer_0 = transport.transport_layer(4, 500, "initiator", 200, 1, 1)
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_gr_complex*1, 1000, True, 0 if "auto" == "auto" else max( int(float(0.1) * 1000) if "auto" == "time" else int(0.1), 1) )
         self.blocks_null_source_0 = blocks.null_source(gr.sizeof_gr_complex*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [171, 205, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Strobe"])), 2000)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Strobe"])), 2000)
         self.blocks_message_debug_0 = blocks.message_debug(True, gr.log_levels.info)
 
 
