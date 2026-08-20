@@ -15,7 +15,8 @@
  *
  * Application bitstream format (app_in / app_out):
  *   See docs/APP_BITSTREAM_FORMAT.md for the full specification.
- *   Byte 0-1 : Magic (0xAB 0xCD)
+ *   Byte 0   : dst_addr — destination node address (0x00 = broadcast)
+ *   Byte 1   : dst_port — destination service port  (0x00 = any)
  *   Byte 2   : Data type (0x01=text, 0x02=image, 0x03=audio)
  *   Byte 3   : Reserved (0x00)
  *   Byte 4-7 : Payload length, uint32 big-endian
@@ -27,6 +28,10 @@
  *   "session_id"    — uint64: random session nonce
  *   "total_packets" — uint64: total DATA frames (carried in SYN)
  *   "payload_type"  — symbol: "text" | "image" | "audio" (carried in SYN/DATA)
+ *   "src_addr"      — uint64: sender's node address (0x00 = broadcast/any)
+ *   "src_port"      — uint64: sender's service port  (0x00 = any)
+ *   "dst_addr"      — uint64: destination node address (0x00 = broadcast)
+ *   "dst_port"      — uint64: destination service port  (0x00 = any)
  *
  * Threading model
  * ---------------
@@ -55,10 +60,11 @@ namespace gr {
     // =========================================================================
     transport_layer::sptr
     transport_layer::make(int m, int rto_ms,
-                          const std::string& node_role, int mtu_bytes)
+                          const std::string& node_role, int mtu_bytes,
+                          uint8_t local_addr, uint8_t local_port)
     {
       return gnuradio::make_block_sptr<transport_layer_impl>(
-          m, rto_ms, node_role, mtu_bytes);
+          m, rto_ms, node_role, mtu_bytes, local_addr, local_port);
     }
 
     // =========================================================================
@@ -66,7 +72,9 @@ namespace gr {
     // =========================================================================
     transport_layer_impl::transport_layer_impl(int m, int rto_ms,
                                                const std::string& node_role,
-                                               int mtu_bytes)
+                                               int mtu_bytes,
+                                               uint8_t local_addr,
+                                               uint8_t local_port)
       : gr::block("transport_layer",
                   gr::io_signature::make(0, 0, 0),   // pure message-passing block
                   gr::io_signature::make(0, 0, 0)),
@@ -76,8 +84,12 @@ namespace gr {
         d_mtu_bytes(mtu_bytes),
         d_rto_ms(rto_ms),
         d_role(node_role),
+        d_local_addr(local_addr),
+        d_local_port(local_port),
         d_state(NodeState::IDLE),
         d_session_id(0),
+        d_dst_addr(0),
+        d_dst_port(0),
         d_payload_type_pmt(pmt::PMT_NIL),
         d_send_base(0),
         d_next_seq_abs(0),
@@ -130,6 +142,8 @@ namespace gr {
 
       GR_LOG_INFO(d_logger,
           std::string("transport_layer ready: role=") + node_role +
+          " addr="       + std::to_string(static_cast<unsigned>(local_addr)) +
+          " port="       + std::to_string(static_cast<unsigned>(local_port)) +
           " m="          + std::to_string(m) +
           " seq_space="  + std::to_string(d_seq_space) +
           " window="     + std::to_string(d_window_size) +
@@ -191,10 +205,10 @@ namespace gr {
                        + std::to_string(frame_len) + " bytes)");
           return;
       }
-      if (frame[0] != APP_MAGIC_0 || frame[1] != APP_MAGIC_1) {
-          GR_LOG_ERROR(d_logger, "app_in: invalid magic bytes - expected 0xAB 0xCD, got " + std::to_string(frame[0]) + " " + std::to_string(frame[1]));
-          return;
-      }
+      // Read destination address and port from app bitstream bytes 0–1
+      // (replaces the former magic-byte slot; lower layers handle framing)
+      d_dst_addr = frame[0];
+      d_dst_port = frame[1];
 
       // Determine payload type string from type byte
       uint8_t type_byte = frame[2];
@@ -234,10 +248,12 @@ namespace gr {
       d_session_id = generate_session_id();
 
       GR_LOG_INFO(d_logger,
-          "app_in: type=" + pt_str +
-          " frame=" + std::to_string(frame_len) + "B" +
-          " packets=" + std::to_string(d_total_packets_tx) +
-          " session=" + std::to_string(d_session_id));
+          "app_in: dst=" + std::to_string(static_cast<unsigned>(d_dst_addr)) +
+          ":"            + std::to_string(static_cast<unsigned>(d_dst_port)) +
+          " type="       + pt_str +
+          " frame="      + std::to_string(frame_len) + "B" +
+          " packets="    + std::to_string(d_total_packets_tx) +
+          " session="    + std::to_string(d_session_id));
 
       // Transition → SYN_SENT and send SYN handshake frame
       d_state = NodeState::SYN_SENT;
@@ -325,6 +341,46 @@ namespace gr {
           pt_str = pmt::symbol_to_string(
               pmt::dict_ref(meta, pmt::mp("payload_type"), pmt::mp("unknown")));
 
+      // --- Address / port filter ----------------------------------------
+      // Extract addressing fields from the incoming SYN metadata.
+      uint8_t syn_dst_addr = 0x00, syn_dst_port = 0x00;
+      uint8_t syn_src_addr = 0x00, syn_src_port = 0x00;
+      if (pmt::dict_has_key(meta, pmt::mp("dst_addr")))
+          syn_dst_addr = static_cast<uint8_t>(pmt::to_uint64(
+              pmt::dict_ref(meta, pmt::mp("dst_addr"), pmt::from_uint64(0))));
+      if (pmt::dict_has_key(meta, pmt::mp("dst_port")))
+          syn_dst_port = static_cast<uint8_t>(pmt::to_uint64(
+              pmt::dict_ref(meta, pmt::mp("dst_port"), pmt::from_uint64(0))));
+      if (pmt::dict_has_key(meta, pmt::mp("src_addr")))
+          syn_src_addr = static_cast<uint8_t>(pmt::to_uint64(
+              pmt::dict_ref(meta, pmt::mp("src_addr"), pmt::from_uint64(0))));
+      if (pmt::dict_has_key(meta, pmt::mp("src_port")))
+          syn_src_port = static_cast<uint8_t>(pmt::to_uint64(
+              pmt::dict_ref(meta, pmt::mp("src_port"), pmt::from_uint64(0))));
+
+      // Accept: dst matches local addr/port, OR either side uses wildcard 0x00
+      bool addr_match = (d_local_addr == APP_ADDR_BCAST) ||
+                        (syn_dst_addr == APP_ADDR_BCAST)  ||
+                        (syn_dst_addr == d_local_addr);
+      bool port_match = (d_local_port == APP_PORT_ANY)   ||
+                        (syn_dst_port == APP_PORT_ANY)    ||
+                        (syn_dst_port == d_local_port);
+
+      if (!addr_match || !port_match) {
+          GR_LOG_DEBUG(d_logger,
+              "IDLE: SYN not for us — dst=" +
+              std::to_string(static_cast<unsigned>(syn_dst_addr)) + ":" +
+              std::to_string(static_cast<unsigned>(syn_dst_port)) +
+              " local=" +
+              std::to_string(static_cast<unsigned>(d_local_addr)) + ":" +
+              std::to_string(static_cast<unsigned>(d_local_port)) + " — dropping");
+          return;
+      }
+
+      // Record the peer's address so reply frames are addressed back correctly
+      d_dst_addr = syn_src_addr;
+      d_dst_port = syn_src_port;
+
       // Initialise RX-side session state
       d_session_id        = sid;
       d_total_packets_rx  = total_pkts;
@@ -336,7 +392,10 @@ namespace gr {
       d_rx_buffer.assign(d_seq_space, pmt::PMT_NIL);
 
       GR_LOG_INFO(d_logger,
-          "IDLE→SYN_RCVD: SYN received — type=" + pt_str +
+          "IDLE→SYN_RCVD: SYN received from " +
+          std::to_string(static_cast<unsigned>(d_dst_addr)) + ":" +
+          std::to_string(static_cast<unsigned>(d_dst_port)) +
+          " — type=" + pt_str +
           " total_pkts=" + std::to_string(total_pkts) +
           " session="    + std::to_string(sid));
 
@@ -547,6 +606,15 @@ namespace gr {
                                    d_payload_type_pmt);
           out_meta = pmt::dict_add(out_meta, pmt::mp("session_id"),
                                    pmt::from_uint64(d_session_id));
+          // Addressing: from the responder's perspective src = peer (initiator)
+          out_meta = pmt::dict_add(out_meta, pmt::mp("src_addr"),
+                                   pmt::from_uint64(static_cast<uint64_t>(d_dst_addr)));
+          out_meta = pmt::dict_add(out_meta, pmt::mp("src_port"),
+                                   pmt::from_uint64(static_cast<uint64_t>(d_dst_port)));
+          out_meta = pmt::dict_add(out_meta, pmt::mp("dst_addr"),
+                                   pmt::from_uint64(static_cast<uint64_t>(d_local_addr)));
+          out_meta = pmt::dict_add(out_meta, pmt::mp("dst_port"),
+                                   pmt::from_uint64(static_cast<uint64_t>(d_local_port)));
           pmt::pmt_t out_data = pmt::init_u8vector(
               d_reassembled_data.size(), d_reassembled_data.data());
           message_port_pub(pmt::mp("app_out"), pmt::cons(out_meta, out_data));
@@ -663,6 +731,15 @@ namespace gr {
       if (!payload_type_str.empty())
           meta = pmt::dict_add(meta, pmt::mp("payload_type"),
                                pmt::mp(payload_type_str));
+      // Addressing fields — present on every outgoing PDU
+      meta = pmt::dict_add(meta, pmt::mp("src_addr"),
+                           pmt::from_uint64(static_cast<uint64_t>(d_local_addr)));
+      meta = pmt::dict_add(meta, pmt::mp("src_port"),
+                           pmt::from_uint64(static_cast<uint64_t>(d_local_port)));
+      meta = pmt::dict_add(meta, pmt::mp("dst_addr"),
+                           pmt::from_uint64(static_cast<uint64_t>(d_dst_addr)));
+      meta = pmt::dict_add(meta, pmt::mp("dst_port"),
+                           pmt::from_uint64(static_cast<uint64_t>(d_dst_port)));
       return meta;
     }
 
@@ -712,6 +789,8 @@ namespace gr {
       // Reset FSM
       d_state             = NodeState::IDLE;
       d_session_id        = 0;
+      d_dst_addr          = 0;
+      d_dst_port          = 0;
       d_payload_type_pmt  = pmt::PMT_NIL;
       // TX side
       d_send_base         = 0;

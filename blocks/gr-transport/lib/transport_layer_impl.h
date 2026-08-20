@@ -41,8 +41,9 @@ namespace gr {
     // -----------------------------------------------------------------------
     // Application bitstream header constants (see docs/APP_BITSTREAM_FORMAT.md)
     // -----------------------------------------------------------------------
-    static constexpr uint8_t  APP_MAGIC_0    = 0xAB;
-    static constexpr uint8_t  APP_MAGIC_1    = 0xCD;
+    // Addressing wildcard values (used in address / port filter)
+    static constexpr uint8_t  APP_ADDR_BCAST = 0x00;  ///< Accepted by any node (broadcast)
+    static constexpr uint8_t  APP_PORT_ANY   = 0x00;  ///< Accepted on any service port
     static constexpr uint8_t  APP_TYPE_TEXT  = 0x01;
     static constexpr uint8_t  APP_TYPE_IMAGE = 0x02;
     static constexpr uint8_t  APP_TYPE_AUDIO = 0x03;
@@ -61,13 +62,17 @@ namespace gr {
       const int d_mtu_bytes;      ///< Max DATA payload bytes per packet
       const int d_rto_ms;         ///< Retransmission timeout (ms)
       const std::string d_role;   ///< "initiator" or "responder"
+      const uint8_t d_local_addr;  ///< This node's address (0x00 = promiscuous/broadcast)
+      const uint8_t d_local_port;  ///< This node's service port (0x00 = any)
 
       // --- FSM state (protected by d_mutex) ------------------------------
       NodeState d_state;
 
       // --- Session metadata ----------------------------------------------
-      uint64_t    d_session_id;       ///< Random nonce agreed during handshake
-      pmt::pmt_t  d_payload_type_pmt; ///< PMT symbol: "text", "image", "audio"
+      uint64_t    d_session_id;         ///< Random nonce agreed during handshake
+      uint8_t     d_dst_addr;           ///< Destination address for the current session
+      uint8_t     d_dst_port;           ///< Destination port for the current session
+      pmt::pmt_t  d_payload_type_pmt;   ///< PMT symbol: "text", "image", "audio"
 
       // --- TX sliding window state (initiator) ---------------------------
       int d_send_base;           ///< Absolute index of oldest unACK'd packet
@@ -180,7 +185,9 @@ namespace gr {
       transport_layer_impl(int m,
                            int rto_ms,
                            const std::string& node_role,
-                           int mtu_bytes);
+                           int mtu_bytes,
+                           uint8_t local_addr = 0x00,
+                           uint8_t local_port = 0x00);
       ~transport_layer_impl();
     };
 
