@@ -1,0 +1,342 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: Transport layer addressing test with simulated packet loss channel
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: test_addressing
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Transport Layer Addressing + Packet Loss Test
+    window_size: (1200,800)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: drop_fwd
+  id: variable_qtgui_range
+  parameters:
+    comment: Forward channel (initiator->responder) drop probability
+    gui_hint: 0,0,1,1
+    label: '"Fwd Drop Prob"'
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.05'
+    stop: '1'
+    value: '0.2'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 8]
+    rotation: 0
+    state: enabled
+- name: drop_rev
+  id: variable_qtgui_range
+  parameters:
+    comment: Reverse channel (responder->initiator) drop probability
+    gui_hint: 0,1,1,1
+    label: '"Rev Drop Prob"'
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.05'
+    stop: '1'
+    value: '0.1'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 8]
+    rotation: 0
+    state: enabled
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 560]
+    rotation: 0
+    state: enabled
+- name: blocks_null_source_0
+  id: blocks_null_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_source: '[[0,],]'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 560]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: '1000'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 560]
+    rotation: 0
+    state: enabled
+- name: channel_fwd
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt, random\n\
+      \nclass blk(gr.basic_block):\n    \"\"\"Lossy PDU channel \u2014 drops each\
+      \ PDU with probability p_drop.\n    p_drop is read live from the module-level\
+      \ variable so a QT Range\n    slider can update it at runtime.\"\"\"\n\n   \
+      \ def __init__(self, p_drop=0.2):\n        gr.basic_block.__init__(\n      \
+      \      self,\n            name='Lossy Channel',\n            in_sig=None,\n\
+      \            out_sig=None\n        )\n        self.p_drop = p_drop\n       \
+      \ self.message_port_register_in(pmt.intern('pdu_in'))\n        self.message_port_register_out(pmt.intern('pdu_out'))\n\
+      \        self.set_msg_handler(pmt.intern('pdu_in'), self.handle_msg)\n\n   \
+      \ def set_p_drop(self, p):\n        self.p_drop = p\n\n    def handle_msg(self,\
+      \ msg):\n        if random.random() >= self.p_drop:\n            self.message_port_pub(pmt.intern('pdu_out'),\
+      \ msg)\n        # else: packet is silently dropped\n"
+    affinity: ''
+    alias: ''
+    comment: "Forward lossy channel \u2014 drop_fwd slider controls loss rate"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_fwd
+  states:
+    _io_cache: "('Lossy Channel', 'blk', [('p_drop', '0.2')], [('pdu_in', 'message',\
+      \ 1)], [('pdu_out', 'message', 1)], 'Lossy PDU channel \u2014 drops each PDU\
+      \ with probability p_drop.\\np_drop is read live from the module-level variable\
+      \ so a QT Range\\nslider can update it at runtime.', ['p_drop'])"
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 220]
+    rotation: 0
+    state: enabled
+- name: channel_rev
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt, random\n\
+      \nclass blk(gr.basic_block):\n    \"\"\"Lossy PDU channel \u2014 drops each\
+      \ PDU with probability p_drop.\n    p_drop is read live from the module-level\
+      \ variable so a QT Range\n    slider can update it at runtime.\"\"\"\n\n   \
+      \ def __init__(self, p_drop=0.1):\n        gr.basic_block.__init__(\n      \
+      \      self,\n            name='Lossy Channel Rev',\n            in_sig=None,\n\
+      \            out_sig=None\n        )\n        self.p_drop = p_drop\n       \
+      \ self.message_port_register_in(pmt.intern('pdu_in'))\n        self.message_port_register_out(pmt.intern('pdu_out'))\n\
+      \        self.set_msg_handler(pmt.intern('pdu_in'), self.handle_msg)\n\n   \
+      \ def set_p_drop(self, p):\n        self.p_drop = p\n\n    def handle_msg(self,\
+      \ msg):\n        if random.random() >= self.p_drop:\n            self.message_port_pub(pmt.intern('pdu_out'),\
+      \ msg)\n"
+    affinity: ''
+    alias: ''
+    comment: "Reverse lossy channel \u2014 drop_rev slider controls loss rate"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_rev
+  states:
+    _io_cache: "('Lossy Channel Rev', 'blk', [('p_drop', '0.1')], [('pdu_in', 'message',\
+      \ 1)], [('pdu_out', 'message', 1)], 'Lossy PDU channel \u2014 drops each PDU\
+      \ with probability p_drop.\\np_drop is read live from the module-level variable\
+      \ so a QT Range\\nslider can update it at runtime.', ['p_drop'])"
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 432.0]
+    rotation: 0
+    state: enabled
+- name: debug_decoy
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "app_out from DECOY (addr=3) \u2014 should stay SILENT (addressing filter)"
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 420]
+    rotation: 0
+    state: enabled
+- name: debug_initiator
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "app_out from INITIATOR \u2014 unused in this scenario"
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [100, 420]
+    rotation: 0
+    state: enabled
+- name: debug_responder
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "app_out from RESPONDER (addr=2) \u2014 should receive payload"
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1000, 250]
+    rotation: 0
+    state: enabled
+- name: msg_strobe
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Sends to dst_addr=2 dst_port=1 every 4s
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17]
+      + [ord(c) for c in "Hello from Node1"]))
+    period: '4000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 152.0]
+    rotation: 0
+    state: enabled
+- name: transport_decoy
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    local_addr: '3'
+    local_port: '1'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600, 544.0]
+    rotation: 0
+    state: enabled
+- name: transport_initiator
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    local_addr: '1'
+    local_port: '1'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [100, 250]
+    rotation: 0
+    state: enabled
+- name: transport_responder
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    local_addr: '2'
+    local_port: '1'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [700, 250]
+    rotation: 0
+    state: enabled
+
+connections:
+- [blocks_null_source_0, '0', blocks_throttle2_0, '0']
+- [blocks_throttle2_0, '0', blocks_null_sink_0, '0']
+- [channel_fwd, pdu_out, transport_decoy, pdu_in]
+- [channel_fwd, pdu_out, transport_responder, pdu_in]
+- [channel_rev, pdu_out, transport_initiator, pdu_in]
+- [msg_strobe, strobe, transport_initiator, app_in]
+- [transport_decoy, app_out, debug_decoy, print_pdu]
+- [transport_decoy, pdu_out, channel_rev, pdu_in]
+- [transport_initiator, app_out, debug_initiator, print_pdu]
+- [transport_initiator, pdu_out, channel_fwd, pdu_in]
+- [transport_responder, app_out, debug_responder, print_pdu]
+- [transport_responder, pdu_out, channel_rev, pdu_in]
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

@@ -42,8 +42,11 @@ namespace gr {
     // Application bitstream header constants (see docs/APP_BITSTREAM_FORMAT.md)
     // -----------------------------------------------------------------------
     // Addressing wildcard values (used in address / port filter)
-    static constexpr uint8_t  APP_ADDR_BCAST = 0x00;  ///< Accepted by any node (broadcast)
-    static constexpr uint8_t  APP_PORT_ANY   = 0x00;  ///< Accepted on any service port
+    static constexpr uint8_t  APP_ADDR_BCAST    = 0x00;  ///< Accepted by any node (broadcast)
+    static constexpr uint8_t  APP_PORT_ANY       = 0x00;  ///< Accepted on any service port
+
+    // Maximum SYN / FIN retransmit attempts before the session is abandoned
+    static constexpr int      MAX_CTRL_RETRIES   = 10;
     static constexpr uint8_t  APP_TYPE_TEXT  = 0x01;
     static constexpr uint8_t  APP_TYPE_IMAGE = 0x02;
     static constexpr uint8_t  APP_TYPE_AUDIO = 0x03;
@@ -72,6 +75,7 @@ namespace gr {
       uint64_t    d_session_id;         ///< Random nonce agreed during handshake
       uint8_t     d_dst_addr;           ///< Destination address for the current session
       uint8_t     d_dst_port;           ///< Destination port for the current session
+      int         d_ctrl_retries;       ///< SYN / FIN retransmit attempt counter
       pmt::pmt_t  d_payload_type_pmt;   ///< PMT symbol: "text", "image", "audio"
 
       // --- TX sliding window state (initiator) ---------------------------

@@ -90,6 +90,7 @@ namespace gr {
         d_session_id(0),
         d_dst_addr(0),
         d_dst_port(0),
+        d_ctrl_retries(0),
         d_payload_type_pmt(pmt::PMT_NIL),
         d_send_base(0),
         d_next_seq_abs(0),
@@ -257,6 +258,7 @@ namespace gr {
 
       // Transition → SYN_SENT and send SYN handshake frame
       d_state = NodeState::SYN_SENT;
+      d_ctrl_retries = 0;   // reset retry counter for this handshake
       send_ctrl_frame("SYN", d_session_id,
                       /*seq_no*/ -1,
                       d_total_packets_tx,
@@ -687,14 +689,36 @@ namespace gr {
       // Slot d_seq_space-1 is shared by SYN and FIN retransmits
       if (slot == d_seq_space - 1) {
           if (d_state == NodeState::SYN_SENT) {
-              GR_LOG_WARN(d_logger, "RTO: SYN timeout — retransmitting SYN");
+              d_ctrl_retries++;
+              if (d_ctrl_retries > MAX_CTRL_RETRIES) {
+                  GR_LOG_ERROR(d_logger,
+                      "RTO: SYN retry limit (" + std::to_string(MAX_CTRL_RETRIES) +
+                      ") exceeded — abandoning session");
+                  reset_state();
+                  return;
+              }
+              GR_LOG_WARN(d_logger,
+                  "RTO: SYN timeout — retransmitting SYN (attempt " +
+                  std::to_string(d_ctrl_retries) + "/" +
+                  std::to_string(MAX_CTRL_RETRIES) + ")");
               send_ctrl_frame("SYN", d_session_id,
                               /*seq_no*/ -1,
                               d_total_packets_tx,
                               pmt::symbol_to_string(d_payload_type_pmt));
               start_timer(d_seq_space - 1);
           } else if (d_state == NodeState::FIN_SENT) {
-              GR_LOG_WARN(d_logger, "RTO: FIN timeout — retransmitting FIN");
+              d_ctrl_retries++;
+              if (d_ctrl_retries > MAX_CTRL_RETRIES) {
+                  GR_LOG_WARN(d_logger,
+                      "RTO: FIN retry limit (" + std::to_string(MAX_CTRL_RETRIES) +
+                      ") exceeded — assuming FIN_ACK lost, closing session");
+                  reset_state();
+                  return;
+              }
+              GR_LOG_WARN(d_logger,
+                  "RTO: FIN timeout — retransmitting FIN (attempt " +
+                  std::to_string(d_ctrl_retries) + "/" +
+                  std::to_string(MAX_CTRL_RETRIES) + ")");
               send_ctrl_frame("FIN", d_session_id);
               start_timer(d_seq_space - 1);
           }
@@ -791,6 +815,7 @@ namespace gr {
       d_session_id        = 0;
       d_dst_addr          = 0;
       d_dst_port          = 0;
+      d_ctrl_retries      = 0;
       d_payload_type_pmt  = pmt::PMT_NIL;
       // TX side
       d_send_base         = 0;
