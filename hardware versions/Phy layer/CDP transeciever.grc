@@ -226,7 +226,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '400'
+    value: '100'
   states:
     bus_sink: false
     bus_source: false
@@ -774,7 +774,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1648, 1908.0]
+    coordinate: [1656, 1840.0]
     rotation: 0
     state: enabled
 - name: blocks_tag_gate_0
@@ -926,7 +926,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1448, 1896.0]
+    coordinate: [1456, 1832.0]
     rotation: 0
     state: enabled
 - name: blocks_vector_source_x_2
@@ -1537,7 +1537,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [880, 2208.0]
+    coordinate: [880, 2088.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_1
@@ -1715,7 +1715,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [880, 2104.0]
+    coordinate: [880, 1984.0]
     rotation: 0
     state: disabled
 - name: root_raised_cosine_filter_0
@@ -1988,7 +1988,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [704, 2124.0]
+    coordinate: [704, 2004.0]
     rotation: 0
     state: disabled
 - name: virtual_source_4
@@ -2001,7 +2001,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [696, 2228.0]
+    coordinate: [696, 2108.0]
     rotation: 0
     state: enabled
 - name: virtual_source_5
