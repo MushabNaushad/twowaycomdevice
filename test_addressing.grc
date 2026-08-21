@@ -75,6 +75,21 @@ blocks:
     coordinate: [400, 8]
     rotation: 0
     state: enabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [856, 476.0]
+    rotation: 0
+    state: enabled
 - name: blocks_null_sink_0
   id: blocks_null_sink
   parameters:
@@ -89,7 +104,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 560]
+    coordinate: [456, 656.0]
     rotation: 0
     state: enabled
 - name: blocks_null_source_0
@@ -108,7 +123,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [24, 560]
+    coordinate: [24, 680.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -129,7 +144,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 560]
+    coordinate: [224, 668.0]
     rotation: 0
     state: enabled
 - name: channel_fwd
@@ -161,7 +176,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 220]
+    coordinate: [480, 220.0]
     rotation: 0
     state: enabled
 - name: channel_rev
@@ -193,7 +208,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [640, 432.0]
+    coordinate: [1136, 484.0]
     rotation: 0
     state: enabled
 - name: debug_decoy
@@ -208,14 +223,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 420]
+    coordinate: [1592, 436.0]
     rotation: 0
     state: enabled
 - name: debug_initiator
   id: blocks_message_debug
   parameters:
     affinity: ''
-    alias: ''
+    alias: 2nd output
     comment: "app_out from INITIATOR \u2014 unused in this scenario"
     en_uvec: 'True'
     log_level: info
@@ -223,14 +238,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [100, 420]
+    coordinate: [112, 460.0]
     rotation: 0
     state: enabled
 - name: debug_responder
   id: blocks_message_debug
   parameters:
     affinity: ''
-    alias: ''
+    alias: 1st output
     comment: "app_out from RESPONDER (addr=2) \u2014 should receive payload"
     en_uvec: 'True'
     log_level: info
@@ -238,7 +253,40 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1000, 250]
+    coordinate: [1264, 124.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n           \
+      \ name=\"Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n\
+      \        )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n        \
+      \    print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Ack packet checker"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 524.0]
     rotation: 0
     state: enabled
 - name: msg_strobe
@@ -256,7 +304,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [80, 152.0]
+    coordinate: [40, 188.0]
     rotation: 0
     state: enabled
 - name: transport_decoy
@@ -265,8 +313,8 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    local_addr: '3'
-    local_port: '1'
+    local_addr: '0'
+    local_port: '0'
     m: '4'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -277,7 +325,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 544.0]
+    coordinate: [792, 652.0]
     rotation: 0
     state: enabled
 - name: transport_initiator
@@ -286,8 +334,8 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    local_addr: '1'
-    local_port: '1'
+    local_addr: '0'
+    local_port: '0'
     m: '4'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -298,7 +346,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [100, 250]
+    coordinate: [320, 324.0]
     rotation: 0
     state: enabled
 - name: transport_responder
@@ -307,8 +355,8 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    local_addr: '2'
-    local_port: '1'
+    local_addr: '0'
+    local_port: '0'
     m: '4'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -319,7 +367,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [700, 250]
+    coordinate: [832, 196.0]
     rotation: 0
     state: enabled
 
@@ -328,7 +376,9 @@ connections:
 - [blocks_throttle2_0, '0', blocks_null_sink_0, '0']
 - [channel_fwd, pdu_out, transport_decoy, pdu_in]
 - [channel_fwd, pdu_out, transport_responder, pdu_in]
+- [channel_rev, pdu_out, epy_block_0, in]
 - [channel_rev, pdu_out, transport_initiator, pdu_in]
+- [msg_strobe, strobe, blocks_message_debug_0, print_pdu]
 - [msg_strobe, strobe, transport_initiator, app_in]
 - [transport_decoy, app_out, debug_decoy, print_pdu]
 - [transport_decoy, pdu_out, channel_rev, pdu_in]

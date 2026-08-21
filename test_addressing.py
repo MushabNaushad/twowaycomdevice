@@ -27,6 +27,7 @@ from gnuradio import eng_notation
 from gnuradio import transport
 import test_addressing_channel_fwd as channel_fwd  # embedded python block
 import test_addressing_channel_rev as channel_rev  # embedded python block
+import test_addressing_epy_block_0 as epy_block_0  # embedded python block
 import threading
 
 
@@ -88,18 +89,22 @@ class test_addressing(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 1):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.transport_responder = transport.transport_layer(4, 500, "responder", 200, 2, 1)
-        self.transport_initiator = transport.transport_layer(4, 500, "initiator", 200, 1, 1)
-        self.transport_decoy = transport.transport_layer(4, 600, "responder", 200, 3, 1)
+        self.transport_responder = transport.transport_layer(4, 500, "responder", 200, 0, 0)
+        self.transport_initiator = transport.transport_layer(4, 500, "initiator", 200, 0, 0)
+        self.transport_decoy = transport.transport_layer(4, 600, "responder", 200, 0, 0)
         self.msg_strobe = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Node1"])), 4000)
+        self.epy_block_0 = epy_block_0.blk(label="Ack packet checker")
         self.debug_responder = blocks.message_debug(True, gr.log_levels.info)
+        self.debug_responder.set_block_alias("1st output")
         self.debug_initiator = blocks.message_debug(True, gr.log_levels.info)
+        self.debug_initiator.set_block_alias("2nd output")
         self.debug_decoy = blocks.message_debug(True, gr.log_levels.info)
         self.channel_rev = channel_rev.blk(p_drop=drop_rev)
         self.channel_fwd = channel_fwd.blk(p_drop=drop_fwd)
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_gr_complex*1, 1000, True, 0 if "auto" == "auto" else max( int(float(0.1) * 1000) if "auto" == "time" else int(0.1), 1) )
         self.blocks_null_source_0 = blocks.null_source(gr.sizeof_gr_complex*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
+        self.blocks_message_debug_0 = blocks.message_debug(True, gr.log_levels.info)
 
 
         ##################################################
@@ -107,7 +112,9 @@ class test_addressing(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.channel_fwd, 'pdu_out'), (self.transport_decoy, 'pdu_in'))
         self.msg_connect((self.channel_fwd, 'pdu_out'), (self.transport_responder, 'pdu_in'))
+        self.msg_connect((self.channel_rev, 'pdu_out'), (self.epy_block_0, 'in'))
         self.msg_connect((self.channel_rev, 'pdu_out'), (self.transport_initiator, 'pdu_in'))
+        self.msg_connect((self.msg_strobe, 'strobe'), (self.blocks_message_debug_0, 'print_pdu'))
         self.msg_connect((self.msg_strobe, 'strobe'), (self.transport_initiator, 'app_in'))
         self.msg_connect((self.transport_decoy, 'pdu_out'), (self.channel_rev, 'pdu_in'))
         self.msg_connect((self.transport_decoy, 'app_out'), (self.debug_decoy, 'print_pdu'))

@@ -35,16 +35,14 @@ parameters:
   default: 200
 
 - id: local_addr
-  label: Local Address
+  label: Local Address (0x00 = wildcard)
   dtype: int
   default: 0
-  hide: none
 
 - id: local_port
-  label: Local Port
+  label: Local Port (0x00 = any)
   dtype: int
   default: 0
-  hide: none
 
 inputs:
 - label: pdu_in
@@ -63,4 +61,3 @@ outputs:
   domain: message
 
 file_format: 1
-

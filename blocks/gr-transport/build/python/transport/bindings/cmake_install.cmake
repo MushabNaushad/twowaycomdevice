@@ -1,8 +1,8 @@
-# Install script for directory: /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/python/transport/bindings
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/python/transport/bindings
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "/usr")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -49,12 +49,12 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "pythonapi" OR NOT CMAKE_INSTALL_COMPONENT)
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/transport/transport_python.cpython-314-x86_64-linux-gnu.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/transport" TYPE MODULE FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/transport_python.cpython-314-x86_64-linux-gnu.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/transport" TYPE MODULE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/transport_python.cpython-314-x86_64-linux-gnu.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/transport/transport_python.cpython-314-x86_64-linux-gnu.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/transport/transport_python.cpython-314-x86_64-linux-gnu.so")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/transport/transport_python.cpython-314-x86_64-linux-gnu.so"
-         OLD_RPATH "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib:"
+         OLD_RPATH "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/transport/transport_python.cpython-314-x86_64-linux-gnu.so")
@@ -63,12 +63,12 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "pythonapi" OR NOT CMAKE_INSTALL_COMPONENT)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "pythonapi" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/CMakeFiles/transport_python.dir/install-cxx-module-bmi-Release.cmake" OPTIONAL)
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/CMakeFiles/transport_python.dir/install-cxx-module-bmi-Release.cmake" OPTIONAL)
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
