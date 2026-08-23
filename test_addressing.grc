@@ -179,6 +179,38 @@ blocks:
     coordinate: [480, 220.0]
     rotation: 0
     state: enabled
+- name: channel_fwd_0
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt, random\n\
+      \nclass blk(gr.basic_block):\n    \"\"\"Lossy PDU channel \u2014 drops each\
+      \ PDU with probability p_drop.\n    p_drop is read live from the module-level\
+      \ variable so a QT Range\n    slider can update it at runtime.\"\"\"\n\n   \
+      \ def __init__(self, p_drop=0.2):\n        gr.basic_block.__init__(\n      \
+      \      self,\n            name='Lossy Channel',\n            in_sig=None,\n\
+      \            out_sig=None\n        )\n        self.p_drop = p_drop\n       \
+      \ self.message_port_register_in(pmt.intern('pdu_in'))\n        self.message_port_register_out(pmt.intern('pdu_out'))\n\
+      \        self.set_msg_handler(pmt.intern('pdu_in'), self.handle_msg)\n\n   \
+      \ def set_p_drop(self, p):\n        self.p_drop = p\n\n    def handle_msg(self,\
+      \ msg):\n        if random.random() >= self.p_drop:\n            self.message_port_pub(pmt.intern('pdu_out'),\
+      \ msg)\n        # else: packet is silently dropped\n"
+    affinity: ''
+    alias: ''
+    comment: "Forward lossy channel \u2014 drop_fwd slider controls loss rate"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_fwd
+  states:
+    _io_cache: "('Lossy Channel', 'blk', [('p_drop', '0.2')], [('pdu_in', 'message',\
+      \ 1)], [('pdu_out', 'message', 1)], 'Lossy PDU channel \u2014 drops each PDU\
+      \ with probability p_drop.\\np_drop is read live from the module-level variable\
+      \ so a QT Range\\nslider can update it at runtime.', ['p_drop'])"
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 836.0]
+    rotation: 0
+    state: enabled
 - name: channel_rev
   id: epy_block
   parameters:
@@ -224,6 +256,21 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1592, 436.0]
+    rotation: 0
+    state: enabled
+- name: debug_decoy_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "app_out from DECOY (addr=3) \u2014 should stay SILENT (addressing filter)"
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1384, 964.0]
     rotation: 0
     state: enabled
 - name: debug_initiator
@@ -289,6 +336,72 @@ blocks:
     coordinate: [520, 524.0]
     rotation: 0
     state: enabled
+- name: epy_block_0_0
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n           \
+      \ name=\"Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n\
+      \        )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n        \
+      \    print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 2 receiver"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1360, 844.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0_0_0
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n           \
+      \ name=\"Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n\
+      \        )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n        \
+      \    print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 3 receiver"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1368, 716.0]
+    rotation: 0
+    state: enabled
 - name: msg_strobe
   id: blocks_message_strobe
   parameters:
@@ -307,13 +420,31 @@ blocks:
     coordinate: [40, 188.0]
     rotation: 0
     state: enabled
+- name: msg_strobe_0
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Sends to dst_addr=2 dst_port=1 every 4s
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [3, 1, 1, 0, 0, 0, 0, 17]
+      + [ord(c) for c in "Hello from Node1"]))
+    period: '4000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [48, 300.0]
+    rotation: 0
+    state: enabled
 - name: transport_decoy
   id: transport_transport_layer
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    local_addr: '0'
+    local_addr: '3'
     local_port: '0'
     m: '4'
     maxoutbuf: '0'
@@ -326,6 +457,27 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [792, 652.0]
+    rotation: 0
+    state: enabled
+- name: transport_decoy_0
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    local_addr: '2'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 912.0]
     rotation: 0
     state: enabled
 - name: transport_initiator
@@ -376,14 +528,21 @@ connections:
 - [blocks_throttle2_0, '0', blocks_null_sink_0, '0']
 - [channel_fwd, pdu_out, transport_decoy, pdu_in]
 - [channel_fwd, pdu_out, transport_responder, pdu_in]
-- [channel_rev, pdu_out, epy_block_0, in]
+- [channel_fwd_0, pdu_out, transport_decoy_0, pdu_in]
+- [channel_fwd_0, pdu_out, transport_initiator, pdu_in]
 - [channel_rev, pdu_out, transport_initiator, pdu_in]
 - [msg_strobe, strobe, blocks_message_debug_0, print_pdu]
 - [msg_strobe, strobe, transport_initiator, app_in]
-- [transport_decoy, app_out, debug_decoy, print_pdu]
+- [msg_strobe_0, strobe, transport_initiator, app_in]
+- [transport_decoy, app_out, debug_decoy, store]
+- [transport_decoy, app_out, epy_block_0_0_0, in]
 - [transport_decoy, pdu_out, channel_rev, pdu_in]
+- [transport_decoy_0, app_out, debug_decoy_0, store]
+- [transport_decoy_0, app_out, epy_block_0_0, in]
+- [transport_decoy_0, pdu_out, channel_fwd_0, pdu_in]
 - [transport_initiator, app_out, debug_initiator, print_pdu]
 - [transport_initiator, pdu_out, channel_fwd, pdu_in]
+- [transport_initiator, pdu_out, channel_fwd_0, pdu_in]
 - [transport_responder, app_out, debug_responder, print_pdu]
 - [transport_responder, pdu_out, channel_rev, pdu_in]
 

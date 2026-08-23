@@ -1,0 +1,1418 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: 10-node transport layer addressing test on a shared broadcast bus
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: test_10node
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: 10-Node Transport Layer Addressing Test
+    window_size: (1400,900)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+
+# ── Variables / sliders ────────────────────────────────────────────────────
+- name: drop_prob
+  id: variable_qtgui_range
+  parameters:
+    comment: Shared bus drop probability (applies to ALL PDUs on the bus)
+    gui_hint: 0,0,1,2
+    label: '"Bus Drop Prob"'
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.05'
+    stop: '1'
+    value: '0.1'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 8]
+    rotation: 0
+    state: enabled
+
+- name: strobe_period_ms
+  id: variable
+  parameters:
+    comment: ''
+    value: '8000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [500, 8]
+    rotation: 0
+    state: enabled
+
+# ── Stream keepalive (GR scheduler needs at least one stream connection) ───
+- name: blocks_null_source_0
+  id: blocks_null_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_source: '[[0,],]'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 860]
+    rotation: 0
+    state: enabled
+
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: '1000'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 852]
+    rotation: 0
+    state: enabled
+
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 860]
+    rotation: 0
+    state: enabled
+
+# ── Shared bus — single lossy PDU fanout block ─────────────────────────────
+# All 20 pdu_out ports fan in here; this fans out to all 20 pdu_in ports.
+# The drop probability is controlled by the slider above.
+- name: shared_bus
+  id: epy_block
+  parameters:
+    _source_code: "import pmt, random\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Shared broadcast bus with configurable loss.\n    Every PDU received\
+      \  on pdu_in is forwarded to pdu_out with probability\n    (1 - p_drop). All\
+      \  10 node pdu_out ports feed into pdu_in; the single\n    pdu_out is connected\
+      \  to all 20 node pdu_in ports.\"\"\"\n\n    def __init__(self, p_drop=0.1):\n\
+      \        gr.basic_block.__init__(\n            self,\n            name='Shared\
+      \  Bus',\n            in_sig=None,\n            out_sig=None\n        )\n    \
+      \    self.p_drop = p_drop\n        self.message_port_register_in(pmt.intern('pdu_in'))\n\
+      \        self.message_port_register_out(pmt.intern('pdu_out'))\n        self.set_msg_handler(pmt.intern('pdu_in'),\
+      \  self.handle_msg)\n\n    def handle_msg(self, msg):\n        if random.random()\
+      \  >= self.p_drop:\n            self.message_port_pub(pmt.intern('pdu_out'),\
+      \  msg)\n"
+    affinity: ''
+    alias: ''
+    comment: "All node pdu_out → here → all node pdu_in\nDrop prob controlled by\
+      \  slider"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_prob
+  states:
+    _io_cache: "('Shared Bus', 'blk', [('p_drop', '0.1')], [('pdu_in', 'message',\
+      \  1)], [('pdu_out', 'message', 1)], 'Shared broadcast bus with configurable\
+      \  loss.', ['p_drop'])"
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 420]
+    rotation: 0
+    state: enabled
+
+# ── Labelled Debug EPY (reused inline for each receiver) ──────────────────
+# One instance per responder node (10 total). The source code is identical;
+# only the 'label' parameter differs.
+
+- name: debug_node1
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 1 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 100]
+    rotation: 0
+    state: enabled
+
+- name: debug_node2
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 2 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 180]
+    rotation: 0
+    state: enabled
+
+- name: debug_node3
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 3 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 260]
+    rotation: 0
+    state: enabled
+
+- name: debug_node4
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 4 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 340]
+    rotation: 0
+    state: enabled
+
+- name: debug_node5
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 5 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 420]
+    rotation: 0
+    state: enabled
+
+- name: debug_node6
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 6 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 500]
+    rotation: 0
+    state: enabled
+
+- name: debug_node7
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 7 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 580]
+    rotation: 0
+    state: enabled
+
+- name: debug_node8
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 8 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 660]
+    rotation: 0
+    state: enabled
+
+- name: debug_node9
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 9 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 740]
+    rotation: 0
+    state: enabled
+
+- name: debug_node10
+  id: epy_block
+  parameters:
+    _source_code: "import pmt\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Custom labelled message sink\"\"\"\n\n    def __init__(self, label=\"\
+      [MSG]\"):\n        gr.basic_block.__init__(\n            self,\n            name=\"\
+      Labelled Debug\",\n            in_sig=None,\n            out_sig=None\n     \
+      \   )\n        self.label = label\n        self.message_port_register_in(pmt.intern(\"\
+      in\"))\n        self.set_msg_handler(pmt.intern(\"in\"), self.handle_msg)\n\n\
+      \    def handle_msg(self, msg):\n        print(f\"\\n{'='*40}\")\n        print(f\"\
+      \  {self.label}\")\n        print(f\"{'='*40}\")\n        if pmt.is_pair(msg):\n\
+      \            meta = pmt.car(msg)\n            data = pmt.cdr(msg)\n         \
+      \   print(f\"  Meta : {pmt.to_python(meta)}\")\n            if pmt.is_u8vector(data):\n\
+      \                raw = bytes(pmt.u8vector_elements(data))\n                print(f\"\
+      \  Bytes: {raw.hex(' ')}\")\n                try:\n                    print(f\"\
+      \  ASCII: {raw[8:].decode('ascii', errors='replace')}\")\n                except:\n\
+      \                    pass\n        else:\n            print(f\"  {pmt.to_python(msg)}\"\
+      )\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: '"Node 10 RX"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Labelled Debug', 'blk', [('label', "'[MSG]'")], [('in', 'message',
+      1)], [], 'Custom labelled message sink', ['label'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 820]
+    rotation: 0
+    state: enabled
+
+# ── 10 Initiator transport blocks (addr 1–10) ─────────────────────────────
+- name: ini_node1
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=1'
+    local_addr: '1'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 100]
+    rotation: 0
+    state: enabled
+
+- name: ini_node2
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=2'
+    local_addr: '2'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 180]
+    rotation: 0
+    state: enabled
+
+- name: ini_node3
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=3'
+    local_addr: '3'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 260]
+    rotation: 0
+    state: enabled
+
+- name: ini_node4
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=4'
+    local_addr: '4'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 340]
+    rotation: 0
+    state: enabled
+
+- name: ini_node5
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=5'
+    local_addr: '5'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 420]
+    rotation: 0
+    state: enabled
+
+- name: ini_node6
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=6'
+    local_addr: '6'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 500]
+    rotation: 0
+    state: enabled
+
+- name: ini_node7
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=7'
+    local_addr: '7'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 580]
+    rotation: 0
+    state: enabled
+
+- name: ini_node8
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=8'
+    local_addr: '8'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 660]
+    rotation: 0
+    state: enabled
+
+- name: ini_node9
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=9'
+    local_addr: '9'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 740]
+    rotation: 0
+    state: enabled
+
+- name: ini_node10
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Initiator — addr=10'
+    local_addr: '10'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"initiator"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 820]
+    rotation: 0
+    state: enabled
+
+# ── 10 Responder transport blocks (addr 1–10) ─────────────────────────────
+- name: rsp_node1
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=1'
+    local_addr: '1'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 100]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node2
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=2'
+    local_addr: '2'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 180]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node3
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=3'
+    local_addr: '3'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 260]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node4
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=4'
+    local_addr: '4'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 340]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node5
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=5'
+    local_addr: '5'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 420]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node6
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=6'
+    local_addr: '6'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 500]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node7
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=7'
+    local_addr: '7'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 580]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node8
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=8'
+    local_addr: '8'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 660]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node9
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=9'
+    local_addr: '9'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 740]
+    rotation: 0
+    state: enabled
+
+- name: rsp_node10
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Responder — addr=10'
+    local_addr: '10'
+    local_port: '0'
+    m: '4'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: '200'
+    node_role: '"responder"'
+    rto_ms: '600'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [680, 820]
+    rotation: 0
+    state: enabled
+
+# ── Message Strobes — one per initiator node ───────────────────────────────
+# App bitstream header: [dst_addr, dst_port, type, 0x00, len_b3, len_b2, len_b1, len_b0, payload...]
+# Byte layout: [6, 0, 1, 0, 0, 0, 0, N] + payload  →  Node 1 → Node 6, type=text, len=N bytes
+# Period is staggered so sessions don't all start simultaneously (avoids S9/S10 bus congestion).
+
+# Node 1 → Node 6  (unicast)
+- name: strobe_node1
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 1 (addr=1) → Node 6 (addr=6)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [6, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 1!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 100]
+    rotation: 0
+    state: enabled
+
+# Node 2 → Node 7  (unicast)
+- name: strobe_node2
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 2 (addr=2) → Node 7 (addr=7)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [7, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 2!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 180]
+    rotation: 0
+    state: enabled
+
+# Node 3 → Node 8  (unicast)
+- name: strobe_node3
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 3 (addr=3) → Node 8 (addr=8)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [8, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 3!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 260]
+    rotation: 0
+    state: enabled
+
+# Node 4 → Node 9  (unicast)
+- name: strobe_node4
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 4 (addr=4) → Node 9 (addr=9)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [9, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 4!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 340]
+    rotation: 0
+    state: enabled
+
+# Node 5 → Node 10 (unicast)
+- name: strobe_node5
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 5 (addr=5) → Node 10 (addr=10)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [10, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 5!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 420]
+    rotation: 0
+    state: enabled
+
+# Node 6 → Node 1  (unicast, reverse direction to pair above)
+- name: strobe_node6
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 6 (addr=6) → Node 1 (addr=1)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [1, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 6!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 500]
+    rotation: 0
+    state: enabled
+
+# Node 7 → Node 2  (unicast, reverse)
+- name: strobe_node7
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 7 (addr=7) → Node 2 (addr=2)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [2, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 7!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 580]
+    rotation: 0
+    state: enabled
+
+# Node 8 → Node 3  (unicast, reverse)
+- name: strobe_node8
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 8 (addr=8) → Node 3 (addr=3)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [3, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 8!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 660]
+    rotation: 0
+    state: enabled
+
+# Node 9 → Node 4  (unicast, reverse)
+- name: strobe_node9
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 9 (addr=9) → Node 4 (addr=4)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 19, [4, 0, 1, 0, 0, 0,\
+      \  0, 19] + [ord(c) for c in \"Hello from Node 9!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 740]
+    rotation: 0
+    state: enabled
+
+# Node 10 → Node 5  (unicast, reverse)
+- name: strobe_node10
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: "Node 10 (addr=10) → Node 5 (addr=5)\ntype=text, fires every 8s"
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: "pmt.cons(pmt.make_dict(), pmt.init_u8vector(8 + 20, [5, 0, 1, 0, 0, 0,\
+      \  0, 20] + [ord(c) for c in \"Hello from Node 10!\"]))"
+    period: strobe_period_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 820]
+    rotation: 0
+    state: enabled
+
+# ── initiator app_out sinks — one Message Debug per initiator ──────────────
+# These absorb the initiator app_out (unused in normal unicast sends) so GRC
+# doesn't require the port to be connected.
+
+- name: debug_ini_node1
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'ini_node1 app_out (unused for normal send)'
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 100]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node2
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 180]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node3
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 260]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node4
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 340]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node5
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 420]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node6
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 500]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node7
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 580]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node8
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 660]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node9
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 740]
+    rotation: 0
+    state: enabled
+
+- name: debug_ini_node10
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [460, 820]
+    rotation: 0
+    state: enabled
+
+# ═══════════════════════════════════════════════════════════════════════════
+connections:
+
+# Stream keepalive
+- [blocks_null_source_0, '0', blocks_throttle2_0, '0']
+- [blocks_throttle2_0, '0', blocks_null_sink_0, '0']
+
+# ── Strobes → Initiator app_in ────────────────────────────────────────────
+- [strobe_node1,  strobe, ini_node1,  app_in]
+- [strobe_node2,  strobe, ini_node2,  app_in]
+- [strobe_node3,  strobe, ini_node3,  app_in]
+- [strobe_node4,  strobe, ini_node4,  app_in]
+- [strobe_node5,  strobe, ini_node5,  app_in]
+- [strobe_node6,  strobe, ini_node6,  app_in]
+- [strobe_node7,  strobe, ini_node7,  app_in]
+- [strobe_node8,  strobe, ini_node8,  app_in]
+- [strobe_node9,  strobe, ini_node9,  app_in]
+- [strobe_node10, strobe, ini_node10, app_in]
+
+# ── Initiator pdu_out → Shared Bus ───────────────────────────────────────
+- [ini_node1,  pdu_out, shared_bus, pdu_in]
+- [ini_node2,  pdu_out, shared_bus, pdu_in]
+- [ini_node3,  pdu_out, shared_bus, pdu_in]
+- [ini_node4,  pdu_out, shared_bus, pdu_in]
+- [ini_node5,  pdu_out, shared_bus, pdu_in]
+- [ini_node6,  pdu_out, shared_bus, pdu_in]
+- [ini_node7,  pdu_out, shared_bus, pdu_in]
+- [ini_node8,  pdu_out, shared_bus, pdu_in]
+- [ini_node9,  pdu_out, shared_bus, pdu_in]
+- [ini_node10, pdu_out, shared_bus, pdu_in]
+
+# ── Responder pdu_out → Shared Bus (ACKs/SYN_ACKs/FIN_ACKs) ─────────────
+- [rsp_node1,  pdu_out, shared_bus, pdu_in]
+- [rsp_node2,  pdu_out, shared_bus, pdu_in]
+- [rsp_node3,  pdu_out, shared_bus, pdu_in]
+- [rsp_node4,  pdu_out, shared_bus, pdu_in]
+- [rsp_node5,  pdu_out, shared_bus, pdu_in]
+- [rsp_node6,  pdu_out, shared_bus, pdu_in]
+- [rsp_node7,  pdu_out, shared_bus, pdu_in]
+- [rsp_node8,  pdu_out, shared_bus, pdu_in]
+- [rsp_node9,  pdu_out, shared_bus, pdu_in]
+- [rsp_node10, pdu_out, shared_bus, pdu_in]
+
+# ── Shared Bus → All Initiator pdu_in (ACK / SYN_ACK / FIN_ACK reception) 
+- [shared_bus, pdu_out, ini_node1,  pdu_in]
+- [shared_bus, pdu_out, ini_node2,  pdu_in]
+- [shared_bus, pdu_out, ini_node3,  pdu_in]
+- [shared_bus, pdu_out, ini_node4,  pdu_in]
+- [shared_bus, pdu_out, ini_node5,  pdu_in]
+- [shared_bus, pdu_out, ini_node6,  pdu_in]
+- [shared_bus, pdu_out, ini_node7,  pdu_in]
+- [shared_bus, pdu_out, ini_node8,  pdu_in]
+- [shared_bus, pdu_out, ini_node9,  pdu_in]
+- [shared_bus, pdu_out, ini_node10, pdu_in]
+
+# ── Shared Bus → All Responder pdu_in (SYN / DATA / FIN reception) ────────
+- [shared_bus, pdu_out, rsp_node1,  pdu_in]
+- [shared_bus, pdu_out, rsp_node2,  pdu_in]
+- [shared_bus, pdu_out, rsp_node3,  pdu_in]
+- [shared_bus, pdu_out, rsp_node4,  pdu_in]
+- [shared_bus, pdu_out, rsp_node5,  pdu_in]
+- [shared_bus, pdu_out, rsp_node6,  pdu_in]
+- [shared_bus, pdu_out, rsp_node7,  pdu_in]
+- [shared_bus, pdu_out, rsp_node8,  pdu_in]
+- [shared_bus, pdu_out, rsp_node9,  pdu_in]
+- [shared_bus, pdu_out, rsp_node10, pdu_in]
+
+# ── Responder app_out → Labelled Debug sinks ──────────────────────────────
+- [rsp_node1,  app_out, debug_node1,  in]
+- [rsp_node2,  app_out, debug_node2,  in]
+- [rsp_node3,  app_out, debug_node3,  in]
+- [rsp_node4,  app_out, debug_node4,  in]
+- [rsp_node5,  app_out, debug_node5,  in]
+- [rsp_node6,  app_out, debug_node6,  in]
+- [rsp_node7,  app_out, debug_node7,  in]
+- [rsp_node8,  app_out, debug_node8,  in]
+- [rsp_node9,  app_out, debug_node9,  in]
+- [rsp_node10, app_out, debug_node10, in]
+
+# ── Initiator app_out → Message Debug sinks (satisfies mandatory connection)
+- [ini_node1,  app_out, debug_ini_node1,  store]
+- [ini_node2,  app_out, debug_ini_node2,  store]
+- [ini_node3,  app_out, debug_ini_node3,  store]
+- [ini_node4,  app_out, debug_ini_node4,  store]
+- [ini_node5,  app_out, debug_ini_node5,  store]
+- [ini_node6,  app_out, debug_ini_node6,  store]
+- [ini_node7,  app_out, debug_ini_node7,  store]
+- [ini_node8,  app_out, debug_ini_node8,  store]
+- [ini_node9,  app_out, debug_ini_node9,  store]
+- [ini_node10, app_out, debug_ini_node10, store]
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
