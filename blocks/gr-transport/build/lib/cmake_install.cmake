@@ -1,8 +1,8 @@
-# Install script for directory: /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/lib
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "/usr")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -55,8 +55,8 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
   endforeach()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE SHARED_LIBRARY FILES
-    "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/libgnuradio-transport.so.1.0.0.0"
-    "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/libgnuradio-transport.so.1.0.0"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/libgnuradio-transport.so.1.0.0.0"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/libgnuradio-transport.so.1.0.0"
     )
   foreach(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/libgnuradio-transport.so.1.0.0.0"
@@ -72,14 +72,14 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE SHARED_LIBRARY FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/libgnuradio-transport.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE SHARED_LIBRARY FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/libgnuradio-transport.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport/gnuradio-transportTargets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport/gnuradio-transportTargets.cmake"
-         "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/CMakeFiles/Export/25fd43546aebd10765f4e98bb91eeee1/gnuradio-transportTargets.cmake")
+         "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/CMakeFiles/Export/25fd43546aebd10765f4e98bb91eeee1/gnuradio-transportTargets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport/gnuradio-transportTargets-*.cmake")
       if(_cmake_old_config_files)
@@ -92,19 +92,19 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/CMakeFiles/Export/25fd43546aebd10765f4e98bb91eeee1/gnuradio-transportTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/CMakeFiles/Export/25fd43546aebd10765f4e98bb91eeee1/gnuradio-transportTargets.cmake")
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/CMakeFiles/Export/25fd43546aebd10765f4e98bb91eeee1/gnuradio-transportTargets-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/CMakeFiles/Export/25fd43546aebd10765f4e98bb91eeee1/gnuradio-transportTargets-release.cmake")
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/cmake/Modules/gnuradio-transportConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/cmake/Modules/gnuradio-transportConfig.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

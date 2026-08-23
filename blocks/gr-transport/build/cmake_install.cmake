@@ -1,8 +1,8 @@
-# Install script for directory: /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "/usr")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -44,51 +44,51 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/include/gnuradio/transport/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/include/gnuradio/transport/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/apps/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/apps/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/examples/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/examples/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/docs/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/docs/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/python/transport/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/grc/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/grc/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/cmake/Modules/gnuradio-transportConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-transport" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/cmake/Modules/gnuradio-transportConfig.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/manifests/transport" TYPE FILE RENAME "MANIFEST-1.0.00.yml" FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/MANIFEST.yml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/manifests/transport" TYPE FILE RENAME "MANIFEST-1.0.00.yml" FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/MANIFEST.yml")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -104,6 +104,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

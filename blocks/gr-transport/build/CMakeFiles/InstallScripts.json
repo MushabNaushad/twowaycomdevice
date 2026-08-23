@@ -1,15 +1,16 @@
 {
 	"InstallScripts" : 
 	[
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/include/gnuradio/transport/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/lib/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/apps/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/examples/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/docs/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/cmake_install.cmake",
-		"/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/grc/cmake_install.cmake"
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/include/gnuradio/transport/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/lib/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/apps/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/examples/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/docs/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/docs/doxygen/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/python/transport/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/python/transport/bindings/cmake_install.cmake",
+		"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/grc/cmake_install.cmake"
 	],
 	"Parallel" : false
 }
