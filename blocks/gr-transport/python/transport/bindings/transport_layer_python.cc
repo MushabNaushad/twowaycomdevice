@@ -14,7 +14,7 @@
 /* BINDTOOL_GEN_AUTOMATIC(1)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
 /* BINDTOOL_HEADER_FILE(transport_layer.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(c038e55e234783883fb14d5e2681edfe)                     */
+/* BINDTOOL_HEADER_FILE_HASH(bfec7f210b3dbc152f8ab87575b0dcb0)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -41,6 +41,8 @@ void bind_transport_layer(py::module& m)
            py::arg("rto_ms") =  500,
            py::arg("node_role") =  "initiator",
            py::arg("mtu_bytes") =  200,
+           py::arg("local_addr") =  0x00,
+           py::arg("local_port") =  0x00,
            D(transport_layer,make)
         )
         

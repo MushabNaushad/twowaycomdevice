@@ -1,8 +1,8 @@
-# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/grc
+# Install script for directory: /home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/grc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr")
+  set(CMAKE_INSTALL_PREFIX "/usr/local")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -43,12 +43,12 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/grc/transport_transport_layer.block.yml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/grc/transport_transport_layer.block.yml")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/build/grc/install_local_manifest.txt"
+  file(WRITE "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/build/grc/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

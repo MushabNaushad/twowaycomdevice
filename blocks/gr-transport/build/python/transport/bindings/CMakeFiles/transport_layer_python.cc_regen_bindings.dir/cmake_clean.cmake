@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/blocks/gr-transport/python/transport/bindings}/transport_layer_python.cc"
+  "/home/mushabmna/Documents/twowaycomdevice/blocks/gr-transport/python/transport/bindings}/transport_layer_python.cc"
   "CMakeFiles/transport_layer_python.cc_regen_bindings"
 )
 
