@@ -1,0 +1,401 @@
+options:
+  parameters:
+    author: MethalMindiya
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: High-Capacity Hot-Folder File Sync Flowgraph (10MB+ Support)
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: test_socket_sync
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/tests/run_socket_sync.sh" {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Two-Way Radio Hot-Folder File Sync (10MB+ Multi-Megabyte Support)
+    window_size: (1350, 900)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 16]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: drop_prob
+  id: variable_qtgui_range
+  parameters:
+    comment: RF Channel Loss Rate Slider
+    gui_hint: 0,0,1,2
+    label: '"Channel Loss Rate (p_drop)"'
+    min_len: '250'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.05'
+    stop: '0.5'
+    value: '0.0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 16]
+    rotation: 0
+    state: enabled
+
+- name: m
+  id: variable
+  parameters:
+    comment: Sequence width (m=6 -> W=32)
+    value: '6'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [420, 16]
+    rotation: 0
+    state: enabled
+
+- name: mtu
+  id: variable
+  parameters:
+    comment: MTU bytes per frame
+    value: '1000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [510, 16]
+    rotation: 0
+    state: enabled
+
+- name: rto_ms
+  id: variable
+  parameters:
+    comment: Retransmission timeout (ms)
+    value: '400'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600, 16]
+    rotation: 0
+    state: enabled
+
+# ══════════════════════════════════════════════════════════════════════════════
+# NODE 1 (Addr 1) — ZMQ In :52001, ZMQ Out :52002
+# ══════════════════════════════════════════════════════════════════════════════
+- name: zmq_pull_n1
+  id: zeromq_pull_msg_source
+  parameters:
+    address: tcp://127.0.0.1:52001
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: High-capacity ZMQ PULL source from Node 1 Daemon (tx)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [40, 180]
+    rotation: 0
+    state: enabled
+
+- name: transport_n1
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Transport Layer Node 1
+    local_addr: '1'
+    local_port: '0'
+    m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: mtu
+    node_role: initiator
+    rto_ms: rto_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 156]
+    rotation: 0
+    state: enabled
+
+- name: zmq_push_n1
+  id: zeromq_push_msg_sink
+  parameters:
+    address: tcp://127.0.0.1:52002
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: High-capacity ZMQ PUSH sink to Node 1 Daemon (rx)
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 300]
+    rotation: 180
+    state: enabled
+
+- name: debug_n1_app_out
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Debug monitor Node 1 app_out
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [60, 320]
+    rotation: 180
+    state: enabled
+
+# ══════════════════════════════════════════════════════════════════════════════
+# NODE 2 (Addr 2) — ZMQ In :52003, ZMQ Out :52004
+# ══════════════════════════════════════════════════════════════════════════════
+- name: zmq_pull_n2
+  id: zeromq_pull_msg_source
+  parameters:
+    address: tcp://127.0.0.1:52003
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: High-capacity ZMQ PULL source from Node 2 Daemon (tx)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1060, 300]
+    rotation: 180
+    state: enabled
+
+- name: transport_n2
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Transport Layer Node 2
+    local_addr: '2'
+    local_port: '0'
+    m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: mtu
+    node_role: responder
+    rto_ms: rto_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [820, 276]
+    rotation: 180
+    state: enabled
+
+- name: zmq_push_n2
+  id: zeromq_push_msg_sink
+  parameters:
+    address: tcp://127.0.0.1:52004
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: High-capacity ZMQ PUSH sink to Node 2 Daemon (rx)
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [820, 156]
+    rotation: 0
+    state: enabled
+
+- name: debug_n2_app_out
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Debug monitor Node 2 app_out
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1060, 156]
+    rotation: 0
+    state: enabled
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PURE-RF PHYSICAL CHANNEL (Wipes all PMT metadata dicts)
+# ══════════════════════════════════════════════════════════════════════════════
+- name: pure_rf_channel_fwd
+  id: epy_block
+  parameters:
+    _source_code: "import pmt, random\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Pure-RF Physical Channel: Strips PMT metadata dict to test 100% in-band transport.\"\"\"\n\
+      \    def __init__(self, p_drop=0.0):\n        gr.basic_block.__init__(self, name='Pure RF Channel (1->2)', in_sig=None, out_sig=None)\n\
+      \        self.p_drop = p_drop\n        self.message_port_register_in(pmt.intern('pdu_in'))\n\
+      \        self.message_port_register_out(pmt.intern('pdu_out'))\n        self.set_msg_handler(pmt.intern('pdu_in'), self.handle_msg)\n\
+      \n    def set_p_drop(self, p):\n        self.p_drop = p\n\n    def handle_msg(self, msg):\n\
+      \        if not pmt.is_pair(msg):\n            return\n        data = pmt.cdr(msg)\n\
+      \        if not pmt.is_u8vector(data):\n            return\n        raw = bytes(pmt.u8vector_elements(data))\n\
+      \        if len(raw) < 18:\n            return\n        types = {1:'SYN', 2:'SYN_ACK', 3:'DATA', 4:'ACK', 5:'FIN', 6:'FIN_ACK'}\n\
+      \        pkt_type = types.get(raw[0], f'0x{raw[0]:02X}')\n        seq = (raw[6] << 8) | raw[7]\n\
+      \        tot = (raw[8] << 8) | raw[9]\n        sid = int.from_bytes(raw[10:18], 'big')\n\
+      \        \n        if random.random() < self.p_drop:\n            print(f\"  [RF DROP 1->2] Type={pkt_type:<7} Length={len(raw):>4}B | Seq={seq}\", flush=True)\n\
+      \            return\n        \n        air_pdu = pmt.cons(pmt.make_dict(), data)\n\
+      \        self.message_port_pub(pmt.intern('pdu_out'), air_pdu)\n"
+    affinity: ''
+    alias: ''
+    comment: Simulates over-the-air raw byte channel (0% PMT metadata)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_prob
+  states:
+    _io_cache: "('Pure RF Channel (1->2)', 'blk', [('p_drop', '0.0')], [('pdu_in', 'message', 1)], [('pdu_out', 'message', 1)], 'Pure-RF Physical Channel: Strips PMT metadata dict to test 100% in-band transport.', ['p_drop'])"
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [560, 180]
+    rotation: 0
+    state: enabled
+
+- name: pure_rf_channel_rev
+  id: epy_block
+  parameters:
+    _source_code: "import pmt, random\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Pure-RF Physical Channel: Strips PMT metadata dict to test 100% in-band transport.\"\"\"\n\
+      \    def __init__(self, p_drop=0.0):\n        gr.basic_block.__init__(self, name='Pure RF Channel (2->1)', in_sig=None, out_sig=None)\n\
+      \        self.p_drop = p_drop\n        self.message_port_register_in(pmt.intern('pdu_in'))\n\
+      \        self.message_port_register_out(pmt.intern('pdu_out'))\n        self.set_msg_handler(pmt.intern('pdu_in'), self.handle_msg)\n\
+      \n    def set_p_drop(self, p):\n        self.p_drop = p\n\n    def handle_msg(self, msg):\n\
+      \        if not pmt.is_pair(msg):\n            return\n        data = pmt.cdr(msg)\n\
+      \        if not pmt.is_u8vector(data):\n            return\n        raw = bytes(pmt.u8vector_elements(data))\n\
+      \        if len(raw) < 18:\n            return\n        types = {1:'SYN', 2:'SYN_ACK', 3:'DATA', 4:'ACK', 5:'FIN', 6:'FIN_ACK'}\n\
+      \        pkt_type = types.get(raw[0], f'0x{raw[0]:02X}')\n        seq = (raw[6] << 8) | raw[7]\n\
+      \        \n        if random.random() < self.p_drop:\n            print(f\"  [RF DROP 2->1] Type={pkt_type:<7} Length={len(raw):>4}B | Seq={seq}\", flush=True)\n\
+      \            return\n        \n        air_pdu = pmt.cons(pmt.make_dict(), data)\n\
+      \        self.message_port_pub(pmt.intern('pdu_out'), air_pdu)\n"
+    affinity: ''
+    alias: ''
+    comment: Reverse channel for ACKs and SYN_ACKs
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_prob
+  states:
+    _io_cache: "('Pure RF Channel (2->1)', 'blk', [('p_drop', '0.0')], [('pdu_in', 'message', 1)], [('pdu_out', 'message', 1)], 'Pure-RF Physical Channel: Strips PMT metadata dict to test 100% in-band transport.', ['p_drop'])"
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [560, 276]
+    rotation: 180
+    state: enabled
+
+# ══════════════════════════════════════════════════════════════════════════════
+# GUI CLOCK ENGINE (Throttle)
+# ══════════════════════════════════════════════════════════════════════════════
+- name: blocks_null_src
+  id: blocks_null_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_source: '[[0,],]'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 450]
+    rotation: 0
+    state: enabled
+
+- name: blocks_throttle
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: '1000'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [180, 446]
+    rotation: 0
+    state: enabled
+
+- name: blocks_null_snk
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 450]
+    rotation: 0
+    state: enabled
+
+connections:
+# Node 1 Connections
+- [zmq_pull_n1, out, transport_n1, app_in]
+- [transport_n1, app_out, zmq_push_n1, in]
+- [transport_n1, app_out, debug_n1_app_out, store]
+- [transport_n1, pdu_out, pure_rf_channel_fwd, pdu_in]
+- [pure_rf_channel_rev, pdu_out, transport_n1, pdu_in]
+
+# Node 2 Connections
+- [zmq_pull_n2, out, transport_n2, app_in]
+- [transport_n2, app_out, zmq_push_n2, in]
+- [transport_n2, app_out, debug_n2_app_out, print_pdu]
+- [transport_n2, pdu_out, pure_rf_channel_rev, pdu_in]
+- [pure_rf_channel_fwd, pdu_out, transport_n2, pdu_in]
+
+# Clock loop
+- [blocks_null_src, '0', blocks_throttle, '0']
+- [blocks_throttle, '0', blocks_null_snk, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

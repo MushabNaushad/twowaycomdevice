@@ -107,7 +107,8 @@ namespace gr {
       int d_send_base;           ///< Absolute index of oldest unACK'd packet
       int d_next_seq_abs;        ///< Absolute index of next packet to send
       int d_total_packets_tx;    ///< Total DATA frames for this session
-      std::vector<pmt::pmt_t> d_tx_buffer; ///< [slot] = u8vector chunk; slot = abs%SEQ_SPACE
+      std::vector<pmt::pmt_t> d_all_tx_packets; ///< Complete list of all packet chunks in session
+      std::vector<pmt::pmt_t> d_tx_buffer; ///< [slot] = active in-flight u8vector chunk; slot = abs%SEQ_SPACE
       std::vector<bool>       d_acked;     ///< [slot] = true when ACK received
 
       // --- RX sliding window state (responder) ---------------------------

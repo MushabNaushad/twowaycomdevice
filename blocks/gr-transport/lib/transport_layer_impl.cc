@@ -180,10 +180,6 @@ namespace gr {
 
       std::lock_guard<std::mutex> lock(d_mutex);
 
-      if (d_role != "initiator") {
-          GR_LOG_WARN(d_logger, "app_in: only 'initiator' nodes originate sessions");
-          return;
-      }
       if (d_state != NodeState::IDLE) {
           GR_LOG_WARN(d_logger, "app_in: session already in progress — dropping");
           return;
@@ -460,6 +456,8 @@ namespace gr {
       int fill = std::min(d_window_size, d_total_packets_tx);
       for (int i = 0; i < fill; ++i) {
           int slot = d_next_seq_abs % d_seq_space;
+          d_tx_buffer[slot] = d_all_tx_packets[d_next_seq_abs];
+          d_acked[slot] = false;
           send_data_packet_locked(slot);
           start_timer(slot);
           d_next_seq_abs++;
@@ -594,6 +592,8 @@ namespace gr {
           // For each slot freed, send the next buffered packet (if any remain)
           if (d_next_seq_abs < d_total_packets_tx) {
               int next_slot = d_next_seq_abs % d_seq_space;
+              d_tx_buffer[next_slot] = d_all_tx_packets[d_next_seq_abs];
+              d_acked[next_slot] = false;
               send_data_packet_locked(next_slot);
               start_timer(next_slot);
               d_next_seq_abs++;
@@ -668,6 +668,7 @@ namespace gr {
     // =========================================================================
     void transport_layer_impl::packetize(const std::vector<uint8_t>& raw)
     {
+      d_all_tx_packets.clear();
       d_tx_buffer.assign(d_seq_space, pmt::PMT_NIL);
       d_acked.assign(d_seq_space, false);
 
@@ -677,9 +678,8 @@ namespace gr {
 
       while (offset < raw_size) {
           int chunk_len = std::min(d_mtu_bytes, raw_size - offset);
-          int slot      = pkt_idx % d_seq_space;
-          d_tx_buffer[slot] = pmt::init_u8vector(
-              chunk_len, raw.data() + offset);
+          d_all_tx_packets.push_back(pmt::init_u8vector(
+              chunk_len, raw.data() + offset));
           pkt_idx++;
           offset += chunk_len;
       }
@@ -975,6 +975,7 @@ namespace gr {
       d_send_base         = 0;
       d_next_seq_abs      = 0;
       d_total_packets_tx  = 0;
+      d_all_tx_packets.clear();
       d_tx_buffer.assign(d_seq_space, pmt::PMT_NIL);
       d_acked.assign    (d_seq_space, false);
       // RX side
