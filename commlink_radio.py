@@ -69,7 +69,7 @@ class commlink_radio(gr.top_block, Qt.QWidget):
         ##################################################
         self.rto_ms = rto_ms = 400
         self.mtu = mtu = 1000
-        self.m = m = 6
+        self.m = m = 14
         self.drop_prob = drop_prob = 0.0
 
         ##################################################

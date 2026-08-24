@@ -58,8 +58,8 @@ blocks:
 - name: m
   id: variable
   parameters:
-    comment: Sequence space bit width (m=6 -> 64 seq, Window W=32)
-    value: '6'
+    comment: Sequence space bit width (m=14 -> 16384 seq, Window W=8192, 16MB+ capacity)
+    value: '14'
   states:
     bus_sink: false
     bus_source: false
