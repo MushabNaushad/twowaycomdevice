@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420" width="700" height="420" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">
+<text x="350.0" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Costas Loop Bandwidth vs Bit Error Rate (BER)</text>
+<g class="grid" stroke="#e2e8f0" stroke-width="1">
+<line x1="80" y1="60.0" x2="560" y2="60.0" />
+<text x="70" y="64.0" text-anchor="end" font-size="11" fill="#64748b">1.0e+00</text>
+<line x1="80" y1="135.0" x2="560" y2="135.0" />
+<text x="70" y="139.0" text-anchor="end" font-size="11" fill="#64748b">1.0e-01</text>
+<line x1="80" y1="210.0" x2="560" y2="210.0" />
+<text x="70" y="214.0" text-anchor="end" font-size="11" fill="#64748b">1.0e-02</text>
+<line x1="80" y1="285.0" x2="560" y2="285.0" />
+<text x="70" y="289.0" text-anchor="end" font-size="11" fill="#64748b">1.0e-03</text>
+<line x1="80" y1="360.0" x2="560" y2="360.0" />
+<text x="70" y="364.0" text-anchor="end" font-size="11" fill="#64748b">1.0e-04</text>
+<line x1="80.0" y1="60" x2="80.0" y2="360" />
+<text x="80.0" y="380" text-anchor="middle" font-size="11" fill="#64748b">0.010</text>
+<line x1="176.0" y1="60" x2="176.0" y2="360" />
+<text x="176.0" y="380" text-anchor="middle" font-size="11" fill="#64748b">0.040</text>
+<line x1="272.0" y1="60" x2="272.0" y2="360" />
+<text x="272.0" y="380" text-anchor="middle" font-size="11" fill="#64748b">0.070</text>
+<line x1="368.0" y1="60" x2="368.0" y2="360" />
+<text x="368.0" y="380" text-anchor="middle" font-size="11" fill="#64748b">0.100</text>
+<line x1="464.0" y1="60" x2="464.0" y2="360" />
+<text x="464.0" y="380" text-anchor="middle" font-size="11" fill="#64748b">0.130</text>
+<line x1="560.0" y1="60" x2="560.0" y2="360" />
+<text x="560.0" y="380" text-anchor="middle" font-size="11" fill="#64748b">0.160</text>
+</g>
+<line x1="80" y1="360" x2="560" y2="360" stroke="#475569" stroke-width="2" />
+<line x1="80" y1="60" x2="80" y2="360" stroke="#475569" stroke-width="2" />
+<text x="320.0" y="405" text-anchor="middle" font-size="13" font-weight="600" fill="#334155">Costas Loop Bandwidth (rad/sym)</text>
+<text transform="rotate(-90)" x="-210.0" y="24" text-anchor="middle" font-size="13" font-weight="600" fill="#334155">Bit Error Rate (BER)</text>
+<path d="M 80.0 245.8 L 128.0 245.8 L 192.0 245.8 L 249.0 245.8 L 336.0 245.8 L 432.0 245.8 L 560.0 245.8" fill="none" stroke="#6366f1" stroke-width="2.5" />
+<circle cx="80.0" cy="245.8" r="4.5" fill="#6366f1" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="128.0" cy="245.8" r="4.5" fill="#6366f1" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="192.0" cy="245.8" r="4.5" fill="#6366f1" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="249.0" cy="245.8" r="4.5" fill="#6366f1" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="336.0" cy="245.8" r="4.5" fill="#6366f1" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="432.0" cy="245.8" r="4.5" fill="#6366f1" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="560.0" cy="245.8" r="4.5" fill="#6366f1" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="575" cy="70" r="5" fill="#6366f1" />
+<text x="588" y="74" font-size="11" font-weight="500" fill="#334155">Costas Sweep</text>
+</svg>

@@ -1,0 +1,21 @@
+{
+  "modulation": "BPSK",
+  "differential_encoding": true,
+  "samples_per_symbol": 4,
+  "excess_bandwidth_alpha": 0.35,
+  "fll_loop_bandwidth": 0.0314,
+  "symbol_sync_loop_bandwidth": 0.045,
+  "costas_loop_bandwidth": 0.0628,
+  "adaptive_equalizer_step_size": 0.0001,
+  "recommended_preamble_bytes": 32,
+  "packet_payload_size": 64,
+  "access_code": "0xE15AE893 (default_access_code)",
+  "crc_algorithm": "CRC32 (IEEE 802.3)",
+  "empirical_metrics": {
+    "steady_state_ber_clean": 0.0,
+    "max_frequency_offset_capture": "+/- 3.5% samp_rate",
+    "max_clock_drift_tolerance": "+/- 500 ppm",
+    "clean_channel_pdr": "100%",
+    "multi_impairment_pdr": "98-100%"
+  }
+}
