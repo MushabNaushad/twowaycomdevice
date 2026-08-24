@@ -39,6 +39,31 @@ namespace gr {
     };
 
     // -----------------------------------------------------------------------
+    // Transport protocol packet types (encoded in byte 0 of transport header)
+    // -----------------------------------------------------------------------
+    static constexpr uint8_t  PKT_TYPE_NONE    = 0x00;
+    static constexpr uint8_t  PKT_TYPE_SYN     = 0x01;
+    static constexpr uint8_t  PKT_TYPE_SYN_ACK = 0x02;
+    static constexpr uint8_t  PKT_TYPE_DATA    = 0x03;
+    static constexpr uint8_t  PKT_TYPE_ACK     = 0x04;
+    static constexpr uint8_t  PKT_TYPE_FIN     = 0x05;
+    static constexpr uint8_t  PKT_TYPE_FIN_ACK = 0x06;
+
+    static constexpr size_t   TRANSPORT_HDR_SIZE = 18;  ///< Fixed transport header length (bytes)
+
+    struct TransportHeader {
+        uint8_t  pkt_type;       ///< 0x01=SYN, 0x02=SYN_ACK, 0x03=DATA, 0x04=ACK, 0x05=FIN, 0x06=FIN_ACK
+        uint8_t  payload_type;   ///< 0x01=text, 0x02=image, 0x03=audio, 0x00=none
+        uint8_t  src_addr;
+        uint8_t  src_port;
+        uint8_t  dst_addr;
+        uint8_t  dst_port;
+        uint16_t seq_no;
+        uint16_t total_packets;
+        uint64_t session_id;
+    };
+
+    // -----------------------------------------------------------------------
     // Application bitstream header constants (see docs/APP_BITSTREAM_FORMAT.md)
     // -----------------------------------------------------------------------
     // Addressing wildcard values (used in address / port filter)
@@ -176,6 +201,30 @@ namespace gr {
 
       /// Publish a PMT cons pair to the pdu_out message port.
       void send_pdu(pmt::pmt_t meta, pmt::pmt_t data);
+
+      // -----------------------------------------------------------------------
+      // Binary Transport Header Helpers
+      // -----------------------------------------------------------------------
+      static std::vector<uint8_t> serialize_transport_header(
+          uint8_t pkt_type,
+          uint8_t payload_type,
+          uint8_t src_addr,
+          uint8_t src_port,
+          uint8_t dst_addr,
+          uint8_t dst_port,
+          uint16_t seq_no,
+          uint16_t total_packets,
+          uint64_t session_id);
+
+      static bool deserialize_transport_header(
+          const uint8_t* buf,
+          size_t len,
+          TransportHeader& out_hdr);
+
+      static std::string pkt_type_to_string(uint8_t type_code);
+      static uint8_t string_to_pkt_type(const std::string& type_str);
+      static std::string payload_type_to_string(uint8_t type_code);
+      static uint8_t string_to_payload_type(const std::string& type_str);
 
       // -----------------------------------------------------------------------
       // Utility (called with d_mutex held)

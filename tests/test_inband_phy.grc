@@ -1,0 +1,411 @@
+options:
+  parameters:
+    author: MethalMindiya
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: In-Band Transport Protocol Serialization Verification on Pure-RF
+      Channel
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: test_inband_phy
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/tests/run_inband_phy.sh" {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: In-Band Transport Protocol Header Test (Pure RF Simulation)
+    window_size: (1280, 850)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 16]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: drop_prob
+  id: variable_qtgui_range
+  parameters:
+    comment: Channel Loss Probability Slider
+    gui_hint: 0,0,1,2
+    label: '"Channel Loss Rate (p_drop)"'
+    min_len: '250'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.05'
+    stop: '0.5'
+    value: '0.0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 16]
+    rotation: 0
+    state: enabled
+- name: dst_addr
+  id: variable
+  parameters:
+    comment: ''
+    value: '9'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 16]
+    rotation: 0
+    state: enabled
+- name: m
+  id: variable
+  parameters:
+    comment: ''
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [420, 16]
+    rotation: 0
+    state: enabled
+- name: mtu
+  id: variable
+  parameters:
+    comment: ''
+    value: '256'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [500, 16]
+    rotation: 0
+    state: enabled
+- name: rto_ms
+  id: variable
+  parameters:
+    comment: ''
+    value: '400'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [580, 16]
+    rotation: 0
+    state: enabled
+- name: src_addr
+  id: variable
+  parameters:
+    comment: ''
+    value: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [670, 16]
+    rotation: 0
+    state: enabled
+- name: app_image_generator
+  id: epy_block
+  parameters:
+    _source_code: "import pmt, ctypes, os\nfrom gnuradio import gr\n\ntry:\n    so\
+      \ = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'blocks',\
+      \ 'gr-transport', 'build', 'lib', 'libgnuradio-transport.so'))\n    if os.path.exists(so):\n\
+      \        ctypes.CDLL(so, mode=ctypes.RTLD_GLOBAL)\nexcept Exception:\n    pass\n\
+      \nclass blk(gr.basic_block):\n    \"\"\"Generates a multi-chunk Image bitstream\
+      \ with the 8-byte application header.\"\"\"\n    def __init__(self, dst_addr=9,\
+      \ payload_len=1024):\n        gr.basic_block.__init__(self, name='App Image\
+      \ Gen', in_sig=None, out_sig=None)\n        self.dst_addr = dst_addr\n    \
+      \    self.payload_len = payload_len\n        self.seq_num = 0\n        self.message_port_register_in(pmt.intern('trig'))\n\
+      \        self.message_port_register_out(pmt.intern('app_out'))\n        self.set_msg_handler(pmt.intern('trig'),\
+      \ self.handle_trig)\n\n    def handle_trig(self, msg):\n        self.seq_num\
+      \ += 1\n        img_data = bytes([(i + self.seq_num) % 256 for i in range(self.payload_len)])\n\
+      \        n = len(img_data)\n        # 8-Byte Application Header: [dst_addr,\
+      \ port, type=0x02(image), rsv=0, len_u32]\n        hdr = bytes([self.dst_addr,\
+      \ 0x00, 0x02, 0x00, (n >> 24) & 0xFF, (n >> 16) & 0xFF, (n >> 8) & 0xFF, n &\
+      \ 0xFF])\n        full_frame = list(hdr + img_data)\n        pdu = pmt.cons(pmt.make_dict(),\
+      \ pmt.init_u8vector(len(full_frame), full_frame))\n        print(f\"\\n[APP\
+      \ TX] Injecting Image Stream #{self.seq_num} ({len(full_frame)}B) to Node {self.dst_addr}\"\
+      , flush=True)\n        self.message_port_pub(pmt.intern('app_out'), pdu)\n"
+    affinity: ''
+    alias: ''
+    comment: Constructs 8-byte app header + image bytes
+    dst_addr: dst_addr
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    payload_len: '1024'
+  states:
+    _io_cache: ('App Image Gen', 'blk', [('dst_addr', '9'), ('payload_len', '1024')],
+      [('trig', 'message', 1)], [('app_out', 'message', 1)], 'Generates a multi-chunk
+      Image bitstream with the 8-byte application header.', ['dst_addr', 'payload_len'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 180]
+    rotation: 0
+    state: enabled
+- name: app_strobe
+  id: blocks_message_strobe
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Periodic Image Trigger
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: pmt.intern('TRIGGER')
+    period: '2000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 180]
+    rotation: 0
+    state: enabled
+- name: blocks_message_debug_ini
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Initiator app_out sink
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [528, 484.0]
+    rotation: 180
+    state: enabled
+- name: blocks_message_debug_ini_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Initiator app_out sink
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 476.0]
+    rotation: 180
+    state: enabled
+- name: blocks_message_debug_rx
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Displays Reassembled Application Bitstream at Responder
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1272, 468.0]
+    rotation: 0
+    state: enabled
+- name: blocks_null_snk
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 400]
+    rotation: 0
+    state: enabled
+- name: blocks_null_src
+  id: blocks_null_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_source: '[[0,],]'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 400]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: '1000'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [180, 396]
+    rotation: 0
+    state: enabled
+- name: pure_rf_channel_fwd
+  id: epy_block
+  parameters:
+    _source_code: "import pmt, random\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Pure-RF Physical Channel: Strips PMT metadata dict to test 100% in-band\
+      \ transport.\"\"\"\n    def __init__(self, p_drop=0.0):\n        gr.basic_block.__init__(self,\
+      \ name='Pure RF Channel (FWD)', in_sig=None, out_sig=None)\n        self.p_drop\
+      \ = p_drop\n        self.message_port_register_in(pmt.intern('pdu_in'))\n  \
+      \      self.message_port_register_out(pmt.intern('pdu_out'))\n        self.set_msg_handler(pmt.intern('pdu_in'),\
+      \ self.handle_msg)\n\n    def set_p_drop(self, p):\n        self.p_drop = p\n\
+      \n    def handle_msg(self, msg):\n        if not pmt.is_pair(msg):\n       \
+      \     return\n        data = pmt.cdr(msg)\n        if not pmt.is_u8vector(data):\n\
+      \            return\n        raw = bytes(pmt.u8vector_elements(data))\n    \
+      \    if len(raw) < 18:\n            return\n        types = {1:'SYN', 2:'SYN_ACK',\
+      \ 3:'DATA', 4:'ACK', 5:'FIN', 6:'FIN_ACK'}\n        pkt_type = types.get(raw[0],\
+      \ f'0x{raw[0]:02X}')\n        seq = (raw[6] << 8) | raw[7]\n        tot = (raw[8]\
+      \ << 8) | raw[9]\n        sid = int.from_bytes(raw[10:18], 'big')\n        \n\
+      \        if random.random() < self.p_drop:\n            print(f\"  [PHY DROP\
+      \ FWD] Type={pkt_type:<7} Length={len(raw):>4}B | Seq={seq} (LOST)\", flush=True)\n\
+      \            return\n        \n        print(f\"  [PHY TX->RX]   Type={pkt_type:<7}\
+      \ Length={len(raw):>4}B | Src={raw[2]} Dst={raw[4]} Seq={seq} Tot={tot} Sid=0x{sid:08X}\"\
+      , flush=True)\n        # Wipe metadata dictionary -> pure RF byte reception\n\
+      \        air_pdu = pmt.cons(pmt.make_dict(), data)\n        self.message_port_pub(pmt.intern('pdu_out'),\
+      \ air_pdu)\n"
+    affinity: ''
+    alias: ''
+    comment: Simulates over-the-air raw byte channel (0% PMT metadata)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_prob
+  states:
+    _io_cache: '(''Pure RF Channel (FWD)'', ''blk'', [(''p_drop'', ''0.0'')], [(''pdu_in'',
+      ''message'', 1)], [(''pdu_out'', ''message'', 1)], ''Pure-RF Physical Channel:
+      Strips PMT metadata dict to test 100% in-band transport.'', [''p_drop''])'
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [780, 180]
+    rotation: 0
+    state: enabled
+- name: pure_rf_channel_rev
+  id: epy_block
+  parameters:
+    _source_code: "import pmt, random\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n\
+      \    \"\"\"Pure-RF Physical Channel: Strips PMT metadata dict to test 100% in-band\
+      \ transport.\"\"\"\n    def __init__(self, p_drop=0.0):\n        gr.basic_block.__init__(self,\
+      \ name='Pure RF Channel (REV)', in_sig=None, out_sig=None)\n        self.p_drop\
+      \ = p_drop\n        self.message_port_register_in(pmt.intern('pdu_in'))\n  \
+      \      self.message_port_register_out(pmt.intern('pdu_out'))\n        self.set_msg_handler(pmt.intern('pdu_in'),\
+      \ self.handle_msg)\n\n    def set_p_drop(self, p):\n        self.p_drop = p\n\
+      \n    def handle_msg(self, msg):\n        if not pmt.is_pair(msg):\n       \
+      \     return\n        data = pmt.cdr(msg)\n        if not pmt.is_u8vector(data):\n\
+      \            return\n        raw = bytes(pmt.u8vector_elements(data))\n    \
+      \    if len(raw) < 18:\n            return\n        types = {1:'SYN', 2:'SYN_ACK',\
+      \ 3:'DATA', 4:'ACK', 5:'FIN', 6:'FIN_ACK'}\n        pkt_type = types.get(raw[0],\
+      \ f'0x{raw[0]:02X}')\n        seq = (raw[6] << 8) | raw[7]\n        \n     \
+      \   if random.random() < self.p_drop:\n            print(f\"  [PHY DROP REV]\
+      \ Type={pkt_type:<7} Length={len(raw):>4}B | Seq={seq} (LOST)\", flush=True)\n\
+      \            return\n        \n        print(f\"  [PHY RX->TX]   Type={pkt_type:<7}\
+      \ Length={len(raw):>4}B | Seq={seq}\", flush=True)\n        air_pdu = pmt.cons(pmt.make_dict(),\
+      \ data)\n        self.message_port_pub(pmt.intern('pdu_out'), air_pdu)\n"
+    affinity: ''
+    alias: ''
+    comment: Reverse channel for ACKs and SYN_ACKs
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    p_drop: drop_prob
+  states:
+    _io_cache: '(''Pure RF Channel (REV)'', ''blk'', [(''p_drop'', ''0.0'')], [(''pdu_in'',
+      ''message'', 1)], [(''pdu_out'', ''message'', 1)], ''Pure-RF Physical Channel:
+      Strips PMT metadata dict to test 100% in-band transport.'', [''p_drop''])'
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 380.0]
+    rotation: 180
+    state: enabled
+- name: transport_initiator
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Initiator (Node 5)
+    local_addr: src_addr
+    local_port: '0'
+    m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: mtu
+    node_role: initiator
+    rto_ms: rto_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 232.0]
+    rotation: 0
+    state: enabled
+- name: transport_responder
+  id: transport_transport_layer
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Responder (Node 9)
+    local_addr: dst_addr
+    local_port: '0'
+    m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu_bytes: mtu
+    node_role: responder
+    rto_ms: rto_ms
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1020, 156]
+    rotation: 0
+    state: enabled
+
+connections:
+- [app_image_generator, app_out, transport_initiator, app_in]
+- [app_strobe, strobe, app_image_generator, trig]
+- [blocks_null_src, '0', blocks_throttle, '0']
+- [blocks_throttle, '0', blocks_null_snk, '0']
+- [pure_rf_channel_fwd, pdu_out, transport_responder, pdu_in]
+- [pure_rf_channel_rev, pdu_out, transport_initiator, pdu_in]
+- [transport_initiator, app_out, blocks_message_debug_ini, store]
+- [transport_initiator, pdu_out, blocks_message_debug_ini_0, print_pdu]
+- [transport_initiator, pdu_out, pure_rf_channel_fwd, pdu_in]
+- [transport_responder, app_out, blocks_message_debug_rx, store]
+- [transport_responder, pdu_out, pure_rf_channel_rev, pdu_in]
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

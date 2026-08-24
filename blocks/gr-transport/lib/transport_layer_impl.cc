@@ -279,22 +279,57 @@ namespace gr {
       pmt::pmt_t meta = pmt::car(msg);
       pmt::pmt_t data = pmt::cdr(msg);
 
-      if (!pmt::is_dict(meta)) {
-          GR_LOG_WARN(d_logger, "pdu_in: car is not a dict — ignoring");
-          return;
-      }
-      if (!pmt::dict_has_key(meta, pmt::mp("pkt_type"))) {
-          GR_LOG_WARN(d_logger, "pdu_in: missing 'pkt_type' key — ignoring");
-          return;
+      TransportHeader thdr{};
+      bool has_inband = false;
+      pmt::pmt_t payload_chunk = pmt::PMT_NIL;
+
+      if (pmt::is_u8vector(data)) {
+          size_t data_len = 0;
+          const uint8_t* raw = pmt::u8vector_elements(data, data_len);
+          if (deserialize_transport_header(raw, data_len, thdr)) {
+              has_inband = true;
+              if (thdr.pkt_type == PKT_TYPE_DATA && data_len > TRANSPORT_HDR_SIZE) {
+                  payload_chunk = pmt::init_u8vector(
+                      data_len - TRANSPORT_HDR_SIZE, raw + TRANSPORT_HDR_SIZE);
+              } else {
+                  payload_chunk = pmt::make_u8vector(0, 0);
+              }
+          }
       }
 
-      std::string pkt_type = pmt::symbol_to_string(
-          pmt::dict_ref(meta, pmt::mp("pkt_type"), pmt::mp("")));
-
+      std::string pkt_type;
       uint64_t incoming_sid = 0;
-      if (pmt::dict_has_key(meta, pmt::mp("session_id")))
-          incoming_sid = pmt::to_uint64(
-              pmt::dict_ref(meta, pmt::mp("session_id"), pmt::from_uint64(0)));
+
+      if (has_inband) {
+          pkt_type = pkt_type_to_string(thdr.pkt_type);
+          incoming_sid = thdr.session_id;
+
+          // Populate meta dictionary from in-band header
+          pmt::pmt_t m = pmt::is_dict(meta) ? meta : pmt::make_dict();
+          m = pmt::dict_add(m, pmt::mp("pkt_type"), pmt::mp(pkt_type));
+          m = pmt::dict_add(m, pmt::mp("session_id"), pmt::from_uint64(incoming_sid));
+          m = pmt::dict_add(m, pmt::mp("seq_no"), pmt::from_uint64(thdr.seq_no));
+          m = pmt::dict_add(m, pmt::mp("total_packets"), pmt::from_uint64(thdr.total_packets));
+          m = pmt::dict_add(m, pmt::mp("payload_type"), pmt::mp(payload_type_to_string(thdr.payload_type)));
+          m = pmt::dict_add(m, pmt::mp("src_addr"), pmt::from_uint64(thdr.src_addr));
+          m = pmt::dict_add(m, pmt::mp("src_port"), pmt::from_uint64(thdr.src_port));
+          m = pmt::dict_add(m, pmt::mp("dst_addr"), pmt::from_uint64(thdr.dst_addr));
+          m = pmt::dict_add(m, pmt::mp("dst_port"), pmt::from_uint64(thdr.dst_port));
+          meta = m;
+          data = payload_chunk;
+      } else {
+          // Fallback to PMT metadata dictionary if in-band header is absent
+          if (!pmt::is_dict(meta) || !pmt::dict_has_key(meta, pmt::mp("pkt_type"))) {
+              GR_LOG_WARN(d_logger, "pdu_in: neither in-band header nor valid meta dict present — ignoring");
+              return;
+          }
+          pkt_type = pmt::symbol_to_string(
+              pmt::dict_ref(meta, pmt::mp("pkt_type"), pmt::mp("")));
+          if (pmt::dict_has_key(meta, pmt::mp("session_id"))) {
+              incoming_sid = pmt::to_uint64(
+                  pmt::dict_ref(meta, pmt::mp("session_id"), pmt::from_uint64(0)));
+          }
+      }
 
       std::lock_guard<std::mutex> lock(d_mutex);
 
@@ -773,10 +808,19 @@ namespace gr {
                                                 int total_packets,
                                                 const std::string& payload_type_str)
     {
+      uint8_t pt_code = string_to_pkt_type(pkt_type);
+      uint8_t pl_code = string_to_payload_type(payload_type_str);
+      uint16_t s_no   = (seq_no >= 0) ? static_cast<uint16_t>(seq_no) : 0;
+      uint16_t t_pkts = (total_packets > 0) ? static_cast<uint16_t>(total_packets) : 0;
+
+      std::vector<uint8_t> hdr = serialize_transport_header(
+          pt_code, pl_code, d_local_addr, d_local_port, d_dst_addr, d_dst_port,
+          s_no, t_pkts, session_id);
+
       pmt::pmt_t meta = build_meta(pkt_type, seq_no, session_id,
                                    total_packets, payload_type_str);
-      // Control frames carry an empty payload
-      send_pdu(meta, pmt::make_u8vector(0, 0));
+      pmt::pmt_t pdu_data = pmt::init_u8vector(hdr.size(), hdr.data());
+      send_pdu(meta, pdu_data);
     }
 
     void transport_layer_impl::send_data_packet_locked(int slot)
@@ -786,19 +830,129 @@ namespace gr {
               "send_data_packet: nil buffer at slot=" + std::to_string(slot));
           return;
       }
+
+      std::string pt_str = pmt::symbol_to_string(d_payload_type_pmt);
+      uint8_t pl_code = string_to_payload_type(pt_str);
+
+      std::vector<uint8_t> hdr = serialize_transport_header(
+          PKT_TYPE_DATA, pl_code, d_local_addr, d_local_port, d_dst_addr, d_dst_port,
+          static_cast<uint16_t>(slot), static_cast<uint16_t>(d_total_packets_tx), d_session_id);
+
+      size_t chunk_len = 0;
+      const uint8_t* chunk_ptr = pmt::u8vector_elements(d_tx_buffer[slot], chunk_len);
+
+      std::vector<uint8_t> frame_bytes = hdr;
+      frame_bytes.insert(frame_bytes.end(), chunk_ptr, chunk_ptr + chunk_len);
+
       pmt::pmt_t meta = build_meta("DATA",
                                    slot,   // seq_no = slot (modular)
                                    d_session_id,
                                    d_total_packets_tx,
-                                   pmt::symbol_to_string(d_payload_type_pmt));
-      send_pdu(meta, d_tx_buffer[slot]);
-      GR_LOG_DEBUG(d_logger, "DATA sent: slot=" + std::to_string(slot));
+                                   pt_str);
+      pmt::pmt_t pdu_data = pmt::init_u8vector(frame_bytes.size(), frame_bytes.data());
+      send_pdu(meta, pdu_data);
+      GR_LOG_DEBUG(d_logger, "DATA sent: slot=" + std::to_string(slot) +
+                   " total_bytes=" + std::to_string(frame_bytes.size()));
     }
 
     void transport_layer_impl::send_pdu(pmt::pmt_t meta, pmt::pmt_t data)
     {
       // message_port_pub is internally thread-safe in GNU Radio
       message_port_pub(pmt::mp("pdu_out"), pmt::cons(meta, data));
+    }
+
+    // =========================================================================
+    // BINARY TRANSPORT HEADER SERIALIZATION / DESERIALIZATION HELPERS
+    // =========================================================================
+    std::vector<uint8_t> transport_layer_impl::serialize_transport_header(
+        uint8_t pkt_type,
+        uint8_t payload_type,
+        uint8_t src_addr,
+        uint8_t src_port,
+        uint8_t dst_addr,
+        uint8_t dst_port,
+        uint16_t seq_no,
+        uint16_t total_packets,
+        uint64_t session_id)
+    {
+      std::vector<uint8_t> hdr(TRANSPORT_HDR_SIZE, 0);
+      hdr[0] = pkt_type;
+      hdr[1] = payload_type;
+      hdr[2] = src_addr;
+      hdr[3] = src_port;
+      hdr[4] = dst_addr;
+      hdr[5] = dst_port;
+      hdr[6] = static_cast<uint8_t>((seq_no >> 8) & 0xFF);
+      hdr[7] = static_cast<uint8_t>(seq_no & 0xFF);
+      hdr[8] = static_cast<uint8_t>((total_packets >> 8) & 0xFF);
+      hdr[9] = static_cast<uint8_t>(total_packets & 0xFF);
+      for (int i = 0; i < 8; ++i) {
+          hdr[10 + i] = static_cast<uint8_t>((session_id >> (56 - 8 * i)) & 0xFF);
+      }
+      return hdr;
+    }
+
+    bool transport_layer_impl::deserialize_transport_header(
+        const uint8_t* buf,
+        size_t len,
+        TransportHeader& out_hdr)
+    {
+      if (!buf || len < TRANSPORT_HDR_SIZE) return false;
+      out_hdr.pkt_type      = buf[0];
+      out_hdr.payload_type  = buf[1];
+      out_hdr.src_addr      = buf[2];
+      out_hdr.src_port      = buf[3];
+      out_hdr.dst_addr      = buf[4];
+      out_hdr.dst_port      = buf[5];
+      out_hdr.seq_no        = (static_cast<uint16_t>(buf[6]) << 8) | static_cast<uint16_t>(buf[7]);
+      out_hdr.total_packets = (static_cast<uint16_t>(buf[8]) << 8) | static_cast<uint16_t>(buf[9]);
+      out_hdr.session_id    = 0;
+      for (int i = 0; i < 8; ++i) {
+          out_hdr.session_id = (out_hdr.session_id << 8) | static_cast<uint64_t>(buf[10 + i]);
+      }
+      return (out_hdr.pkt_type >= PKT_TYPE_SYN && out_hdr.pkt_type <= PKT_TYPE_FIN_ACK);
+    }
+
+    std::string transport_layer_impl::pkt_type_to_string(uint8_t type_code)
+    {
+      switch (type_code) {
+          case PKT_TYPE_SYN:     return "SYN";
+          case PKT_TYPE_SYN_ACK: return "SYN_ACK";
+          case PKT_TYPE_DATA:    return "DATA";
+          case PKT_TYPE_ACK:     return "ACK";
+          case PKT_TYPE_FIN:     return "FIN";
+          case PKT_TYPE_FIN_ACK: return "FIN_ACK";
+          default:               return "UNKNOWN";
+      }
+    }
+
+    uint8_t transport_layer_impl::string_to_pkt_type(const std::string& type_str)
+    {
+      if (type_str == "SYN")     return PKT_TYPE_SYN;
+      if (type_str == "SYN_ACK") return PKT_TYPE_SYN_ACK;
+      if (type_str == "DATA")    return PKT_TYPE_DATA;
+      if (type_str == "ACK")     return PKT_TYPE_ACK;
+      if (type_str == "FIN")     return PKT_TYPE_FIN;
+      if (type_str == "FIN_ACK") return PKT_TYPE_FIN_ACK;
+      return PKT_TYPE_NONE;
+    }
+
+    std::string transport_layer_impl::payload_type_to_string(uint8_t type_code)
+    {
+      switch (type_code) {
+          case APP_TYPE_TEXT:  return "text";
+          case APP_TYPE_IMAGE: return "image";
+          case APP_TYPE_AUDIO: return "audio";
+          default:             return "unknown";
+      }
+    }
+
+    uint8_t transport_layer_impl::string_to_payload_type(const std::string& type_str)
+    {
+      if (type_str == "text")  return APP_TYPE_TEXT;
+      if (type_str == "image") return APP_TYPE_IMAGE;
+      if (type_str == "audio") return APP_TYPE_AUDIO;
+      return 0x00;
     }
 
     // =========================================================================
