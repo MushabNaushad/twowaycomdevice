@@ -28,8 +28,24 @@ echo "==========================================================================
 fuser -k 52001/tcp 52002/tcp 52003/tcp 52004/tcp 52005/tcp 52006/tcp 52007/tcp 52008/tcp 52009/tcp 52010/tcp "$PORT/tcp" 2>/dev/null || true
 sleep 0.3
 
-# Ensure folder hierarchy exists for all active stations (Nodes 1-5)
+# 0. Clean slate: purge old database messages & clear transfer directories for easy diagnosis
+echo "[0/2] Cleaning previous session data (database messages & transfer folders)..."
+python3 -c "
+import sqlite3, os, shutil
+db_path = '$DIR/apps/commlink/data/commlink.db'
+if os.path.exists(db_path):
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.execute('DELETE FROM messages')
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        pass
+" 2>/dev/null || true
+
+# Rebuild fresh folder hierarchy for all 5 stations (Nodes 1-5)
 for i in 1 2 3 4 5; do
+    rm -rf "$DIR/transfers/node_$i/rx" "$DIR/transfers/node_$i/tx_sent" "$DIR/transfers/node_$i/tx"
     mkdir -p "$DIR/transfers/node_$i/rx" "$DIR/transfers/node_$i/tx_sent" "$DIR/transfers/node_$i/tx/broadcast"
     for j in 1 2 3 4 5; do
         if [ "$i" -ne "$j" ]; then

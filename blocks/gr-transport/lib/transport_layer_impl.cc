@@ -542,14 +542,23 @@ namespace gr {
       }
 
       if (!in_window) {
-          GR_LOG_WARN(d_logger,
-              "RX_ACTIVE: seq=" + std::to_string(seq_no) +
-              " outside window [" + std::to_string(d_rcv_base) +
-              ".." + std::to_string((d_rcv_base + d_window_size - 1) % d_seq_space) +
-              "] — sending ACK anyway to unblock sender");
-          // Send ACK to help the transmitter advance its window (e.g. if our earlier
-          // ACK was lost and this is a retransmit of an already-delivered packet).
-          send_ctrl_frame("ACK", d_session_id, seq_no);
+          // Check if this is a retransmit of an ALREADY DELIVERED packet from the past window:
+          // [d_rcv_base - WINDOW_SIZE .. d_rcv_base - 1] mod SEQ_SPACE
+          bool in_past_window = false;
+          for (int i = 1; i <= d_window_size; ++i) {
+              if (seq_no == ((d_rcv_base - i + d_seq_space) % d_seq_space)) {
+                  in_past_window = true;
+                  break;
+              }
+          }
+          if (in_past_window) {
+              // Re-send ACK to unblock transmitter for an already-delivered frame
+              send_ctrl_frame("ACK", d_session_id, seq_no);
+          } else {
+              GR_LOG_WARN(d_logger,
+                  "RX_ACTIVE: future seq=" + std::to_string(seq_no) +
+                  " outside window — discarded without ACK");
+          }
           return;
       }
 

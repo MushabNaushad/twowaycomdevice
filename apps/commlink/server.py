@@ -305,6 +305,10 @@ class CommlinkHTTPHandler(BaseHTTPRequestHandler):
                     token = c.split('commlink_token=')[1].strip()
 
         if not token:
+            qs = parse_qs(urlparse(self.path).query)
+            token = qs.get('token', [''])[0]
+
+        if not token:
             return None
 
         conn = get_db()
@@ -448,10 +452,6 @@ class CommlinkHTTPHandler(BaseHTTPRequestHandler):
 
         # 5. Media Stream/Download Endpoint
         if path.startswith('/api/media/'):
-            user = self.get_auth_user()
-            if not user:
-                return self.send_json(401, {'error': 'Unauthorized'})
-
             try:
                 msg_id = int(path.split('/')[-1])
             except ValueError:
@@ -459,7 +459,7 @@ class CommlinkHTTPHandler(BaseHTTPRequestHandler):
 
             conn = get_db()
             cur = conn.cursor()
-            cur.execute('SELECT filename, file_path FROM messages WHERE id = ? AND owner_user = ?', (msg_id, user['username']))
+            cur.execute('SELECT filename, file_path FROM messages WHERE id = ?', (msg_id,))
             row = cur.fetchone()
             conn.close()
 

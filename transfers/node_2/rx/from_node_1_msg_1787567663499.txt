@@ -1,1 +1,0 @@
-Radio Check from Base Alpha (Node 1) to Node 2.
