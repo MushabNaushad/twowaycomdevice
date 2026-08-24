@@ -1,0 +1,17 @@
+========================================
+RADIO COMMUNICATION LOG & MEMO
+Node ID: 1 -> Node ID: 2
+Date: 2026-08-24
+Topic: In-Band Transport Protocol Verification
+========================================
+All packets are now serialized with the 18-byte
+in-band binary transport header. Selective-Repeat
+ARQ is active with window scaling.
+
+Checklist:
+[x] 8-Byte Application Header
+[x] In-Band 18-Byte Transport Protocol Header
+[x] Hot-Folder Daemon Interface
+[x] Multi-Media Verification (PDF, Image, Audio, Text)
+
+End of transmission.
