@@ -235,11 +235,16 @@ function connectSSE() {
     try {
       const msg = JSON.parse(e.data);
       
-      // If message belongs to active conversation, append it live!
+      // Inbound check: Only display incoming messages intended for our station (or broadcasts from others)
+      const isForMe = (msg.dst_node === state.user.node_address) || 
+                      (msg.dst_node === 0 && msg.src_node !== state.user.node_address);
+
+      if (!isForMe) return;
+
+      // Check if message belongs to the currently active conversation tab
       const isForActiveView = 
         (state.activeTargetNode === 0 && msg.dst_node === 0) ||
-        (msg.src_node === state.activeTargetNode && msg.dst_node === state.user.node_address) ||
-        (msg.src_node === state.user.node_address && msg.dst_node === state.activeTargetNode);
+        (msg.src_node === state.activeTargetNode);
 
       if (isForActiveView) {
         state.messages.push(msg);
@@ -512,6 +517,7 @@ function validateAndAttachFile(file) {
   const nameLabel = document.getElementById('attachment-name');
   const sizeLabel = document.getElementById('attachment-size');
   const iconSpan = document.getElementById('attachment-icon');
+  const textInput = document.getElementById('message-input');
 
   nameLabel.textContent = file.name;
   sizeLabel.textContent = formatFileSize(file.size);
@@ -522,12 +528,16 @@ function validateAndAttachFile(file) {
   else iconSpan.textContent = '📁';
 
   previewBar.classList.remove('hidden');
+  textInput.placeholder = `Attached: ${file.name} (Optional message — press Enter or Send to transmit)`;
+  textInput.focus();
 }
 
 function clearAttachment() {
   state.selectedFile = null;
   document.getElementById('file-input').value = '';
   document.getElementById('attachment-preview-bar').classList.add('hidden');
+  const textInput = document.getElementById('message-input');
+  if (textInput) textInput.placeholder = 'Type a message to transmit over radio...';
 }
 
 function getFileExtension(fname) {
@@ -546,6 +556,7 @@ async function handleSendMessage(e) {
   const errorBanner = document.getElementById('composer-error');
   errorBanner.classList.add('hidden');
 
+  // Allow sending if there is text OR an attachment!
   if (!text && !state.selectedFile) return;
 
   const sendBtn = document.getElementById('send-btn');
@@ -580,11 +591,16 @@ async function handleSendMessage(e) {
       });
     }
 
-    if (res.ok) {
+    const data = await res.json();
+    if (res.ok && data.data) {
       textInput.value = '';
       clearAttachment();
+      
+      // Render outgoing message immediately
+      state.messages.push(data.data);
+      renderSingleMessage(data.data);
+      scrollToBottom();
     } else {
-      const data = await res.json();
       errorBanner.textContent = data.error || 'Failed to transmit message.';
       errorBanner.classList.remove('hidden');
     }
@@ -593,6 +609,25 @@ async function handleSendMessage(e) {
     errorBanner.classList.remove('hidden');
   } finally {
     sendBtn.disabled = false;
+  }
+}
+
+async function clearActiveChat() {
+  try {
+    const res = await fetch('/api/chat/clear', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${state.token}`
+      },
+      body: JSON.stringify({ dst_node: state.activeTargetNode })
+    });
+    if (res.ok) {
+      state.messages = [];
+      renderMessagesStream();
+    }
+  } catch (err) {
+    console.error('Failed to clear chat channel:', err);
   }
 }
 

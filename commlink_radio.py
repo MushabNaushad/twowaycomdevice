@@ -14,6 +14,7 @@ from PyQt5 import Qt
 from gnuradio import qtgui
 from PyQt5 import QtCore
 from gnuradio import blocks
+from gnuradio import blocks, gr
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
@@ -98,6 +99,7 @@ class commlink_radio(gr.top_block, Qt.QWidget):
         self.transport_n2 = transport.transport_layer(m, rto_ms, "responder", mtu, 2, 0)
         self.transport_n1 = transport.transport_layer(m, rto_ms, "initiator", mtu, 1, 0)
         self.rf_bus = rf_bus.multi_node_rf_bus(drop_prob=drop_prob)
+        self.message_debug_0 = blocks.message_debug(True, gr.log_levels.info)
         self.blocks_throttle = blocks.throttle( gr.sizeof_char*1, 32000, True, 0 if "auto" == "auto" else max( int(float(0.1) * 32000) if "auto" == "time" else int(0.1), 1) )
         self.blocks_null_src = blocks.null_source(gr.sizeof_char*1)
         self.blocks_null_snk = blocks.null_sink(gr.sizeof_char*1)
@@ -106,6 +108,7 @@ class commlink_radio(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.rf_bus, 'mon_out'), (self.message_debug_0, 'print_pdu'))
         self.msg_connect((self.rf_bus, 'pdu_out_1'), (self.transport_n1, 'pdu_in'))
         self.msg_connect((self.rf_bus, 'pdu_out_2'), (self.transport_n2, 'pdu_in'))
         self.msg_connect((self.rf_bus, 'pdu_out_3'), (self.transport_n3, 'pdu_in'))

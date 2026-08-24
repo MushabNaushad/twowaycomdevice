@@ -644,6 +644,18 @@ body {
 
 .glass-btn:hover {
   background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-cyan);
+}
+
+.clear-chat-btn {
+  color: var(--accent-rose);
+  border-color: rgba(255, 82, 82, 0.2);
+}
+
+.clear-chat-btn:hover {
+  background: rgba(255, 82, 82, 0.12);
+  border-color: var(--accent-rose);
+  color: #FFF;
 }
 
 /* Messages Stream */

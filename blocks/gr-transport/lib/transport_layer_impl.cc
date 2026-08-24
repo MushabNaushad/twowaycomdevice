@@ -495,8 +495,22 @@ namespace gr {
       int seq_no = static_cast<int>(pmt::to_uint64(
           pmt::dict_ref(meta, pmt::mp("seq_no"), pmt::from_uint64(0))));
 
-      if (d_acked[seq_no]) return;   // Duplicate ACK — already processed
+      // Validate that seq_no falls within current TX window [d_send_base .. d_send_base + WINDOW_SIZE - 1]
+      bool in_window = false;
+      for (int i = 0; i < d_window_size; ++i) {
+          if ((d_send_base + i) < d_total_packets_tx &&
+              seq_no == ((d_send_base + i) % d_seq_space)) {
+              in_window = true;
+              break;
+          }
+      }
 
+      if (!in_window) {
+          // Stale or duplicate ACK from an earlier window cycle — ignore
+          return;
+      }
+
+      // Mark the slot as ACK'd and cancel its retransmission timer
       d_acked[seq_no] = true;
       cancel_timer(seq_no);
 

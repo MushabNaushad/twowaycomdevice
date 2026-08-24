@@ -18,7 +18,8 @@ options:
     qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
-    run_command: '"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/run_radio_grc.sh" {filename}'
+    run_command: '"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/run_radio_grc.sh"
+      {filename}'
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
@@ -54,7 +55,6 @@ blocks:
     coordinate: [280, 16]
     rotation: 0
     state: enabled
-
 - name: m
   id: variable
   parameters:
@@ -67,7 +67,6 @@ blocks:
     coordinate: [480, 16]
     rotation: 0
     state: enabled
-
 - name: mtu
   id: variable
   parameters:
@@ -80,7 +79,6 @@ blocks:
     coordinate: [560, 16]
     rotation: 0
     state: enabled
-
 - name: rto_ms
   id: variable
   parameters:
@@ -93,104 +91,140 @@ blocks:
     coordinate: [640, 16]
     rotation: 0
     state: enabled
-
-# ═════════════════════════════════════════════════════════════════════════════
-# SHARED MULTI-NODE WIRELESS RF BROADCAST BUS
-# ═════════════════════════════════════════════════════════════════════════════
+- name: blocks_null_snk
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [400, 700]
+    rotation: 0
+    state: enabled
+- name: blocks_null_src
+  id: blocks_null_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_source: '[[0,],]'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_outputs: '1'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 700]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: '32000'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 700]
+    rotation: 0
+    state: enabled
+- name: message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: RF Packet Monitor & Hex Dump Console
+    en_uvec: 'True'
+    log_level: info
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1050, 520]
+    rotation: 0
+    state: enabled
 - name: rf_bus
   id: epy_block
   parameters:
-    _source_code: |
-      import pmt, random
-      from gnuradio import gr
-
-      class multi_node_rf_bus(gr.basic_block):
-          def __init__(self, drop_prob=0.0):
-              gr.basic_block.__init__(self, name="Shared RF Broadcast Bus", in_sig=[], out_sig=[])
-              self.drop_prob = drop_prob
-              for i in range(1, 6):
-                  self.message_port_register_in(pmt.intern(f"pdu_in_{i}"))
-                  self.message_port_register_out(pmt.intern(f"pdu_out_{i}"))
-              
-              self.message_port_register_out(pmt.intern("mon_out"))
-
-              self.set_msg_handler(pmt.intern("pdu_in_1"), self.handle_1)
-              self.set_msg_handler(pmt.intern("pdu_in_2"), self.handle_2)
-              self.set_msg_handler(pmt.intern("pdu_in_3"), self.handle_3)
-              self.set_msg_handler(pmt.intern("pdu_in_4"), self.handle_4)
-              self.set_msg_handler(pmt.intern("pdu_in_5"), self.handle_5)
-
-          def set_drop_prob(self, p):
-              self.drop_prob = p
-
-          def _route(self, msg, src_id):
-              if not pmt.is_pair(msg): return
-              data = pmt.cdr(msg)
-              if not pmt.is_u8vector(data): return
-              raw = bytes(pmt.u8vector_elements(data))
-              if len(raw) < 18: return
-
-              types = {1:'SYN', 2:'SYN_ACK', 3:'DATA', 4:'ACK', 5:'FIN', 6:'FIN_ACK'}
-              pkt_type = types.get(raw[0], f'0x{raw[0]:02X}')
-              src_addr = raw[2]
-              dst_addr = raw[4]
-              seq = (raw[6] << 8) | raw[7]
-              tot = (raw[8] << 8) | raw[9]
-              sid = int.from_bytes(raw[10:18], 'big')
-
-              if random.random() < self.drop_prob:
-                  print(f"  [RF AIR DROP] Node {src_id}->{dst_addr} Type={pkt_type} Seq={seq} (DROPPED)", flush=True)
-                  return
-
-              print(f"  [RF AIR BUS] Node {src_id}->Node {dst_addr} Type={pkt_type:<7} | Seq={seq}/{tot} (Length={len(raw)}B)", flush=True)
-              air_pdu = pmt.cons(pmt.make_dict(), data)
-
-              for dst_id in range(1, 6):
-                  if dst_id != src_id:
-                      self.message_port_pub(pmt.intern(f"pdu_out_{dst_id}"), air_pdu)
-
-              self.message_port_pub(pmt.intern("mon_out"), air_pdu)
-
-          def handle_1(self, msg): self._route(msg, 1)
-          def handle_2(self, msg): self._route(msg, 2)
-          def handle_3(self, msg): self._route(msg, 3)
-          def handle_4(self, msg): self._route(msg, 4)
-          def handle_5(self, msg): self._route(msg, 5)
+    _source_code: "import pmt, random\nfrom gnuradio import gr\n\nclass multi_node_rf_bus(gr.basic_block):\n\
+      \    def __init__(self, drop_prob=0.0):\n        gr.basic_block.__init__(self,\
+      \ name=\"Shared RF Broadcast Bus\", in_sig=[], out_sig=[])\n        self.drop_prob\
+      \ = drop_prob\n        for i in range(1, 6):\n            self.message_port_register_in(pmt.intern(f\"\
+      pdu_in_{i}\"))\n            self.message_port_register_out(pmt.intern(f\"pdu_out_{i}\"\
+      ))\n        \n        self.message_port_register_out(pmt.intern(\"mon_out\"\
+      ))\n\n        self.set_msg_handler(pmt.intern(\"pdu_in_1\"), self.handle_1)\n\
+      \        self.set_msg_handler(pmt.intern(\"pdu_in_2\"), self.handle_2)\n   \
+      \     self.set_msg_handler(pmt.intern(\"pdu_in_3\"), self.handle_3)\n      \
+      \  self.set_msg_handler(pmt.intern(\"pdu_in_4\"), self.handle_4)\n        self.set_msg_handler(pmt.intern(\"\
+      pdu_in_5\"), self.handle_5)\n\n    def set_drop_prob(self, p):\n        self.drop_prob\
+      \ = p\n\n    def _route(self, msg, src_id):\n        if not pmt.is_pair(msg):\
+      \ return\n        data = pmt.cdr(msg)\n        if not pmt.is_u8vector(data):\
+      \ return\n        raw = bytes(pmt.u8vector_elements(data))\n        if len(raw)\
+      \ < 18: return\n\n        types = {1:'SYN', 2:'SYN_ACK', 3:'DATA', 4:'ACK',\
+      \ 5:'FIN', 6:'FIN_ACK'}\n        pkt_type = types.get(raw[0], f'0x{raw[0]:02X}')\n\
+      \        src_addr = raw[2]\n        dst_addr = raw[4]\n        seq = (raw[6]\
+      \ << 8) | raw[7]\n        tot = (raw[8] << 8) | raw[9]\n        sid = int.from_bytes(raw[10:18],\
+      \ 'big')\n\n        if random.random() < self.drop_prob:\n            print(f\"\
+      \  [RF AIR DROP] Node {src_id}->{dst_addr} Type={pkt_type} Seq={seq} (DROPPED)\"\
+      , flush=True)\n            return\n\n        print(f\"  [RF AIR BUS] Node {src_id}->Node\
+      \ {dst_addr} Type={pkt_type:<7} | Seq={seq}/{tot} (Length={len(raw)}B)\", flush=True)\n\
+      \        air_pdu = pmt.cons(pmt.make_dict(), data)\n\n        for dst_id in\
+      \ range(1, 6):\n            if dst_id != src_id:\n                self.message_port_pub(pmt.intern(f\"\
+      pdu_out_{dst_id}\"), air_pdu)\n\n        self.message_port_pub(pmt.intern(\"\
+      mon_out\"), air_pdu)\n\n    def handle_1(self, msg): self._route(msg, 1)\n \
+      \   def handle_2(self, msg): self._route(msg, 2)\n    def handle_3(self, msg):\
+      \ self._route(msg, 3)\n    def handle_4(self, msg): self._route(msg, 4)\n  \
+      \  def handle_5(self, msg): self._route(msg, 5)\n"
+    affinity: ''
+    alias: ''
     comment: Shared RF broadcast medium with simulated packet loss
     drop_prob: drop_prob
+    maxoutbuf: '0'
+    minoutbuf: '0'
   states:
+    _io_cache: ('Shared RF Broadcast Bus', 'multi_node_rf_bus', [('drop_prob', '0.0')],
+      [('pdu_in_3', 'message', 1), ('pdu_in_2', 'message', 1), ('pdu_in_5', 'message',
+      1), ('pdu_in_4', 'message', 1), ('pdu_in_1', 'message', 1)], [('mon_out', 'message',
+      1), ('pdu_out_5', 'message', 1), ('pdu_out_4', 'message', 1), ('pdu_out_3',
+      'message', 1), ('pdu_out_2', 'message', 1), ('pdu_out_1', 'message', 1)], '',
+      ['drop_prob'])
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [640, 300]
     rotation: 0
     state: enabled
-
-# ═════════════════════════════════════════════════════════════════════════════
-# NODE 1 TRANSCEIVER (local_addr=1, tx=52001, rx=52002)
-# ═════════════════════════════════════════════════════════════════════════════
-- name: zmq_pull_n1
-  id: zeromq_pull_msg_source
-  parameters:
-    address: tcp://127.0.0.1:52001
-    bind: 'True'
-    comment: Node 1 App Input
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [24, 150]
-    rotation: 0
-    state: enabled
-
 - name: transport_n1
   id: transport_transport_layer
   parameters:
+    affinity: ''
+    alias: ''
+    comment: Transport Layer Node 1
     local_addr: '1'
     local_port: '0'
-    comment: Transport Layer Node 1
     m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
     mtu_bytes: mtu
     node_role: '"initiator"'
     rto_ms: rto_ms
@@ -201,47 +235,17 @@ blocks:
     coordinate: [260, 130]
     rotation: 0
     state: enabled
-
-- name: zmq_push_n1
-  id: zeromq_push_msg_sink
-  parameters:
-    address: tcp://127.0.0.1:52002
-    bind: 'True'
-    comment: Node 1 App Output
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [260, 220]
-    rotation: 180
-    state: enabled
-
-# ═════════════════════════════════════════════════════════════════════════════
-# NODE 2 TRANSCEIVER (local_addr=2, tx=52003, rx=52004)
-# ═════════════════════════════════════════════════════════════════════════════
-- name: zmq_pull_n2
-  id: zeromq_pull_msg_source
-  parameters:
-    address: tcp://127.0.0.1:52003
-    bind: 'True'
-    comment: Node 2 App Input
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [24, 330]
-    rotation: 0
-    state: enabled
-
 - name: transport_n2
   id: transport_transport_layer
   parameters:
+    affinity: ''
+    alias: ''
+    comment: Transport Layer Node 2
     local_addr: '2'
     local_port: '0'
-    comment: Transport Layer Node 2
     m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
     mtu_bytes: mtu
     node_role: '"responder"'
     rto_ms: rto_ms
@@ -252,47 +256,17 @@ blocks:
     coordinate: [260, 310]
     rotation: 0
     state: enabled
-
-- name: zmq_push_n2
-  id: zeromq_push_msg_sink
-  parameters:
-    address: tcp://127.0.0.1:52004
-    bind: 'True'
-    comment: Node 2 App Output
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [260, 400]
-    rotation: 180
-    state: enabled
-
-# ═════════════════════════════════════════════════════════════════════════════
-# NODE 3 TRANSCEIVER (local_addr=3, tx=52005, rx=52006)
-# ═════════════════════════════════════════════════════════════════════════════
-- name: zmq_pull_n3
-  id: zeromq_pull_msg_source
-  parameters:
-    address: tcp://127.0.0.1:52005
-    bind: 'True'
-    comment: Node 3 App Input
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [24, 510]
-    rotation: 0
-    state: enabled
-
 - name: transport_n3
   id: transport_transport_layer
   parameters:
+    affinity: ''
+    alias: ''
+    comment: Transport Layer Node 3
     local_addr: '3'
     local_port: '0'
-    comment: Transport Layer Node 3
     m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
     mtu_bytes: mtu
     node_role: '"responder"'
     rto_ms: rto_ms
@@ -303,47 +277,17 @@ blocks:
     coordinate: [260, 490]
     rotation: 0
     state: enabled
-
-- name: zmq_push_n3
-  id: zeromq_push_msg_sink
-  parameters:
-    address: tcp://127.0.0.1:52006
-    bind: 'True'
-    comment: Node 3 App Output
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [260, 580]
-    rotation: 180
-    state: enabled
-
-# ═════════════════════════════════════════════════════════════════════════════
-# NODE 4 TRANSCEIVER (local_addr=4, tx=52007, rx=52008)
-# ═════════════════════════════════════════════════════════════════════════════
-- name: zmq_pull_n4
-  id: zeromq_pull_msg_source
-  parameters:
-    address: tcp://127.0.0.1:52007
-    bind: 'True'
-    comment: Node 4 App Input
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1100, 150]
-    rotation: 180
-    state: enabled
-
 - name: transport_n4
   id: transport_transport_layer
   parameters:
+    affinity: ''
+    alias: ''
+    comment: Transport Layer Node 4
     local_addr: '4'
     local_port: '0'
-    comment: Transport Layer Node 4
     m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
     mtu_bytes: mtu
     node_role: '"responder"'
     rto_ms: rto_ms
@@ -354,47 +298,17 @@ blocks:
     coordinate: [880, 130]
     rotation: 180
     state: enabled
-
-- name: zmq_push_n4
-  id: zeromq_push_msg_sink
-  parameters:
-    address: tcp://127.0.0.1:52008
-    bind: 'True'
-    comment: Node 4 App Output
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [880, 220]
-    rotation: 0
-    state: enabled
-
-# ═════════════════════════════════════════════════════════════════════════════
-# NODE 5 TRANSCEIVER (local_addr=5, tx=52009, rx=52010)
-# ═════════════════════════════════════════════════════════════════════════════
-- name: zmq_pull_n5
-  id: zeromq_pull_msg_source
-  parameters:
-    address: tcp://127.0.0.1:52009
-    bind: 'True'
-    comment: Node 5 App Input
-    timeout: '100'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1100, 330]
-    rotation: 180
-    state: enabled
-
 - name: transport_n5
   id: transport_transport_layer
   parameters:
+    affinity: ''
+    alias: ''
+    comment: Transport Layer Node 5
     local_addr: '5'
     local_port: '0'
-    comment: Transport Layer Node 5
     m: m
+    maxoutbuf: '0'
+    minoutbuf: '0'
     mtu_bytes: mtu
     node_role: '"responder"'
     rto_ms: rto_ms
@@ -405,11 +319,166 @@ blocks:
     coordinate: [880, 310]
     rotation: 180
     state: enabled
-
+- name: zmq_pull_n1
+  id: zeromq_pull_msg_source
+  parameters:
+    address: tcp://127.0.0.1:52001
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 1 App Input
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 150]
+    rotation: 0
+    state: enabled
+- name: zmq_pull_n2
+  id: zeromq_pull_msg_source
+  parameters:
+    address: tcp://127.0.0.1:52003
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 2 App Input
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 330]
+    rotation: 0
+    state: enabled
+- name: zmq_pull_n3
+  id: zeromq_pull_msg_source
+  parameters:
+    address: tcp://127.0.0.1:52005
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 3 App Input
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 510]
+    rotation: 0
+    state: enabled
+- name: zmq_pull_n4
+  id: zeromq_pull_msg_source
+  parameters:
+    address: tcp://127.0.0.1:52007
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 4 App Input
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 150]
+    rotation: 180
+    state: enabled
+- name: zmq_pull_n5
+  id: zeromq_pull_msg_source
+  parameters:
+    address: tcp://127.0.0.1:52009
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 5 App Input
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1100, 330]
+    rotation: 180
+    state: enabled
+- name: zmq_push_n1
+  id: zeromq_push_msg_sink
+  parameters:
+    address: tcp://127.0.0.1:52002
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 1 App Output
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 268.0]
+    rotation: 180
+    state: enabled
+- name: zmq_push_n2
+  id: zeromq_push_msg_sink
+  parameters:
+    address: tcp://127.0.0.1:52004
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 2 App Output
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [260, 400]
+    rotation: 180
+    state: enabled
+- name: zmq_push_n3
+  id: zeromq_push_msg_sink
+  parameters:
+    address: tcp://127.0.0.1:52006
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 3 App Output
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [260, 580]
+    rotation: 180
+    state: enabled
+- name: zmq_push_n4
+  id: zeromq_push_msg_sink
+  parameters:
+    address: tcp://127.0.0.1:52008
+    affinity: ''
+    alias: ''
+    bind: 'True'
+    comment: Node 4 App Output
+    timeout: '100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 220]
+    rotation: 0
+    state: enabled
 - name: zmq_push_n5
   id: zeromq_push_msg_sink
   parameters:
     address: tcp://127.0.0.1:52010
+    affinity: ''
+    alias: ''
     bind: 'True'
     comment: Node 5 App Output
     timeout: '100'
@@ -421,101 +490,30 @@ blocks:
     rotation: 0
     state: enabled
 
-# ═════════════════════════════════════════════════════════════════════════════
-# RF MONITOR CONSOLE
-# ═════════════════════════════════════════════════════════════════════════════
-- name: message_debug_0
-  id: message_debug
-  parameters:
-    comment: RF Packet Monitor & Hex Dump Console
-    en_uvec: 'True'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1050, 520]
-    rotation: 0
-    state: enabled
-
-# ═════════════════════════════════════════════════════════════════════════════
-# FLOW CONTROL CLOCK THROTTLE
-# ═════════════════════════════════════════════════════════════════════════════
-- name: blocks_null_src
-  id: blocks_null_source
-  parameters:
-    bus_structure_source: '[[0,],]'
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [24, 700]
-    rotation: 0
-    state: enabled
-
-- name: blocks_throttle
-  id: blocks_throttle2
-  parameters:
-    samples_per_second: '32000'
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [200, 700]
-    rotation: 0
-    state: enabled
-
-- name: blocks_null_snk
-  id: blocks_null_sink
-  parameters:
-    bus_structure_sink: '[[0,],]'
-    type: byte
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [400, 700]
-    rotation: 0
-    state: enabled
-
 connections:
-# Node 1
-- [zmq_pull_n1, out, transport_n1, app_in]
-- [transport_n1, app_out, zmq_push_n1, in]
-- [transport_n1, pdu_out, rf_bus, pdu_in_1]
-- [rf_bus, pdu_out_1, transport_n1, pdu_in]
-
-# Node 2
-- [zmq_pull_n2, out, transport_n2, app_in]
-- [transport_n2, app_out, zmq_push_n2, in]
-- [transport_n2, pdu_out, rf_bus, pdu_in_2]
-- [rf_bus, pdu_out_2, transport_n2, pdu_in]
-
-# Node 3
-- [zmq_pull_n3, out, transport_n3, app_in]
-- [transport_n3, app_out, zmq_push_n3, in]
-- [transport_n3, pdu_out, rf_bus, pdu_in_3]
-- [rf_bus, pdu_out_3, transport_n3, pdu_in]
-
-# Node 4
-- [zmq_pull_n4, out, transport_n4, app_in]
-- [transport_n4, app_out, zmq_push_n4, in]
-- [transport_n4, pdu_out, rf_bus, pdu_in_4]
-- [rf_bus, pdu_out_4, transport_n4, pdu_in]
-
-# Node 5
-- [zmq_pull_n5, out, transport_n5, app_in]
-- [transport_n5, app_out, zmq_push_n5, in]
-- [transport_n5, pdu_out, rf_bus, pdu_in_5]
-- [rf_bus, pdu_out_5, transport_n5, pdu_in]
-
-# Monitor Output
-- [rf_bus, mon_out, message_debug_0, print_pdu]
-
-# Clock Throttle Loop
 - [blocks_null_src, '0', blocks_throttle, '0']
 - [blocks_throttle, '0', blocks_null_snk, '0']
+- [rf_bus, mon_out, message_debug_0, print_pdu]
+- [rf_bus, pdu_out_1, transport_n1, pdu_in]
+- [rf_bus, pdu_out_2, transport_n2, pdu_in]
+- [rf_bus, pdu_out_3, transport_n3, pdu_in]
+- [rf_bus, pdu_out_4, transport_n4, pdu_in]
+- [rf_bus, pdu_out_5, transport_n5, pdu_in]
+- [transport_n1, app_out, zmq_push_n1, in]
+- [transport_n1, pdu_out, rf_bus, pdu_in_1]
+- [transport_n2, app_out, zmq_push_n2, in]
+- [transport_n2, pdu_out, rf_bus, pdu_in_2]
+- [transport_n3, app_out, zmq_push_n3, in]
+- [transport_n3, pdu_out, rf_bus, pdu_in_3]
+- [transport_n4, app_out, zmq_push_n4, in]
+- [transport_n4, pdu_out, rf_bus, pdu_in_4]
+- [transport_n5, app_out, zmq_push_n5, in]
+- [transport_n5, pdu_out, rf_bus, pdu_in_5]
+- [zmq_pull_n1, out, transport_n1, app_in]
+- [zmq_pull_n2, out, transport_n2, app_in]
+- [zmq_pull_n3, out, transport_n3, app_in]
+- [zmq_pull_n4, out, transport_n4, app_in]
+- [zmq_pull_n5, out, transport_n5, app_in]
 
 metadata:
   file_format: 1

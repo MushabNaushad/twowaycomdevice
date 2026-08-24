@@ -111,57 +111,63 @@ def init_db():
 init_db()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# GLOBAL DAEMON & SSE EVENT MANAGER
+# GLOBAL DAEMON & SSE EVENT MANAGER (Multi-Node Support: Nodes 1-5)
 # ─────────────────────────────────────────────────────────────────────────────
 class AppStateManager:
     def __init__(self):
-        self.active_daemon = None
+        self.daemons = {}
         self.active_node = None
         self.sse_clients = []
         self.lock = threading.RLock()
         self.rx_thread = None
         self.running = True
 
-    def set_active_node(self, node_id: int):
+    @property
+    def is_online(self) -> bool:
+        return bool(self.daemons and any(d.running for d in self.daemons.values()))
+
+    def ensure_all_node_folders(self):
+        for node_id in range(1, 6):
+            node_dir = os.path.join(TRANSFERS_DIR, f"node_{node_id}")
+            os.makedirs(os.path.join(node_dir, "rx"), exist_ok=True)
+            os.makedirs(os.path.join(node_dir, "tx_sent"), exist_ok=True)
+            for target_id in range(1, 6):
+                if target_id != node_id:
+                    os.makedirs(os.path.join(node_dir, "tx", f"node_{target_id}"), exist_ok=True)
+            os.makedirs(os.path.join(node_dir, "tx", "broadcast"), exist_ok=True)
+
+    def start_all_nodes(self):
         with self.lock:
-            if self.active_node == node_id and self.active_daemon is not None and self.active_daemon.running:
-                return # Already running for this node
-            
-            # Stop existing daemon
-            if self.active_daemon:
-                print(f"[Commlink] Stopping previous daemon for Node {self.active_node}...")
-                self.active_daemon.stop()
-                self.active_daemon = None
+            self.ensure_all_node_folders()
+            for node_id in range(1, 6):
+                if node_id not in self.daemons or not self.daemons[node_id].running:
+                    tx_port = 52000 + (node_id * 2) - 1
+                    rx_port = 52000 + (node_id * 2)
+                    d = FolderSyncDaemon(node_id=node_id, tx_port=tx_port, rx_port=rx_port, poll_interval=0.2)
+                    d.start()
+                    self.daemons[node_id] = d
 
-            self.active_node = node_id
-            
-            # ZeroMQ port mapping: Node 1 -> tx:52001, rx:52002; Node 2 -> tx:52003, rx:52004; etc.
-            tx_port = 52000 + (node_id * 2) - 1
-            rx_port = 52000 + (node_id * 2)
-
-            print(f"[Commlink] Starting Managed FolderSyncDaemon for Node {node_id} (TX:{tx_port}, RX:{rx_port})...")
-            self.active_daemon = FolderSyncDaemon(node_id=node_id, tx_port=tx_port, rx_port=rx_port, poll_interval=0.2)
-            self.active_daemon.start()
-
-            # Ensure local folders exist
-            os.makedirs(os.path.join(TRANSFERS_DIR, f"node_{node_id}", "tx"), exist_ok=True)
-            os.makedirs(os.path.join(TRANSFERS_DIR, f"node_{node_id}", "rx"), exist_ok=True)
-            os.makedirs(os.path.join(TRANSFERS_DIR, f"node_{node_id}", "tx_sent"), exist_ok=True)
-
-            # Start RX directory monitor thread if not already running
             if self.rx_thread is None or not self.rx_thread.is_alive():
                 self.rx_thread = threading.Thread(target=self._rx_monitor_loop, daemon=True)
                 self.rx_thread.start()
 
+    def set_active_node(self, node_id: int):
+        with self.lock:
+            self.active_node = node_id
+            self.start_all_nodes()
+            tx_port = 52000 + (node_id * 2) - 1
+            rx_port = 52000 + (node_id * 2)
             self.broadcast_event('status', {'node': node_id, 'status': 'ONLINE', 'tx_port': tx_port, 'rx_port': rx_port})
 
     def stop_all(self):
         self.running = False
         with self.lock:
-            if self.active_daemon:
-                print(f"[Commlink] Stopping managed daemon for Node {self.active_node}...")
-                self.active_daemon.stop()
-                self.active_daemon = None
+            for node_id, d in list(self.daemons.items()):
+                try:
+                    d.stop()
+                except Exception as e:
+                    pass
+            self.daemons.clear()
 
     def broadcast_event(self, event_type: str, data: dict):
         msg = f"event: {event_type}\ndata: {json.dumps(data)}\n\n"
@@ -180,8 +186,9 @@ class AppStateManager:
         seen_files = set()
         while self.running:
             try:
-                if self.active_node is not None:
-                    rx_dir = os.path.join(TRANSFERS_DIR, f"node_{self.active_node}", "rx")
+                # Scan all active node RX directories (1..5)
+                for node_id in range(1, 6):
+                    rx_dir = os.path.join(TRANSFERS_DIR, f"node_{node_id}", "rx")
                     if os.path.exists(rx_dir):
                         for fname in os.listdir(rx_dir):
                             fpath = os.path.join(rx_dir, fname)
@@ -197,12 +204,12 @@ class AppStateManager:
                                     continue
 
                                 seen_files.add(fpath)
-                                self._ingest_received_file(fname, fpath)
+                                self._ingest_received_file(node_id, fname, fpath)
             except Exception as e:
                 print(f"[RX Monitor Error]: {e}")
             time.sleep(0.3)
 
-    def _ingest_received_file(self, fname: str, fpath: str):
+    def _ingest_received_file(self, target_node: int, fname: str, fpath: str):
         # Filename format: from_node_<src_addr>_<orig_fname>
         src_node = 0
         orig_fname = fname
@@ -233,16 +240,21 @@ class AppStateManager:
             except:
                 content_text = f"[Text File: {orig_fname}]"
 
-        # Record in database for all users associated with this node
         conn = get_db()
         cur = conn.cursor()
-        cur.execute('SELECT username FROM users WHERE node_address = ?', (self.active_node,))
+        
+        # Check users registered under this destination node
+        cur.execute('SELECT username FROM users WHERE node_address = ?', (target_node,))
         rows = cur.fetchall()
-        for (uname,) in rows:
+        user_list = [r[0] for r in rows]
+        if not user_list:
+            user_list = [f"station_{target_node}"]
+
+        for uname in user_list:
             cur.execute('''
                 INSERT INTO messages (owner_user, src_node, dst_node, media_type, filename, content, file_path, file_size, sha256, is_outgoing, timestamp)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
-            ''', (uname, src_node, self.active_node, media_type, orig_fname, content_text, fpath, file_size, file_hash, time.time()))
+            ''', (uname, src_node, target_node, media_type, orig_fname, content_text, fpath, file_size, file_hash, time.time()))
             msg_id = cur.lastrowid
             
             # Broadcast live SSE update to UI
@@ -250,7 +262,7 @@ class AppStateManager:
                 'id': msg_id,
                 'owner_user': uname,
                 'src_node': src_node,
-                'dst_node': self.active_node,
+                'dst_node': target_node,
                 'media_type': media_type,
                 'filename': orig_fname,
                 'content': content_text,
@@ -261,7 +273,7 @@ class AppStateManager:
             })
         conn.commit()
         conn.close()
-        print(f"[Commlink RX Ingest] '{orig_fname}' ({file_size}B) from Node {src_node} stored & broadcast!")
+        print(f"[Commlink RX Ingest] '{orig_fname}' ({file_size}B) from Node {src_node} -> Node {target_node} stored & broadcast!")
 
 STATE = AppStateManager()
 
@@ -335,7 +347,7 @@ class CommlinkHTTPHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             # Initial status ping
-            init_msg = f"event: status\ndata: {json.dumps({'node': STATE.active_node, 'status': 'ONLINE' if STATE.active_daemon else 'OFFLINE'})}\n\n"
+            init_msg = f"event: status\ndata: {json.dumps({'node': STATE.active_node, 'status': 'ONLINE' if STATE.is_online else 'OFFLINE'})}\n\n"
             self.wfile.write(init_msg.encode('utf-8'))
             self.wfile.flush()
 
@@ -365,7 +377,7 @@ class CommlinkHTTPHandler(BaseHTTPRequestHandler):
             STATE.set_active_node(user['node_address'])
             return self.send_json(200, {
                 'user': user,
-                'radio_status': 'ONLINE' if (STATE.active_daemon and STATE.active_daemon.running) else 'IDLE'
+                'radio_status': 'ONLINE' if STATE.is_online else 'IDLE'
             })
 
         # 3. Known Contacts List
@@ -374,21 +386,22 @@ class CommlinkHTTPHandler(BaseHTTPRequestHandler):
             if not user:
                 return self.send_json(401, {'error': 'Unauthorized'})
 
-            # Query unique users or standard node addresses
             conn = get_db()
             cur = conn.cursor()
             cur.execute('SELECT username, display_name, node_address FROM users WHERE node_address != ?', (user['node_address'],))
             contacts = []
+            registered_addrs = set()
             for r in cur.fetchall():
                 contacts.append({'username': r[0], 'display_name': r[1], 'node_address': r[2]})
+                registered_addrs.add(r[2])
             conn.close()
 
-            # Add default node options if empty
-            if not contacts:
-                for i in [2, 3, 5, 9]:
-                    if i != user['node_address']:
-                        contacts.append({'username': f'node_{i}', 'display_name': f'Radio Station {i}', 'node_address': i})
+            # Always populate standard nodes 1..5 in the channel list
+            for i in range(1, 6):
+                if i != user['node_address'] and i not in registered_addrs:
+                    contacts.append({'username': f'station_{i}', 'display_name': f'Radio Station {i}', 'node_address': i})
 
+            contacts.sort(key=lambda c: c['node_address'])
             return self.send_json(200, {'contacts': contacts})
 
         # 4. Message History with Destination Node
@@ -576,6 +589,47 @@ class CommlinkHTTPHandler(BaseHTTPRequestHandler):
             else:
                 body = self._read_json_body()
                 return self._handle_json_send(user, body)
+
+        # 5. Clear Channel / Chat History & Staged Files Endpoint
+        if path == '/api/chat/clear':
+            user = self.get_auth_user()
+            if not user:
+                return self.send_json(401, {'error': 'Unauthorized'})
+            
+            body = self._read_json_body()
+            target_node = int(body.get('dst_node', 0))
+            src_node = user['node_address']
+
+            # Clear messages from database
+            conn = get_db()
+            cur = conn.cursor()
+            if target_node == 0:
+                cur.execute('DELETE FROM messages WHERE owner_user = ? AND dst_node = 0', (user['username'],))
+            else:
+                cur.execute('''
+                    DELETE FROM messages 
+                    WHERE owner_user = ? AND ((src_node = ? AND dst_node = ?) OR (src_node = ? AND dst_node = ?))
+                ''', (user['username'], src_node, target_node, target_node, src_node))
+            conn.commit()
+            conn.close()
+
+            # Clean folder files for this node channel
+            dst_folder = "broadcast" if target_node == 0 else f"node_{target_node}"
+            tx_path = os.path.join(TRANSFERS_DIR, f"node_{src_node}", "tx", dst_folder)
+            if os.path.exists(tx_path):
+                for f in os.listdir(tx_path):
+                    try: os.remove(os.path.join(tx_path, f))
+                    except: pass
+
+            rx_path = os.path.join(TRANSFERS_DIR, f"node_{src_node}", "rx")
+            if os.path.exists(rx_path):
+                for f in os.listdir(rx_path):
+                    if target_node == 0 or f"from_node_{target_node}_" in f:
+                        try: os.remove(os.path.join(rx_path, f))
+                        except: pass
+
+            print(f"[Commlink] Cleared chat history and folders for Node {src_node} <-> Channel {target_node}")
+            return self.send_json(200, {'message': 'Chat history and staged files cleared.'})
 
         self.send_json(404, {'error': 'Not Found'})
 
