@@ -3,13 +3,14 @@
 """
 sweep_orchestrator.py
 =====================
-Orchestrates the full 20-configuration parameter sweep by executing each
-(m, mtu) configuration in its own isolated Python process.
+Orchestrates the full 20-configuration parameter sweep under Megabyte-scale
+continuous offered load by executing each (m, mtu) configuration in its own
+process-isolated GNU Radio instance.
 
-Once all runs complete, it aggregates all raw data into:
+Aggregates results into:
   - sweep_results.json
   - sweep_results.csv
-And generates all performance visualization charts and report tables.
+And generates updated performance charts and recommendations.
 """
 
 import os, sys, time, subprocess, json, csv
@@ -23,12 +24,13 @@ TOTAL_COMBOS = len(M_VALUES) * len(MTU_VALUES)
 
 def main():
     print("=" * 80)
-    print("GNU RADIO SELECTIVE-REPEAT ARQ PARAMETER SWEEP ORCHESTRATOR")
+    print("GNU RADIO HIGH-THROUGHPUT MEGABYTE IMAGE STREAMING PARAMETER SWEEP")
     print(f"Configurations to run: {TOTAL_COMBOS} ({TOTAL_COMBOS * 5} measurement points)")
     print(f"Sequence Bit Width m in: {M_VALUES}  -> Window Sizes: {[2**(m-1) for m in M_VALUES]}")
     print(f"MTU Sizes in: {MTU_VALUES} bytes")
     print(f"Loss Rates tested per config: [0%, 5%, 15%, 30%, 50%]")
     print(f"Concurrent Nodes: 10 (5 simultaneous active pairs)")
+    print(f"Offered Load: Continuous multi-megabyte image stream (100ms rapid injection)")
     print("=" * 80)
     
     start_total = time.time()
@@ -39,7 +41,7 @@ def main():
         for mtu in MTU_VALUES:
             count += 1
             print(f"\n[{count}/{TOTAL_COMBOS}] Running GNU Radio Flowgraph for m={m} (W={2**(m-1)}), MTU={mtu}B...")
-            cmd = [sys.executable, os.path.join(SCRIPT_DIR, 'run_actual_sweep.py'), str(m), str(mtu)]
+            cmd = [sys.executable, os.path.join(SCRIPT_DIR, 'run_megabyte_sweep.py'), str(m), str(mtu)]
             
             p = subprocess.run(cmd, capture_output=True, text=True)
             
