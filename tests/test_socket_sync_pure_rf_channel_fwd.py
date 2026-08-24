@@ -32,6 +32,5 @@ class blk(gr.basic_block):
             print(f"  [RF DROP 1->2] Type={pkt_type:<7} Length={len(raw):>4}B | Seq={seq}", flush=True)
             return
         
-        print(f"  [RF 1->2]      Type={pkt_type:<7} Length={len(raw):>4}B | Src={raw[2]} Dst={raw[4]} Seq={seq} Tot={tot}", flush=True)
         air_pdu = pmt.cons(pmt.make_dict(), data)
         self.message_port_pub(pmt.intern('pdu_out'), air_pdu)

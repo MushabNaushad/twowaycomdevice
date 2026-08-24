@@ -5,9 +5,9 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: Two-Way Radio Hot-Folder File Sync (Socket PDU Interface)
+# Title: Two-Way Radio Hot-Folder File Sync (10MB+ Multi-Megabyte Support)
 # Author: MethalMindiya
-# Description: Hot-Folder UDP Socket PDU File Sync Flowgraph
+# Description: High-Capacity Hot-Folder File Sync Flowgraph (10MB+ Support)
 # GNU Radio version: 3.10.12.0
 
 from PyQt5 import Qt
@@ -24,8 +24,8 @@ from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-from gnuradio import network
 from gnuradio import transport
+from gnuradio import zeromq
 import test_socket_sync_pure_rf_channel_fwd as pure_rf_channel_fwd  # embedded python block
 import test_socket_sync_pure_rf_channel_rev as pure_rf_channel_rev  # embedded python block
 import threading
@@ -35,9 +35,9 @@ import threading
 class test_socket_sync(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "Two-Way Radio Hot-Folder File Sync (Socket PDU Interface)", catch_exceptions=True)
+        gr.top_block.__init__(self, "Two-Way Radio Hot-Folder File Sync (10MB+ Multi-Megabyte Support)", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Two-Way Radio Hot-Folder File Sync (Socket PDU Interface)")
+        self.setWindowTitle("Two-Way Radio Hot-Folder File Sync (10MB+ Multi-Megabyte Support)")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -69,8 +69,8 @@ class test_socket_sync(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.rto_ms = rto_ms = 400
-        self.mtu = mtu = 500
-        self.m = m = 5
+        self.mtu = mtu = 1000
+        self.m = m = 6
         self.drop_prob = drop_prob = 0.0
 
         ##################################################
@@ -84,12 +84,12 @@ class test_socket_sync(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 2):
             self.top_grid_layout.setColumnStretch(c, 1)
+        self.zmq_push_n2 = zeromq.push_msg_sink('tcp://127.0.0.1:52004', 100, True)
+        self.zmq_push_n1 = zeromq.push_msg_sink('tcp://127.0.0.1:52002', 100, True)
+        self.zmq_pull_n2 = zeromq.pull_msg_source('tcp://127.0.0.1:52003', 100, True)
+        self.zmq_pull_n1 = zeromq.pull_msg_source('tcp://127.0.0.1:52001', 100, True)
         self.transport_n2 = transport.transport_layer(m, rto_ms, 'responder', mtu, 2, 0)
         self.transport_n1 = transport.transport_layer(m, rto_ms, 'initiator', mtu, 1, 0)
-        self.socket_pdu_srv_n2 = network.socket_pdu('UDP_SERVER', '127.0.0.1', '52003', 65536, False)
-        self.socket_pdu_srv_n1 = network.socket_pdu('UDP_SERVER', '127.0.0.1', '52001', 65536, False)
-        self.socket_pdu_cli_n2 = network.socket_pdu('UDP_CLIENT', '127.0.0.1', '52004', 65536, False)
-        self.socket_pdu_cli_n1 = network.socket_pdu('UDP_CLIENT', '127.0.0.1', '52002', 65536, False)
         self.pure_rf_channel_rev = pure_rf_channel_rev.blk(p_drop=drop_prob)
         self.pure_rf_channel_fwd = pure_rf_channel_fwd.blk(p_drop=drop_prob)
         self.debug_n2_app_out = blocks.message_debug(True, gr.log_levels.info)
@@ -104,14 +104,14 @@ class test_socket_sync(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.pure_rf_channel_fwd, 'pdu_out'), (self.transport_n2, 'pdu_in'))
         self.msg_connect((self.pure_rf_channel_rev, 'pdu_out'), (self.transport_n1, 'pdu_in'))
-        self.msg_connect((self.socket_pdu_srv_n1, 'pdus'), (self.transport_n1, 'app_in'))
-        self.msg_connect((self.socket_pdu_srv_n2, 'pdus'), (self.transport_n2, 'app_in'))
         self.msg_connect((self.transport_n1, 'app_out'), (self.debug_n1_app_out, 'store'))
         self.msg_connect((self.transport_n1, 'pdu_out'), (self.pure_rf_channel_fwd, 'pdu_in'))
-        self.msg_connect((self.transport_n1, 'app_out'), (self.socket_pdu_cli_n1, 'pdus'))
+        self.msg_connect((self.transport_n1, 'app_out'), (self.zmq_push_n1, 'in'))
         self.msg_connect((self.transport_n2, 'app_out'), (self.debug_n2_app_out, 'print_pdu'))
         self.msg_connect((self.transport_n2, 'pdu_out'), (self.pure_rf_channel_rev, 'pdu_in'))
-        self.msg_connect((self.transport_n2, 'app_out'), (self.socket_pdu_cli_n2, 'pdus'))
+        self.msg_connect((self.transport_n2, 'app_out'), (self.zmq_push_n2, 'in'))
+        self.msg_connect((self.zmq_pull_n1, 'out'), (self.transport_n1, 'app_in'))
+        self.msg_connect((self.zmq_pull_n2, 'out'), (self.transport_n2, 'app_in'))
         self.connect((self.blocks_null_src, 0), (self.blocks_throttle, 0))
         self.connect((self.blocks_throttle, 0), (self.blocks_null_snk, 0))
 
