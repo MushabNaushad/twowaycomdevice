@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commlink — Two-Way Radio Communicator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app-root">
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- AUTHENTICATION MODAL / SCREEN                                         -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div id="auth-overlay" class="modal-overlay">
+      <div class="auth-card glass-panel">
+        <div class="auth-brand">
+          <div class="radio-waves-icon">
+            <span class="wave wave-1"></span>
+            <span class="wave wave-2"></span>
+            <span class="wave wave-3"></span>
+            <div class="core-dot"></div>
+          </div>
+          <h1>COMMLINK</h1>
+          <p class="subtitle">Two-Way Radio In-Band Communication Platform</p>
+        </div>
+
+        <div class="auth-tabs">
+          <button id="tab-login" class="tab-btn active" onclick="switchAuthTab('login')">Sign In</button>
+          <button id="tab-signup" class="tab-btn" onclick="switchAuthTab('signup')">Create Account</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+          <div class="input-group">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" placeholder="e.g. operator_1" required autocomplete="username">
+          </div>
+          <div class="input-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <div id="login-error" class="error-banner hidden"></div>
+          <button type="submit" class="primary-btn glow-btn">
+            <span>Connect to Radio</span>
+            <svg class="btn-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" transform="rotate(90 12 12)"/></svg>
+          </button>
+        </form>
+
+        <!-- Sign Up Form -->
+        <form id="signup-form" class="auth-form hidden" onsubmit="handleSignup(event)">
+          <div class="input-row">
+            <div class="input-group">
+              <label for="signup-name">Display Name</label>
+              <input type="text" id="signup-name" placeholder="HQ Base Station" required>
+            </div>
+            <div class="input-group">
+              <label for="signup-node">Station Node Address (1–254)</label>
+              <input type="number" id="signup-node" min="1" max="254" value="1" required>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="signup-username">Username</label>
+            <input type="text" id="signup-username" placeholder="station_hq" required autocomplete="username">
+          </div>
+          <div class="input-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" placeholder="••••••••" required autocomplete="new-password">
+          </div>
+          <div id="signup-error" class="error-banner hidden"></div>
+          <button type="submit" class="primary-btn glow-btn">
+            <span>Initialize Station & Register</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- MAIN APPLICATION DASHBOARD                                            -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div id="main-dashboard" class="dashboard-layout hidden">
+      
+      <!-- Top Navigation Bar -->
+      <header class="top-nav glass-panel">
+        <div class="nav-brand">
+          <div class="brand-badge">
+            <div class="core-dot pulse"></div>
+            <span class="brand-title">COMMLINK</span>
+          </div>
+          <div class="radio-status-tag">
+            <span class="status-indicator online"></span>
+            <span id="rf-status-text">RF LINK ACTIVE</span>
+          </div>
+        </div>
+
+        <div class="nav-user-info">
+          <div class="node-badge">
+            <span class="node-label">LOCAL STATION</span>
+            <span id="current-node-addr" class="node-id-chip">NODE 1</span>
+          </div>
+          <div class="user-profile">
+            <div id="user-avatar" class="avatar">O1</div>
+            <span id="user-display-name" class="display-name">Operator 1</span>
+          </div>
+          <button class="logout-btn" onclick="handleLogout()" title="Log Out">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M16 17v-3H9v-4h7V7l5 5-5 5M14 2a2 2 0 0 1 2 2v2h-2V4H5v16h9v-2h2v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9z"/></svg>
+            <span>Exit</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Workspace (Sidebar + Chat Arena) -->
+      <main class="workspace-arena">
+        
+        <!-- Left Sidebar: Station Channels & Contacts -->
+        <aside class="stations-sidebar glass-panel">
+          <div class="sidebar-header">
+            <h3>RADIO CHANNELS</h3>
+            <button class="icon-btn" onclick="openAddStationModal()" title="Add Custom Node Address">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </button>
+          </div>
+
+          <!-- Broadcast Channel Button -->
+          <div class="channel-group">
+            <button class="station-card broadcast-card" onclick="selectContact(0, 'All Units (Broadcast)')" id="contact-btn-0">
+              <div class="station-avatar bcast-avatar">📢</div>
+              <div class="station-details">
+                <div class="station-top">
+                  <span class="station-name">BROADCAST ALL</span>
+                  <span class="node-tag">ADDR 0</span>
+                </div>
+                <span class="station-sub">Global Emergency & Alert Beacon</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Direct Node Station List -->
+          <div class="channel-divider">DIRECT STATIONS</div>
+          <div id="stations-list" class="stations-list">
+            <!-- Rendered by JS -->
+          </div>
+        </aside>
+
+        <!-- Center: Chat & Transmission Feed -->
+        <section class="chat-container glass-panel">
+          
+          <!-- Chat Header -->
+          <div class="chat-header">
+            <div class="active-target-info">
+              <div class="target-avatar" id="active-target-avatar">N2</div>
+              <div>
+                <h2 id="active-target-name">Station Node 2</h2>
+                <div class="target-meta">
+                  <span id="active-target-node" class="target-node-tag">Target: Node 2</span>
+                  <span class="target-status-dot"></span>
+                  <span class="target-status-label">Selective-Repeat ARQ Channel</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-actions">
+              <button class="glass-btn" onclick="refreshMessages()" title="Refresh Feed">
+                <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Messages Stream -->
+          <div id="messages-stream" class="messages-stream">
+            <!-- Messages rendered dynamically -->
+          </div>
+
+          <!-- Drag and Drop Overlay Indicator -->
+          <div id="dropzone-overlay" class="dropzone-overlay hidden">
+            <div class="dropzone-card">
+              <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+              <h3>Drop Image, PDF, or Audio to Transmit</h3>
+              <p>Supports files up to 50 MB via In-Band Transport</p>
+            </div>
+          </div>
+
+          <!-- Message Composer Area -->
+          <div class="composer-container">
+            
+            <!-- Active File Attachment Chip -->
+            <div id="attachment-preview-bar" class="attachment-preview-bar hidden">
+              <div class="attachment-chip">
+                <span id="attachment-icon" class="attachment-chip-icon">📄</span>
+                <div class="attachment-chip-info">
+                  <span id="attachment-name" class="attachment-chip-name">document.pdf</span>
+                  <span id="attachment-size" class="attachment-chip-size">1.2 MB</span>
+                </div>
+                <button type="button" class="remove-attachment-btn" onclick="clearAttachment()" title="Remove file">✕</button>
+              </div>
+            </div>
+
+            <!-- Validation Error Alert Banner -->
+            <div id="composer-error" class="error-banner composer-banner hidden"></div>
+
+            <form id="composer-form" class="composer-form" onsubmit="handleSendMessage(event)">
+              
+              <!-- Hidden File Input -->
+              <input type="file" id="file-input" class="hidden" onchange="handleFileSelect(event)" accept=".jpg,.jpeg,.png,.webp,.bmp,.gif,.pdf,.wav,.mp3,.ogg,.opus,.txt,.json,.csv">
+
+              <!-- Attachment Menu Trigger -->
+              <div class="attachment-btn-wrapper">
+                <button type="button" class="attachment-btn" onclick="triggerFileInput()" title="Attach Image, PDF, or Audio">
+                  <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5V6H9v9.5a3.5 3.5 0 0 0 7 0V5a4.5 4.5 0 0 0-9 0v12.5c0 3.31 2.69 6 6 6s6-2.69 6-6V6h-2.5z"/></svg>
+                </button>
+              </div>
+
+              <!-- Text Input Area -->
+              <textarea id="message-input" rows="1" placeholder="Type a message to transmit over radio..." onkeydown="handleTextKeydown(event)"></textarea>
+
+              <!-- Send Button -->
+              <button type="submit" id="send-btn" class="send-btn glow-btn" title="Transmit over Radio">
+                <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- IMAGE LIGHTBOX MODAL                                                  -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div id="lightbox-modal" class="modal-overlay hidden" onclick="closeLightbox()">
+      <div class="lightbox-content" onclick="event.stopPropagation()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img id="lightbox-img" src="" alt="Full Preview">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <!-- ADD STATION MODAL                                                     -->
+    <!-- ══════════════════════════════════════════════════════════════════════ -->
+    <div id="add-station-modal" class="modal-overlay hidden">
+      <div class="dialog-card glass-panel">
+        <h3>Connect to New Node</h3>
+        <p class="dialog-sub">Enter the target station's hardware address ID.</p>
+        <div class="input-group">
+          <label for="custom-node-id">Target Node ID (1–254)</label>
+          <input type="number" id="custom-node-id" min="1" max="254" value="3">
+        </div>
+        <div class="input-group">
+          <label for="custom-node-name">Station Label (Optional)</label>
+          <input type="text" id="custom-node-name" placeholder="Outpost Delta">
+        </div>
+        <div class="modal-actions">
+          <button class="glass-btn" onclick="closeAddStationModal()">Cancel</button>
+          <button class="primary-btn" onclick="confirmAddStation()">Add Station</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

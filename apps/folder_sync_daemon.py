@@ -47,19 +47,9 @@ class FolderSyncDaemon:
         os.makedirs(self.rx_dir, exist_ok=True)
 
         self.zmq_ctx = zmq.Context()
-        
-        # TX: Connects to GNU Radio's zeromq_pull_msg_source (which binds to tx_port)
-        self.tx_socket = self.zmq_ctx.socket(zmq.PUSH)
-        self.tx_socket.connect(f'tcp://127.0.0.1:{self.tx_port}')
-        
-        # RX: Connects to GNU Radio's zeromq_push_msg_sink (which binds to rx_port)
-        self.rx_socket = self.zmq_ctx.socket(zmq.PULL)
-        self.rx_socket.connect(f'tcp://127.0.0.1:{self.rx_port}')
-        self.rx_socket.RCVTIMEO = 500 # 500ms timeout for non-blocking loop
-
         self.sent_history = []
         self.received_history = []
-
+        
     def start(self):
         self.running = True
         print("=" * 75)
@@ -78,62 +68,70 @@ class FolderSyncDaemon:
 
     def stop(self):
         self.running = False
-        if hasattr(self, 'tx_thread'): self.tx_thread.join(timeout=1.0)
-        if hasattr(self, 'rx_thread'): self.rx_thread.join(timeout=1.0)
-        try: self.tx_socket.close()
-        except: pass
-        try: self.rx_socket.close()
-        except: pass
+        if hasattr(self, 'tx_thread'): self.tx_thread.join(timeout=0.3)
+        if hasattr(self, 'rx_thread'): self.rx_thread.join(timeout=0.3)
         try: self.zmq_ctx.term()
         except: pass
         print(f"[Node {self.node_id}] Daemon stopped.")
 
     # ─── TX File Scanner ────────────────────────────────────────────────────────
     def _tx_loop(self):
+        tx_socket = self.zmq_ctx.socket(zmq.PUSH)
+        tx_socket.SNDTIMEO = 200
+        tx_socket.connect(f'tcp://127.0.0.1:{self.tx_port}')
+
         while self.running:
             try:
-                self._scan_and_send()
+                self._scan_and_send(tx_socket)
             except Exception as e:
-                print(f"[TX Error Node {self.node_id}]: {e}")
+                if self.running:
+                    print(f"[TX Error Node {self.node_id}]: {e}")
             time.sleep(self.poll_interval)
+        try: tx_socket.close(linger=0)
+        except: pass
 
-    def _scan_and_send(self):
+    def _wait_file_stable(self, filepath: str) -> bool:
+        try:
+            sz1 = os.path.getsize(filepath)
+            time.sleep(0.06)
+            sz2 = os.path.getsize(filepath)
+            return sz1 == sz2 and sz1 > 0
+        except OSError:
+            return False
+
+    def _scan_and_send(self, tx_socket):
         if not os.path.exists(self.tx_dir):
             return
 
-        for entry in os.listdir(self.tx_dir):
-            subpath = os.path.join(self.tx_dir, entry)
-            if not os.path.isdir(subpath):
+        for dest_folder in os.listdir(self.tx_dir):
+            dest_path = os.path.join(self.tx_dir, dest_folder)
+            if not os.path.isdir(dest_path):
                 continue
 
-            # Determine destination address from folder name
-            if entry == "broadcast":
-                dst_addr = 0
-            elif entry.startswith("node_"):
+            dst_addr = 0
+            if dest_folder.startswith("node_"):
                 try:
-                    dst_addr = int(entry.replace("node_", ""))
+                    dst_addr = int(dest_folder.split("_")[1])
                 except ValueError:
                     continue
+            elif dest_folder == "broadcast":
+                dst_addr = 0
             else:
                 continue
 
-            for fname in os.listdir(subpath):
-                filepath = os.path.join(subpath, fname)
+            for fname in os.listdir(dest_path):
+                filepath = os.path.join(dest_path, fname)
                 if not os.path.isfile(filepath):
                     continue
 
-                # Stability check: wait for file copy to complete (especially for multi-MB files)
-                try:
-                    size1 = os.path.getsize(filepath)
-                    time.sleep(0.08)
-                    size2 = os.path.getsize(filepath)
-                    if size1 != size2 or size1 == 0:
-                        continue # File is still being copied
-                except OSError:
+                if not self._wait_file_stable(filepath):
                     continue
 
-                with open(filepath, "rb") as f:
-                    file_bytes = f.read()
+                try:
+                    with open(filepath, 'rb') as f:
+                        file_bytes = f.read()
+                except (PermissionError, OSError):
+                    continue
 
                 ext = os.path.splitext(fname)[1].lower()
                 media_type = 0x01 if ext in ['.txt', '.json', '.csv', '.log'] else \
@@ -157,7 +155,11 @@ class FolderSyncDaemon:
 
                 # Pack into PMT and send via ZeroMQ
                 pdu = pmt.cons(pmt.make_dict(), pmt.init_u8vector(len(full_pdu_bytes), full_pdu_bytes))
-                self.tx_socket.send(pmt.serialize_str(pdu))
+                try:
+                    tx_socket.send(pmt.serialize_str(pdu))
+                except zmq.Again:
+                    print(f"⚠ [TX Node {self.node_id}] Radio interface not ready (buffer full) — will retry")
+                    continue
 
                 ts_str = time.strftime('%Y%m%d_%H%M%S')
                 mb_str = f"{len(file_bytes)/(1024*1024):.2f} MB" if len(file_bytes) >= 1024*1024 else f"{len(file_bytes)/1024:.1f} KB"
@@ -174,14 +176,18 @@ class FolderSyncDaemon:
 
                 # Move sent file to archive
                 archive_name = f"{ts_str}_{fname}"
-                dest_path = os.path.join(self.sent_dir, archive_name)
-                shutil.move(filepath, dest_path)
+                dest_path_arc = os.path.join(self.sent_dir, archive_name)
+                shutil.move(filepath, dest_path_arc)
 
     # ─── RX File Ingestion ──────────────────────────────────────────────────────
     def _rx_loop(self):
+        rx_socket = self.zmq_ctx.socket(zmq.PULL)
+        rx_socket.RCVTIMEO = 200
+        rx_socket.connect(f'tcp://127.0.0.1:{self.rx_port}')
+
         while self.running:
             try:
-                msg_bytes = self.rx_socket.recv()
+                msg_bytes = rx_socket.recv()
                 if msg_bytes:
                     pdu = pmt.deserialize_str(msg_bytes)
                     if pmt.is_pair(pdu):
@@ -194,6 +200,8 @@ class FolderSyncDaemon:
             except Exception as e:
                 if self.running:
                     print(f"[RX Error Node {self.node_id}]: {e}")
+        try: rx_socket.close(linger=0)
+        except: pass
 
     def _handle_received_pdu(self, raw: bytes):
         if len(raw) < 9:
