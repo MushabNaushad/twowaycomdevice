@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 420" width="650" height="420" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
+<text x="325.0" y="32" text-anchor="middle" font-size="15" font-weight="bold" fill="#0f172a">Preamble Length vs Packet Delivery Ratio (PDR)</text>
+<g stroke="#e2e8f0" stroke-width="1">
+<line x1="80" y1="360.0" x2="510" y2="360.0" />
+<text x="70" y="364.0" text-anchor="end" font-size="10" fill="#64748b">74.96</text>
+<line x1="80" y1="285.0" x2="510" y2="285.0" />
+<text x="70" y="289.0" text-anchor="end" font-size="10" fill="#64748b">77.53</text>
+<line x1="80" y1="210.0" x2="510" y2="210.0" />
+<text x="70" y="214.0" text-anchor="end" font-size="10" fill="#64748b">80.09</text>
+<line x1="80" y1="135.0" x2="510" y2="135.0" />
+<text x="70" y="139.0" text-anchor="end" font-size="10" fill="#64748b">82.66</text>
+<line x1="80" y1="60.0" x2="510" y2="60.0" />
+<text x="70" y="64.0" text-anchor="end" font-size="10" fill="#64748b">85.23</text>
+<line x1="80.0" y1="60" x2="80.0" y2="360" />
+<text x="80.0" y="380" text-anchor="middle" font-size="10" fill="#64748b">16.00</text>
+<line x1="166.0" y1="60" x2="166.0" y2="360" />
+<text x="166.0" y="380" text-anchor="middle" font-size="10" fill="#64748b">22.40</text>
+<line x1="252.0" y1="60" x2="252.0" y2="360" />
+<text x="252.0" y="380" text-anchor="middle" font-size="10" fill="#64748b">28.80</text>
+<line x1="338.00000000000006" y1="60" x2="338.00000000000006" y2="360" />
+<text x="338.00000000000006" y="380" text-anchor="middle" font-size="10" fill="#64748b">35.20</text>
+<line x1="424.0" y1="60" x2="424.0" y2="360" />
+<text x="424.0" y="380" text-anchor="middle" font-size="10" fill="#64748b">41.60</text>
+<line x1="510.0" y1="60" x2="510.0" y2="360" />
+<text x="510.0" y="380" text-anchor="middle" font-size="10" fill="#64748b">48.00</text>
+</g>
+<line x1="80" y1="360" x2="510" y2="360" stroke="#475569" stroke-width="2" />
+<line x1="80" y1="60" x2="80" y2="360" stroke="#475569" stroke-width="2" />
+<text x="295.0" y="405" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Preamble Length (Bytes)</text>
+<text transform="rotate(-90)" x="-210.0" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Packet Delivery Ratio (%)</text>
+<path d="M 80.0 66.0 L 295.0 81.6 L 510.0 60.0" fill="none" stroke="#2563eb" stroke-width="2.5" />
+<circle cx="80.0" cy="66.0" r="4" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="295.0" cy="81.6" r="4" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="510.0" cy="60.0" r="4" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="525" cy="70" r="4.5" fill="#2563eb" />
+<text x="536" y="74" font-size="11" font-weight="500" fill="#334155">BPSK PDR %</text>
+<path d="M 80.0 335.4 L 295.0 360.0 L 510.0 356.4" fill="none" stroke="#16a34a" stroke-width="2.5" />
+<circle cx="80.0" cy="335.4" r="4" fill="#16a34a" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="295.0" cy="360.0" r="4" fill="#16a34a" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="510.0" cy="356.4" r="4" fill="#16a34a" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="525" cy="94" r="4.5" fill="#16a34a" />
+<text x="536" y="98" font-size="11" font-weight="500" fill="#334155">QPSK PDR %</text>
+</svg>

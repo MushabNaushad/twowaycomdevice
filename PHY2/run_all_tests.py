@@ -2,30 +2,33 @@
 # -*- coding: utf-8 -*-
 """
 PHY2 - Master Test Suite Orchestrator
-Executes and validates all 10 incremental physical layer test stages and the optimization suite.
+Executes and validates all 10 incremental physical layer test stages and the adapted original transceiver
+for both BPSK and QPSK modulation schemes under active channel impairments.
 """
 
 import sys
 import os
+import argparse
 import subprocess
 import time
 
 TEST_STAGES = [
-    ("Stage 01: Pure Baseband BPSK Loopback", "PHY2/test_01_bpsk_loopback/run_test.py"),
-    ("Stage 02: BPSK with RRC Pulse Shaping & AWGN", "PHY2/test_02_bpsk_rrc_awgn/run_test.py"),
-    ("Stage 03: BPSK with Symbol Synchronization", "PHY2/test_03_bpsk_symbol_sync/run_test.py"),
-    ("Stage 04: BPSK with Costas Loop Carrier Recovery", "PHY2/test_04_bpsk_costas_loop/run_test.py"),
-    ("Stage 05: BPSK with FLL Band-Edge Frequency Recovery", "PHY2/test_05_bpsk_fll_band_edge/run_test.py"),
-    ("Stage 06: BPSK with Adaptive Linear Equalizer", "PHY2/test_06_bpsk_linear_equalizer/run_test.py"),
-    ("Stage 07: BPSK with Preamble & Access Code Frame Sync", "PHY2/test_07_bpsk_preamble_access_code/run_test.py"),
-    ("Stage 08: Full BPSK Packet Engine & CRC32", "PHY2/test_08_bpsk_packet_crc32/run_test.py"),
-    ("Stage 09: CDP Modular BPSK Transceiver", "PHY2/test_09_bpsk_cdp_transceiver/run_test.py"),
-    ("Stage 10: End-to-End Stress & Multi-Impairment Validation", "PHY2/test_10_bpsk_end_to_end_stress/run_test.py"),
+    ("Stage 01: Baseband Constellation Loopback", "PHY2/test_01_bpsk_loopback/run_test.py"),
+    ("Stage 02: RRC Pulse Shaping & AWGN Channel", "PHY2/test_02_bpsk_rrc_awgn/run_test.py"),
+    ("Stage 03: Symbol Timing Recovery (Clock Drift)", "PHY2/test_03_bpsk_symbol_sync/run_test.py"),
+    ("Stage 04: Costas Loop Carrier Phase Recovery", "PHY2/test_04_bpsk_costas_loop/run_test.py"),
+    ("Stage 05: FLL Band-Edge Frequency Acquisition", "PHY2/test_05_bpsk_fll_band_edge/run_test.py"),
+    ("Stage 06: Adaptive Linear Equalizer (Multipath ISI)", "PHY2/test_06_bpsk_linear_equalizer/run_test.py"),
+    ("Stage 07: Preamble & Access Code Frame Sync", "PHY2/test_07_bpsk_preamble_access_code/run_test.py"),
+    ("Stage 08: Full Packet Engine & CRC32 Verification", "PHY2/test_08_bpsk_packet_crc32/run_test.py"),
+    ("Stage 09: CDP Modular Transceiver Architecture", "PHY2/test_09_bpsk_cdp_transceiver/run_test.py"),
+    ("Stage 10: Multi-Impairment High-Volume Stress Test", "PHY2/test_10_bpsk_end_to_end_stress/run_test.py"),
+    ("Adapted Original Transceiver Validation", "PHY2/adapted_original/run_original_test.py"),
 ]
 
-def run_all():
+def run_all(mod_type='ALL'):
     print("================================================================================")
-    print("                    PHY2 MASTER TEST SUITE VALIDATION                           ")
+    print(f"      PHY2 MASTER TEST SUITE VALIDATION (Modulation: {mod_type.upper()})        ")
     print("================================================================================")
     
     workspace_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -38,7 +41,7 @@ def run_all():
         t0 = time.time()
         
         proc = subprocess.run(
-            [sys.executable, full_path],
+            [sys.executable, full_path, "--mod", mod_type],
             cwd=workspace_dir,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -67,7 +70,7 @@ def run_all():
     print(f" Total Passed: {pass_count}/{len(results)} stages | Total Time: {total_time:.2f}s")
     
     if all_passed:
-        print("\033[92m >>> ALL 10 PHY2 STAGES PASSED END-TO-END WITH ZERO REGRESSIONS! <<<\033[0m")
+        print("\033[92m >>> ALL PHY2 TEST STAGES & ADAPTED TRANSCEIVERS PASSED WITH 0 REGRESSIONS! <<<\033[0m")
     else:
         print("\033[91m >>> SOME TESTS FAILED. PLEASE REVIEW LOGS ABOVE. <<<\033[0m")
     print("================================================================================")
@@ -75,4 +78,7 @@ def run_all():
     return 0 if all_passed else 1
 
 if __name__ == "__main__":
-    sys.exit(run_all())
+    parser = argparse.ArgumentParser(description="PHY2 Master Test Runner")
+    parser.add_argument('--mod', type=str, default='ALL', choices=['BPSK', 'QPSK', 'ALL'])
+    args = parser.parse_args()
+    sys.exit(run_all(args.mod))

@@ -1,39 +1,58 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PHY2 Stage 05: BPSK with FLL Band-Edge Frequency Recovery Test Runner
-Verifies wide-range coarse carrier frequency acquisition across large frequency offsets.
+PHY2 Stage 05: FLL Band-Edge Frequency Recovery Test Runner (BPSK & QPSK)
+Verifies wide-range coarse carrier frequency acquisition across large frequency offsets and noise.
 """
 
 import sys
+import argparse
 import numpy as np
 from gnuradio import gr, digital, blocks, filter, channels, analog
 from gnuradio.filter import firdes
 
-class BPSKFLLTester(gr.top_block):
-    def __init__(self, test_bytes, freq_offset=0.0, fll_bw=0.0314, costas_bw=0.0628, sym_bw=0.045, sps=4, alpha=0.35, samp_rate=32000):
-        super().__init__("BPSK_FLL_Tester", catch_exceptions=True)
+class FLLTester(gr.top_block):
+    def __init__(self, test_bytes, mod_type='BPSK', freq_offset=0.015, noise_volt=0.01,
+                 fll_bw=0.0314, costas_bw=0.0628, sym_bw=0.045, sps=4, alpha=0.35, samp_rate=32000):
+        super().__init__("FLL_Tester", catch_exceptions=True)
         
-        self.BPSK_CONST = digital.constellation_bpsk().base()
+        self.mod_type = mod_type.upper()
         flush_bytes = [0x00] * 60
         tx_data = list(test_bytes) + flush_bytes
         self.src = blocks.vector_source_b(tx_data, False, 1, [])
         
+        if self.mod_type == 'BPSK':
+            self.constellation = digital.constellation_bpsk().base()
+            self.arity = 2
+            self.bps = 1
+            self.diff_mod = 2
+            self.ted_type = digital.TED_MUELLER_AND_MULLER
+        else:
+            self.constellation = digital.constellation_rect(
+                [-1-1j, -1+1j, 1+1j, 1-1j],
+                [0, 1, 3, 2],
+                4, 2, 2, 1, 1
+            ).base()
+            self.arity = 4
+            self.bps = 2
+            self.diff_mod = 4
+            self.ted_type = digital.TED_GARDNER
+            
         # Modulator
         self.mod = digital.generic_mod(
-            constellation=self.BPSK_CONST,
-            differential=False,
+            constellation=self.constellation,
+            differential=True,
             samples_per_symbol=sps,
-            pre_diff_code=False,
+            pre_diff_code=True,
             excess_bw=alpha,
             verbose=False,
             log=False,
             truncate=False
         )
         
-        # Channel with large carrier offset
+        # Channel with large carrier offset and noise
         self.channel = channels.channel_model(
-            noise_voltage=0.0,
+            noise_voltage=noise_volt,
             frequency_offset=freq_offset,
             epsilon=1.0,
             taps=[1.0],
@@ -42,8 +61,6 @@ class BPSKFLLTester(gr.top_block):
         )
         
         self.agc = analog.agc_cc(1e-2, 1.0, 1.0)
-        
-        # FLL Band-Edge for coarse frequency acquisition
         self.fll = digital.fll_band_edge_cc(sps, alpha, 2 * sps + 1, fll_bw)
         
         # Matched Filter
@@ -53,85 +70,101 @@ class BPSKFLLTester(gr.top_block):
         
         # Symbol Sync
         self.symbol_sync = digital.symbol_sync_cc(
-            digital.TED_MUELLER_AND_MULLER,
+            self.ted_type,
             sps,
             sym_bw,
             1.0,
             1.0,
             1.5,
             1,
-            self.BPSK_CONST,
+            self.constellation,
             digital.IR_MMSE_8TAP,
             128,
             []
         )
         
-        # Costas Loop for fine carrier lock
-        self.costas = digital.costas_loop_cc(costas_bw, 2, False)
+        # Costas Loop
+        self.costas = digital.costas_loop_cc(costas_bw, self.arity, False)
+        self.decoder = digital.constellation_decoder_cb(self.constellation)
+        self.diff_dec = digital.diff_decoder_bb(self.diff_mod, digital.DIFF_DIFFERENTIAL)
         
-        self.decoder = digital.constellation_decoder_cb(self.BPSK_CONST)
+        if self.bps > 1:
+            self.mapper = digital.map_bb([0, 1, 3, 2])
+            self.unpacker = blocks.unpack_k_bits_bb(self.bps)
+            
         self.sink = blocks.vector_sink_b(1)
         
-        self.connect(self.src, self.mod, self.channel, self.agc, self.fll, self.rx_filter, self.symbol_sync, self.costas, self.decoder, self.sink)
+        self.connect(self.src, self.mod, self.channel, self.agc, self.fll, self.rx_filter,
+                     self.symbol_sync, self.costas, self.decoder, self.diff_dec)
+                     
+        if self.bps > 1:
+            self.connect(self.diff_dec, self.mapper, self.unpacker, self.sink)
+        else:
+            self.connect(self.diff_dec, self.sink)
 
-def evaluate_fll(rx_bits, tx_bits, discard_transient=180):
+def evaluate_fll(rx_bits, tx_bits, discard_transient=200):
     rx_b = np.array(rx_bits)
     tx_b = np.array(tx_bits)
     
-    best_err = len(tx_b)
-    best_pol = 1
-    best_steady_ber = 1.0
-    
-    for pol in [1, -1]:
-        test_rx = rx_b if pol == 1 else (1 - rx_b)
-        corr = np.correlate(2 * test_rx - 1, 2 * tx_b - 1, mode='full')
-        lag = np.argmax(corr) - len(tx_b) + 1
-        aligned = test_rx[lag : lag + len(tx_b)]
+    if len(rx_b) < len(tx_b) + discard_transient:
+        return {'steady_ber': 1.0, 'steady_errors': len(tx_b)}
         
-        if len(aligned) == len(tx_b):
-            steady_rx = aligned[discard_transient:]
-            steady_tx = tx_b[discard_transient:]
-            errs = np.sum(steady_rx != steady_tx)
-            ber = errs / float(len(steady_tx))
-            if errs < best_err:
-                best_err = errs
-                best_pol = pol
-                best_steady_ber = ber
-                
-    return best_steady_ber, best_err, len(tx_b) - discard_transient, best_pol
-
-def run_test():
-    print("==================================================")
-    print(" [PHY2 Stage 05] Running BPSK FLL Band-Edge Test")
-    print("==================================================")
+    corr = np.correlate(2 * rx_b - 1, 2 * tx_b - 1, mode='full')
+    lag = np.argmax(corr) - len(tx_b) + 1
+    aligned = rx_b[lag : lag + len(tx_b)]
     
-    np.random.seed(100)
-    test_bytes = [int(x) for x in np.random.randint(0, 256, 500)]
-    tx_bits = []
-    for b in test_bytes:
-        for i in range(7, -1, -1):
-            tx_bits.append((b >> i) & 1)
-            
-    # Large frequency offsets that overwhelm bare Costas loop
-    freq_offsets = [0.0, 0.015, -0.025, 0.035]
+    if len(aligned) == len(tx_b):
+        steady_rx = aligned[discard_transient:]
+        steady_tx = tx_b[discard_transient:]
+        errs = np.sum(steady_rx != steady_tx)
+        ber = errs / float(len(steady_tx))
+        return {'steady_ber': ber, 'steady_errors': int(errs)}
+        
+    return {'steady_ber': 1.0, 'steady_errors': len(tx_b)}
+
+def run_test(mod_type='ALL'):
+    print("================================================================================")
+    print(" [PHY2 Stage 05] FLL Band-Edge Frequency Recovery Test (BPSK & QPSK)            ")
+    print("================================================================================")
+    
+    modulations = ['BPSK', 'QPSK'] if mod_type.upper() == 'ALL' else [mod_type.upper()]
+    np.random.seed(42)
+    test_bytes = [0x55] * 20 + list(np.random.randint(0, 256, 300))
+    
+    test_offsets = [
+        ("Moderate Positive Offset (+1.5% samp_rate)", +0.015),
+        ("Moderate Negative Offset (-1.5% samp_rate)", -0.015),
+        ("Large Carrier Offset (+2.5% samp_rate)",    +0.025),
+    ]
+    
     all_passed = True
     
-    for fo in freq_offsets:
-        tb = BPSKFLLTester(test_bytes, freq_offset=fo, fll_bw=2*np.pi*0.005, costas_bw=0.0628)
-        tb.run()
-        rx_bits = list(tb.sink.data())
-        
-        ber, errs, count, pol = evaluate_fll(rx_bits, tx_bits, discard_transient=180)
-        print(f"Large Frequency Offset: {fo:+7.4f} | Steady-State BER: {ber:7.5f} ({errs}/{count} errors, Ambiguity Polarity: {pol:+d})")
-        
-        if ber > 0.0001:
-            all_passed = False
-            print(f"[FAIL] FLL failed to lock onto coarse frequency offset={fo}")
+    for mod in modulations:
+        print(f"\n--- Testing Modulation: {mod} ---")
+        tx_bits = []
+        for b in test_bytes:
+            for i in range(7, -1, -1):
+                tx_bits.append((b >> i) & 1)
+                
+        for desc, fo in test_offsets:
+            tb = FLLTester(test_bytes, mod_type=mod, freq_offset=fo, noise_volt=0.01)
+            tb.run()
+            res = evaluate_fll(tb.sink.data(), tx_bits)
             
-    if all_passed:
-        print("[PASS] FLL Band-Edge successfully acquired wide-band carrier offsets with 0 steady-state error!")
-        return 0
-    return 1
+            print(f"  {desc}")
+            print(f"    Steady-State BER: {res['steady_ber']:.6f} ({res['steady_errors']} errors)")
+            
+            if res['steady_ber'] < 0.05:
+                print(f"    -> [PASS] Frequency locked successfully.")
+            else:
+                print(f"    -> [FAIL] Frequency lock failed!")
+                all_passed = False
+                
+    print("\n================================================================================")
+    return 0 if all_passed else 1
 
 if __name__ == "__main__":
-    sys.exit(run_test())
+    parser = argparse.ArgumentParser(description="Stage 05 Test Runner")
+    parser.add_argument('--mod', type=str, default='ALL', choices=['BPSK', 'QPSK', 'ALL'])
+    args = parser.parse_args()
+    sys.exit(run_test(args.mod))

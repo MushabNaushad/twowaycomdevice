@@ -1,0 +1,32 @@
+{
+  "BPSK": {
+    "mod_type": "BPSK",
+    "fll_bw": 0.01,
+    "costas_bw": 0.03,
+    "sym_bw": 0.025,
+    "preamble_size": 32,
+    "noise_volt": 0.02,
+    "freq_offset": 0.005,
+    "time_offset": 1.0001,
+    "pdr": 93.33333333333333,
+    "ber": 0.03333333333333333,
+    "matched_packets": 14,
+    "total_packets": 15,
+    "elapsed_sec": 0.048819780349731445
+  },
+  "QPSK": {
+    "mod_type": "QPSK",
+    "fll_bw": 0.01,
+    "costas_bw": 0.03,
+    "sym_bw": 0.025,
+    "preamble_size": 32,
+    "noise_volt": 0.02,
+    "freq_offset": 0.005,
+    "time_offset": 1.0001,
+    "pdr": 93.33333333333333,
+    "ber": 0.03333333333333333,
+    "matched_packets": 14,
+    "total_packets": 15,
+    "elapsed_sec": 0.05635380744934082
+  }
+}
