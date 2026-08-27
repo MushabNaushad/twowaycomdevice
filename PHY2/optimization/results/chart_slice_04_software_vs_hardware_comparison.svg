@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" width="680" height="440" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
-<text x="340.0" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Software Multipath vs Hardware SDR Profile BER Comparison</text>
+<text x="340.0" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">Software Multipath vs Hardware SDR Profile BER Comparison (0.005 to 1.000 Range)</text>
 <g stroke="#e2e8f0" stroke-width="1">
 <line x1="85" y1="60.0" x2="510" y2="60.0" />
 <text x="75" y="64.0" text-anchor="end" font-size="10" fill="#64748b">1.0e+00</text>
@@ -12,62 +12,74 @@
 <line x1="85" y1="380.0" x2="510" y2="380.0" />
 <text x="75" y="384.0" text-anchor="end" font-size="10" fill="#64748b">1.0e-04</text>
 <line x1="85.0" y1="60" x2="85.0" y2="380" />
-<text x="85.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.000</text>
+<text x="85.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.00</text>
 <line x1="170.0" y1="60" x2="170.0" y2="380" />
-<text x="170.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.100</text>
+<text x="170.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.10</text>
 <line x1="255.0" y1="60" x2="255.0" y2="380" />
-<text x="255.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.200</text>
+<text x="255.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.20</text>
 <line x1="340.0" y1="60" x2="340.0" y2="380" />
-<text x="340.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.300</text>
+<text x="340.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.30</text>
 <line x1="425.0" y1="60" x2="425.0" y2="380" />
-<text x="425.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.400</text>
+<text x="425.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.40</text>
 <line x1="510.0" y1="60" x2="510.0" y2="380" />
-<text x="510.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.500</text>
+<text x="510.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.50</text>
 </g>
 <line x1="85" y1="380" x2="510" y2="380" stroke="#475569" stroke-width="2" />
 <line x1="85" y1="60" x2="85" y2="380" stroke="#475569" stroke-width="2" />
 <text x="297.5" y="425" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Noise Voltage (Vn)</text>
 <text transform="rotate(-90)" x="-220.0" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Bit Error Rate (BER)</text>
-<path d="M 85.0 236.6 L 102.0 265.6 L 170.0 268.2 L 255.0 255.2 L 382.5 266.9 L 425.0 235.1 L 510.0 258.4" fill="none" stroke="#2563eb" stroke-width="2.2" />
-<circle cx="85.0" cy="236.6" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="102.0" cy="265.6" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="170.0" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="255.0" cy="255.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="382.5" cy="266.9" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="425.0" cy="235.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="510.0" cy="258.4" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<path d="M 85.0 114.0 L 102.0 221.8 L 127.5 212.2 L 153.0 210.2 L 187.0 211.1 L 212.5 218.1 L 238.0 210.7 L 297.5 210.8 L 382.5 210.1 L 510.0 207.3" fill="none" stroke="#2563eb" stroke-width="2.2" />
+<circle cx="85.0" cy="114.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.0" cy="221.8" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="212.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.0" cy="210.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="187.0" cy="211.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="212.5" cy="218.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="238.0" cy="210.7" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="297.5" cy="210.8" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="210.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="207.3" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
 <line x1="525" y1="70" x2="545" y2="70" stroke="#2563eb" stroke-width="2.5" />
 <circle cx="535" cy="70" r="3.5" fill="#2563eb" />
-<text x="552" y="74" font-size="11" font-weight="500" fill="#334155">BPSK (Soft Multi-path)</text>
-<path d="M 85.0 380.0 L 102.0 265.6 L 170.0 268.2 L 255.0 267.8 L 382.5 263.8 L 510.0 255.5" fill="none" stroke="#16a34a" stroke-width="2.2" />
-<circle cx="85.0" cy="380.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="102.0" cy="265.6" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="170.0" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="255.0" cy="267.8" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="382.5" cy="263.8" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="510.0" cy="255.5" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
-<line x1="525" y1="92" x2="545" y2="92" stroke="#16a34a" stroke-width="2.5" />
-<circle cx="535" cy="92" r="3.5" fill="#16a34a" />
-<text x="552" y="96" font-size="11" font-weight="500" fill="#334155">BPSK (Hardware OTA)</text>
-<path d="M 85.0 142.0 L 102.0 236.4 L 170.0 268.2 L 255.0 233.5 L 382.5 268.2 L 425.0 223.9 L 510.0 268.2" fill="none" stroke="#dc2626" stroke-width="2.2" />
-<circle cx="85.0" cy="142.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="102.0" cy="236.4" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="170.0" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="255.0" cy="233.5" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="382.5" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="425.0" cy="223.9" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="510.0" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<line x1="525" y1="114" x2="545" y2="114" stroke="#dc2626" stroke-width="2.5" />
-<circle cx="535" cy="114" r="3.5" fill="#dc2626" />
-<text x="552" y="118" font-size="11" font-weight="500" fill="#334155">QPSK (Soft Multi-path)</text>
-<path d="M 85.0 193.5 L 102.0 237.3 L 170.0 268.2 L 255.0 268.2 L 382.5 268.2 L 510.0 259.4" fill="none" stroke="#d97706" stroke-width="2.2" />
-<circle cx="85.0" cy="193.5" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="102.0" cy="237.3" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="170.0" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="255.0" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="382.5" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="510.0" cy="259.4" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
-<line x1="525" y1="136" x2="545" y2="136" stroke="#d97706" stroke-width="2.5" />
-<circle cx="535" cy="136" r="3.5" fill="#d97706" />
-<text x="552" y="140" font-size="11" font-weight="500" fill="#334155">QPSK (Hardware OTA)</text>
+<text x="552" y="74" font-size="11" font-weight="500" fill="#334155">BPSK (Soft Multipath)</text>
+<path d="M 85.0 109.9 L 102.0 222.6 L 127.5 210.7 L 153.0 211.9 L 187.0 211.4 L 238.0 211.4 L 297.5 210.1 L 382.5 209.4 L 510.0 206.7" fill="none" stroke="#16a34a" stroke-width="2.2" />
+<circle cx="85.0" cy="109.9" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.0" cy="222.6" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="210.7" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.0" cy="211.9" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="187.0" cy="211.4" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="238.0" cy="211.4" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="297.5" cy="210.1" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="209.4" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="206.7" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="90" x2="545" y2="90" stroke="#16a34a" stroke-width="2.5" />
+<circle cx="535" cy="90" r="3.5" fill="#16a34a" />
+<text x="552" y="94" font-size="11" font-weight="500" fill="#334155">BPSK (Hardware OTA)</text>
+<path d="M 85.0 118.2 L 102.0 211.2 L 127.5 217.5 L 153.0 217.3 L 187.0 218.3 L 212.5 214.4 L 238.0 219.0 L 297.5 219.8 L 382.5 219.6 L 510.0 216.8" fill="none" stroke="#dc2626" stroke-width="2.2" />
+<circle cx="85.0" cy="118.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.0" cy="211.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="217.5" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.0" cy="217.3" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="187.0" cy="218.3" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="212.5" cy="214.4" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="238.0" cy="219.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="297.5" cy="219.8" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="219.6" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="216.8" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="110" x2="545" y2="110" stroke="#dc2626" stroke-width="2.5" />
+<circle cx="535" cy="110" r="3.5" fill="#dc2626" />
+<text x="552" y="114" font-size="11" font-weight="500" fill="#334155">QPSK (Soft Multipath)</text>
+<path d="M 85.0 121.1 L 102.0 212.5 L 127.5 220.3 L 153.0 220.2 L 187.0 221.9 L 238.0 221.9 L 297.5 221.4 L 382.5 221.5 L 510.0 213.1" fill="none" stroke="#d97706" stroke-width="2.2" />
+<circle cx="85.0" cy="121.1" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.0" cy="212.5" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="220.3" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.0" cy="220.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="187.0" cy="221.9" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="238.0" cy="221.9" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="297.5" cy="221.4" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="221.5" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="213.1" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="130" x2="545" y2="130" stroke="#d97706" stroke-width="2.5" />
+<circle cx="535" cy="130" r="3.5" fill="#d97706" />
+<text x="552" y="134" font-size="11" font-weight="500" fill="#334155">QPSK (Hardware OTA)</text>
 </svg>

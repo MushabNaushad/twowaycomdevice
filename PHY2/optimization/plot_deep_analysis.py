@@ -3,7 +3,7 @@
 """
 PHY2 Optimization Suite - Multi-Slice Deep Parametric Visualization Engine
 Generates publication-quality parametric multi-line slice plots, 2D correlation heatmaps,
-and an interactive HTML dashboard for ultra-deep BPSK and QPSK characterization.
+and an interactive HTML dashboard for 0.005 to 1.000 rad/sym BPSK and QPSK characterization.
 """
 
 import sys
@@ -13,9 +13,6 @@ import math
 import numpy as np
 
 def generate_multiline_svg(title, x_label, y_label, series_data, x_range=None, y_range=None, is_log_y=False, width=680, height=440):
-    """
-    Renders an SVG multi-line parametric slice plot with clean legends and axes.
-    """
     margin = {'top': 60, 'right': 170, 'bottom': 60, 'left': 85}
     plot_w = width - margin['left'] - margin['right']
     plot_h = height - margin['top'] - margin['bottom']
@@ -60,7 +57,8 @@ def generate_multiline_svg(title, x_label, y_label, series_data, x_range=None, y
     for x_val in [min_x + (max_x - min_x) * i / 5.0 for i in range(6)]:
         x_pos = scale_x(x_val)
         svg.append(f'<line x1="{x_pos}" y1="{margin["top"]}" x2="{x_pos}" y2="{margin["top"] + plot_h}" />')
-        svg.append(f'<text x="{x_pos}" y="{margin["top"] + plot_h + 18}" text-anchor="middle" font-size="10" fill="#64748b">{x_val:.3f}</text>')
+        lbl = f"{x_val:.3f}" if max_x < 0.1 else f"{x_val:.2f}"
+        svg.append(f'<text x="{x_pos}" y="{margin["top"] + plot_h + 18}" text-anchor="middle" font-size="10" fill="#64748b">{lbl}</text>')
     svg.append('</g>')
     
     # Axes lines
@@ -70,7 +68,7 @@ def generate_multiline_svg(title, x_label, y_label, series_data, x_range=None, y
     svg.append(f'<text transform="rotate(-90)" x="{-margin["top"] - plot_h / 2}" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">{y_label}</text>')
     
     # Series Curves & Legend
-    colors = ['#2563eb', '#16a34a', '#dc2626', '#d97706', '#9333ea', '#0891b2', '#4f46e5']
+    colors = ['#2563eb', '#16a34a', '#dc2626', '#d97706', '#9333ea', '#0891b2', '#4f46e5', '#ec4899']
     legend_y = margin['top'] + 10
     
     for s_idx, s in enumerate(series_data):
@@ -86,7 +84,7 @@ def generate_multiline_svg(title, x_label, y_label, series_data, x_range=None, y
         svg.append(f'<line x1="{width - margin["right"] + 15}" y1="{legend_y}" x2="{width - margin["right"] + 35}" y2="{legend_y}" stroke="{color}" stroke-width="2.5" />')
         svg.append(f'<circle cx="{width - margin["right"] + 25}" cy="{legend_y}" r="3.5" fill="{color}" />')
         svg.append(f'<text x="{width - margin["right"] + 42}" y="{legend_y + 4}" font-size="11" font-weight="500" fill="#334155">{s["name"]}</text>')
-        legend_y += 22
+        legend_y += 20
         
     svg.append('</svg>')
     return '\n'.join(svg)
@@ -100,12 +98,10 @@ def render_deep_analysis_plots(results_dir):
     with open(json_path, "r") as f:
         results = json.load(f)
         
-    # =========================================================================
-    # PLOT 1: Fixed FLL Slice -> BER vs Symbol Sync BW for Varied Costas BW
-    # =========================================================================
+    # --- PLOT 1: Fixed FLL Slice -> BER vs Symbol Sync BW for Varied Costas BW ---
     fixed_fll = 0.0314
     for mod in ['BPSK', 'QPSK']:
-        costas_vals = [0.015, 0.030, 0.0628, 0.100, 0.140]
+        costas_vals = [0.010, 0.035, 0.0628, 0.135, 0.250, 0.500, 1.000]
         sym_sync_vals = sorted(list(set([r['sym_bw'] for r in results])))
         series_1 = []
         for cbw in costas_vals:
@@ -115,10 +111,10 @@ def render_deep_analysis_plots(results_dir):
                 if runs:
                     pts.append((sbw, max(np.mean(runs), 1e-4)))
             if pts:
-                series_1.append({'name': f'Costas BW = {cbw:.4f}', 'points': pts})
+                series_1.append({'name': f'Costas = {cbw:.3f}', 'points': pts})
                 
         svg_p1 = generate_multiline_svg(
-            title=f"{mod}: BER vs Symbol Sync BW (Fixed FLL BW = {fixed_fll:.4f})",
+            title=f"{mod} (y·y' TED): BER vs Symbol Sync Loop BW (0.005 to 1.000 rad/sym)",
             x_label="Symbol Synchronizer Loop Bandwidth (rad/sym)",
             y_label="Bit Error Rate (BER)",
             series_data=series_1,
@@ -127,12 +123,10 @@ def render_deep_analysis_plots(results_dir):
         with open(os.path.join(results_dir, f"chart_slice_01_fixed_fll_ber_vs_symsync_{mod.lower()}.svg"), "w") as f:
             f.write(svg_p1)
             
-    # =========================================================================
-    # PLOT 2: Fixed Costas Slice -> BER vs FLL BW for Varied Frequency Offsets
-    # =========================================================================
+    # --- PLOT 2: Fixed Costas Slice -> BER vs FLL BW for Varied Frequency Offsets ---
     fixed_costas = 0.0628
     for mod in ['BPSK', 'QPSK']:
-        freq_offsets = [-0.020, -0.010, 0.0, +0.010, +0.020]
+        freq_offsets = [-0.030, -0.020, -0.010, 0.0, +0.010, +0.020, +0.030]
         fll_vals = sorted(list(set([r['fll_bw'] for r in results])))
         series_2 = []
         for fo in freq_offsets:
@@ -145,7 +139,7 @@ def render_deep_analysis_plots(results_dir):
                 series_2.append({'name': f'Offset = {fo:+.3f} fs', 'points': pts})
                 
         svg_p2 = generate_multiline_svg(
-            title=f"{mod}: BER vs FLL Bandwidth (Fixed Costas BW = {fixed_costas:.4f})",
+            title=f"{mod} (y·y' TED): BER vs FLL Bandwidth (0.005 to 1.000 rad/sym)",
             x_label="FLL Band-Edge Loop Bandwidth (rad/sym)",
             y_label="Bit Error Rate (BER)",
             series_data=series_2,
@@ -154,10 +148,8 @@ def render_deep_analysis_plots(results_dir):
         with open(os.path.join(results_dir, f"chart_slice_02_fixed_costas_ber_vs_fll_{mod.lower()}.svg"), "w") as f:
             f.write(svg_p2)
             
-    # =========================================================================
-    # PLOT 3: Fixed Symbol Sync Slice -> PDR vs Noise Voltage for Varied Preambles
-    # =========================================================================
-    fixed_sym = 0.045
+    # --- PLOT 3: Fixed Symbol Sync Slice -> PDR vs Noise Voltage for Varied Preambles ---
+    fixed_sym = 0.025
     for mod in ['BPSK', 'QPSK']:
         preambles = [16, 24, 32, 48, 64]
         noise_vals = sorted(list(set([r['noise_volt'] for r in results])))
@@ -172,7 +164,7 @@ def render_deep_analysis_plots(results_dir):
                 series_3.append({'name': f'Preamble = {plen} B', 'points': pts})
                 
         svg_p3 = generate_multiline_svg(
-            title=f"{mod}: Packet Delivery Ratio (PDR %) vs Noise Voltage (Fixed Sym BW = {fixed_sym})",
+            title=f"{mod} (y·y' TED): Packet Delivery Ratio (PDR %) vs Noise across Preambles",
             x_label="Channel Noise Voltage (Vn)",
             y_label="Packet Delivery Ratio (%)",
             series_data=series_3,
@@ -182,9 +174,7 @@ def render_deep_analysis_plots(results_dir):
         with open(os.path.join(results_dir, f"chart_slice_03_fixed_symsync_pdr_vs_noise_{mod.lower()}.svg"), "w") as f:
             f.write(svg_p3)
             
-    # =========================================================================
-    # PLOT 4: Software Impairments vs Hardware SDR Profile Comparison
-    # =========================================================================
+    # --- PLOT 4: Software Impairments vs Hardware SDR Profile Comparison ---
     noise_vals = sorted(list(set([r['noise_volt'] for r in results])))
     series_hw = []
     for mod in ['BPSK', 'QPSK']:
@@ -194,11 +184,11 @@ def render_deep_analysis_plots(results_dir):
                 runs = [r['ber'] for r in results if r['mod_type'] == mod and r['platform_mode'] == plat and abs(r['noise_volt'] - nv) < 1e-4]
                 if runs:
                     pts.append((nv, max(np.mean(runs), 1e-4)))
-            lbl = f"{mod} ({'Soft Multi-path' if plat=='software' else 'Hardware OTA'})"
+            lbl = f"{mod} ({'Soft Multipath' if plat=='software' else 'Hardware OTA'})"
             series_hw.append({'name': lbl, 'points': pts})
             
     svg_hw = generate_multiline_svg(
-        title="Software Multipath vs Hardware SDR Profile BER Comparison",
+        title="Software Multipath vs Hardware SDR Profile BER Comparison (0.005 to 1.000 Range)",
         x_label="Noise Voltage (Vn)",
         y_label="Bit Error Rate (BER)",
         series_data=series_hw,
@@ -220,7 +210,7 @@ def render_deep_analysis_plots(results_dir):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHY2 Ultra-Deep Multi-Slice Parametric Optimization Dashboard</title>
+    <title>PHY2 Ultra-Deep Multi-Slice Parametric Optimization Dashboard (0.005 to 1.000 rad/sym)</title>
     <style>
         :root {{
             --primary: #2563eb;
@@ -291,45 +281,45 @@ def render_deep_analysis_plots(results_dir):
 </head>
 <body>
     <div class="header">
-        <h1>PHY2 Ultra-Deep Multi-Slice Parametric Optimization</h1>
-        <p>Comprehensive high-resolution multi-parameter slice analysis with Correlation Estimator + Adaptive Linear Equalizer ({len(results):,} trials)</p>
+        <h1>PHY2 Ultra-Deep Optimization Dashboard (0.005 to 1.000 rad/sym)</h1>
+        <p>Comprehensive characterization with TED_SIGNAL_TIMES_SLOPE_ML (y·y' TED), Correlation Estimator + Equalizer ({len(results):,} trials)</p>
     </div>
 
     <div class="container">
         <!-- Pinpointed Optimal Parameters Summary -->
         <div class="card full-width">
-            <h2>Pinpointed Optimal Configurations (Software Simulation & Hardware SDR Profiles)</h2>
+            <h2>Pinpointed Optimal Configurations (0.005 to 1.000 rad/sym Range)</h2>
             <div class="opt-grid">
                 <div class="opt-box">
                     <h3>BPSK (Software Multipath)</h3>
-                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0100 rad/sym</div>
+                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0314 rad/sym</div>
                     <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0628 rad/sym</div>
-                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (M&M)</div>
+                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (y·y')</div>
                     <div class="opt-item"><strong>Preamble Length:</strong> 32 Bytes</div>
-                    <div class="opt-item"><strong>Corr Estimator:</strong> Enabled (Threshold 0.8)</div>
+                    <div class="opt-item"><strong>Corr Estimator:</strong> Enabled</div>
                 </div>
                 <div class="opt-box">
-                    <h3>BPSK (Hardware SDR OTA)</h3>
-                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0100 rad/sym</div>
+                    <h3>BPSK (Hardware SDR Profile)</h3>
+                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0314 rad/sym</div>
                     <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0628 rad/sym</div>
-                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (M&M)</div>
-                    <div class="opt-item"><strong>Preamble Length:</strong> 16-32 Bytes</div>
+                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (y·y')</div>
+                    <div class="opt-item"><strong>Preamble Length:</strong> 32 Bytes</div>
                     <div class="opt-item"><strong>Corr Estimator:</strong> Enabled</div>
                 </div>
                 <div class="opt-box">
                     <h3>QPSK (Software Multipath)</h3>
-                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0100 rad/sym</div>
-                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.1000 rad/sym</div>
-                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (Gardner)</div>
-                    <div class="opt-item"><strong>Preamble Length:</strong> 48 Bytes</div>
-                    <div class="opt-item"><strong>Corr Estimator:</strong> Enabled (Threshold 0.8)</div>
+                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0314 rad/sym</div>
+                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0628 rad/sym</div>
+                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (y·y')</div>
+                    <div class="opt-item"><strong>Preamble Length:</strong> 32 Bytes</div>
+                    <div class="opt-item"><strong>Corr Estimator:</strong> Enabled</div>
                 </div>
                 <div class="opt-box">
-                    <h3>QPSK (Hardware SDR OTA)</h3>
-                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0100 rad/sym</div>
-                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.1000 rad/sym</div>
-                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (Gardner)</div>
-                    <div class="opt-item"><strong>Preamble Length:</strong> 32-48 Bytes</div>
+                    <h3>QPSK (Hardware SDR Profile)</h3>
+                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0314 rad/sym</div>
+                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0628 rad/sym</div>
+                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (y·y')</div>
+                    <div class="opt-item"><strong>Preamble Length:</strong> 32 Bytes</div>
                     <div class="opt-item"><strong>Corr Estimator:</strong> Enabled</div>
                 </div>
             </div>
@@ -337,34 +327,34 @@ def render_deep_analysis_plots(results_dir):
 
         <!-- Slice 1: Fixed FLL Slice -->
         <div class="card">
-            <h2>1. BPSK: BER vs Symbol Sync BW for Varied Costas BW (Fixed FLL = 0.0314)</h2>
+            <h2>1. BPSK: BER vs Symbol Sync BW (0.005 to 1.000 rad/sym) for Varied Costas BW</h2>
             {open(os.path.join(results_dir, "chart_slice_01_fixed_fll_ber_vs_symsync_bpsk.svg")).read()}
         </div>
 
         <div class="card">
-            <h2>2. QPSK: BER vs Symbol Sync BW for Varied Costas BW (Fixed FLL = 0.0314)</h2>
+            <h2>2. QPSK: BER vs Symbol Sync BW (0.005 to 1.000 rad/sym) for Varied Costas BW</h2>
             {open(os.path.join(results_dir, "chart_slice_01_fixed_fll_ber_vs_symsync_qpsk.svg")).read()}
         </div>
 
         <!-- Slice 2: Fixed Costas Slice -->
         <div class="card">
-            <h2>3. BPSK: BER vs FLL Bandwidth for Varied Frequency Offsets (Fixed Costas = 0.0628)</h2>
+            <h2>3. BPSK: BER vs FLL Bandwidth (0.005 to 1.000 rad/sym) for Varied Frequency Offsets</h2>
             {open(os.path.join(results_dir, "chart_slice_02_fixed_costas_ber_vs_fll_bpsk.svg")).read()}
         </div>
 
         <div class="card">
-            <h2>4. QPSK: BER vs FLL Bandwidth for Varied Frequency Offsets (Fixed Costas = 0.0628)</h2>
+            <h2>4. QPSK: BER vs FLL Bandwidth (0.005 to 1.000 rad/sym) for Varied Frequency Offsets</h2>
             {open(os.path.join(results_dir, "chart_slice_02_fixed_costas_ber_vs_fll_qpsk.svg")).read()}
         </div>
 
         <!-- Slice 3: Fixed Symbol Sync Slice -->
         <div class="card">
-            <h2>5. BPSK: PDR vs Noise Voltage for Varied Preamble Lengths (Fixed SymSync = 0.045)</h2>
+            <h2>5. BPSK: PDR vs Noise Voltage for Varied Preamble Lengths</h2>
             {open(os.path.join(results_dir, "chart_slice_03_fixed_symsync_pdr_vs_noise_bpsk.svg")).read()}
         </div>
 
         <div class="card">
-            <h2>6. QPSK: PDR vs Noise Voltage for Varied Preamble Lengths (Fixed SymSync = 0.045)</h2>
+            <h2>6. QPSK: PDR vs Noise Voltage for Varied Preamble Lengths</h2>
             {open(os.path.join(results_dir, "chart_slice_03_fixed_symsync_pdr_vs_noise_qpsk.svg")).read()}
         </div>
 

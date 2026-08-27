@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PHY2 Optimization Suite - Ultra-Deep High-Resolution Parameter Sweeper
-Executes tens of thousands of high-resolution Cartesian trials with fine step sizes
-across software channel models and hardware SDR profiles for BPSK and QPSK.
-Includes Correlation Estimator (digital.corr_est_cc) + Adaptive Linear Equalizer.
+PHY2 Optimization Suite - Ultra-Deep Software & Hardware Parameter Optimizer
+Executes high-density Cartesian trials across 0.005 to 1.000 rad/sym loop bandwidths
+for BPSK & QPSK using digital.TED_SIGNAL_TIMES_SLOPE_ML (y·y' TED) and Correlation Estimator + Adaptive Equalizer.
 """
 
 import sys
@@ -35,7 +34,7 @@ class DeepTransceiverTrial(gr.top_block):
                  samp_rate=32000,
                  fll_bw=0.0314,
                  costas_bw=0.0628,
-                 sym_bw=0.045,
+                 sym_bw=0.025,
                  noise_volt=0.0,
                  freq_offset=0.0,
                  time_offset=1.0,
@@ -43,13 +42,14 @@ class DeepTransceiverTrial(gr.top_block):
         super().__init__("Deep_Transceiver_Trial", catch_exceptions=True)
         
         self.mod_type = mod_type.upper()
+        self.ted_type = digital.TED_SIGNAL_TIMES_SLOPE_ML
         
         if self.mod_type == 'BPSK':
             self.constellation = digital.constellation_bpsk().base()
             self.arity = 2
             self.bps = 1
             self.diff_mod = 2
-            self.ted_type = digital.TED_MUELLER_AND_MULLER
+            self.costas_order = 2
             self.preamble_bytes = [0x55] * preamble_size
             num_syms = min(preamble_size * 8, 48)
             self.training_symbols = [(-1.0 if (i % 2 == 0) else 1.0) + 0j for i in range(num_syms)]
@@ -62,7 +62,7 @@ class DeepTransceiverTrial(gr.top_block):
             self.arity = 4
             self.bps = 2
             self.diff_mod = 4
-            self.ted_type = digital.TED_GARDNER
+            self.costas_order = 4
             self.preamble_bytes = [0x33, 0xCC] * (preamble_size // 2)
             num_syms = min(preamble_size * 4, 48)
             pts = [(-1.0 - 1.0j) / math.sqrt(2), (1.0 + 1.0j) / math.sqrt(2)]
@@ -129,7 +129,7 @@ class DeepTransceiverTrial(gr.top_block):
         adpt_alg = digital.adaptive_algorithm_cma(self.constellation, 0.001, 1).base()
         self.equalizer = digital.linear_equalizer(11, 1, adpt_alg, True, self.training_symbols, 'corr_est')
         
-        self.costas = digital.costas_loop_cc(costas_bw, self.arity, False)
+        self.costas = digital.costas_loop_cc(costas_bw, self.costas_order, False)
         self.decoder = digital.constellation_decoder_cb(self.constellation)
         self.diff_decoder = digital.diff_decoder_bb(self.diff_mod, digital.DIFF_DIFFERENTIAL)
         
@@ -213,13 +213,13 @@ def run_deep_trial_worker(args):
         
     return {
         'mod_type': mod_type,
-        'fll_bw': fll_bw,
-        'costas_bw': costas_bw,
-        'sym_bw': sym_bw,
-        'preamble_size': plen,
-        'noise_volt': nv,
-        'freq_offset': fo,
-        'time_offset': to,
+        'fll_bw': round(float(fll_bw), 4),
+        'costas_bw': round(float(costas_bw), 4),
+        'sym_bw': round(float(sym_bw), 4),
+        'preamble_size': int(plen),
+        'noise_volt': round(float(nv), 4),
+        'freq_offset': round(float(fo), 4),
+        'time_offset': round(float(to), 6),
         'platform_mode': platform_mode,
         'pdr': float(pdr),
         'ber': float(ber),
@@ -232,54 +232,47 @@ def execute_ultra_deep_optimization(output_dir):
     os.makedirs(output_dir, exist_ok=True)
     
     print("================================================================================")
-    print("      PHY2 ULTRA-DEEP HIGH-RESOLUTION PARAMETER OPTIMIZER                       ")
+    print("  PHY2 ULTRA-DEEP OPTIMIZER: 0.005 TO 1.000 RANGE (y·y' TED + CORR EST)         ")
     print("================================================================================")
     
-    # 1. Ultra-fine parameter arrays:
     modulations = ['BPSK', 'QPSK']
-    fll_bws = [0.005, 0.010, 0.020, 0.0314, 0.050, 0.075, 0.100]        # 7 fine values
-    costas_bws = [0.015, 0.030, 0.050, 0.0628, 0.085, 0.110, 0.140]     # 7 fine values
-    sym_bws = [0.015, 0.025, 0.035, 0.045, 0.060, 0.080, 0.100]        # 7 fine values
-    preamble_lens = [16, 24, 32, 48, 64]                                 # 5 fine values
-    noise_volts = [0.0, 0.10, 0.20, 0.35, 0.50]                         # 5 fine values
-    freq_offsets = [-0.020, -0.010, 0.0, +0.010, +0.020]                # 5 fine values
-    time_offsets = [0.9998, 1.0, 1.0002]                                 # 3 fine values
-    platforms = ['software', 'hardware']
     
-    # Build Multi-Slice Comprehensive Grid:
-    # A) Core Loop Bandwidth Interaction Slice (FLL x Costas x SymSync x Mod x Noise x FreqOffset)
+    # 0.005 to 1.000 rad/sym arrays:
+    costas_dense = [0.005, 0.010, 0.018, 0.025, 0.035, 0.045, 0.055, 0.0628, 0.075, 0.090, 0.110, 0.135, 0.165, 0.200, 0.250, 0.350, 0.500, 0.700, 1.000]
+    sym_dense    = [0.005, 0.010, 0.018, 0.025, 0.035, 0.045, 0.055, 0.070, 0.090, 0.115, 0.145, 0.180, 0.230, 0.300, 0.400, 0.500, 0.700, 1.000]
+    fll_dense    = [0.005, 0.010, 0.018, 0.026, 0.0314, 0.042, 0.055, 0.075, 0.100, 0.140, 0.190, 0.250, 0.350, 0.500, 0.700, 1.000]
+    
+    preamble_lens = [16, 24, 32, 48, 64]
+    noise_volts   = [0.0, 0.02, 0.05, 0.08, 0.12, 0.18, 0.25, 0.35, 0.50]
+    freq_offsets  = [-0.030, -0.020, -0.010, 0.0, +0.010, +0.020, +0.030]
+    time_offsets  = [0.9992, 0.9996, 0.9999, 1.0, 1.0001, 1.0004, 1.0008]
+    platforms     = ['software', 'hardware']
+    
+    # Slices across 0.005 to 1.000:
     grid_a = list(itertools.product(
-        modulations, fll_bws, costas_bws, sym_bws, [32], [0.0, 0.20, 0.40], [0.0, 0.015], [1.0], ['software'], [10], [64]
+        modulations, [0.0314], costas_dense, sym_dense, [32], [0.0, 0.15], [0.0], [1.0], ['software'], [10], [64]
     ))
-    
-    # B) FLL vs Frequency Offset Capture Slice (FLL x Costas x FreqOffset x Mod x Platform)
     grid_b = list(itertools.product(
-        modulations, fll_bws, [0.030, 0.0628, 0.100], [0.045], [32], [0.02], freq_offsets, [1.0], platforms, [10], [64]
+        modulations, fll_dense, [0.030, 0.0628, 0.100], [0.025], [32], [0.02], freq_offsets, [1.0], platforms, [10], [64]
     ))
-    
-    # C) Preamble Sensitivity & Clock Drift Slice (SymSync x Preamble x TimeOffset x Noise x Mod)
     grid_c = list(itertools.product(
-        modulations, [0.0314], [0.0628], sym_bws, preamble_lens, noise_volts, [0.005], time_offsets, platforms, [10], [64]
+        modulations, [0.0314], [0.0628], [0.010, 0.025, 0.055, 0.115, 0.250, 0.500, 1.000], preamble_lens, noise_volts, [0.005], time_offsets, platforms, [10], [64]
     ))
     
-    # Combine & deduplicate grid
     combined_set = set(grid_a + grid_b + grid_c)
     grid = list(combined_set)
-    
     total_trials = len(grid)
     workers = min(cpu_count(), 8)
     
-    print(f"High-Density Cartesian Slices:")
-    print(f"  -> Slice A: Loop Bandwidth Interaction Matrix ({len(grid_a):,} trials)")
-    print(f"  -> Slice B: FLL Capture vs Frequency Offset ({len(grid_b):,} trials)")
-    print(f"  -> Slice C: Preamble & Clock Drift Sensitivity ({len(grid_c):,} trials)")
-    print(f"Total Unique High-Resolution Trials: {total_trials:,} across {workers} CPU workers...")
+    print(f"Combinatorial Slices (0.005 to 1.000 rad/sym):")
+    print(f"  -> Slice A: Loop Bandwidth Matrix (0.005..1.000)  : {len(grid_a):,} trials")
+    print(f"  -> Slice B: FLL Capture vs Frequency Offsets     : {len(grid_b):,} trials")
+    print(f"  -> Slice C: Preambles & Clock Drift Tracking     : {len(grid_c):,} trials")
+    print(f"Total Unique Trials: {total_trials:,} across {workers} CPU workers...")
     
     t_start = time.time()
-    
     with Pool(processes=workers) as pool:
         all_results = pool.map(run_deep_trial_worker, grid)
-        
     t_total = time.time() - t_start
     sim_rate = len(all_results) / max(t_total, 1e-4)
     print(f"\n[OK] Ultra-deep optimization completed {len(all_results):,} simulations in {t_total:.2f}s ({sim_rate:.1f} sims/sec)")
@@ -301,7 +294,7 @@ def execute_ultra_deep_optimization(output_dir):
                 r['pdr'], r['ber'], r['matched_packets'], r['total_packets'], r['elapsed_sec']
             ])
             
-    # Pinpoint exact optimal values for Software and Hardware profiles
+    # Pinpoint optimal values
     pinpoint_table = {}
     for mod in modulations:
         pinpoint_table[mod] = {}
@@ -342,7 +335,7 @@ def execute_ultra_deep_optimization(output_dir):
         json.dump(pinpoint_table, f, indent=2)
         
     print("\n================================================================================")
-    print("                     PINPOINTED OPTIMAL VALUES SUMMARY                          ")
+    print("            PINPOINTED OPTIMAL VALUES SUMMARY (0.005 TO 1.000 RANGE)            ")
     print("================================================================================")
     for mod in modulations:
         print(f"\n--- MODULATION: {mod} ---")
