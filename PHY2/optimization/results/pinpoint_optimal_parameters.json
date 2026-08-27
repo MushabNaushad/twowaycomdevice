@@ -19,8 +19,8 @@
         },
         {
           "fll_bw": 0.0314,
-          "costas_bw": 0.135,
-          "sym_bw": 0.01,
+          "costas_bw": 0.5,
+          "sym_bw": 0.055,
           "preamble_size": 32,
           "avg_pdr": 90.0,
           "avg_ber": 0.0012500000000000002,
@@ -28,8 +28,8 @@
         },
         {
           "fll_bw": 0.0314,
-          "costas_bw": 0.018,
-          "sym_bw": 0.07,
+          "costas_bw": 0.5,
+          "sym_bw": 0.01,
           "preamble_size": 32,
           "avg_pdr": 90.0,
           "avg_ber": 0.0012500000000000002,
@@ -38,15 +38,24 @@
       ]
     },
     "hardware": {
-      "optimal_fll_bandwidth": 0.018,
-      "optimal_costas_bandwidth": 0.1,
+      "optimal_fll_bandwidth": 0.1,
+      "optimal_costas_bandwidth": 0.03,
       "optimal_symbol_sync_bandwidth": 0.025,
       "optimal_preamble_length": 32,
       "average_pdr": "90.0%",
       "average_ber": "0.00250",
       "top_3_configs": [
         {
-          "fll_bw": 0.018,
+          "fll_bw": 0.1,
+          "costas_bw": 0.03,
+          "sym_bw": 0.025,
+          "preamble_size": 32,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.0025,
+          "score": 88.15
+        },
+        {
+          "fll_bw": 0.055,
           "costas_bw": 0.1,
           "sym_bw": 0.025,
           "preamble_size": 32,
@@ -56,15 +65,6 @@
         },
         {
           "fll_bw": 0.19,
-          "costas_bw": 0.1,
-          "sym_bw": 0.025,
-          "preamble_size": 32,
-          "avg_pdr": 90.0,
-          "avg_ber": 0.0025,
-          "score": 88.15
-        },
-        {
-          "fll_bw": 0.055,
           "costas_bw": 0.03,
           "sym_bw": 0.025,
           "preamble_size": 32,
@@ -79,11 +79,20 @@
     "software": {
       "optimal_fll_bandwidth": 0.0314,
       "optimal_costas_bandwidth": 0.0628,
-      "optimal_symbol_sync_bandwidth": 0.115,
+      "optimal_symbol_sync_bandwidth": 0.055,
       "optimal_preamble_length": 16,
       "average_pdr": "90.0%",
       "average_ber": "0.00222",
       "top_3_configs": [
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.055,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.0022222222222222222,
+          "score": 88.97777777777777
+        },
         {
           "fll_bw": 0.0314,
           "costas_bw": 0.0628,
@@ -96,16 +105,7 @@
         {
           "fll_bw": 0.0314,
           "costas_bw": 0.0628,
-          "sym_bw": 0.055,
-          "preamble_size": 16,
-          "avg_pdr": 90.0,
-          "avg_ber": 0.0022222222222222222,
-          "score": 88.97777777777777
-        },
-        {
-          "fll_bw": 0.0314,
-          "costas_bw": 0.0628,
-          "sym_bw": 0.055,
+          "sym_bw": 0.115,
           "preamble_size": 24,
           "avg_pdr": 90.0,
           "avg_ber": 0.0022222222222222222,
@@ -133,7 +133,7 @@
         {
           "fll_bw": 0.0314,
           "costas_bw": 0.0628,
-          "sym_bw": 0.055,
+          "sym_bw": 0.115,
           "preamble_size": 16,
           "avg_pdr": 89.2063492063492,
           "avg_ber": 0.0024206349206349212,
@@ -142,7 +142,7 @@
         {
           "fll_bw": 0.0314,
           "costas_bw": 0.0628,
-          "sym_bw": 0.115,
+          "sym_bw": 0.055,
           "preamble_size": 16,
           "avg_pdr": 89.2063492063492,
           "avg_ber": 0.0024206349206349212,

@@ -41,8 +41,8 @@
 <line x1="525" y1="70" x2="545" y2="70" stroke="#2563eb" stroke-width="2.5" />
 <circle cx="535" cy="70" r="3.5" fill="#2563eb" />
 <text x="552" y="74" font-size="11" font-weight="500" fill="#334155">Preamble = 16 B</text>
-<path d="M 85.0 112.6 L 102.0 110.3 L 127.5 108.0 L 153.0 108.0 L 187.0 112.6 L 238.0 105.7 L 297.5 124.0 L 382.5 119.4 L 510.0 128.6" fill="none" stroke="#16a34a" stroke-width="2.2" />
-<circle cx="85.0" cy="112.6" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<path d="M 85.0 133.1 L 102.0 110.3 L 127.5 108.0 L 153.0 108.0 L 187.0 112.6 L 238.0 105.7 L 297.5 124.0 L 382.5 119.4 L 510.0 128.6" fill="none" stroke="#16a34a" stroke-width="2.2" />
+<circle cx="85.0" cy="133.1" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="102.0" cy="110.3" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="127.5" cy="108.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="153.0" cy="108.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
@@ -54,10 +54,10 @@
 <line x1="525" y1="90" x2="545" y2="90" stroke="#16a34a" stroke-width="2.5" />
 <circle cx="535" cy="90" r="3.5" fill="#16a34a" />
 <text x="552" y="94" font-size="11" font-weight="500" fill="#334155">Preamble = 24 B</text>
-<path d="M 85.0 104.6 L 102.0 147.8 L 127.5 124.0 L 153.0 133.1 L 187.0 121.7 L 212.5 92.0 L 238.0 112.6 L 297.5 110.3 L 382.5 126.3 L 510.0 142.3" fill="none" stroke="#dc2626" stroke-width="2.2" />
+<path d="M 85.0 104.6 L 102.0 148.7 L 127.5 140.0 L 153.0 133.1 L 187.0 121.7 L 212.5 92.0 L 238.0 112.6 L 297.5 110.3 L 382.5 126.3 L 510.0 142.3" fill="none" stroke="#dc2626" stroke-width="2.2" />
 <circle cx="85.0" cy="104.6" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="102.0" cy="147.8" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="127.5" cy="124.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.0" cy="148.7" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="140.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="153.0" cy="133.1" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="187.0" cy="121.7" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="212.5" cy="92.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />

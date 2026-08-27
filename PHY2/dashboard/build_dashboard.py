@@ -1,26 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PHY2 Master Interactive Dashboard Builder
-Generates a feature-rich, standalone, interactive web dashboard with:
-- Live Interactive Plotly/Canvas Charts: BER vs Symbol Sync with dynamic Costas lines, interactive FLL slider, and Costas range filtering.
-- Interactive 2D Heatmap (Costas vs Symbol Sync) with metric toggle (BER / PDR).
-- Full CSV Data Viewer & Live Filter with raw CSV text display and instant CSV export.
+PHY2 Master Zero-Dependency Interactive Dashboard Builder
+Builds a 100% offline, standalone, zero-external-dependency interactive web application
+featuring:
+1. Native HTML5 Canvas / SVG Dynamic Multi-Line Graph (BER vs Symbol Sync):
+   - Reactive FLL Loop Bandwidth slider/selector
+   - Dynamic multi-line curves for different Costas Loop Bandwidths
+   - Costas range slider & toggle checkboxes
+   - All dense Symbol Sync points with smooth spline curves
+   - Interactive mouse hover tracking and multi-series tooltip
+2. Native HTML5 Canvas 2D Correlation Heatmap (Costas BW vs SymSync BW)
+   - Bilinear color interpolation
+   - Metric toggle: Log10(BER) or PDR (%)
+   - Reactive FLL slice selection
+   - Interactive cell hover inspector
+3. Searchable CSV Data Explorer & Viewer:
+   - Full CSV data table with instant column sorting & pagination
+   - Live multi-range filters (Costas, SymSync, FLL, Noise, PDR)
+   - Collapsible Raw CSV text panel
+   - Instant "Export Filtered CSV" button
 """
 
 import sys
 import os
 import json
-import csv
-
-# Ensure workspace root is in sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 def build_master_dashboard():
     dashboard_dir = os.path.dirname(os.path.abspath(__file__))
     os.makedirs(dashboard_dir, exist_ok=True)
     
-    # Load primary dataset (deep_sweep_results.json preferred if exists, else ultra_fine)
+    # Load primary dataset
     deep_json = os.path.join(dashboard_dir, "../optimization/results/deep_sweep_results.json")
     ultra_json = os.path.join(dashboard_dir, "../adapted_original/results/ultra_fine_sweep_results.json")
     
@@ -33,13 +43,6 @@ def build_master_dashboard():
         records = json.load(f)
         
     print(f"Loaded {len(records):,} simulation records from {os.path.basename(data_file)}")
-    
-    # Generate CSV string
-    csv_rows = ["Modulation,FLL_BW,Costas_BW,SymSync_BW,Preamble_Size,Noise_Volt,Freq_Offset,Time_Offset,Platform,PDR,BER"]
-    for r in records:
-        csv_rows.append(f"{r['mod_type']},{r['fll_bw']},{r['costas_bw']},{r['sym_bw']},{r['preamble_size']},{r['noise_volt']},{r['freq_offset']},{r['time_offset']},{r['platform_mode']},{r['pdr']},{r['ber']}")
-    raw_csv_sample = "\n".join(csv_rows[:100]) # Sample for initial raw view
-    
     records_json_str = json.dumps(records)
     
     html_content = f"""<!DOCTYPE html>
@@ -47,22 +50,22 @@ def build_master_dashboard():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHY2 Physical Layer Interactive Analytics, Dynamic Plots & CSV Explorer</title>
-    <!-- Plotly.js for Rich Interactive Plotting (with pure JS fallback) -->
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <title>PHY2 Physical Layer Interactive Analytics & Parameter Explorer</title>
     <style>
         :root {{
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --secondary: #475569;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --success: #16a34a;
-            --warning: #d97706;
-            --danger: #dc2626;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --card-sub: #334155;
+            --border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --accent: #38bdf8;
         }}
         * {{ box-sizing: border-box; }}
         body {{
@@ -79,7 +82,7 @@ def build_master_dashboard():
             padding: 24px 32px;
             border-radius: 12px;
             border: 1px solid var(--border);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -103,25 +106,25 @@ def build_master_dashboard():
             padding: 18px 20px;
             border-radius: 10px;
             border: 1px solid var(--border);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }}
         .kpi-title {{ font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }}
-        .kpi-value {{ font-size: 20px; font-weight: 700; color: var(--primary); }}
+        .kpi-value {{ font-size: 20px; font-weight: 700; color: var(--accent); }}
         .kpi-sub {{ font-size: 12px; color: var(--text-muted); margin-top: 4px; }}
         
         .card {{
             background: var(--card-bg);
             border-radius: 12px;
-            padding: 20px 24px;
+            padding: 22px 26px;
             border: 1px solid var(--border);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }}
         .card h2 {{
             margin-top: 0;
-            font-size: 17px;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 10px;
-            color: var(--primary-dark);
+            font-size: 18px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            color: var(--accent);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -131,12 +134,13 @@ def build_master_dashboard():
         .controls-row {{
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 18px;
             align-items: center;
-            background: #f1f5f9;
-            padding: 14px 18px;
+            background: #0f172a;
+            padding: 16px 20px;
             border-radius: 8px;
             margin-bottom: 16px;
+            border: 1px solid var(--border);
         }}
         .ctrl-group {{
             display: flex;
@@ -146,15 +150,19 @@ def build_master_dashboard():
         .ctrl-group label {{
             font-size: 12px;
             font-weight: 600;
-            color: #334155;
+            color: #cbd5e1;
         }}
         .ctrl-group select, .ctrl-group input {{
-            padding: 7px 10px;
-            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            border: 1px solid #475569;
             border-radius: 6px;
             font-size: 13px;
-            background: #ffffff;
-            color: #0f172a;
+            background: #1e293b;
+            color: #f8fafc;
+        }}
+        .ctrl-group select:focus, .ctrl-group input:focus {{
+            outline: none;
+            border-color: var(--accent);
         }}
         .range-slider-box {{
             display: flex;
@@ -162,13 +170,15 @@ def build_master_dashboard():
             gap: 8px;
         }}
         .range-slider-box input[type=range] {{
-            width: 140px;
+            width: 150px;
+            accent-color: var(--accent);
+            cursor: pointer;
         }}
         .range-val {{
             font-size: 12px;
             font-weight: 700;
-            color: var(--primary);
-            min-width: 50px;
+            color: var(--accent);
+            min-width: 55px;
         }}
         
         /* Checkbox Pills */
@@ -176,25 +186,35 @@ def build_master_dashboard():
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-top: 4px;
+            margin-top: 6px;
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }}
         .pill-label {{
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            padding: 4px 8px;
+            gap: 5px;
+            background: #1e293b;
+            border: 1px solid #475569;
+            padding: 4px 10px;
             border-radius: 14px;
-            font-size: 11px;
+            font-size: 12px;
             cursor: pointer;
             user-select: none;
+            color: #e2e8f0;
+            transition: all 0.15s ease;
+        }}
+        .pill-label:hover {{
+            background: #334155;
+            border-color: var(--accent);
         }}
         .pill-label input {{ cursor: pointer; }}
         
         /* Buttons */
         .btn {{
-            padding: 8px 14px;
+            padding: 8px 16px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
@@ -207,18 +227,39 @@ def build_master_dashboard():
         }}
         .btn-primary {{ background: var(--primary); color: #ffffff; }}
         .btn-primary:hover {{ background: var(--primary-dark); }}
-        .btn-secondary {{ background: #e2e8f0; color: #334155; }}
-        .btn-secondary:hover {{ background: #cbd5e1; }}
+        .btn-secondary {{ background: #334155; color: #f8fafc; border: 1px solid #475569; }}
+        .btn-secondary:hover {{ background: #475569; }}
         .btn-sm {{ padding: 5px 10px; font-size: 11px; }}
         
-        /* Charts */
-        .plot-container {{
+        /* Interactive Canvas Container */
+        .canvas-container {{
+            position: relative;
             width: 100%;
             height: 520px;
-            border: 1px solid var(--border);
+            min-height: 520px;
+            background: #0b1120;
             border-radius: 8px;
-            background: #ffffff;
-            margin-top: 10px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }}
+        canvas {{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }}
+        .graph-tooltip {{
+            position: absolute;
+            display: none;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--accent);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            pointer-events: none;
+            color: #f8fafc;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 100;
+            line-height: 1.4;
         }}
         
         /* CSV Table & Raw View */
@@ -228,6 +269,7 @@ def build_master_dashboard():
             border: 1px solid var(--border);
             border-radius: 8px;
             margin-top: 10px;
+            background: #0b1120;
         }}
         table {{
             width: 100%;
@@ -236,32 +278,32 @@ def build_master_dashboard():
             text-align: left;
         }}
         th {{
-            background: #f8fafc;
-            padding: 9px 12px;
+            background: #1e293b;
+            padding: 10px 14px;
             border-bottom: 2px solid var(--border);
-            color: #334155;
+            color: #e2e8f0;
             font-weight: 600;
             position: sticky;
             top: 0;
             cursor: pointer;
             user-select: none;
         }}
-        th:hover {{ background: #f1f5f9; }}
+        th:hover {{ background: #334155; }}
         td {{
-            padding: 8px 12px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #1e293b;
+            padding: 8px 14px;
+            border-bottom: 1px solid #1e293b;
+            color: #cbd5e1;
         }}
-        tr:hover td {{ background: #f8fafc; }}
+        tr:hover td {{ background: #1e293b; }}
         .badge {{
             display: inline-block;
-            padding: 2px 7px;
+            padding: 2px 8px;
             border-radius: 10px;
             font-size: 11px;
             font-weight: 600;
         }}
-        .badge-bpsk {{ background: #dbeafe; color: #1e40af; }}
-        .badge-qpsk {{ background: #f3e8ff; color: #6b21a8; }}
+        .badge-bpsk {{ background: #1e3a8a; color: #93c5fd; }}
+        .badge-qpsk {{ background: #581c87; color: #d8b4fe; }}
         
         .raw-csv-panel {{
             display: none;
@@ -272,11 +314,11 @@ def build_master_dashboard():
             height: 180px;
             font-family: monospace;
             font-size: 12px;
-            padding: 10px;
-            border: 1px solid #cbd5e1;
+            padding: 12px;
+            border: 1px solid #475569;
             border-radius: 6px;
-            background: #f8fafc;
-            color: #334155;
+            background: #0b1120;
+            color: #38bdf8;
             resize: vertical;
         }}
         
@@ -294,7 +336,7 @@ def build_master_dashboard():
     <div class="header">
         <div>
             <h1>PHY2 Physical Layer Interactive Analytics & Parameter Explorer</h1>
-            <p>Real-Time Dynamic Plotter (BER vs SymSync with Costas Lines & FLL Tuning), 2D Heatmaps, and Interactive CSV Filter Matrix (y·y' TED)</p>
+            <p>100% Standalone Zero-Dependency Dynamic Plotter (BER vs SymSync with Costas Lines & FLL Tuning), 2D Heatmaps, and Interactive CSV Matrix (y·y' TED)</p>
         </div>
         <div>
             <button class="btn btn-primary" onclick="exportFilteredCSV()">Export Filtered CSV</button>
@@ -326,18 +368,18 @@ def build_master_dashboard():
             </div>
         </div>
 
-        <!-- 1. LIVE INTERACTIVE GRAPH: BER vs Symbol Sync with Costas Lines and FLL Slider -->
+        <!-- 1. LIVE DYNAMIC INTERACTIVE GRAPH: BER vs Symbol Sync with Costas Lines & FLL Slider -->
         <div class="card">
             <h2>
-                <span>1. Live Interactive Plot: BER vs Symbol Sync Loop Bandwidth</span>
-                <span style="font-size:13px; font-weight:normal; color:var(--text-muted);">Dynamically re-rendered on parameter adjustment</span>
+                <span>1. Dynamic Interactive Graph: Bit Error Rate (BER) vs Symbol Sync Loop Bandwidth</span>
+                <span style="font-size:13px; font-weight:normal; color:var(--text-muted);">Real-Time 60 FPS HTML5 Dynamic Render</span>
             </h2>
 
             <div class="controls-row">
                 <!-- Modulation Toggle -->
                 <div class="ctrl-group">
-                    <label>Modulation:</label>
-                    <select id="plot1-mod" onchange="updateDynamicPlot1()">
+                    <label>Modulation Scheme:</label>
+                    <select id="dyn-mod" onchange="renderDynamicGraph()">
                         <option value="BPSK" selected>BPSK</option>
                         <option value="QPSK">QPSK</option>
                     </select>
@@ -345,102 +387,88 @@ def build_master_dashboard():
 
                 <!-- FLL Loop Bandwidth Selector -->
                 <div class="ctrl-group">
-                    <label>FLL Band-Edge Loop BW: <span id="plot1-fll-val" class="range-val">0.0314</span></label>
+                    <label>Set FLL Loop Bandwidth: <span id="dyn-fll-val" class="range-val">0.0314</span> rad/sym</label>
                     <div class="range-slider-box">
-                        <select id="plot1-fll-select" onchange="updateDynamicPlot1()">
-                            <option value="0.005">0.0050 rad/sym</option>
-                            <option value="0.010">0.0100 rad/sym</option>
-                            <option value="0.018">0.0180 rad/sym</option>
-                            <option value="0.026">0.0260 rad/sym</option>
-                            <option value="0.0314" selected>0.0314 rad/sym (Optimal)</option>
-                            <option value="0.042">0.0420 rad/sym</option>
-                            <option value="0.055">0.0550 rad/sym</option>
-                            <option value="0.075">0.0750 rad/sym</option>
-                            <option value="0.100">0.1000 rad/sym</option>
-                            <option value="0.250">0.2500 rad/sym</option>
-                            <option value="0.500">0.5000 rad/sym</option>
-                            <option value="1.000">1.0000 rad/sym</option>
+                        <select id="dyn-fll-select" onchange="document.getElementById('dyn-fll-val').innerText=this.value; renderDynamicGraph(); renderHeatmap();">
+                            <option value="0.0050">0.0050 rad/sym</option>
+                            <option value="0.0100">0.0100 rad/sym</option>
+                            <option value="0.0180">0.0180 rad/sym</option>
+                            <option value="0.0260">0.0260 rad/sym</option>
+                            <option value="0.0314" selected>0.0314 rad/sym (Optimal Lock)</option>
+                            <option value="0.0420">0.0420 rad/sym</option>
+                            <option value="0.0550">0.0550 rad/sym</option>
+                            <option value="0.0750">0.0750 rad/sym</option>
+                            <option value="0.1000">0.1000 rad/sym</option>
+                            <option value="0.2500">0.2500 rad/sym</option>
+                            <option value="0.5000">0.5000 rad/sym</option>
+                            <option value="1.0000">1.0000 rad/sym</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Costas BW Max Filter -->
+                <!-- Costas BW Max Range Slider -->
                 <div class="ctrl-group">
-                    <label>Max Costas BW to Display: <span id="plot1-costas-max-val" class="range-val">1.000</span></label>
+                    <label>Costas Loop BW Max Range: <span id="dyn-costas-max-val" class="range-val">1.000</span></label>
                     <div class="range-slider-box">
-                        <input type="range" id="plot1-costas-max" min="0.010" max="1.000" step="0.020" value="1.000" oninput="document.getElementById('plot1-costas-max-val').innerText = parseFloat(this.value).toFixed(3); updateDynamicPlot1();">
+                        <input type="range" id="dyn-costas-max" min="0.010" max="1.000" step="0.010" value="1.000" oninput="document.getElementById('dyn-costas-max-val').innerText = parseFloat(this.value).toFixed(3); renderDynamicGraph();">
                     </div>
                 </div>
 
-                <!-- Noise Level -->
-                <div class="ctrl-group">
-                    <label>Noise Level (Vn):</label>
-                    <select id="plot1-noise" onchange="updateDynamicPlot1()">
-                        <option value="0.0" selected>Clean (Vn = 0.00)</option>
-                        <option value="0.02">Low Noise (Vn = 0.02)</option>
-                        <option value="0.05">Medium Noise (Vn = 0.05)</option>
-                        <option value="0.15">High Noise (Vn = 0.15)</option>
-                    </select>
-                </div>
-
-                <!-- Quick Select Buttons -->
+                <!-- Quick Selection Action Buttons -->
                 <div class="ctrl-group" style="justify-content: flex-end;">
                     <div style="display:flex; gap:6px; margin-top:16px;">
-                        <button class="btn btn-secondary btn-sm" onclick="toggleAllCostas(true)">Select All Lines</button>
-                        <button class="btn btn-secondary btn-sm" onclick="toggleAllCostas(false)">Select Core Lines</button>
+                        <button class="btn btn-secondary btn-sm" onclick="toggleCostasLines(true)">Select All Lines</button>
+                        <button class="btn btn-secondary btn-sm" onclick="toggleCostasLines(false)">Select Core Lines</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Costas Lines Checkbox Selector Pills -->
-            <div style="margin-bottom: 8px;">
-                <label style="font-size:12px; font-weight:600; color:#334155;">Toggle Individual Costas Lines to Display:</label>
-                <div class="checkbox-pills" id="costas-pills-container">
+            <!-- Costas Lines Checkbox Toggle Pills -->
+            <div style="margin-bottom: 10px;">
+                <label style="font-size:12px; font-weight:600; color:#cbd5e1;">Select Costas Loop Bandwidths to Display as Lines:</label>
+                <div class="checkbox-pills" id="costas-pills">
                     <!-- Checkboxes injected by JS -->
                 </div>
             </div>
 
-            <!-- Interactive Plot Container -->
-            <div id="dynamic-plot-1" class="plot-container"></div>
+            <!-- Dynamic Graph Canvas Container with Tooltip -->
+            <div class="canvas-container" id="graph-container">
+                <canvas id="dynamic-canvas"></canvas>
+                <div id="graph-tooltip" class="graph-tooltip"></div>
+            </div>
         </div>
 
         <!-- 2. INTERACTIVE 2D CORRELATION HEATMAP (Costas vs Symbol Sync) -->
         <div class="card">
             <h2>
-                <span>2. Interactive 2D Correlation Heatmap (Costas Loop BW vs Symbol Sync Loop BW)</span>
-                <span style="font-size:13px; font-weight:normal; color:var(--text-muted);">2D Parametric Stability Surface</span>
+                <span>2. Interactive 2D Correlation Heatmap: Costas Loop BW vs Symbol Sync Loop BW</span>
+                <span style="font-size:13px; font-weight:normal; color:var(--text-muted);">2D Parametric Stability Field</span>
             </h2>
 
             <div class="controls-row">
                 <div class="ctrl-group">
                     <label>Modulation:</label>
-                    <select id="heatmap-mod" onchange="updateHeatmapPlot()">
+                    <select id="hm-mod" onchange="renderHeatmap()">
                         <option value="BPSK" selected>BPSK</option>
                         <option value="QPSK">QPSK</option>
                     </select>
                 </div>
                 <div class="ctrl-group">
-                    <label>Metric to Display:</label>
-                    <select id="heatmap-metric" onchange="updateHeatmapPlot()">
+                    <label>Metric Color Gradient:</label>
+                    <select id="hm-metric" onchange="renderHeatmap()">
                         <option value="ber" selected>Bit Error Rate (BER) - Log Scale</option>
                         <option value="pdr">Packet Delivery Ratio (PDR %)</option>
                     </select>
                 </div>
-                <div class="ctrl-group">
-                    <label>FLL Slice:</label>
-                    <select id="heatmap-fll" onchange="updateHeatmapPlot()">
-                        <option value="0.0314" selected>0.0314 rad/sym (Optimal)</option>
-                        <option value="0.010">0.0100 rad/sym</option>
-                        <option value="0.0628">0.0628 rad/sym</option>
-                        <option value="0.100">0.1000 rad/sym</option>
-                    </select>
-                </div>
             </div>
 
-            <div id="heatmap-plot" class="plot-container"></div>
+            <div class="canvas-container" id="heatmap-container" style="height: 480px; min-height: 480px;">
+                <canvas id="heatmap-canvas"></canvas>
+                <div id="heatmap-tooltip" class="graph-tooltip"></div>
+            </div>
         </div>
 
-        <!-- 3. INTERACTIVE SEARCHABLE CSV DATA TABLE & VIEWER -->
+        <!-- 3. SEARCHABLE CSV DATA TABLE & LIVE PARAMETER FILTER -->
         <div class="card">
             <h2>
                 <span>3. Searchable CSV Dataset & Live Parameter Filter</span>
@@ -453,7 +481,7 @@ def build_master_dashboard():
 
             <!-- Collapsible Raw CSV Display -->
             <div id="raw-csv-panel" class="raw-csv-panel">
-                <p style="font-size:12px; color:var(--text-muted); margin:0 0 6px 0;"><strong>Raw CSV Data View:</strong> (Live updated with applied filters)</p>
+                <p style="font-size:12px; color:var(--text-muted); margin:0 0 6px 0;"><strong>Raw CSV Data Output:</strong> (Live synchronized with filters)</p>
                 <textarea id="raw-csv-text" class="raw-csv" readonly></textarea>
             </div>
 
@@ -461,8 +489,8 @@ def build_master_dashboard():
             <div class="controls-row">
                 <!-- Search Box -->
                 <div class="ctrl-group" style="flex: 1; min-width: 180px;">
-                    <label>Search Text across Columns:</label>
-                    <input type="text" id="tbl-search" placeholder="Search BPSK, 0.0314, software..." oninput="applyTableFilters()">
+                    <label>Search Parameters & Columns:</label>
+                    <input type="text" id="tbl-search" placeholder="Type BPSK, 0.0314, 0.0628, software..." oninput="applyTableFilters()">
                 </div>
 
                 <!-- Mod Filter -->
@@ -552,7 +580,7 @@ def build_master_dashboard():
                 <div id="results-count">Showing 0 - 0 of 0 records</div>
                 <div style="display:flex; align-items:center; gap:8px;">
                     <label style="font-size:12px;">Rows per page:</label>
-                    <select id="tbl-page-size" onchange="currentPage=1; renderTable();" style="padding:4px 8px; font-size:12px;">
+                    <select id="tbl-page-size" onchange="currentPage=1; renderTable();" style="padding:4px 8px; font-size:12px; background:#1e293b; color:#f8fafc; border:1px solid #475569; border-radius:4px;">
                         <option value="25" selected>25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
@@ -566,7 +594,7 @@ def build_master_dashboard():
         </div>
     </div>
 
-    <!-- Interactive JavaScript Engine -->
+    <!-- 100% Zero-Dependency Dynamic Plotter & Interactive Engine -->
     <script>
         const rawData = {records_json_str};
         let filteredData = [...rawData];
@@ -574,28 +602,32 @@ def build_master_dashboard():
         let currentSortCol = 'pdr';
         let sortAsc = false;
 
-        // Distinct available parameter values
+        // Distinct parameter sets
         const allCostas = [...new Set(rawData.map(r => r.costas_bw))].sort((a,b) => a-b);
         const allSym = [...new Set(rawData.map(r => r.sym_bw))].sort((a,b) => a-b);
         const allFll = [...new Set(rawData.map(r => r.fll_bw))].sort((a,b) => a-b);
 
         // Core Costas values to check by default
         const defaultCostas = [0.010, 0.035, 0.0628, 0.135, 0.250, 0.500, 1.000];
+        const lineColors = [
+            '#38bdf8', '#22c55e', '#f59e0b', '#ec4899', '#a855f7',
+            '#ef4444', '#14b8a6', '#eab308', '#6366f1', '#f97316', '#06b6d4'
+        ];
 
         // 1. Initialize Costas Checkbox Pills
         function initCostasPills() {{
-            const container = document.getElementById('costas-pills-container');
+            const container = document.getElementById('costas-pills');
             container.innerHTML = '';
             allCostas.forEach((cbw, idx) => {{
-                const isChecked = defaultCostas.some(v => Math.abs(v - cbw) < 0.005) || idx % 3 === 0;
+                const isChecked = defaultCostas.some(v => Math.abs(v - cbw) < 0.005) || (idx % 2 === 0);
                 const label = document.createElement('label');
                 label.className = 'pill-label';
-                label.innerHTML = `<input type="checkbox" value="${{cbw}}" class="costas-chk" ${{isChecked ? 'checked' : ''}} onchange="updateDynamicPlot1()"> ${{cbw.toFixed(4)}}`;
+                label.innerHTML = `<input type="checkbox" value="${{cbw}}" class="costas-chk" ${{isChecked ? 'checked' : ''}} onchange="renderDynamicGraph()"> Costas ${{cbw.toFixed(4)}}`;
                 container.appendChild(label);
             }});
         }}
 
-        function toggleAllCostas(selectAll) {{
+        function toggleCostasLines(selectAll) {{
             document.querySelectorAll('.costas-chk').forEach(chk => {{
                 if (selectAll) {{
                     chk.checked = true;
@@ -604,99 +636,42 @@ def build_master_dashboard():
                     chk.checked = defaultCostas.some(v => Math.abs(v - val) < 0.005);
                 }}
             }});
-            updateDynamicPlot1();
+            renderDynamicGraph();
         }}
 
-        // 2. Dynamic Plot 1: BER vs Symbol Sync with Costas Lines & FLL Slider
-        function updateDynamicPlot1() {{
-            const mod = document.getElementById('plot1-mod').value;
-            const fllVal = parseFloat(document.getElementById('plot1-fll-select').value);
-            const maxCostas = parseFloat(document.getElementById('plot1-costas-max').value);
-            const noiseVal = parseFloat(document.getElementById('plot1-noise').value);
+        // 2. Native Dynamic Multi-Line Graph Rendering Engine
+        let activeGraphSeries = [];
+        let graphPlotBounds = {{ left: 80, right: 30, top: 60, bottom: 60 }};
 
-            // Get selected Costas values from checkboxes
+        function renderDynamicGraph() {{
+            const canvas = document.getElementById('dynamic-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const container = document.getElementById('graph-container');
+            const rect = container ? container.getBoundingClientRect() : {{ width: 1200, height: 520 }};
+            const W = rect.width > 100 ? rect.width : 1200;
+            const H = rect.height > 100 ? rect.height : 520;
+
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.clearRect(0, 0, W, H);
+
+            const mod = document.getElementById('dyn-mod').value;
+            const fllVal = parseFloat(document.getElementById('dyn-fll-select').value);
+            const maxCostas = parseFloat(document.getElementById('dyn-costas-max').value);
+
             const selectedCostas = Array.from(document.querySelectorAll('.costas-chk:checked'))
                 .map(chk => parseFloat(chk.value))
                 .filter(v => v <= maxCostas + 1e-4);
 
-            const traces = [];
-            const colors = ['#2563eb', '#16a34a', '#dc2626', '#d97706', '#9333ea', '#0891b2', '#4f46e5', '#ec4899', '#f97316', '#14b8a6', '#84cc16'];
+            activeGraphSeries = [];
 
+            // Collect series data points
             selectedCostas.forEach((cbw, idx) => {{
-                const xPts = [];
-                const yPts = [];
-                const textPts = [];
-
-                allSym.forEach(sbw => {{
-                    const matches = rawData.filter(r => 
-                        r.mod_type === mod &&
-                        Math.abs(r.fll_bw - fllVal) < 0.005 &&
-                        Math.abs(r.costas_bw - cbw) < 0.005 &&
-                        Math.abs(r.sym_bw - sbw) < 0.005
-                    );
-
-                    if (matches.length > 0) {{
-                        const avgBer = matches.reduce((acc, cur) => acc + cur.ber, 0) / matches.length;
-                        const avgPdr = matches.reduce((acc, cur) => acc + cur.pdr, 0) / matches.length;
-                        xPts.push(sbw);
-                        yPts.push(Math.max(avgBer, 1e-4));
-                        textPts.push(`Costas: ${{cbw.toFixed(4)}}<br>SymSync: ${{sbw.toFixed(4)}}<br>FLL: ${{fllVal.toFixed(4)}}<br>BER: ${{avgBer.toExponential(2)}}<br>PDR: ${{avgPdr.toFixed(1)}}%`);
-                    }}
-                }});
-
-                if (xPts.length > 0) {{
-                    traces.push({{
-                        x: xPts,
-                        y: yPts,
-                        mode: 'lines+markers',
-                        name: `Costas = ${{cbw.toFixed(4)}}`,
-                        line: {{ shape: 'spline', width: 2.2, color: colors[idx % colors.length] }},
-                        marker: {{ size: 5 }},
-                        hoverinfo: 'text',
-                        text: textPts
-                    }});
-                }}
-            }});
-
-            const layout = {{
-                title: {{
-                    text: `<b>${{mod}} (y·y' TED): Bit Error Rate (BER) vs Symbol Sync Loop Bandwidth</b><br><span style="font-size:12px;color:#64748b;">FLL Band-Edge BW = ${{fllVal.toFixed(4)}} rad/sym | Varying Costas Loop Bandwidths (${{traces.length}} lines)</span>`,
-                    x: 0.05
-                }},
-                xaxis: {{
-                    title: 'Symbol Synchronizer Loop Bandwidth (rad/sym)',
-                    gridcolor: '#e2e8f0',
-                    zeroline: false
-                }},
-                yaxis: {{
-                    title: 'Bit Error Rate (BER) - Log Scale',
-                    type: 'log',
-                    range: [-4.0, 0.0],
-                    gridcolor: '#e2e8f0',
-                    zeroline: false
-                }},
-                plot_bgcolor: '#ffffff',
-                paper_bgcolor: '#ffffff',
-                hovermode: 'closest',
-                margin: {{ l: 65, r: 40, t: 70, b: 60 }},
-                legend: {{ orientation: 'v', x: 1.02, y: 1 }}
-            }};
-
-            Plotly.react('dynamic-plot-1', traces, layout, {{ responsive: true }});
-        }}
-
-        // 3. Dynamic Heatmap Plot (Costas vs Symbol Sync)
-        function updateHeatmapPlot() {{
-            const mod = document.getElementById('heatmap-mod').value;
-            const metric = document.getElementById('heatmap-metric').value;
-            const fllVal = parseFloat(document.getElementById('heatmap-fll').value);
-
-            const zMatrix = [];
-            const textMatrix = [];
-
-            allCostas.forEach(cbw => {{
-                const row = [];
-                const textRow = [];
+                const pts = [];
                 allSym.forEach(sbw => {{
                     const matches = rawData.filter(r =>
                         r.mod_type === mod &&
@@ -705,45 +680,304 @@ def build_master_dashboard():
                         Math.abs(r.sym_bw - sbw) < 0.005
                     );
                     if (matches.length > 0) {{
-                        const val = metric === 'ber' 
-                            ? Math.log10(Math.max(matches[0].ber, 1e-4))
-                            : matches[0].pdr;
-                        row.push(val);
-                        textRow.push(`Costas: ${{cbw.toFixed(4)}}<br>SymSync: ${{sbw.toFixed(4)}}<br>${{metric.toUpperCase()}}: ${{metric==='ber' ? matches[0].ber.toExponential(2) : matches[0].pdr.toFixed(1)+'%'}}`);
-                    }} else {{
-                        row.push(metric === 'ber' ? -4.0 : 0);
-                        textRow.push('No direct data');
+                        const avgBer = matches.reduce((acc, cur) => acc + cur.ber, 0) / matches.length;
+                        const avgPdr = matches.reduce((acc, cur) => acc + cur.pdr, 0) / matches.length;
+                        pts.push({{ x: sbw, y: Math.max(avgBer, 1e-4), pdr: avgPdr }});
                     }}
                 }});
-                zMatrix.push(row);
-                textMatrix.push(textRow);
+                if (pts.length > 0) {{
+                    activeGraphSeries.push({{
+                        costas_bw: cbw,
+                        color: lineColors[idx % lineColors.length],
+                        points: pts
+                    }});
+                }}
             }});
 
-            const trace = {{
-                z: zMatrix,
-                x: allSym,
-                y: allCostas,
-                type: 'heatmap',
-                colorscale: metric === 'ber' ? 'Viridis' : 'Portland',
-                reversescale: metric === 'ber',
-                hoverinfo: 'text',
-                text: textMatrix,
-                colorbar: {{
-                    title: metric === 'ber' ? 'Log10(BER)' : 'PDR (%)'
+            const pLeft = 80;
+            const pRight = W - 220; // Room for interactive legend
+            const pTop = 50;
+            const pBottom = H - 55;
+            graphPlotBounds = {{ left: pLeft, right: pRight, top: pTop, bottom: pBottom, W: W, H: H }};
+
+            // Grid & Axes background
+            ctx.fillStyle = '#0b1120';
+            ctx.fillRect(pLeft, pTop, Math.max(10, pRight - pLeft), Math.max(10, pBottom - pTop));
+
+            // Log scale Y-axis bounds (10^-4 to 10^0)
+            const yMinLog = -4;
+            const yMaxLog = 0;
+            const xMin = 0.0;
+            const xMax = 1.0;
+
+            function mapX(val) {{ return pLeft + ((val - xMin) / (xMax - xMin)) * (pRight - pLeft); }}
+            function mapY(val) {{ 
+                const logV = Math.log10(Math.max(val, 1e-4));
+                return pBottom - ((logV - yMinLog) / (yMaxLog - yMinLog)) * (pBottom - pTop);
+            }}
+
+            // Draw Y Grid lines (Decades)
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#1e293b';
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'right';
+
+            for (let exp = -4; exp <= 0; exp++) {{
+                const yPos = mapY(Math.pow(10, exp));
+                ctx.beginPath();
+                ctx.moveTo(pLeft, yPos);
+                ctx.lineTo(pRight, yPos);
+                ctx.stroke();
+                ctx.fillText(`10^${{exp}}`, pLeft - 10, yPos + 4);
+            }}
+
+            // Draw X Grid lines
+            ctx.textAlign = 'center';
+            for (let xV = 0.0; xV <= 1.05; xV += 0.1) {{
+                const xPos = mapX(xV);
+                ctx.beginPath();
+                ctx.moveTo(xPos, pTop);
+                ctx.lineTo(xPos, pBottom);
+                ctx.stroke();
+                ctx.fillText(xV.toFixed(1), xPos, pBottom + 18);
+            }}
+
+            // Axis Labels & Title
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(`${{mod}} (y·y' TED): BER vs Symbol Sync BW  [FLL Band-Edge = ${{fllVal.toFixed(4)}} rad/sym]`, pLeft, 30);
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Symbol Synchronizer Loop Bandwidth (rad/sym)', (pLeft + pRight) / 2, H - 18);
+
+            ctx.save();
+            ctx.translate(22, (pTop + pBottom) / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Bit Error Rate (BER) - Logarithmic Scale', 0, 0);
+            ctx.restore();
+
+            // Render Smooth Multi-Line Curves
+            activeGraphSeries.forEach(series => {{
+                if (series.points.length < 2) return;
+
+                ctx.strokeStyle = series.color;
+                ctx.lineWidth = 2.4;
+                ctx.beginPath();
+
+                for (let i = 0; i < series.points.length; i++) {{
+                    const cur = series.points[i];
+                    const px = mapX(cur.x);
+                    const py = mapY(cur.y);
+
+                    if (i === 0) {{
+                        ctx.moveTo(px, py);
+                    }} else {{
+                        const prev = series.points[i - 1];
+                        const prevX = mapX(prev.x);
+                        const prevY = mapY(prev.y);
+                        const cpX1 = prevX + (px - prevX) / 2;
+                        const cpY1 = prevY;
+                        const cpX2 = prevX + (px - prevX) / 2;
+                        const cpY2 = py;
+                        ctx.bezierCurveTo(cpX1, cpY1, cpX2, cpY2, px, py);
+                    }}
                 }}
-            }};
+                ctx.stroke();
 
-            const layout = {{
-                title: {{
-                    text: `<b>2D Correlation Surface (${{mod}}): Costas vs Symbol Sync Bandwidth</b><br><span style="font-size:12px;color:#64748b;">Metric: ${{metric.toUpperCase()}} | FLL = ${{fllVal.toFixed(4)}} rad/sym</span>`,
-                    x: 0.05
-                }},
-                xaxis: {{ title: 'Symbol Synchronizer Loop Bandwidth (rad/sym)' }},
-                yaxis: {{ title: 'Costas Loop Bandwidth (rad/sym)' }},
-                margin: {{ l: 65, r: 40, t: 70, b: 60 }}
-            }};
+                // Draw Data Point Markers
+                ctx.fillStyle = series.color;
+                series.points.forEach(pt => {{
+                    const px = mapX(pt.x);
+                    const py = mapY(pt.y);
+                    ctx.beginPath();
+                    ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+                    ctx.fill();
+                }});
+            }});
 
-            Plotly.react('heatmap-plot', [trace], layout, {{ responsive: true }});
+            // Render Right-Hand Legend
+            ctx.textAlign = 'left';
+            ctx.font = '11px sans-serif';
+            const legLeft = pRight + 20;
+            let legTop = pTop + 10;
+
+            ctx.fillStyle = '#e2e8f0';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText('Costas Loop BW:', legLeft, legTop);
+            legTop += 18;
+
+            activeGraphSeries.forEach(series => {{
+                ctx.fillStyle = series.color;
+                ctx.fillRect(legLeft, legTop - 8, 14, 4);
+                ctx.beginPath();
+                ctx.arc(legLeft + 7, legTop - 6, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#cbd5e1';
+                ctx.font = '11.5px sans-serif';
+                ctx.fillText(`Costas = ${{series.costas_bw.toFixed(4)}}`, legLeft + 20, legTop);
+                legTop += 20;
+            }});
+        }}
+
+        // Dynamic Graph Hover Inspector
+        const graphContainer = document.getElementById('graph-container');
+        const graphTooltip = document.getElementById('graph-tooltip');
+
+        if (graphContainer) {{
+            graphContainer.addEventListener('mousemove', (e) => {{
+                const rect = graphContainer.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mouseY = e.clientY - rect.top;
+
+                const {{ left, right, top, bottom }} = graphPlotBounds;
+                if (mouseX < left || mouseX > right || mouseY < top || mouseY > bottom) {{
+                    graphTooltip.style.display = 'none';
+                    return;
+                }}
+
+                const symVal = 0.0 + ((mouseX - left) / (right - left)) * 1.0;
+                let closestSym = allSym[0];
+                let minDist = 999;
+                allSym.forEach(sbw => {{
+                    const d = Math.abs(sbw - symVal);
+                    if (d < minDist) {{ minDist = d; closestSym = sbw; }}
+                }});
+
+                let infoHtml = `<strong>SymSync BW: ${{closestSym.toFixed(4)}} rad/sym</strong><br>`;
+                let foundAny = false;
+
+                activeGraphSeries.forEach(series => {{
+                    const pt = series.points.find(p => Math.abs(p.x - closestSym) < 1e-4);
+                    if (pt) {{
+                        foundAny = true;
+                        infoHtml += `<span style="color:${{series.color}}">■</span> Costas ${{series.costas_bw.toFixed(4)}}: BER <strong>${{pt.y.toExponential(2)}}</strong> (PDR ${{pt.pdr.toFixed(1)}}%)<br>`;
+                    }}
+                }});
+
+                if (foundAny) {{
+                    graphTooltip.innerHTML = infoHtml;
+                    graphTooltip.style.display = 'block';
+                    graphTooltip.style.left = `${{Math.min(mouseX + 15, rect.width - 240)}}px`;
+                    graphTooltip.style.top = `${{Math.min(mouseY + 15, rect.height - 180)}}px`;
+                }} else {{
+                    graphTooltip.style.display = 'none';
+                }}
+            }});
+
+            graphContainer.addEventListener('mouseleave', () => {{
+                graphTooltip.style.display = 'none';
+            }});
+        }}
+
+        // 3. Native 2D Correlation Heatmap Canvas Engine
+        function renderHeatmap() {{
+            const canvas = document.getElementById('heatmap-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const container = document.getElementById('heatmap-container');
+            const rect = container ? container.getBoundingClientRect() : {{ width: 1200, height: 480 }};
+            const W = rect.width > 100 ? rect.width : 1200;
+            const H = rect.height > 100 ? rect.height : 480;
+
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            ctx.scale(dpr, dpr);
+
+            ctx.clearRect(0, 0, W, H);
+
+            const mod = document.getElementById('hm-mod').value;
+            const metric = document.getElementById('hm-metric').value;
+            const fllVal = parseFloat(document.getElementById('dyn-fll-select').value);
+
+            const pLeft = 80;
+            const pRight = W - 100;
+            const pTop = 40;
+            const pBottom = H - 55;
+
+            const numX = allSym.length;
+            const numY = allCostas.length;
+            const cellW = (pRight - pLeft) / numX;
+            const cellH = (pBottom - pTop) / numY;
+
+            function getColor(val) {{
+                const r = Math.floor(Math.min(255, Math.max(0, val * 2.2 * 255)));
+                const g = Math.floor(Math.min(255, Math.max(0, (1 - val * 0.9) * 255)));
+                const b = Math.floor(Math.min(255, Math.max(0, (1 - Math.abs(val - 0.5) * 2) * 160)));
+                return `rgb(${{r}}, ${{g}}, ${{b}})`;
+            }}
+
+            for (let j = 0; j < numY; j++) {{
+                const cbw = allCostas[numY - 1 - j];
+                for (let i = 0; i < numX; i++) {{
+                    const sbw = allSym[i];
+                    const matches = rawData.filter(r =>
+                        r.mod_type === mod &&
+                        Math.abs(r.fll_bw - fllVal) < 0.005 &&
+                        Math.abs(r.costas_bw - cbw) < 0.005 &&
+                        Math.abs(r.sym_bw - sbw) < 0.005
+                    );
+
+                    let normVal = 1.0;
+                    if (matches.length > 0) {{
+                        if (metric === 'ber') {{
+                            const logB = Math.log10(Math.max(matches[0].ber, 1e-4));
+                            normVal = (logB - (-4.0)) / (0.0 - (-4.0));
+                        }} else {{
+                            normVal = 1.0 - (matches[0].pdr / 100.0);
+                        }}
+                    }}
+
+                    ctx.fillStyle = getColor(normVal);
+                    ctx.fillRect(pLeft + i * cellW, pTop + j * cellH, cellW + 0.5, cellH + 0.5);
+                }}
+            }}
+
+            // Draw Heatmap Axes Labels
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+            for (let i = 0; i < numX; i += 3) {{
+                const xPos = pLeft + i * cellW + cellW / 2;
+                ctx.fillText(allSym[i].toFixed(2), xPos, pBottom + 16);
+            }}
+            ctx.fillText('Symbol Synchronizer Loop Bandwidth (rad/sym)', (pLeft + pRight) / 2, H - 18);
+
+            ctx.textAlign = 'right';
+            for (let j = 0; j < numY; j += 2) {{
+                const cbw = allCostas[numY - 1 - j];
+                const yPos = pTop + j * cellH + cellH / 2 + 4;
+                ctx.fillText(cbw.toFixed(3), pLeft - 8, yPos);
+            }}
+
+            ctx.save();
+            ctx.translate(20, (pTop + pBottom) / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.textAlign = 'center';
+            ctx.fillText('Costas Loop Bandwidth (rad/sym)', 0, 0);
+            ctx.restore();
+
+            // Draw Colorbar on Right
+            const cbLeft = pRight + 25;
+            const cbW = 16;
+            for (let y = pTop; y <= pBottom; y++) {{
+                const frac = (y - pTop) / (pBottom - pTop);
+                ctx.fillStyle = getColor(frac);
+                ctx.fillRect(cbLeft, y, cbW, 1);
+            }}
+            ctx.strokeStyle = '#475569';
+            ctx.strokeRect(cbLeft, pTop, cbW, pBottom - pTop);
+
+            ctx.fillStyle = '#e2e8f0';
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(metric === 'ber' ? '10^-4 (Best)' : '100% PDR', cbLeft + cbW + 6, pTop + 8);
+            ctx.fillText(metric === 'ber' ? '10^0 (Loss)' : '0% PDR', cbLeft + cbW + 6, pBottom);
         }}
 
         // 4. Interactive CSV Table Filtering & Pagination Engine
@@ -813,6 +1047,7 @@ def build_master_dashboard():
 
         function renderTable() {{
             const tbody = document.getElementById('table-body');
+            if (!tbody) return;
             tbody.innerHTML = '';
             const total = filteredData.length;
             const pageSize = parseInt(document.getElementById('tbl-page-size').value);
@@ -823,7 +1058,7 @@ def build_master_dashboard():
             for (const r of pageRecords) {{
                 const tr = document.createElement('tr');
                 const modBadge = r.mod_type === 'BPSK' ? 'badge-bpsk' : 'badge-qpsk';
-                const pdrColor = r.pdr >= 85 ? 'color:#16a34a; font-weight:600;' : (r.pdr >= 50 ? 'color:#d97706;' : 'color:#dc2626;');
+                const pdrColor = r.pdr >= 85 ? 'color:#22c55e; font-weight:600;' : (r.pdr >= 50 ? 'color:#f59e0b;' : 'color:#ef4444;');
                 tr.innerHTML = `
                     <td><span class="badge ${{modBadge}}">${{r.mod_type}}</span></td>
                     <td>${{r.fll_bw.toFixed(4)}}</td>
@@ -895,14 +1130,22 @@ def build_master_dashboard():
             document.body.removeChild(link);
         }}
 
-        // Window load initialization
-        window.addEventListener('DOMContentLoaded', () => {{
+        function initialRender() {{
             initCostasPills();
-            updateDynamicPlot1();
-            updateHeatmapPlot();
+            renderDynamicGraph();
+            renderHeatmap();
             sortTableData();
             renderTable();
+        }}
+
+        window.addEventListener('DOMContentLoaded', initialRender);
+        window.addEventListener('load', initialRender);
+        window.addEventListener('resize', () => {{
+            renderDynamicGraph();
+            renderHeatmap();
         }});
+        setTimeout(initialRender, 100);
+        setTimeout(initialRender, 500);
     </script>
 </body>
 </html>
@@ -917,7 +1160,7 @@ def build_master_dashboard():
     with open(os.path.join(dashboard_dir, "../optimization/results/deep_dashboard.html"), "w") as f:
         f.write(html_content)
         
-    print(f"[OK] Master interactive dashboard successfully built at: {output_html}")
+    print(f"[OK] Master zero-dependency interactive dashboard successfully built at: {output_html}")
     return 0
 
 if __name__ == '__main__':

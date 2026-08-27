@@ -72,14 +72,14 @@
 <line x1="525" y1="90" x2="545" y2="90" stroke="#16a34a" stroke-width="2.5" />
 <circle cx="535" cy="90" r="3.5" fill="#16a34a" />
 <text x="552" y="94" font-size="11" font-weight="500" fill="#334155">Costas = 0.035</text>
-<path d="M 85.0 292.2 L 87.1 195.6 L 90.6 292.2 L 93.5 217.5 L 97.8 292.2 L 102.1 292.2 L 106.4 216.9 L 112.8 292.2 L 121.3 148.9 L 132.0 174.8 L 144.8 146.7 L 159.7 118.6 L 181.1 236.3 L 189.6 178.5 L 211.0 107.8 L 253.7 106.6 L 296.4 148.5 L 381.9 106.5 L 510.0 148.5" fill="none" stroke="#dc2626" stroke-width="2.2" />
+<path d="M 85.0 292.2 L 87.1 195.6 L 90.6 292.2 L 93.5 214.9 L 97.8 292.2 L 102.1 292.2 L 106.4 214.9 L 112.8 292.2 L 121.3 148.9 L 132.0 174.8 L 144.8 146.7 L 159.7 118.6 L 181.1 236.3 L 189.6 178.5 L 211.0 107.8 L 253.7 106.6 L 296.4 148.5 L 381.9 106.5 L 510.0 148.5" fill="none" stroke="#dc2626" stroke-width="2.2" />
 <circle cx="85.0" cy="292.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="87.1" cy="195.6" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="90.6" cy="292.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="93.5" cy="217.5" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="214.9" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="97.8" cy="292.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="102.1" cy="292.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="106.4" cy="216.9" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="214.9" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="112.8" cy="292.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="121.3" cy="148.9" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="132.0" cy="174.8" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />

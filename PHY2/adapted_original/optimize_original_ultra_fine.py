@@ -241,6 +241,13 @@ def run_range_005_to_1_optimization():
         print(f"    -> Average PDR / BER     : {p['average_pdr']} / {p['average_ber']}")
     print("================================================================================")
     
+    # Update master interactive dashboard
+    try:
+        from PHY2.dashboard.build_dashboard import build_master_dashboard
+        build_master_dashboard()
+    except Exception as e:
+        print(f"[WARN] Dashboard update skipped: {e}")
+        
     return all_results, optimal_pinpoint
 
 if __name__ == '__main__':

@@ -28,7 +28,7 @@
 <line x1="85" y1="60" x2="85" y2="380" stroke="#475569" stroke-width="2" />
 <text x="297.5" y="425" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Channel Noise Voltage (Vn)</text>
 <text transform="rotate(-90)" x="-220.0" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Packet Delivery Ratio (%)</text>
-<path d="M 85.0 96.6 L 102.0 96.6 L 127.5 94.3 L 153.0 96.6 L 187.0 96.6 L 238.0 96.6 L 297.5 96.6 L 382.5 101.1 L 510.0 119.4" fill="none" stroke="#2563eb" stroke-width="2.2" />
+<path d="M 85.0 96.6 L 102.0 96.6 L 127.5 94.3 L 153.0 96.6 L 187.0 96.6 L 238.0 96.6 L 297.5 96.6 L 382.5 101.1 L 510.0 133.1" fill="none" stroke="#2563eb" stroke-width="2.2" />
 <circle cx="85.0" cy="96.6" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="102.0" cy="96.6" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="127.5" cy="94.3" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
@@ -37,12 +37,12 @@
 <circle cx="238.0" cy="96.6" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="297.5" cy="96.6" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="382.5" cy="101.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
-<circle cx="510.0" cy="119.4" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="133.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
 <line x1="525" y1="70" x2="545" y2="70" stroke="#2563eb" stroke-width="2.5" />
 <circle cx="535" cy="70" r="3.5" fill="#2563eb" />
 <text x="552" y="74" font-size="11" font-weight="500" fill="#334155">Preamble = 16 B</text>
-<path d="M 85.0 96.6 L 102.0 96.6 L 127.5 96.6 L 153.0 96.6 L 187.0 96.6 L 238.0 98.9 L 297.5 98.9 L 382.5 108.0 L 510.0 128.6" fill="none" stroke="#16a34a" stroke-width="2.2" />
-<circle cx="85.0" cy="96.6" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<path d="M 85.0 117.1 L 102.0 96.6 L 127.5 96.6 L 153.0 96.6 L 187.0 96.6 L 238.0 98.9 L 297.5 98.9 L 382.5 108.0 L 510.0 128.6" fill="none" stroke="#16a34a" stroke-width="2.2" />
+<circle cx="85.0" cy="117.1" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="102.0" cy="96.6" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="127.5" cy="96.6" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
 <circle cx="153.0" cy="96.6" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
