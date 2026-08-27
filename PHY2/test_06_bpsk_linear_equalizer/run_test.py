@@ -33,7 +33,7 @@ class BPSKEqualizerTester(gr.top_block):
         
         # Multipath Channel (creates ISI)
         self.channel = channels.channel_model(
-            noise_voltage=0.0,
+            noise_voltage=0.1,
             frequency_offset=0.0,
             epsilon=1.0,
             taps=multipath_taps,

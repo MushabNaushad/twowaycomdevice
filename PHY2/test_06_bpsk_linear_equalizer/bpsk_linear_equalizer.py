@@ -8,7 +8,7 @@
 # Title: PHY2 Test 06: BPSK Linear Equalizer
 # Author: mushab404
 # Description: PHY2 Stage 06: BPSK with Adaptive Linear Equalizer
-# GNU Radio version: 3.10.12.0
+# GNU Radio version: 3.10.9.2
 
 from gnuradio import analog
 from gnuradio import blocks
@@ -23,7 +23,6 @@ import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-import threading
 
 
 
@@ -32,7 +31,6 @@ class bpsk_linear_equalizer(gr.top_block):
 
     def __init__(self):
         gr.top_block.__init__(self, "PHY2 Test 06: BPSK Linear Equalizer", catch_exceptions=True)
-        self.flowgraph_started = threading.Event()
 
         ##################################################
         # Variables
@@ -56,7 +54,7 @@ class bpsk_linear_equalizer(gr.top_block):
         self.fft_filter_xxx_0 = filter.fft_filter_ccc(1, rcc_taps, 1)
         self.fft_filter_xxx_0.declare_sample_delay(0)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_cc(
-            digital.TED_MUELLER_AND_MULLER,
+            digital.TED_SIGNAL_TIMES_SLOPE_ML,
             sps,
             sym_bw,
             1.0,
@@ -81,8 +79,8 @@ class bpsk_linear_equalizer(gr.top_block):
             truncate=False)
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(BPSK_CONST)
         self.channels_channel_model_0 = channels.channel_model(
-            noise_voltage=0.0,
-            frequency_offset=0.0,
+            noise_voltage=0.2,
+            frequency_offset=0.001,
             epsilon=1.0,
             taps=[1.0, 0.25, 0.1],
             noise_seed=0,
@@ -193,7 +191,6 @@ def main(top_block_cls=bpsk_linear_equalizer, options=None):
     signal.signal(signal.SIGTERM, sig_handler)
 
     tb.start()
-    tb.flowgraph_started.set()
 
     tb.wait()
 

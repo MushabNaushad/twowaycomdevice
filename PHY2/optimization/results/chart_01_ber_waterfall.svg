@@ -28,7 +28,7 @@
 <line x1="80" y1="60" x2="80" y2="360" stroke="#475569" stroke-width="2" />
 <text x="320.0" y="405" text-anchor="middle" font-size="13" font-weight="600" fill="#334155">Channel Noise Voltage (Vn)</text>
 <text transform="rotate(-90)" x="-210.0" y="24" text-anchor="middle" font-size="13" font-weight="600" fill="#334155">Bit Error Rate (BER)</text>
-<path d="M 80.0 360.0 L 140.0 245.8 L 200.0 245.8 L 260.0 245.8 L 320.0 245.8 L 380.0 245.8 L 440.0 223.2 L 500.0 200.6 L 560.0 178.1" fill="none" stroke="#2563eb" stroke-width="2.5" />
+<path d="M 80.0 360.0 L 140.0 245.8 L 200.0 245.8 L 260.0 245.8 L 320.0 245.8 L 380.0 245.8 L 440.0 223.2 L 500.0 245.8 L 560.0 174.2" fill="none" stroke="#2563eb" stroke-width="2.5" />
 <circle cx="80.0" cy="360.0" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
 <circle cx="140.0" cy="245.8" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
 <circle cx="200.0" cy="245.8" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
@@ -36,8 +36,8 @@
 <circle cx="320.0" cy="245.8" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
 <circle cx="380.0" cy="245.8" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
 <circle cx="440.0" cy="223.2" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
-<circle cx="500.0" cy="200.6" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
-<circle cx="560.0" cy="178.1" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="500.0" cy="245.8" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
+<circle cx="560.0" cy="174.2" r="4.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5" />
 <circle cx="575" cy="70" r="5" fill="#2563eb" />
 <text x="588" y="74" font-size="11" font-weight="500" fill="#334155">Measured PHY2</text>
 <path d="M 80.0 360.0 L 140.0 360.0 L 200.0 360.0 L 260.0 360.0 L 320.0 360.0 L 380.0 360.0 L 440.0 312.6 L 500.0 260.3 L 560.0 225.5" fill="none" stroke="#dc2626" stroke-width="2.5" />

@@ -15,7 +15,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.02501058578491211
+    "elapsed_sec": 0.010231971740722656
   },
   {
     "params": {
@@ -33,7 +33,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.023999452590942383
+    "elapsed_sec": 0.010097980499267578
   },
   {
     "params": {
@@ -51,7 +51,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.03520488739013672
+    "elapsed_sec": 0.010413885116577148
   },
   {
     "params": {
@@ -69,7 +69,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.0311126708984375
+    "elapsed_sec": 0.010324954986572266
   },
   {
     "params": {
@@ -87,7 +87,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.03017425537109375
+    "elapsed_sec": 0.010289192199707031
   },
   {
     "params": {
@@ -105,7 +105,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.023707866668701172
+    "elapsed_sec": 0.010292768478393555
   },
   {
     "params": {
@@ -123,7 +123,7 @@
     "matched_packets": 13,
     "total_packets": 15,
     "ber": 0.006666666666666667,
-    "elapsed_sec": 0.024834156036376953
+    "elapsed_sec": 0.010513067245483398
   },
   {
     "params": {
@@ -136,12 +136,12 @@
       "freq_offset": 0.0,
       "time_offset": 1.0
     },
-    "pdr": 73.33333333333333,
-    "per": 0.2666666666666667,
-    "matched_packets": 11,
+    "pdr": 93.33333333333333,
+    "per": 0.06666666666666665,
+    "matched_packets": 14,
     "total_packets": 15,
-    "ber": 0.013333333333333334,
-    "elapsed_sec": 0.02803349494934082
+    "ber": 0.0033333333333333335,
+    "elapsed_sec": 0.011188268661499023
   },
   {
     "params": {
@@ -154,12 +154,12 @@
       "freq_offset": 0.0,
       "time_offset": 1.0
     },
-    "pdr": 46.666666666666664,
-    "per": 0.5333333333333333,
-    "matched_packets": 7,
+    "pdr": 40.0,
+    "per": 0.6,
+    "matched_packets": 6,
     "total_packets": 15,
-    "ber": 0.02666666666666667,
-    "elapsed_sec": 0.024761676788330078
+    "ber": 0.03,
+    "elapsed_sec": 0.010475873947143555
   },
   {
     "params": {
@@ -177,7 +177,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.033754587173461914
+    "elapsed_sec": 0.00967264175415039
   },
   {
     "params": {
@@ -195,7 +195,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.033243417739868164
+    "elapsed_sec": 0.011644840240478516
   },
   {
     "params": {
@@ -213,7 +213,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.02718806266784668
+    "elapsed_sec": 0.009988784790039062
   },
   {
     "params": {
@@ -231,7 +231,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.022973299026489258
+    "elapsed_sec": 0.010388851165771484
   },
   {
     "params": {
@@ -249,7 +249,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.027680158615112305
+    "elapsed_sec": 0.009662866592407227
   },
   {
     "params": {
@@ -267,7 +267,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.04201102256774902
+    "elapsed_sec": 0.00965118408203125
   },
   {
     "params": {
@@ -285,7 +285,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.023352861404418945
+    "elapsed_sec": 0.010080575942993164
   },
   {
     "params": {
@@ -303,7 +303,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.026060819625854492
+    "elapsed_sec": 0.011264801025390625
   },
   {
     "params": {
@@ -321,7 +321,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.02393484115600586
+    "elapsed_sec": 0.010155677795410156
   },
   {
     "params": {
@@ -339,7 +339,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.027147769927978516
+    "elapsed_sec": 0.012018918991088867
   },
   {
     "params": {
@@ -357,7 +357,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.024070262908935547
+    "elapsed_sec": 0.010116338729858398
   },
   {
     "params": {
@@ -375,7 +375,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.0241396427154541
+    "elapsed_sec": 0.011338233947753906
   },
   {
     "params": {
@@ -393,7 +393,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.028651714324951172
+    "elapsed_sec": 0.012243986129760742
   },
   {
     "params": {
@@ -411,7 +411,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.02588796615600586
+    "elapsed_sec": 0.011153459548950195
   },
   {
     "params": {
@@ -429,7 +429,7 @@
     "matched_packets": 13,
     "total_packets": 15,
     "ber": 0.06666666666666667,
-    "elapsed_sec": 0.027346372604370117
+    "elapsed_sec": 0.01017308235168457
   },
   {
     "params": {
@@ -442,12 +442,12 @@
       "noise_volt": 0.0,
       "time_offset": 1.0
     },
-    "pdr": 86.66666666666667,
-    "per": 0.1333333333333333,
-    "matched_packets": 13,
+    "pdr": 93.33333333333333,
+    "per": 0.06666666666666665,
+    "matched_packets": 14,
     "total_packets": 15,
-    "ber": 0.06666666666666667,
-    "elapsed_sec": 0.025482892990112305
+    "ber": 0.0,
+    "elapsed_sec": 0.011065959930419922
   },
   {
     "params": {
@@ -465,7 +465,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.027130126953125
+    "elapsed_sec": 0.010666131973266602
   },
   {
     "params": {
@@ -483,7 +483,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.02532172203063965
+    "elapsed_sec": 0.010169267654418945
   },
   {
     "params": {
@@ -501,7 +501,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.027284860610961914
+    "elapsed_sec": 0.00984644889831543
   },
   {
     "params": {
@@ -519,7 +519,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.024682044982910156
+    "elapsed_sec": 0.010516881942749023
   },
   {
     "params": {
@@ -537,7 +537,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.024847984313964844
+    "elapsed_sec": 0.010758161544799805
   },
   {
     "params": {
@@ -555,7 +555,7 @@
     "matched_packets": 13,
     "total_packets": 15,
     "ber": 0.06666666666666667,
-    "elapsed_sec": 0.0282442569732666
+    "elapsed_sec": 0.011761188507080078
   },
   {
     "params": {
@@ -573,7 +573,7 @@
     "matched_packets": 13,
     "total_packets": 15,
     "ber": 0.06666666666666667,
-    "elapsed_sec": 0.036226749420166016
+    "elapsed_sec": 0.011080265045166016
   },
   {
     "params": {
@@ -591,7 +591,7 @@
     "matched_packets": 13,
     "total_packets": 15,
     "ber": 0.06666666666666667,
-    "elapsed_sec": 0.049568891525268555
+    "elapsed_sec": 0.012325525283813477
   },
   {
     "params": {
@@ -609,7 +609,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.03872823715209961
+    "elapsed_sec": 0.011219024658203125
   },
   {
     "params": {
@@ -627,7 +627,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.0251924991607666
+    "elapsed_sec": 0.01141047477722168
   },
   {
     "params": {
@@ -645,7 +645,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.028225421905517578
+    "elapsed_sec": 0.010812997817993164
   },
   {
     "params": {
@@ -663,7 +663,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.036278486251831055
+    "elapsed_sec": 0.01110529899597168
   },
   {
     "params": {
@@ -681,7 +681,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.024981975555419922
+    "elapsed_sec": 0.010861635208129883
   },
   {
     "params": {
@@ -699,7 +699,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.028917789459228516
+    "elapsed_sec": 0.010263204574584961
   },
   {
     "params": {
@@ -717,7 +717,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.02556014060974121
+    "elapsed_sec": 0.00996541976928711
   },
   {
     "params": {
@@ -735,7 +735,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.028498172760009766
+    "elapsed_sec": 0.00933837890625
   },
   {
     "params": {
@@ -753,7 +753,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.03862595558166504
+    "elapsed_sec": 0.010792732238769531
   },
   {
     "params": {
@@ -771,7 +771,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.02743053436279297
+    "elapsed_sec": 0.011623382568359375
   },
   {
     "params": {
@@ -789,7 +789,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.024416208267211914
+    "elapsed_sec": 0.013091564178466797
   },
   {
     "params": {
@@ -807,7 +807,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.02909255027770996
+    "elapsed_sec": 0.00931096076965332
   },
   {
     "params": {
@@ -825,7 +825,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.025587081909179688
+    "elapsed_sec": 0.010830163955688477
   },
   {
     "params": {
@@ -843,7 +843,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.030608654022216797
+    "elapsed_sec": 0.009484291076660156
   },
   {
     "params": {
@@ -861,7 +861,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.029478073120117188
+    "elapsed_sec": 0.009730100631713867
   },
   {
     "params": {
@@ -879,7 +879,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.027309417724609375
+    "elapsed_sec": 0.009537935256958008
   },
   {
     "params": {
@@ -897,7 +897,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0,
-    "elapsed_sec": 0.03862953186035156
+    "elapsed_sec": 0.010178327560424805
   },
   {
     "params": {
@@ -915,7 +915,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.021933317184448242
+    "elapsed_sec": 0.009229898452758789
   },
   {
     "params": {
@@ -933,7 +933,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.02816009521484375
+    "elapsed_sec": 0.009795665740966797
   },
   {
     "params": {
@@ -951,7 +951,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.03640437126159668
+    "elapsed_sec": 0.011071920394897461
   },
   {
     "params": {
@@ -969,7 +969,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.025630474090576172
+    "elapsed_sec": 0.010254383087158203
   },
   {
     "params": {
@@ -987,7 +987,7 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.02919292449951172
+    "elapsed_sec": 0.012928485870361328
   },
   {
     "params": {
@@ -1005,6 +1005,6 @@
     "matched_packets": 14,
     "total_packets": 15,
     "ber": 0.0033333333333333335,
-    "elapsed_sec": 0.026206016540527344
+    "elapsed_sec": 0.011453866958618164
   }
 ]

@@ -8,7 +8,7 @@
 # Title: PHY2 Test 03: BPSK Symbol Sync
 # Author: mushab404
 # Description: PHY2 Stage 03: BPSK with Symbol Synchronization & Clock Drift
-# GNU Radio version: 3.10.12.0
+# GNU Radio version: 3.10.9.2
 
 from gnuradio import analog
 from gnuradio import blocks
@@ -23,7 +23,6 @@ import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-import threading
 
 
 
@@ -32,7 +31,6 @@ class bpsk_symbol_sync(gr.top_block):
 
     def __init__(self):
         gr.top_block.__init__(self, "PHY2 Test 03: BPSK Symbol Sync", catch_exceptions=True)
-        self.flowgraph_started = threading.Event()
 
         ##################################################
         # Variables
@@ -173,7 +171,6 @@ def main(top_block_cls=bpsk_symbol_sync, options=None):
     signal.signal(signal.SIGTERM, sig_handler)
 
     tb.start()
-    tb.flowgraph_started.set()
 
     tb.wait()
 

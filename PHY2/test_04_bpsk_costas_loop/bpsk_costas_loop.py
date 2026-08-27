@@ -8,7 +8,7 @@
 # Title: PHY2 Test 04: BPSK Costas Loop
 # Author: mushab404
 # Description: PHY2 Stage 04: BPSK with Costas Loop Carrier Phase Recovery
-# GNU Radio version: 3.10.12.0
+# GNU Radio version: 3.10.9.2
 
 from gnuradio import analog
 from gnuradio import blocks
@@ -23,7 +23,6 @@ import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-import threading
 
 
 
@@ -32,7 +31,6 @@ class bpsk_costas_loop(gr.top_block):
 
     def __init__(self):
         gr.top_block.__init__(self, "PHY2 Test 04: BPSK Costas Loop", catch_exceptions=True)
-        self.flowgraph_started = threading.Event()
 
         ##################################################
         # Variables
@@ -55,7 +53,7 @@ class bpsk_costas_loop(gr.top_block):
         self.fft_filter_xxx_0 = filter.fft_filter_ccc(1, rcc_taps, 1)
         self.fft_filter_xxx_0.declare_sample_delay(0)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_cc(
-            digital.TED_MUELLER_AND_MULLER,
+            digital.TED_SIGNAL_TIMES_SLOPE_ML,
             sps,
             sym_bw,
             1.0,
@@ -181,7 +179,6 @@ def main(top_block_cls=bpsk_costas_loop, options=None):
     signal.signal(signal.SIGTERM, sig_handler)
 
     tb.start()
-    tb.flowgraph_started.set()
 
     tb.wait()
 
