@@ -1,42 +1,31 @@
-# PHY2 - Stage 08: Full BPSK Packet Engine with Protocol Formatter & CRC32
+# PHY2 - Stage 08: Hardware Packet Engine & CRC32 Verification
 
 ## Objective
-Implement end-to-end tagged stream packet framing, CRC32 generation, protocol header formatting, stream multiplexing, access code correlation, bit repacking, and CRC32 verification.
+Implement end-to-end tagged stream packet framing, CRC32 generation, protocol header formatting, stream multiplexing, access code correlation, bit repacking, and CRC32 verification across BPSK and QPSK on live SDR hardware.
 
-## Flowgraph Architecture
+---
+
+## Architecture
 ```
 TX PIPELINE:
-[ Vector Source (Payload) ]
-       ↓
-[ Stream to Tagged Stream ] (packet_len=payload_size)
-       ↓
-[ CRC32 Generator ] (Appends 4-byte IEEE 802.3 CRC32)
-   ├───> [ Protocol Formatter ] (Builds header with Access Code + Packet Length) ──> [ Mux Input 1 ]
-   └───> [ CRC32 Tagged Stream ] ───────────────────────────────────────────────────> [ Mux Input 2 ]
-[ Preamble Source (0x55) ] ────────────────────────────────────────────────────────> [ Mux Input 0 ]
-                                                                                           ↓
-                                                                           [ Tagged Stream Mux ]
-                                                                                           ↓
-                                                                          [ Constellation Modulator ]
-                                                                                           ↓
-                                                                                [ Channel Model ]
-RX PIPELINE:
-[ Analog AGC ] ──> [ FLL Band-Edge ] ──> [ RRC Matched Filter ] ──> [ Symbol Sync ] ──> [ Costas Loop ]
-                                                                                           ↓
-                                                                             [ Constellation Decoder ]
-                                                                                           ↓
-                                                                        [ Correlate Access Code TS ]
-                                                                                           ↓
-                                                                              [ Repack Bits (1 -> 8) ]
-                                                                                           ↓
-                                                                               [ CRC32 Checker ]
-                                                                                           ↓
-                                                                               [ Vector / PDU Sink ]
+[ Payload Source ] → [ CRC32 Generator ] → [ Protocol Formatter ] ──┐
+[ Preamble Source ] ───────────────────────────────────────────────┼─→ [ Tagged Stream Mux ] → [ Modulator ] → [ SDR HW Sink ]
+                                                                    │                                                 ↓
+RX PIPELINE:                                                        │                                          [ SDR HW Source ]
+[ Packet Sink ] ← [ CRC32 Checker ] ← [ Repack Bits ] ← [ Correlate Access Code ] ← [ Decoder ] ← [ Costas Loop ] ←───────┘
 ```
 
-## Verification
-Run the automated test runner:
+---
+
+## Hardware Execution Commands
+
 ```bash
-python3 run_test.py
+# 1. Run on physical Pluto SDR:
+python3 run_test.py --hw pluto --uri ip:192.168.2.1 --mod ALL
+
+# 2. Run on physical bladeRF:
+python3 run_test.py --hw bladerf --mod ALL
+
+# 3. Run in simulated hardware mode:
+python3 run_test.py --hw sim --mod ALL
 ```
-Expected Result: All received packets pass 32-bit CRC validation with 100% payload integrity.

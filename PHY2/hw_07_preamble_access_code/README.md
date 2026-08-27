@@ -1,41 +1,28 @@
-# PHY2 - Stage 07: BPSK with Preamble and Access Code Frame Synchronization
+# PHY2 - Stage 07: Hardware Preamble & Access Code Frame Sync
 
 ## Objective
-Implement frame synchronization using a hardware-ready training preamble and 64-bit access code (sync word). Handle byte alignment and resolve the $180^\circ$ Costas phase ambiguity at the packet layer.
+Implement frame synchronization using a hardware-ready training preamble and 64-bit access code (sync word) across BPSK and QPSK on live SDR hardware (Pluto SDR, bladeRF, RTL-SDR).
 
-## Flowgraph Architecture
+---
+
+## Architecture
 ```
-[ Vector Source ] -> [Preamble (0x55) | Access Code (0xE15AE893...) | Payload | Postamble]
-       ↓
-[ Constellation Modulator ] (BPSK)
-       ↓
-[ Channel Model ] (Frequency Offsets & Noise)
-       ↓
-[ Analog AGC ]
-       ↓
-[ FLL Band-Edge ]
-       ↓
-[ RRC Filter ]
-       ↓
-[ Symbol Synchronizer ]
-       ↓
-[ Costas Loop ]
-       ↓
-[ Constellation Decoder ]
-       ↓
-[ Correlate Access Code Tag (Normal & Inverted) ] -> Emits 'sync_pos' / 'sync_neg'
-       ↓
-[ Vector Sink / Payload Extractor ]
+[ Vector Source ] → [ Tagged Stream Mux (Preamble + Access Code + Payload) ] → [ Generic Modulator ] → [ SDR HW Sink ]
+                                                                                                            ↓
+[ Packet Sink ] ← [ Correlate Access Code ] ← [ Diff Decoder ] ← [ Decoder ] ← [ Costas Loop ] ← [ SDR HW Source ]
 ```
 
-## Mathematical Principle
-Cross-correlation of the demodulated bit stream $b_n$ with the sync word $s_k$:
-$$C(n) = \sum_{k=0}^{L-1} (2b_{n+k}-1) \cdot (2s_k-1)$$
-When $C(n) \ge L - \text{threshold}$, a frame start tag is asserted at bit index $n + L$. If $C(n) \le -(L - \text{threshold})$, an inverted-phase frame start tag is asserted.
+---
 
-## Verification
-Run the automated test runner:
+## Hardware Execution Commands
+
 ```bash
-python3 run_test.py
+# 1. Run on physical Pluto SDR:
+python3 run_test.py --hw pluto --uri ip:192.168.2.1 --mod ALL
+
+# 2. Run on physical bladeRF:
+python3 run_test.py --hw bladerf --mod ALL
+
+# 3. Run in simulated hardware mode:
+python3 run_test.py --hw sim --mod ALL
 ```
-Expected Result: 100% exact payload recovery with dual-polarity ambiguity resolution.

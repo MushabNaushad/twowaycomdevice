@@ -1,39 +1,28 @@
-# PHY2 - Stage 05: BPSK with FLL Band-Edge Frequency Recovery
+# PHY2 - Stage 05: Hardware FLL Band-Edge Frequency Recovery
 
 ## Objective
-Implement wide-range coarse carrier frequency acquisition using the Frequency-Locked Loop (FLL) Band-Edge block (`digital.fll_band_edge_cc`), extending carrier pull-in range for large frequency offsets up to $\pm 5\%$ of sampling rate.
+Implement wide-range coarse carrier frequency acquisition using the Frequency-Locked Loop (FLL) Band-Edge block (`digital.fll_band_edge_cc`), extending carrier pull-in range for large frequency offsets up to $\pm 5\%$ of sampling rate across live SDR hardware (Pluto SDR, bladeRF, RTL-SDR).
 
-## Flowgraph Architecture
+---
+
+## Architecture
 ```
-[ Vector Source ]
-       ↓
-[ Constellation Modulator ] (BPSK, sps=4, alpha=0.35)
-       ↓
-[ Channel Model ] (Large Frequency Offset |Δf| > 0.02)
-       ↓
-[ Analog AGC ]
-       ↓
-[ FLL Band-Edge ] (sps=4, alpha=0.35, size=2*sps+1, w=fll_loop_bw) -> Coarse Frequency Pull-In
-       ↓
-[ RRC Filter ] -> Matched Filtering
-       ↓
-[ Symbol Synchronizer ] -> Timing Recovery
-       ↓
-[ Costas Loop ] -> Residual Fine Carrier Phase Lock
-       ↓
-[ Constellation Decoder ]
-       ↓
-[ Vector Sink ]
+[ Vector Source ] → [ Generic Modulator (BPSK/QPSK) ] → [ SDR HW Sink / Channel ]
+                                                                ↓
+[ Vector Sink ] ← [ Decoder ] ← [ Costas Loop ] ← [ Symbol Sync ] ← [ RRC ] ← [ FLL Band-Edge ] ← [ AGC ] ← [ SDR HW Source ]
 ```
 
-## Mathematical Principle
-The FLL band-edge discriminator filters the signal through two band-edge filters centered at $(1 \pm \alpha) / (2 \cdot sps)$:
-$$e_k = |y_{\text{upper}}(k)|^2 - |y_{\text{lower}}(k)|^2$$
-When frequency offset is zero, the upper and lower transition band energies are equal ($e_k = 0$). Any carrier offset imbalances the band energy, providing an unbiased error signal for 2nd-order loop frequency acquisition.
+---
 
-## Verification
-Run the automated test runner:
+## Hardware Execution Commands
+
 ```bash
-python3 run_test.py
+# 1. Run on physical Pluto SDR:
+python3 run_test.py --hw pluto --uri ip:192.168.2.1 --mod ALL
+
+# 2. Run on physical bladeRF:
+python3 run_test.py --hw bladerf --mod ALL
+
+# 3. Run in simulated hardware mode (pre-check):
+python3 run_test.py --hw sim --mod ALL
 ```
-Expected Result: 0.0 Steady-State BER across large frequency offsets.

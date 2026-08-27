@@ -1,32 +1,38 @@
-# PHY2 - Physical Layer Automated Optimization Suite
+# PHY2 - Physical Layer Ultra-Deep Optimization Suite
 
 ## Overview
-The `optimization/` suite provides non-GRC, headless, high-throughput DSP simulation and empirical parameter optimization for the PHY2 transceiver.
+The `optimization/` suite provides non-GRC, headless, high-throughput DSP simulation and empirical parameter optimization across both Software Multipath channels and Hardware SDR Profiles over the **0.005 to 1.000 rad/sym** range.
+
+---
 
 ## Components
-- `param_sweep.py`: Headless multidimensional parameter sweeper testing:
-  - FLL Band-Edge Loop Bandwidth ($0.002$ to $0.080\text{ rad/sym}$)
-  - Costas Loop Bandwidth ($0.010$ to $0.160\text{ rad/sym}$)
-  - Symbol Synchronizer Loop Bandwidth ($0.010$ to $0.140\text{ rad/sym}$)
-  - Preamble Length ($8$ to $64\text{ bytes}$)
-  - AWGN Channel Noise Voltage ($V_n = 0.0$ to $0.8$)
-  - Carrier Frequency Offsets ($\Delta f = -0.035$ to $+0.035$)
-  - Clock Drift ($\epsilon = 0.9995$ to $1.0005$)
-- `ber_calculator.py`: Precision Bit Error Rate (BER), cross-correlation lag alignment, and Packet Delivery Ratio (PDR) calculator.
-- `plot_results.py`: Standalone SVG line/scatter plotter and interactive HTML dashboard generator.
-- `run_auto_optimization.py`: Master orchestrator running the parameter grid, determining Pareto-optimal values, and generating visual artifacts.
+- `deep_cartesian_sweep.py`: High-density multi-core Cartesian optimizer (11,532 trials) sweeping:
+  - FLL Band-Edge Loop Bandwidth ($0.005$ to $1.000\text{ rad/sym}$)
+  - Costas Loop Bandwidth ($0.005$ to $1.000\text{ rad/sym}$)
+  - Symbol Synchronizer Loop Bandwidth ($0.005$ to $1.000\text{ rad/sym}$, $y \cdot y'$ TED)
+  - Preamble Lengths ($16$ to $64\text{ bytes}$)
+  - AWGN Noise Voltage ($V_n = 0.0$ to $0.50$)
+  - Carrier Frequency Offsets ($\Delta f = -0.030$ to $+0.030$)
+  - Clock Drift ($\epsilon = 0.9992$ to $1.0008$)
+  - Channels: Software Multipath (with delay spread) & Hardware SDR Profiles
+- `plot_deep_analysis.py`: Standalone SVG multi-slice parametric plotting engine and interactive HTML dashboard generator.
+- `run_ultra_deep_optimization.py`: Master CLI orchestrator executing sweeps and dashboard generation.
+
+---
 
 ## Usage
-Run the complete automated parameter optimization suite:
+Run the ultra-deep optimization suite:
 ```bash
-python3 run_auto_optimization.py
+python3 PHY2/optimization/run_ultra_deep_optimization.py
 ```
 
+---
+
 ## Generated Outputs (`results/`)
-- `optimal_parameters.json`: Machine-readable optimal configuration.
-- `sweep_results.json` & `sweep_results.csv`: Raw measurement matrix.
-- `chart_01_ber_waterfall.svg`: BER vs AWGN Noise Voltage with theoretical comparison.
-- `chart_02_fll_bandwidth.svg`: Capture range vs FLL loop bandwidth.
-- `chart_03_costas_bandwidth.svg`: BER vs Costas loop bandwidth.
-- `chart_04_preamble_length.svg`: PDR % vs preamble length.
-- `dashboard.html`: Interactive browser dashboard embedding all charts and tables.
+- `pinpoint_optimal_parameters.json`: Machine-readable optimal configurations for Software and Hardware profiles across BPSK and QPSK.
+- `deep_sweep_results.json` & `deep_sweep_results.csv`: Complete raw measurement matrix of 11,532 trials.
+- `chart_slice_01_fixed_fll_ber_vs_symsync_bpsk.svg` & `qpsk.svg`: BER vs Symbol Sync BW (0.005 to 1.000 range).
+- `chart_slice_02_fixed_costas_ber_vs_fll_bpsk.svg` & `qpsk.svg`: BER vs FLL BW across Frequency Offsets.
+- `chart_slice_03_fixed_symsync_pdr_vs_noise_bpsk.svg` & `qpsk.svg`: PDR (%) vs Noise across Preamble Lengths.
+- `chart_slice_04_software_vs_hardware_comparison.svg`: Software vs Hardware profile direct BER comparison.
+- `deep_dashboard.html`: Interactive browser dashboard embedding all multi-slice charts and optimal value matrices.
