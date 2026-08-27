@@ -2,24 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 PHY2 Master Zero-Dependency Interactive Dashboard Builder
-Builds a 100% offline, standalone, zero-external-dependency interactive web application
-featuring:
-1. Native HTML5 Canvas / SVG Dynamic Multi-Line Graph (BER vs Symbol Sync):
-   - Reactive FLL Loop Bandwidth slider/selector
-   - Dynamic multi-line curves for different Costas Loop Bandwidths
-   - Costas range slider & toggle checkboxes
-   - All dense Symbol Sync points with smooth spline curves
-   - Interactive mouse hover tracking and multi-series tooltip
-2. Native HTML5 Canvas 2D Correlation Heatmap (Costas BW vs SymSync BW)
-   - Bilinear color interpolation
-   - Metric toggle: Log10(BER) or PDR (%)
-   - Reactive FLL slice selection
-   - Interactive cell hover inspector
-3. Searchable CSV Data Explorer & Viewer:
-   - Full CSV data table with instant column sorting & pagination
-   - Live multi-range filters (Costas, SymSync, FLL, Noise, PDR)
-   - Collapsible Raw CSV text panel
-   - Instant "Export Filtered CSV" button
+Generates a standalone, 100% offline interactive dashboard with full FLL, Costas, and Symbol Sync
+range sweeps across 0.005 to 1.000 rad/sym.
 """
 
 import sys
@@ -44,6 +28,13 @@ def build_master_dashboard():
         
     print(f"Loaded {len(records):,} simulation records from {os.path.basename(data_file)}")
     records_json_str = json.dumps(records)
+    
+    # Extract distinct sorted values
+    fll_vals = sorted(list(set(r['fll_bw'] for r in records)))
+    costas_vals = sorted(list(set(r['costas_bw'] for r in records)))
+    sym_vals = sorted(list(set(r['sym_bw'] for r in records)))
+    
+    fll_options_html = "\n".join([f'<option value="{v:.4f}" {"selected" if abs(v-0.0314)<0.002 else ""}>{v:.4f} rad/sym</option>' for v in fll_vals])
     
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -336,7 +327,7 @@ def build_master_dashboard():
     <div class="header">
         <div>
             <h1>PHY2 Physical Layer Interactive Analytics & Parameter Explorer</h1>
-            <p>100% Standalone Zero-Dependency Dynamic Plotter (BER vs SymSync with Costas Lines & FLL Tuning), 2D Heatmaps, and Interactive CSV Matrix (y·y' TED)</p>
+            <p>100% Standalone Zero-Dependency Dynamic Plotter with Full FLL, Costas & Symbol Sync Range Sweeps ($0.005 \dots 1.000\text{{ rad/sym}}$)</p>
         </div>
         <div>
             <button class="btn btn-primary" onclick="exportFilteredCSV()">Export Filtered CSV</button>
@@ -349,7 +340,7 @@ def build_master_dashboard():
             <div class="kpi-card">
                 <div class="kpi-title">Evaluated Configurations</div>
                 <div class="kpi-value" id="kpi-total">{len(records):,}</div>
-                <div class="kpi-sub">0.005 to 1.000 rad/sym bandwidth sweeps</div>
+                <div class="kpi-sub">0.005 to 1.000 rad/sym full range sweeps</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-title">BPSK Optimal (y·y' TED)</div>
@@ -368,7 +359,7 @@ def build_master_dashboard():
             </div>
         </div>
 
-        <!-- 1. LIVE DYNAMIC INTERACTIVE GRAPH: BER vs Symbol Sync with Costas Lines & FLL Slider -->
+        <!-- 1. LIVE DYNAMIC INTERACTIVE GRAPH: BER vs Symbol Sync with Costas Lines & FLL Range Slider -->
         <div class="card">
             <h2>
                 <span>1. Dynamic Interactive Graph: Bit Error Rate (BER) vs Symbol Sync Loop Bandwidth</span>
@@ -385,24 +376,14 @@ def build_master_dashboard():
                     </select>
                 </div>
 
-                <!-- FLL Loop Bandwidth Selector -->
+                <!-- FLL Loop Bandwidth Dropdown & Range Slider -->
                 <div class="ctrl-group">
-                    <label>Set FLL Loop Bandwidth: <span id="dyn-fll-val" class="range-val">0.0314</span> rad/sym</label>
+                    <label>FLL Loop Bandwidth (0.005..1.000): <span id="dyn-fll-val" class="range-val">0.0314</span> rad/sym</label>
                     <div class="range-slider-box">
-                        <select id="dyn-fll-select" onchange="document.getElementById('dyn-fll-val').innerText=this.value; renderDynamicGraph(); renderHeatmap();">
-                            <option value="0.0050">0.0050 rad/sym</option>
-                            <option value="0.0100">0.0100 rad/sym</option>
-                            <option value="0.0180">0.0180 rad/sym</option>
-                            <option value="0.0260">0.0260 rad/sym</option>
-                            <option value="0.0314" selected>0.0314 rad/sym (Optimal Lock)</option>
-                            <option value="0.0420">0.0420 rad/sym</option>
-                            <option value="0.0550">0.0550 rad/sym</option>
-                            <option value="0.0750">0.0750 rad/sym</option>
-                            <option value="0.1000">0.1000 rad/sym</option>
-                            <option value="0.2500">0.2500 rad/sym</option>
-                            <option value="0.5000">0.5000 rad/sym</option>
-                            <option value="1.0000">1.0000 rad/sym</option>
+                        <select id="dyn-fll-select" onchange="syncFllFromSelect()">
+                            {fll_options_html}
                         </select>
+                        <input type="range" id="dyn-fll-slider" min="0.005" max="1.000" step="0.005" value="0.0314" oninput="syncFllFromSlider()">
                     </div>
                 </div>
 
@@ -410,7 +391,7 @@ def build_master_dashboard():
                 <div class="ctrl-group">
                     <label>Costas Loop BW Max Range: <span id="dyn-costas-max-val" class="range-val">1.000</span></label>
                     <div class="range-slider-box">
-                        <input type="range" id="dyn-costas-max" min="0.010" max="1.000" step="0.010" value="1.000" oninput="document.getElementById('dyn-costas-max-val').innerText = parseFloat(this.value).toFixed(3); renderDynamicGraph();">
+                        <input type="range" id="dyn-costas-max" min="0.005" max="1.000" step="0.005" value="1.000" oninput="document.getElementById('dyn-costas-max-val').innerText = parseFloat(this.value).toFixed(3); renderDynamicGraph();">
                     </div>
                 </div>
 
@@ -458,6 +439,12 @@ def build_master_dashboard():
                     <select id="hm-metric" onchange="renderHeatmap()">
                         <option value="ber" selected>Bit Error Rate (BER) - Log Scale</option>
                         <option value="pdr">Packet Delivery Ratio (PDR %)</option>
+                    </select>
+                </div>
+                <div class="ctrl-group">
+                    <label>FLL Bandwidth Slice (0.005..1.000):</label>
+                    <select id="hm-fll-select" onchange="renderHeatmap()">
+                        {fll_options_html}
                     </select>
                 </div>
             </div>
@@ -513,17 +500,12 @@ def build_master_dashboard():
                     </select>
                 </div>
 
-                <!-- Preamble Filter -->
+                <!-- FLL BW Filter -->
                 <div class="ctrl-group">
-                    <label>Preamble Size:</label>
-                    <select id="tbl-preamble" onchange="applyTableFilters()">
-                        <option value="ALL">All Sizes</option>
-                        <option value="16">16 Bytes</option>
-                        <option value="24">24 Bytes</option>
-                        <option value="32">32 Bytes</option>
-                        <option value="48">48 Bytes</option>
-                        <option value="64">64 Bytes</option>
-                    </select>
+                    <label>FLL BW Max: <span id="tbl-val-fll" class="range-val">1.000</span></label>
+                    <div class="range-slider-box">
+                        <input type="range" id="tbl-fll" min="0.005" max="1.000" step="0.005" value="1.000" oninput="document.getElementById('tbl-val-fll').innerText = parseFloat(this.value).toFixed(3); applyTableFilters();">
+                    </div>
                 </div>
 
                 <!-- Costas BW Filter -->
@@ -608,7 +590,7 @@ def build_master_dashboard():
         const allFll = [...new Set(rawData.map(r => r.fll_bw))].sort((a,b) => a-b);
 
         // Core Costas values to check by default
-        const defaultCostas = [0.010, 0.035, 0.0628, 0.135, 0.250, 0.500, 1.000];
+        const defaultCostas = [0.005, 0.010, 0.025, 0.0628, 0.135, 0.250, 0.500, 1.000];
         const lineColors = [
             '#38bdf8', '#22c55e', '#f59e0b', '#ec4899', '#a855f7',
             '#ef4444', '#14b8a6', '#eab308', '#6366f1', '#f97316', '#06b6d4'
@@ -636,6 +618,27 @@ def build_master_dashboard():
                     chk.checked = defaultCostas.some(v => Math.abs(v - val) < 0.005);
                 }}
             }});
+            renderDynamicGraph();
+        }}
+
+        function syncFllFromSelect() {{
+            const val = parseFloat(document.getElementById('dyn-fll-select').value);
+            document.getElementById('dyn-fll-slider').value = val;
+            document.getElementById('dyn-fll-val').innerText = val.toFixed(4);
+            renderDynamicGraph();
+        }}
+
+        function syncFllFromSlider() {{
+            const sliderVal = parseFloat(document.getElementById('dyn-fll-slider').value);
+            // Find closest available FLL value
+            let closestFll = allFll[0];
+            let minDist = 999;
+            allFll.forEach(f => {{
+                const d = Math.abs(f - sliderVal);
+                if (d < minDist) {{ minDist = d; closestFll = f; }}
+            }});
+            document.getElementById('dyn-fll-select').value = closestFll.toFixed(4);
+            document.getElementById('dyn-fll-val').innerText = closestFll.toFixed(4);
             renderDynamicGraph();
         }}
 
@@ -675,9 +678,9 @@ def build_master_dashboard():
                 allSym.forEach(sbw => {{
                     const matches = rawData.filter(r =>
                         r.mod_type === mod &&
-                        Math.abs(r.fll_bw - fllVal) < 0.005 &&
-                        Math.abs(r.costas_bw - cbw) < 0.005 &&
-                        Math.abs(r.sym_bw - sbw) < 0.005
+                        Math.abs(r.fll_bw - fllVal) < 0.006 &&
+                        Math.abs(r.costas_bw - cbw) < 0.006 &&
+                        Math.abs(r.sym_bw - sbw) < 0.006
                     );
                     if (matches.length > 0) {{
                         const avgBer = matches.reduce((acc, cur) => acc + cur.ber, 0) / matches.length;
@@ -893,7 +896,7 @@ def build_master_dashboard():
 
             const mod = document.getElementById('hm-mod').value;
             const metric = document.getElementById('hm-metric').value;
-            const fllVal = parseFloat(document.getElementById('dyn-fll-select').value);
+            const fllVal = parseFloat(document.getElementById('hm-fll-select').value);
 
             const pLeft = 80;
             const pRight = W - 100;
@@ -918,9 +921,9 @@ def build_master_dashboard():
                     const sbw = allSym[i];
                     const matches = rawData.filter(r =>
                         r.mod_type === mod &&
-                        Math.abs(r.fll_bw - fllVal) < 0.005 &&
-                        Math.abs(r.costas_bw - cbw) < 0.005 &&
-                        Math.abs(r.sym_bw - sbw) < 0.005
+                        Math.abs(r.fll_bw - fllVal) < 0.006 &&
+                        Math.abs(r.costas_bw - cbw) < 0.006 &&
+                        Math.abs(r.sym_bw - sbw) < 0.006
                     );
 
                     let normVal = 1.0;
@@ -942,7 +945,7 @@ def build_master_dashboard():
             ctx.fillStyle = '#94a3b8';
             ctx.font = '11px sans-serif';
             ctx.textAlign = 'center';
-            for (let i = 0; i < numX; i += 3) {{
+            for (let i = 0; i < numX; i += 2) {{
                 const xPos = pLeft + i * cellW + cellW / 2;
                 ctx.fillText(allSym[i].toFixed(2), xPos, pBottom + 16);
             }}
@@ -985,7 +988,7 @@ def build_master_dashboard():
             const search = document.getElementById('tbl-search').value.toLowerCase();
             const mod = document.getElementById('tbl-mod').value;
             const platform = document.getElementById('tbl-platform').value;
-            const preamble = document.getElementById('tbl-preamble').value;
+            const maxFll = parseFloat(document.getElementById('tbl-fll').value);
             const maxCostas = parseFloat(document.getElementById('tbl-costas').value);
             const maxSym = parseFloat(document.getElementById('tbl-sym').value);
             const minPdr = parseFloat(document.getElementById('tbl-pdr').value);
@@ -993,7 +996,7 @@ def build_master_dashboard():
             filteredData = rawData.filter(r => {{
                 if (mod !== 'ALL' && r.mod_type !== mod) return false;
                 if (platform !== 'ALL' && r.platform_mode !== platform) return false;
-                if (preamble !== 'ALL' && r.preamble_size !== parseInt(preamble)) return false;
+                if (r.fll_bw > maxFll + 1e-4) return false;
                 if (r.costas_bw > maxCostas + 1e-4) return false;
                 if (r.sym_bw > maxSym + 1e-4) return false;
                 if (r.pdr < minPdr - 1e-4) return false;
@@ -1015,10 +1018,11 @@ def build_master_dashboard():
             document.getElementById('tbl-search').value = '';
             document.getElementById('tbl-mod').value = 'ALL';
             document.getElementById('tbl-platform').value = 'ALL';
-            document.getElementById('tbl-preamble').value = 'ALL';
+            document.getElementById('tbl-fll').value = 1.000;
             document.getElementById('tbl-costas').value = 1.000;
             document.getElementById('tbl-sym').value = 1.000;
             document.getElementById('tbl-pdr').value = 0;
+            document.getElementById('tbl-val-fll').innerText = '1.000';
             document.getElementById('tbl-val-costas').innerText = '1.000';
             document.getElementById('tbl-val-sym').innerText = '1.000';
             document.getElementById('tbl-val-pdr').innerText = '0.0%';
@@ -1151,7 +1155,7 @@ def build_master_dashboard():
 </html>
 """
     output_html = os.path.join(dashboard_dir, "index.html")
-    with open(output_html, "w") as f:
+    with open(output_html, "w", encoding="utf-8") as f:
         f.write(html_content)
         
     # Also sync to adapted_original and optimization results folders

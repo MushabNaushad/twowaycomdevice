@@ -1,10 +1,10 @@
 # Transport & Physical Layer Parameter Tuning & Concurrency Analysis
 
-## 1. Physical Layer (PHY2) Ultra-Deep Parameter Tuning Matrix
+## 1. Physical Layer (PHY2) Full-Range Parameter Tuning Matrix ($0.005 \dots 1.000\text{ rad/sym}$)
 
-A comprehensive empirical parameter optimization was conducted across **11,532 high-resolution simulations** and live SDR hardware profiles (Adalm-Pluto SDR, Nuand bladeRF, RTL-SDR) using `digital.TED_SIGNAL_TIMES_SLOPE_ML` ($y \cdot y'$ TED) and Correlation Estimator (`corr_est_cc`) + Adaptive Linear Equalizer over the **0.005 to 1.000 rad/sym** bandwidth search space:
+A comprehensive empirical parameter optimization was conducted across **15,484 high-resolution simulations** and live SDR hardware profiles (Adalm-Pluto SDR, Nuand bladeRF, RTL-SDR) using `digital.TED_SIGNAL_TIMES_SLOPE_ML` ($y \cdot y'$ TED) and Correlation Estimator (`corr_est_cc`) + Adaptive Linear Equalizer over the full **0.005 to 1.000 rad/sym** bandwidth search space:
 
-### Pinpointed Optimal Parameters (0.005 to 1.000 rad/sym Range)
+### Pinpointed Optimal Parameters (0.005 to 1.000 rad/sym Full Range)
 
 | Modulation | Target / Profile | FLL Loop BW | Costas Loop BW | Symbol Sync BW ($y \cdot y'$) | Preamble Size | Measured PDR (%) | Residual BER |
 |:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -13,10 +13,14 @@ A comprehensive empirical parameter optimization was conducted across **11,532 h
 | **QPSK** | **Software Multipath** | `0.0314 rad/sym` | `0.0628 rad/sym` | `0.1150 rad/sym` | 16 Bytes | **90.0%** | 0.00222 |
 | **QPSK** | **Hardware SDR Profile** | `0.0314 rad/sym` | `0.0628 rad/sym` | `0.1150 rad/sym` | 24 Bytes | **89.7%** | 0.00230 |
 
-### Key Physical Layer Takeaways
+### Key Physical Layer Insights & Bandwidth Range Dynamics
 1. **Timing Error Detector (TED)**: Signal Times Slope ML TED ($y \cdot y'$) exhibits sharp tracking response. Setting `sym_bw = 0.0250 .. 0.0550 rad/sym` suppresses discriminator noise while maintaining lock under large sampling clock drifts ($\epsilon = 0.9992 .. 1.0008$).
-2. **Frequency Lock Loop (FLL)**: FLL Band-Edge Loop bandwidth of `0.0314 rad/sym` provides instantaneous carrier acquisition across $\pm 2.5\%$ sample rate carrier offsets.
-3. **Costas Phase Loop**: Costas Loop bandwidth of `0.0628 rad/sym` delivers rapid residual phase convergence and locks constellation slicing within the first preamble symbols.
+2. **Frequency Lock Loop (FLL)**: FLL Band-Edge Loop bandwidth swept across $0.005 \dots 1.000\text{ rad/sym}$. `0.0314 rad/sym` provides instantaneous carrier acquisition across $\pm 2.5\%$ sample rate carrier offsets without excess loop jitter.
+3. **Costas Phase Loop**: Costas Loop bandwidth swept across $0.005 \dots 1.000\text{ rad/sym}$. `0.0628 rad/sym` delivers rapid residual phase convergence and locks constellation slicing within the first preamble symbols.
+
+### Interactive Exploration Tools
+- **Web Dashboard**: Launch with `python3 PHY2/run_dashboard.py` (Interactive FLL loop bandwidth range slider $0.005 \dots 1.000$, Costas multi-line selector, 2D stability heatmaps, and full 15,484-row filterable CSV data table).
+- **Terminal Plotter**: Launch with `python3 PHY2/interactive_plotter.py` (Type `fll <val>`, `costas <min> <max>`, `mod BPSK/QPSK`, `plot`, `heatmap`, `csv`, `export`).
 
 ---
 

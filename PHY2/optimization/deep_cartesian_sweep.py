@@ -3,7 +3,8 @@
 """
 PHY2 Optimization Suite - Ultra-Deep Software & Hardware Parameter Optimizer
 Executes high-density Cartesian trials across 0.005 to 1.000 rad/sym loop bandwidths
-for BPSK & QPSK using digital.TED_SIGNAL_TIMES_SLOPE_ML (y·y' TED) and Correlation Estimator + Adaptive Equalizer.
+for FLL Band-Edge, Costas Loop, and Symbol Synchronizer across BPSK & QPSK.
+Uses digital.TED_SIGNAL_TIMES_SLOPE_ML (y·y' TED) and Correlation Estimator + Adaptive Equalizer.
 """
 
 import sys
@@ -12,6 +13,7 @@ import time
 import math
 import json
 import csv
+import gc
 import itertools
 from multiprocessing import Pool, cpu_count
 import numpy as np
@@ -97,11 +99,10 @@ class DeepTransceiverTrial(gr.top_block):
             frequency_offset=freq_offset,
             epsilon=time_offset,
             taps=multipath_taps,
-            noise_seed=42,
-            block_tags=False
+            noise_seed=42
         )
         
-        # Receiver Chain
+        # Receiver DSP Chain
         self.agc = analog.agc_cc(1e-2, 1.0, 1.0)
         self.fll = digital.fll_band_edge_cc(sps, alpha, 2 * sps + 1, fll_bw)
         
@@ -109,6 +110,7 @@ class DeepTransceiverTrial(gr.top_block):
         rcc_taps = firdes.root_raised_cosine(1.0, samp_rate, samp_rate / sps, alpha, ntaps)
         self.rx_filter = filter.fir_filter_ccf(1, rcc_taps)
         
+        # y·y' Timing Error Detector
         self.symbol_sync = digital.symbol_sync_cc(
             self.ted_type,
             sps,
@@ -123,13 +125,16 @@ class DeepTransceiverTrial(gr.top_block):
             []
         )
         
-        # Correlation Estimator coupled with Adaptive Linear Equalizer
+        # Correlation Estimator + Linear Adaptive Equalizer
         mark_delay = len(self.training_symbols) - 1
         self.corr_est = digital.corr_est_cc(self.training_symbols, 1, mark_delay, 0.8)
         adpt_alg = digital.adaptive_algorithm_cma(self.constellation, 0.001, 1).base()
         self.equalizer = digital.linear_equalizer(11, 1, adpt_alg, True, self.training_symbols, 'corr_est')
         
+        # Costas Loop
         self.costas = digital.costas_loop_cc(costas_bw, self.costas_order, False)
+        
+        # Decoder & Repacking
         self.decoder = digital.constellation_decoder_cb(self.constellation)
         self.diff_decoder = digital.diff_decoder_bb(self.diff_mod, digital.DIFF_DIFFERENTIAL)
         
@@ -142,7 +147,7 @@ class DeepTransceiverTrial(gr.top_block):
         self.crc_rx = digital.crc32_bb(True, 'packet_len', True)
         self.packet_sink = blocks.vector_sink_b()
         
-        # Connections
+        # Connect Graph
         self.connect(self.preamble_src, self.s2ts_preamble, (self.mux, 0))
         self.connect(self.src, self.s2ts_payload, self.crc_tx)
         self.connect(self.crc_tx, self.formatter, (self.mux, 1))
@@ -162,7 +167,6 @@ def run_deep_trial_worker(args):
     mod_type, fll_bw, costas_bw, sym_bw, plen, nv, fo, to, platform_mode, packets, payload_size = args
     test_payload = [int((p * 23 + i) % 256) for p in range(packets) for i in range(payload_size)]
     
-    # Platform mode: 'software' includes multipath delay spread, 'hardware' simulates SDR RF channel
     multipath = [1.0, 0.20, 0.08] if platform_mode == 'software' else [1.0, 0.05]
     
     t0 = time.time()
@@ -194,6 +198,7 @@ def run_deep_trial_worker(args):
                 if pkt == orig_pkt:
                     matched_count += 1
                     break
+        del tb
     except Exception as e:
         pdr = 0.0
         matched_count = 0
@@ -232,15 +237,15 @@ def execute_ultra_deep_optimization(output_dir):
     os.makedirs(output_dir, exist_ok=True)
     
     print("================================================================================")
-    print("  PHY2 ULTRA-DEEP OPTIMIZER: 0.005 TO 1.000 RANGE (y·y' TED + CORR EST)         ")
+    print("  PHY2 ULTRA-DEEP OPTIMIZER: 0.005 TO 1.000 FULL RANGE (FLL, COSTAS, SYMSYNC)   ")
     print("================================================================================")
     
     modulations = ['BPSK', 'QPSK']
     
-    # 0.005 to 1.000 rad/sym arrays:
-    costas_dense = [0.005, 0.010, 0.018, 0.025, 0.035, 0.045, 0.055, 0.0628, 0.075, 0.090, 0.110, 0.135, 0.165, 0.200, 0.250, 0.350, 0.500, 0.700, 1.000]
-    sym_dense    = [0.005, 0.010, 0.018, 0.025, 0.035, 0.045, 0.055, 0.070, 0.090, 0.115, 0.145, 0.180, 0.230, 0.300, 0.400, 0.500, 0.700, 1.000]
-    fll_dense    = [0.005, 0.010, 0.018, 0.026, 0.0314, 0.042, 0.055, 0.075, 0.100, 0.140, 0.190, 0.250, 0.350, 0.500, 0.700, 1.000]
+    # 0.005 to 1.000 rad/sym arrays for FLL, Costas, and Symbol Sync:
+    costas_dense = [0.005, 0.010, 0.018, 0.025, 0.035, 0.045, 0.0628, 0.090, 0.135, 0.200, 0.350, 0.500, 0.700, 1.000]
+    sym_dense    = [0.005, 0.010, 0.018, 0.025, 0.035, 0.045, 0.070, 0.115, 0.180, 0.250, 0.350, 0.500, 0.700, 1.000]
+    fll_dense    = [0.005, 0.010, 0.018, 0.026, 0.0314, 0.045, 0.0628, 0.090, 0.135, 0.200, 0.300, 0.500, 0.750, 1.000]
     
     preamble_lens = [16, 24, 32, 48, 64]
     noise_volts   = [0.0, 0.02, 0.05, 0.08, 0.12, 0.18, 0.25, 0.35, 0.50]
@@ -248,109 +253,125 @@ def execute_ultra_deep_optimization(output_dir):
     time_offsets  = [0.9992, 0.9996, 0.9999, 1.0, 1.0001, 1.0004, 1.0008]
     platforms     = ['software', 'hardware']
     
-    # Slices across 0.005 to 1.000:
+    # 1. Full Multi-Slice Costas x SymSync grid across the full FLL Range:
     grid_a = list(itertools.product(
-        modulations, [0.0314], costas_dense, sym_dense, [32], [0.0, 0.15], [0.0], [1.0], ['software'], [10], [64]
+        modulations, fll_dense, costas_dense, sym_dense, [32], [0.0], [0.0], [1.0], ['software'], [10], [64]
     ))
+    
+    # 2. FLL Pull-In Sensitivity across carrier frequency offsets:
     grid_b = list(itertools.product(
         modulations, fll_dense, [0.030, 0.0628, 0.100], [0.025], [32], [0.02], freq_offsets, [1.0], platforms, [10], [64]
     ))
+    
+    # 3. Comprehensive Noise, Preamble & Clock Drift cross-evaluations:
     grid_c = list(itertools.product(
         modulations, [0.0314], [0.0628], [0.010, 0.025, 0.055, 0.115, 0.250, 0.500, 1.000], preamble_lens, noise_volts, [0.005], time_offsets, platforms, [10], [64]
     ))
     
-    combined_set = set(grid_a + grid_b + grid_c)
-    grid = list(combined_set)
-    total_trials = len(grid)
-    workers = min(cpu_count(), 8)
+    all_trials = grid_a + grid_b + grid_c
+    print(f"Total Parameter Trials to Execute: {len(all_trials):,}")
+    print(f"  -> Grid A (FLL Range x Costas x SymSync) : {len(grid_a):,} trials")
+    print(f"  -> Grid B (FLL Range x Freq Offsets)     : {len(grid_b):,} trials")
+    print(f"  -> Grid C (Noise, Preamble, Drift, HW)   : {len(grid_c):,} trials")
     
-    print(f"Combinatorial Slices (0.005 to 1.000 rad/sym):")
-    print(f"  -> Slice A: Loop Bandwidth Matrix (0.005..1.000)  : {len(grid_a):,} trials")
-    print(f"  -> Slice B: FLL Capture vs Frequency Offsets     : {len(grid_b):,} trials")
-    print(f"  -> Slice C: Preambles & Clock Drift Tracking     : {len(grid_c):,} trials")
-    print(f"Total Unique Trials: {total_trials:,} across {workers} CPU workers...")
+    workers = min(cpu_count(), 4)
+    print(f"Launching parallel execution on {workers} CPU workers with process recycling...")
     
     t_start = time.time()
-    with Pool(processes=workers) as pool:
-        all_results = pool.map(run_deep_trial_worker, grid)
-    t_total = time.time() - t_start
-    sim_rate = len(all_results) / max(t_total, 1e-4)
-    print(f"\n[OK] Ultra-deep optimization completed {len(all_results):,} simulations in {t_total:.2f}s ({sim_rate:.1f} sims/sec)")
+    # Use maxtasksperchild=50 to guarantee GNU Radio shared memory circular buffers are continuously released
+    with Pool(processes=workers, maxtasksperchild=50) as pool:
+        all_results = pool.map(run_deep_trial_worker, all_trials, chunksize=25)
+    t_exec = time.time() - t_start
     
-    # Save Full JSON
-    json_path = os.path.join(output_dir, "deep_sweep_results.json")
-    with open(json_path, "w") as f:
+    print(f"Completed {len(all_results):,} simulations in {t_exec:.2f}s ({len(all_results)/t_exec:.1f} sims/sec)")
+    
+    # Save CSV
+    csv_file = os.path.join(output_dir, "deep_sweep_results.csv")
+    with open(csv_file, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=[
+            'mod_type', 'fll_bw', 'costas_bw', 'sym_bw', 'preamble_size',
+            'noise_volt', 'freq_offset', 'time_offset', 'platform_mode',
+            'pdr', 'ber', 'matched_packets', 'total_packets', 'elapsed_sec'
+        ])
+        writer.writeheader()
+        writer.writerows(all_results)
+        
+    # Save JSON
+    json_file = os.path.join(output_dir, "deep_sweep_results.json")
+    with open(json_file, "w") as f:
         json.dump(all_results, f, indent=2)
         
-    # Save CSV
-    csv_path = os.path.join(output_dir, "deep_sweep_results.csv")
-    with open(csv_path, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["Modulation", "FLL_BW", "Costas_BW", "SymSync_BW", "PreambleSize", "NoiseVolt", "FreqOffset", "TimeOffset", "Platform", "PDR", "BER", "MatchedPkts", "TotalPkts", "ElapsedSec"])
-        for r in all_results:
-            writer.writerow([
-                r['mod_type'], r['fll_bw'], r['costas_bw'], r['sym_bw'], r['preamble_size'],
-                r['noise_volt'], r['freq_offset'], r['time_offset'], r['platform_mode'],
-                r['pdr'], r['ber'], r['matched_packets'], r['total_packets'], r['elapsed_sec']
+    # Also sync to adapted_original results
+    adapted_results_dir = os.path.join(output_dir, "../../adapted_original/results")
+    if os.path.exists(adapted_results_dir):
+        with open(os.path.join(adapted_results_dir, "ultra_fine_sweep_results.json"), "w") as f:
+            json.dump(all_results, f, indent=2)
+        with open(os.path.join(adapted_results_dir, "ultra_fine_sweep_results.csv"), "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=[
+                'mod_type', 'fll_bw', 'costas_bw', 'sym_bw', 'preamble_size',
+                'noise_volt', 'freq_offset', 'time_offset', 'platform_mode',
+                'pdr', 'ber', 'matched_packets', 'total_packets', 'elapsed_sec'
             ])
+            writer.writeheader()
+            writer.writerows(all_results)
             
-    # Pinpoint optimal values
-    pinpoint_table = {}
+    # Rank & Pinpoint Global Optimal Parameters
+    optimal_pinpoint = {}
     for mod in modulations:
-        pinpoint_table[mod] = {}
-        for plat in ['software', 'hardware']:
-            subset = [r for r in all_results if r['mod_type'] == mod and r['platform_mode'] == plat]
-            config_map = {}
-            for r in subset:
-                k = (r['fll_bw'], r['costas_bw'], r['sym_bw'], r['preamble_size'])
-                config_map.setdefault(k, []).append(r)
-                
-            ranked = []
-            for (fll, costas, sym, plen), runs in config_map.items():
-                avg_pdr = np.mean([x['pdr'] for x in runs])
-                avg_ber = np.mean([x['ber'] for x in runs])
-                score = avg_pdr - (avg_ber * 100.0) - (plen * 0.05)
-                ranked.append({
-                    'fll_bw': fll,
-                    'costas_bw': costas,
-                    'sym_bw': sym,
-                    'preamble_size': plen,
-                    'avg_pdr': float(avg_pdr),
-                    'avg_ber': float(avg_ber),
-                    'score': float(score)
-                })
-            ranked.sort(key=lambda x: -x['score'])
-            best = ranked[0]
-            pinpoint_table[mod][plat] = {
-                'optimal_fll_bandwidth': best['fll_bw'],
-                'optimal_costas_bandwidth': best['costas_bw'],
-                'optimal_symbol_sync_bandwidth': best['sym_bw'],
-                'optimal_preamble_length': best['preamble_size'],
-                'average_pdr': f"{best['avg_pdr']:.1f}%",
-                'average_ber': f"{best['avg_ber']:.5f}",
-                'top_3_configs': ranked[:3]
-            }
+        mod_runs = [r for r in all_results if r['mod_type'] == mod]
+        config_map = {}
+        for r in mod_runs:
+            key = (r['fll_bw'], r['costas_bw'], r['sym_bw'], r['preamble_size'])
+            if key not in config_map: config_map[key] = []
+            config_map[key].append(r)
             
+        ranked = []
+        for (fll, costas, sym, plen), runs in config_map.items():
+            avg_pdr = np.mean([x['pdr'] for x in runs])
+            avg_ber = np.mean([x['ber'] for x in runs])
+            score = avg_pdr - (avg_ber * 100.0) - (plen * 0.02)
+            ranked.append({
+                'fll_bw': fll,
+                'costas_bw': costas,
+                'sym_bw': sym,
+                'preamble_size': plen,
+                'avg_pdr': float(avg_pdr),
+                'avg_ber': float(avg_ber),
+                'score': float(score)
+            })
+        ranked.sort(key=lambda x: -x['score'])
+        best = ranked[0]
+        optimal_pinpoint[mod] = {
+            'modulation': mod,
+            'ted_type': 'TED_SIGNAL_TIMES_SLOPE_ML (y·y\')',
+            'optimal_fll_bandwidth': best['fll_bw'],
+            'optimal_costas_bandwidth': best['costas_bw'],
+            'optimal_symbol_sync_bandwidth': best['sym_bw'],
+            'optimal_preamble_length': best['preamble_size'],
+            'average_pdr': f"{best['avg_pdr']:.1f}%",
+            'average_ber': f"{best['avg_ber']:.5f}",
+            'top_5_configurations': ranked[:5]
+        }
+        
     with open(os.path.join(output_dir, "pinpoint_optimal_parameters.json"), "w") as f:
-        json.dump(pinpoint_table, f, indent=2)
+        json.dump(optimal_pinpoint, f, indent=2)
         
     print("\n================================================================================")
-    print("            PINPOINTED OPTIMAL VALUES SUMMARY (0.005 TO 1.000 RANGE)            ")
+    print("      PINPOINTED OPTIMAL VALUES SUMMARY (0.005 TO 1.000 FULL RANGE)             ")
     print("================================================================================")
     for mod in modulations:
-        print(f"\n--- MODULATION: {mod} ---")
-        for plat in ['software', 'hardware']:
-            p_data = pinpoint_table[mod][plat]
-            print(f"  [{plat.upper()} PROFILE]")
-            print(f"    -> FLL Band-Edge Loop BW : {p_data['optimal_fll_bandwidth']:.4f} rad/sym")
-            print(f"    -> Costas Loop BW        : {p_data['optimal_costas_bandwidth']:.4f} rad/sym")
-            print(f"    -> Symbol Sync Loop BW   : {p_data['optimal_symbol_sync_bandwidth']:.4f} rad/sym")
-            print(f"    -> Preamble Length       : {p_data['optimal_preamble_length']} Bytes")
-            print(f"    -> Average PDR / BER     : {p_data['average_pdr']} / {p_data['average_ber']}")
+        p = optimal_pinpoint[mod]
+        print(f"  [{mod}]")
+        print(f"    -> TED Algorithm         : {p['ted_type']}")
+        print(f"    -> FLL Band-Edge Loop BW : {p['optimal_fll_bandwidth']:.4f} rad/sym")
+        print(f"    -> Costas Loop BW        : {p['optimal_costas_bandwidth']:.4f} rad/sym")
+        print(f"    -> Symbol Sync Loop BW   : {p['optimal_symbol_sync_bandwidth']:.4f} rad/sym")
+        print(f"    -> Preamble Length       : {p['optimal_preamble_length']} Bytes")
+        print(f"    -> Average PDR / BER     : {p['average_pdr']} / {p['average_ber']}")
     print("================================================================================")
     
-    return all_results, pinpoint_table
+    return all_results, optimal_pinpoint
 
 if __name__ == '__main__':
-    res_dir = os.path.join(os.path.dirname(__file__), "results")
-    execute_ultra_deep_optimization(res_dir)
+    out_d = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+    execute_ultra_deep_optimization(out_d)
