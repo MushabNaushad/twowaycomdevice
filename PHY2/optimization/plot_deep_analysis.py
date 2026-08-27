@@ -114,7 +114,7 @@ def render_deep_analysis_plots(results_dir):
                 series_1.append({'name': f'Costas = {cbw:.3f}', 'points': pts})
                 
         svg_p1 = generate_multiline_svg(
-            title=f"{mod} (y·y' TED): BER vs Symbol Sync Loop BW (0.005 to 1.000 rad/sym)",
+            title=f"{mod} (y·y' TED): BER vs Symbol Sync Loop BW [FLL Band-Edge = {fixed_fll:.4f} rad/sym]",
             x_label="Symbol Synchronizer Loop Bandwidth (rad/sym)",
             y_label="Bit Error Rate (BER)",
             series_data=series_1,

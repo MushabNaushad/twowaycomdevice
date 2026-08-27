@@ -4,6 +4,8 @@
 PHY2 Master Zero-Dependency Interactive Dashboard Builder
 Generates a standalone, 100% offline interactive dashboard with full FLL, Costas, and Symbol Sync
 range sweeps across 0.005 to 1.000 rad/sym.
+Prominently displays and dynamically updates the FLL Band-Edge Loop Bandwidth across all plots,
+tooltips, heatmaps, and CSV matrix views.
 """
 
 import sys
@@ -57,6 +59,7 @@ def build_master_dashboard():
             --warning: #f59e0b;
             --danger: #ef4444;
             --accent: #38bdf8;
+            --fll-color: #f59e0b;
         }}
         * {{ box-sizing: border-box; }}
         body {{
@@ -100,7 +103,7 @@ def build_master_dashboard():
             box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }}
         .kpi-title {{ font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }}
-        .kpi-value {{ font-size: 20px; font-weight: 700; color: var(--accent); }}
+        .kpi-value {{ font-size: 19px; font-weight: 700; color: var(--accent); }}
         .kpi-sub {{ font-size: 12px; color: var(--text-muted); margin-top: 4px; }}
         
         .card {{
@@ -170,6 +173,10 @@ def build_master_dashboard():
             font-weight: 700;
             color: var(--accent);
             min-width: 55px;
+        }}
+        .fll-highlight {{
+            color: var(--fll-color);
+            font-weight: 700;
         }}
         
         /* Checkbox Pills */
@@ -250,7 +257,7 @@ def build_master_dashboard():
             color: #f8fafc;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             z-index: 100;
-            line-height: 1.4;
+            line-height: 1.5;
         }}
         
         /* CSV Table & Raw View */
@@ -327,7 +334,7 @@ def build_master_dashboard():
     <div class="header">
         <div>
             <h1>PHY2 Physical Layer Interactive Analytics & Parameter Explorer</h1>
-            <p>100% Standalone Zero-Dependency Dynamic Plotter with Full FLL, Costas & Symbol Sync Range Sweeps ($0.005 \dots 1.000\text{{ rad/sym}}$)</p>
+            <p>100% Standalone Zero-Dependency Dynamic Plotter with Full FLL Band-Edge, Costas & Symbol Sync Sweeps (0.005..1.000 rad/sym)</p>
         </div>
         <div>
             <button class="btn btn-primary" onclick="exportFilteredCSV()">Export Filtered CSV</button>
@@ -339,18 +346,18 @@ def build_master_dashboard():
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-title">Evaluated Configurations</div>
-                <div class="kpi-value" id="kpi-total">{len(records):,}</div>
+                <div class="kpi-value" id="kpi-total">{len(records):,} Trials</div>
                 <div class="kpi-sub">0.005 to 1.000 rad/sym full range sweeps</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-title">BPSK Optimal (y·y' TED)</div>
-                <div class="kpi-value">FLL 0.0314 | Costas 0.0628</div>
-                <div class="kpi-sub">SymSync 0.0250 | PDR 90.0% to 95.0%</div>
+                <div class="kpi-value">FLL Band-Edge: 0.0314 rad/sym</div>
+                <div class="kpi-sub">Costas: 0.0628 | SymSync: 0.0250 | PDR 90-95%</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-title">QPSK Optimal (y·y' TED)</div>
-                <div class="kpi-value">FLL 0.0314 | Costas 0.0628</div>
-                <div class="kpi-sub">SymSync 0.1150 | PDR 90.0% to 95.0%</div>
+                <div class="kpi-value">FLL Band-Edge: 0.0314 rad/sym</div>
+                <div class="kpi-sub">Costas: 0.0628 | SymSync: 0.1150 | PDR 90-95%</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-title">Hardware Tolerance</div>
@@ -363,7 +370,9 @@ def build_master_dashboard():
         <div class="card">
             <h2>
                 <span>1. Dynamic Interactive Graph: Bit Error Rate (BER) vs Symbol Sync Loop Bandwidth</span>
-                <span style="font-size:13px; font-weight:normal; color:var(--text-muted);">Real-Time 60 FPS HTML5 Dynamic Render</span>
+                <span id="header-fll-badge" style="font-size:13.5px; font-weight:600; color:var(--fll-color); background:#0f172a; padding:4px 10px; border-radius:6px; border:1px solid #475569;">
+                    FLL Band-Edge Loop BW = 0.0314 rad/sym
+                </span>
             </h2>
 
             <div class="controls-row">
@@ -378,7 +387,7 @@ def build_master_dashboard():
 
                 <!-- FLL Loop Bandwidth Dropdown & Range Slider -->
                 <div class="ctrl-group">
-                    <label>FLL Loop Bandwidth (0.005..1.000): <span id="dyn-fll-val" class="range-val">0.0314</span> rad/sym</label>
+                    <label>Set FLL Band-Edge Loop BW: <span id="dyn-fll-val" class="fll-highlight">0.0314</span> rad/sym</label>
                     <div class="range-slider-box">
                         <select id="dyn-fll-select" onchange="syncFllFromSelect()">
                             {fll_options_html}
@@ -389,7 +398,7 @@ def build_master_dashboard():
 
                 <!-- Costas BW Max Range Slider -->
                 <div class="ctrl-group">
-                    <label>Costas Loop BW Max Range: <span id="dyn-costas-max-val" class="range-val">1.000</span></label>
+                    <label>Costas Loop BW Max: <span id="dyn-costas-max-val" class="range-val">1.000</span> rad/sym</label>
                     <div class="range-slider-box">
                         <input type="range" id="dyn-costas-max" min="0.005" max="1.000" step="0.005" value="1.000" oninput="document.getElementById('dyn-costas-max-val').innerText = parseFloat(this.value).toFixed(3); renderDynamicGraph();">
                     </div>
@@ -423,7 +432,9 @@ def build_master_dashboard():
         <div class="card">
             <h2>
                 <span>2. Interactive 2D Correlation Heatmap: Costas Loop BW vs Symbol Sync Loop BW</span>
-                <span style="font-size:13px; font-weight:normal; color:var(--text-muted);">2D Parametric Stability Field</span>
+                <span id="heatmap-fll-badge" style="font-size:13.5px; font-weight:600; color:var(--fll-color); background:#0f172a; padding:4px 10px; border-radius:6px; border:1px solid #475569;">
+                    FLL Band-Edge Slice = 0.0314 rad/sym
+                </span>
             </h2>
 
             <div class="controls-row">
@@ -442,7 +453,7 @@ def build_master_dashboard():
                     </select>
                 </div>
                 <div class="ctrl-group">
-                    <label>FLL Bandwidth Slice (0.005..1.000):</label>
+                    <label>FLL Band-Edge Slice (0.005..1.000 rad/sym):</label>
                     <select id="hm-fll-select" onchange="renderHeatmap()">
                         {fll_options_html}
                     </select>
@@ -502,7 +513,7 @@ def build_master_dashboard():
 
                 <!-- FLL BW Filter -->
                 <div class="ctrl-group">
-                    <label>FLL BW Max: <span id="tbl-val-fll" class="range-val">1.000</span></label>
+                    <label>FLL Band-Edge BW Max: <span id="tbl-val-fll" class="range-val">1.000</span></label>
                     <div class="range-slider-box">
                         <input type="range" id="tbl-fll" min="0.005" max="1.000" step="0.005" value="1.000" oninput="document.getElementById('tbl-val-fll').innerText = parseFloat(this.value).toFixed(3); applyTableFilters();">
                     </div>
@@ -539,7 +550,7 @@ def build_master_dashboard():
                     <thead>
                         <tr>
                             <th onclick="sortTable('mod_type')">Modulation ↕</th>
-                            <th onclick="sortTable('fll_bw')">FLL BW (rad/sym) ↕</th>
+                            <th onclick="sortTable('fll_bw')">FLL Band-Edge BW (rad/sym) ↕</th>
                             <th onclick="sortTable('costas_bw')">Costas BW (rad/sym) ↕</th>
                             <th onclick="sortTable('sym_bw')">SymSync BW (rad/sym) ↕</th>
                             <th onclick="sortTable('preamble_size')">Preamble ↕</th>
@@ -625,7 +636,10 @@ def build_master_dashboard():
             const val = parseFloat(document.getElementById('dyn-fll-select').value);
             document.getElementById('dyn-fll-slider').value = val;
             document.getElementById('dyn-fll-val').innerText = val.toFixed(4);
+            document.getElementById('header-fll-badge').innerText = `FLL Band-Edge Loop BW = ${{val.toFixed(4)}} rad/sym`;
+            document.getElementById('hm-fll-select').value = val.toFixed(4);
             renderDynamicGraph();
+            renderHeatmap();
         }}
 
         function syncFllFromSlider() {{
@@ -639,12 +653,16 @@ def build_master_dashboard():
             }});
             document.getElementById('dyn-fll-select').value = closestFll.toFixed(4);
             document.getElementById('dyn-fll-val').innerText = closestFll.toFixed(4);
+            document.getElementById('header-fll-badge').innerText = `FLL Band-Edge Loop BW = ${{closestFll.toFixed(4)}} rad/sym`;
+            document.getElementById('hm-fll-select').value = closestFll.toFixed(4);
             renderDynamicGraph();
+            renderHeatmap();
         }}
 
         // 2. Native Dynamic Multi-Line Graph Rendering Engine
         let activeGraphSeries = [];
         let graphPlotBounds = {{ left: 80, right: 30, top: 60, bottom: 60 }};
+        let currentGraphFll = 0.0314;
 
         function renderDynamicGraph() {{
             const canvas = document.getElementById('dynamic-canvas');
@@ -664,6 +682,7 @@ def build_master_dashboard():
 
             const mod = document.getElementById('dyn-mod').value;
             const fllVal = parseFloat(document.getElementById('dyn-fll-select').value);
+            currentGraphFll = fllVal;
             const maxCostas = parseFloat(document.getElementById('dyn-costas-max').value);
 
             const selectedCostas = Array.from(document.querySelectorAll('.costas-chk:checked'))
@@ -746,11 +765,15 @@ def build_master_dashboard():
                 ctx.fillText(xV.toFixed(1), xPos, pBottom + 18);
             }}
 
-            // Axis Labels & Title
+            // Prominent Canvas Axis Labels & Title with explicit FLL Band-Edge value
             ctx.fillStyle = '#38bdf8';
-            ctx.font = 'bold 14px sans-serif';
+            ctx.font = 'bold 13.5px sans-serif';
             ctx.textAlign = 'left';
-            ctx.fillText(`${{mod}} (y·y' TED): BER vs Symbol Sync BW  [FLL Band-Edge = ${{fllVal.toFixed(4)}} rad/sym]`, pLeft, 30);
+            ctx.fillText(`${{mod}} (y·y' TED): BER vs Symbol Sync BW`, pLeft, 26);
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = 'bold 12.5px sans-serif';
+            ctx.fillText(`[FLL Band-Edge Loop BW = ${{fllVal.toFixed(4)}} rad/sym]`, pLeft + 360, 26);
 
             ctx.fillStyle = '#94a3b8';
             ctx.font = '12px sans-serif';
@@ -851,7 +874,10 @@ def build_master_dashboard():
                     if (d < minDist) {{ minDist = d; closestSym = sbw; }}
                 }});
 
-                let infoHtml = `<strong>SymSync BW: ${{closestSym.toFixed(4)}} rad/sym</strong><br>`;
+                let infoHtml = `<div style="border-bottom:1px solid #475569; padding-bottom:4px; margin-bottom:4px;">
+                    <span style="color:#f59e0b; font-weight:700;">FLL Band-Edge: ${{currentGraphFll.toFixed(4)}} rad/sym</span><br>
+                    <strong>SymSync BW: ${{closestSym.toFixed(4)}} rad/sym</strong>
+                </div>`;
                 let foundAny = false;
 
                 activeGraphSeries.forEach(series => {{
@@ -865,8 +891,8 @@ def build_master_dashboard():
                 if (foundAny) {{
                     graphTooltip.innerHTML = infoHtml;
                     graphTooltip.style.display = 'block';
-                    graphTooltip.style.left = `${{Math.min(mouseX + 15, rect.width - 240)}}px`;
-                    graphTooltip.style.top = `${{Math.min(mouseY + 15, rect.height - 180)}}px`;
+                    graphTooltip.style.left = `${{Math.min(mouseX + 15, rect.width - 260)}}px`;
+                    graphTooltip.style.top = `${{Math.min(mouseY + 15, rect.height - 190)}}px`;
                 }} else {{
                     graphTooltip.style.display = 'none';
                 }}
@@ -897,6 +923,7 @@ def build_master_dashboard():
             const mod = document.getElementById('hm-mod').value;
             const metric = document.getElementById('hm-metric').value;
             const fllVal = parseFloat(document.getElementById('hm-fll-select').value);
+            document.getElementById('heatmap-fll-badge').innerText = `FLL Band-Edge Slice = ${{fllVal.toFixed(4)}} rad/sym`;
 
             const pLeft = 80;
             const pRight = W - 100;
@@ -1065,7 +1092,7 @@ def build_master_dashboard():
                 const pdrColor = r.pdr >= 85 ? 'color:#22c55e; font-weight:600;' : (r.pdr >= 50 ? 'color:#f59e0b;' : 'color:#ef4444;');
                 tr.innerHTML = `
                     <td><span class="badge ${{modBadge}}">${{r.mod_type}}</span></td>
-                    <td>${{r.fll_bw.toFixed(4)}}</td>
+                    <td><strong style="color:var(--fll-color);">${{r.fll_bw.toFixed(4)}}</strong></td>
                     <td>${{r.costas_bw.toFixed(4)}}</td>
                     <td>${{r.sym_bw.toFixed(4)}}</td>
                     <td>${{r.preamble_size}} B</td>
@@ -1107,7 +1134,7 @@ def build_master_dashboard():
         }}
 
         function updateRawCSVText() {{
-            const headers = "Modulation,FLL_BW,Costas_BW,SymSync_BW,Preamble_Size,Noise_Volt,Freq_Offset,Time_Offset,Platform,PDR,BER";
+            const headers = "Modulation,FLL_Band_Edge_BW,Costas_BW,SymSync_BW,Preamble_Size,Noise_Volt,Freq_Offset,Time_Offset,Platform,PDR,BER";
             const sampleRows = filteredData.slice(0, 500).map(r => 
                 `${{r.mod_type}},${{r.fll_bw}},${{r.costas_bw}},${{r.sym_bw}},${{r.preamble_size}},${{r.noise_volt}},${{r.freq_offset}},${{r.time_offset}},${{r.platform_mode}},${{r.pdr}},${{r.ber}}`
             );
@@ -1119,7 +1146,7 @@ def build_master_dashboard():
                 alert("No records to export!");
                 return;
             }}
-            const headers = ["Modulation", "FLL_BW", "Costas_BW", "SymSync_BW", "Preamble_Bytes", "Noise_Volt", "Freq_Offset", "Time_Offset", "Platform", "PDR_Percent", "BER"];
+            const headers = ["Modulation", "FLL_Band_Edge_BW", "Costas_BW", "SymSync_BW", "Preamble_Bytes", "Noise_Volt", "Freq_Offset", "Time_Offset", "Platform", "PDR_Percent", "BER"];
             const rows = filteredData.map(r => [
                 r.mod_type, r.fll_bw, r.costas_bw, r.sym_bw, r.preamble_size,
                 r.noise_volt, r.freq_offset, r.time_offset, r.platform_mode, r.pdr, r.ber
@@ -1159,9 +1186,9 @@ def build_master_dashboard():
         f.write(html_content)
         
     # Also sync to adapted_original and optimization results folders
-    with open(os.path.join(dashboard_dir, "../adapted_original/results/comprehensive_dashboard.html"), "w") as f:
+    with open(os.path.join(dashboard_dir, "../adapted_original/results/comprehensive_dashboard.html"), "w", encoding="utf-8") as f:
         f.write(html_content)
-    with open(os.path.join(dashboard_dir, "../optimization/results/deep_dashboard.html"), "w") as f:
+    with open(os.path.join(dashboard_dir, "../optimization/results/deep_dashboard.html"), "w", encoding="utf-8") as f:
         f.write(html_content)
         
     print(f"[OK] Master zero-dependency interactive dashboard successfully built at: {output_html}")

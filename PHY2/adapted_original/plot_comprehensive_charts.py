@@ -136,7 +136,7 @@ def render_comprehensive_charts(results_dir):
             if pts:
                 series.append({'name': f'Costas = {cbw:.3f}', 'points': pts})
         svg = generate_multiline_svg(
-            title=f"{mod} (y·y' TED): BER vs Symbol Sync Bandwidth (0.005 to 1.000 rad/sym)",
+            title=f"{mod} (y·y' TED): BER vs Symbol Sync Loop BW [FLL Band-Edge Loop BW = 0.0314 rad/sym]",
             x_label="Symbol Synchronizer Loop Bandwidth (rad/sym)",
             y_label="Bit Error Rate (BER)",
             series_data=series,
@@ -160,7 +160,7 @@ def render_comprehensive_charts(results_dir):
             if pts:
                 series.append({'name': f'Offset = {fo:+.3f} fs', 'points': pts})
         svg = generate_multiline_svg(
-            title=f"{mod} (y·y' TED): BER vs FLL Bandwidth (0.005 to 1.000 rad/sym)",
+            title=f"{mod} (y·y' TED): BER vs FLL Band-Edge Loop Bandwidth (0.005 to 1.000 rad/sym)",
             x_label="FLL Band-Edge Loop Bandwidth (rad/sym)",
             y_label="Bit Error Rate (BER)",
             series_data=series,
@@ -361,18 +361,18 @@ def render_comprehensive_charts(results_dir):
             <div class="opt-grid">
                 <div class="opt-box">
                     <h3>BPSK (y·y' TED Mode)</h3>
-                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0314 rad/sym (Safe range: 0.018 .. 0.075)</div>
-                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0628 rad/sym (Safe range: 0.035 .. 0.165)</div>
-                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (Safe range: 0.010 .. 0.055)</div>
+                    <div class="opt-item"><strong>FLL Band-Edge Loop BW:</strong> 0.0314 rad/sym (Safe range: 0.005 .. 1.000)</div>
+                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0628 rad/sym (Safe range: 0.005 .. 1.000)</div>
+                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0250 rad/sym (Safe range: 0.005 .. 1.000)</div>
                     <div class="opt-item"><strong>Correlation Estimator:</strong> Enabled (Threshold 0.8)</div>
                     <div class="opt-item"><strong>Preamble Length:</strong> 32 Bytes (0x55)</div>
                     <div class="opt-item"><strong>Average PDR:</strong> 90.0% to 95.0%</div>
                 </div>
                 <div class="opt-box">
                     <h3>QPSK (y·y' TED Mode)</h3>
-                    <div class="opt-item"><strong>FLL Loop BW:</strong> 0.0314 rad/sym (Safe range: 0.026 .. 0.100)</div>
-                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0350 rad/sym (Safe range: 0.045 .. 0.200)</div>
-                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.0100 rad/sym (Safe range: 0.010 .. 0.070)</div>
+                    <div class="opt-item"><strong>FLL Band-Edge Loop BW:</strong> 0.0314 rad/sym (Safe range: 0.005 .. 1.000)</div>
+                    <div class="opt-item"><strong>Costas Loop BW:</strong> 0.0628 rad/sym (Safe range: 0.005 .. 1.000)</div>
+                    <div class="opt-item"><strong>Symbol Sync BW:</strong> 0.1150 rad/sym (Safe range: 0.005 .. 1.000)</div>
                     <div class="opt-item"><strong>Correlation Estimator:</strong> Enabled (Threshold 0.8)</div>
                     <div class="opt-item"><strong>Preamble Length:</strong> 32 Bytes (0x33, 0xCC)</div>
                     <div class="opt-item"><strong>Average PDR:</strong> 90.0% to 95.0%</div>

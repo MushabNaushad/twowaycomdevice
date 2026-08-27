@@ -233,7 +233,7 @@ def run_deep_trial_worker(args):
         'elapsed_sec': float(elapsed)
     }
 
-def execute_ultra_deep_optimization(output_dir):
+def execute_ultra_deep_optimization(output_dir, workers=None):
     os.makedirs(output_dir, exist_ok=True)
     
     print("================================================================================")
@@ -274,12 +274,12 @@ def execute_ultra_deep_optimization(output_dir):
     print(f"  -> Grid B (FLL Range x Freq Offsets)     : {len(grid_b):,} trials")
     print(f"  -> Grid C (Noise, Preamble, Drift, HW)   : {len(grid_c):,} trials")
     
-    workers = min(cpu_count(), 4)
-    print(f"Launching parallel execution on {workers} CPU workers with process recycling...")
+    num_workers = workers if workers is not None else max(1, min(cpu_count(), 8))
+    print(f"Launching parallel execution on {num_workers} CPU workers with process recycling...")
     
     t_start = time.time()
     # Use maxtasksperchild=50 to guarantee GNU Radio shared memory circular buffers are continuously released
-    with Pool(processes=workers, maxtasksperchild=50) as pool:
+    with Pool(processes=num_workers, maxtasksperchild=50) as pool:
         all_results = pool.map(run_deep_trial_worker, all_trials, chunksize=25)
     t_exec = time.time() - t_start
     
@@ -373,5 +373,10 @@ def execute_ultra_deep_optimization(output_dir):
     return all_results, optimal_pinpoint
 
 if __name__ == '__main__':
-    out_d = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
-    execute_ultra_deep_optimization(out_d)
+    parser = argparse.ArgumentParser(description="PHY2 Ultra-Deep Cartesian Sweeper")
+    parser.add_argument('--workers', type=int, default=None, help="Number of CPU workers")
+    parser.add_argument('--output-dir', type=str, default=None, help="Results output directory")
+    args = parser.parse_args()
+    
+    out_d = args.output_dir if args.output_dir else os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
+    execute_ultra_deep_optimization(out_d, workers=args.workers)
