@@ -1,0 +1,154 @@
+{
+  "BPSK": {
+    "software": {
+      "optimal_fll_bandwidth": 0.0314,
+      "optimal_costas_bandwidth": 0.0628,
+      "optimal_symbol_sync_bandwidth": 0.025,
+      "optimal_preamble_length": 16,
+      "average_pdr": "90.0%",
+      "average_ber": "0.00200",
+      "top_3_configs": [
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.025,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.015,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.035,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        }
+      ]
+    },
+    "hardware": {
+      "optimal_fll_bandwidth": 0.0314,
+      "optimal_costas_bandwidth": 0.0628,
+      "optimal_symbol_sync_bandwidth": 0.035,
+      "optimal_preamble_length": 16,
+      "average_pdr": "90.0%",
+      "average_ber": "0.00200",
+      "top_3_configs": [
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.035,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.045,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.015,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        }
+      ]
+    }
+  },
+  "QPSK": {
+    "software": {
+      "optimal_fll_bandwidth": 0.0314,
+      "optimal_costas_bandwidth": 0.0628,
+      "optimal_symbol_sync_bandwidth": 0.025,
+      "optimal_preamble_length": 16,
+      "average_pdr": "90.0%",
+      "average_ber": "0.00200",
+      "top_3_configs": [
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.025,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.045,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.035,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        }
+      ]
+    },
+    "hardware": {
+      "optimal_fll_bandwidth": 0.0314,
+      "optimal_costas_bandwidth": 0.0628,
+      "optimal_symbol_sync_bandwidth": 0.08,
+      "optimal_preamble_length": 16,
+      "average_pdr": "90.0%",
+      "average_ber": "0.00200",
+      "top_3_configs": [
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.08,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.045,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        },
+        {
+          "fll_bw": 0.0314,
+          "costas_bw": 0.0628,
+          "sym_bw": 0.1,
+          "preamble_size": 16,
+          "avg_pdr": 90.0,
+          "avg_ber": 0.002000000000000001,
+          "score": 89.0
+        }
+      ]
+    }
+  }
+}

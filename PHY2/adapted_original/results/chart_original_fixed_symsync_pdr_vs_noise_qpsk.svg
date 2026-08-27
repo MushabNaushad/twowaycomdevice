@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" width="680" height="440" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
+<text x="340.0" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">QPSK (y·y' TED): PDR (%) vs Noise Voltage (Fixed Sym BW = 0.045)</text>
+<g stroke="#e2e8f0" stroke-width="1">
+<line x1="85" y1="380.0" x2="510" y2="380.0" />
+<text x="75" y="384.0" text-anchor="end" font-size="10" fill="#64748b">0.00</text>
+<line x1="85" y1="300.0" x2="510" y2="300.0" />
+<text x="75" y="304.0" text-anchor="end" font-size="10" fill="#64748b">25.00</text>
+<line x1="85" y1="220.0" x2="510" y2="220.0" />
+<text x="75" y="224.0" text-anchor="end" font-size="10" fill="#64748b">50.00</text>
+<line x1="85" y1="140.0" x2="510" y2="140.0" />
+<text x="75" y="144.0" text-anchor="end" font-size="10" fill="#64748b">75.00</text>
+<line x1="85" y1="60.0" x2="510" y2="60.0" />
+<text x="75" y="64.0" text-anchor="end" font-size="10" fill="#64748b">100.00</text>
+<line x1="85.0" y1="60" x2="85.0" y2="380" />
+<text x="85.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.000</text>
+<line x1="170.0" y1="60" x2="170.0" y2="380" />
+<text x="170.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.100</text>
+<line x1="255.0" y1="60" x2="255.0" y2="380" />
+<text x="255.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.200</text>
+<line x1="340.0" y1="60" x2="340.0" y2="380" />
+<text x="340.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.300</text>
+<line x1="425.0" y1="60" x2="425.0" y2="380" />
+<text x="425.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.400</text>
+<line x1="510.0" y1="60" x2="510.0" y2="380" />
+<text x="510.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.500</text>
+</g>
+<line x1="85" y1="380" x2="510" y2="380" stroke="#475569" stroke-width="2" />
+<line x1="85" y1="60" x2="85" y2="380" stroke="#475569" stroke-width="2" />
+<text x="297.5" y="425" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Channel Noise Voltage (Vn)</text>
+<text transform="rotate(-90)" x="-220.0" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Packet Delivery Ratio (%)</text>
+<path d="M 85.0 92.0 L 127.5 92.0 L 170.0 92.0 L 255.0 92.0 L 382.5 92.0 L 510.0 175.2" fill="none" stroke="#2563eb" stroke-width="2.2" />
+<circle cx="85.0" cy="92.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="92.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="170.0" cy="92.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="255.0" cy="92.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="92.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="175.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="70" x2="545" y2="70" stroke="#2563eb" stroke-width="2.5" />
+<circle cx="535" cy="70" r="3.5" fill="#2563eb" />
+<text x="552" y="74" font-size="11" font-weight="500" fill="#334155">Preamble = 16 B</text>
+<path d="M 85.0 92.0 L 127.5 92.0 L 170.0 92.0 L 255.0 92.0 L 382.5 92.0 L 510.0 136.8" fill="none" stroke="#16a34a" stroke-width="2.2" />
+<circle cx="85.0" cy="92.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="92.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="170.0" cy="92.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="255.0" cy="92.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="92.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="136.8" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="92" x2="545" y2="92" stroke="#16a34a" stroke-width="2.5" />
+<circle cx="535" cy="92" r="3.5" fill="#16a34a" />
+<text x="552" y="96" font-size="11" font-weight="500" fill="#334155">Preamble = 24 B</text>
+<path d="M 85.0 92.0 L 102.0 167.3 L 127.5 92.0 L 170.0 92.0 L 255.0 92.0 L 382.5 92.0 L 510.0 149.6" fill="none" stroke="#dc2626" stroke-width="2.2" />
+<circle cx="85.0" cy="92.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.0" cy="167.3" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="92.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="170.0" cy="92.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="255.0" cy="92.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="92.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="149.6" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="114" x2="545" y2="114" stroke="#dc2626" stroke-width="2.5" />
+<circle cx="535" cy="114" r="3.5" fill="#dc2626" />
+<text x="552" y="118" font-size="11" font-weight="500" fill="#334155">Preamble = 32 B</text>
+<path d="M 85.0 92.0 L 127.5 92.0 L 170.0 92.0 L 255.0 92.0 L 382.5 92.0 L 510.0 124.0" fill="none" stroke="#d97706" stroke-width="2.2" />
+<circle cx="85.0" cy="92.0" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="92.0" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="170.0" cy="92.0" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="255.0" cy="92.0" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="92.0" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="124.0" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="136" x2="545" y2="136" stroke="#d97706" stroke-width="2.5" />
+<circle cx="535" cy="136" r="3.5" fill="#d97706" />
+<text x="552" y="140" font-size="11" font-weight="500" fill="#334155">Preamble = 48 B</text>
+<path d="M 85.0 92.0 L 127.5 92.0 L 170.0 92.0 L 255.0 92.0 L 382.5 92.0 L 510.0 124.0" fill="none" stroke="#9333ea" stroke-width="2.2" />
+<circle cx="85.0" cy="92.0" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="127.5" cy="92.0" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="170.0" cy="92.0" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="255.0" cy="92.0" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="382.5" cy="92.0" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="124.0" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="158" x2="545" y2="158" stroke="#9333ea" stroke-width="2.5" />
+<circle cx="535" cy="158" r="3.5" fill="#9333ea" />
+<text x="552" y="162" font-size="11" font-weight="500" fill="#334155">Preamble = 64 B</text>
+</svg>

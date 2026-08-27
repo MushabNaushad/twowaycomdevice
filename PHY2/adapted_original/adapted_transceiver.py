@@ -3,7 +3,7 @@
 """
 PHY2 Adapted Original Transceiver
 Parametric adapter for the user's original CDP Transceiver architecture.
-Exposes all parameters cleanly for external control, channel testing, and optimization sweeps.
+Includes Correlation Estimator (digital.corr_est_cc) coupled with Adaptive Linear Equalizer.
 Supports both BPSK and QPSK modulation schemes.
 """
 
@@ -24,9 +24,9 @@ class AdaptedOriginalTransceiver(gr.top_block):
                  alpha=0.35,
                  samp_rate=32000,
                  nfilts=32,
-                 fll_loop_bw=0.0314,
+                 fll_loop_bw=0.0100,
                  costas_bw=0.0628,
-                 sym_bw=0.045,
+                 sym_bw=0.0250,
                  noise_volt=0.05,
                  freq_offset=0.005,
                  time_offset=1.0001,
@@ -38,15 +38,17 @@ class AdaptedOriginalTransceiver(gr.top_block):
         self.alpha = alpha
         self.samp_rate = samp_rate
         
-        # 1. Setup Constellation, Modulation, & Ted Selection
+        # 1. Setup Constellation, Modulation, & Ted Selection (y·y' TED)
+        self.ted_type = digital.TED_SIGNAL_TIMES_SLOPE_ML
         if self.mod_type == 'BPSK':
             self.constellation = digital.constellation_bpsk().base()
             self.arity = 2
             self.bps = 1
             self.diff_modulus = 2
             self.map_table = [0, 1]
-            self.ted_type = digital.TED_MUELLER_AND_MULLER
             self.preamble_bytes = [0x55] * preamble_size
+            num_syms = min(preamble_size * 8, 48)
+            self.training_symbols = [(-1.0 if (i % 2 == 0) else 1.0) + 0j for i in range(num_syms)]
         else: # QPSK
             self.constellation = digital.constellation_rect(
                 [-1-1j, -1+1j, 1+1j, 1-1j],
@@ -57,8 +59,10 @@ class AdaptedOriginalTransceiver(gr.top_block):
             self.bps = 2
             self.diff_modulus = 4
             self.map_table = [0, 1, 3, 2]
-            self.ted_type = digital.TED_GARDNER
             self.preamble_bytes = [0x33, 0xCC] * (preamble_size // 2)
+            num_syms = min(preamble_size * 4, 48)
+            pts = [(-1.0 - 1.0j) / math.sqrt(2), (1.0 + 1.0j) / math.sqrt(2)]
+            self.training_symbols = [pts[i % 2] for i in range(num_syms)]
             
         # 2. Header and Adaptive Algorithm
         self.hdr = digital.header_format_default(digital.packet_utils.default_access_code, 0, 1)
@@ -100,7 +104,7 @@ class AdaptedOriginalTransceiver(gr.top_block):
             block_tags=False
         )
         
-        # 6. Receiver Blocks (matching original architecture)
+        # 6. Receiver Blocks (matching original architecture with Correlation Estimator)
         self.agc = analog.agc_cc(1e-2, 1.0, 1.0, 65536)
         self.fll = digital.fll_band_edge_cc(sps, alpha, 2 * sps + 1, fll_loop_bw)
         self.rx_filter = filter.fft_filter_ccc(1, self.rcc_taps, 1)
@@ -119,7 +123,11 @@ class AdaptedOriginalTransceiver(gr.top_block):
             []
         )
         
-        self.equalizer = digital.linear_equalizer(11, 1, self.adpt_alg, True, [], 'corr_est')
+        # Correlation Estimator coupled with Linear Equalizer
+        mark_delay = len(self.training_symbols) - 1
+        self.corr_est = digital.corr_est_cc(self.training_symbols, 1, mark_delay, 0.8)
+        self.equalizer = digital.linear_equalizer(11, 1, self.adpt_alg, True, self.training_symbols, 'corr_est')
+        
         self.costas = digital.costas_loop_cc(costas_bw, self.arity, False)
         self.decoder = digital.constellation_decoder_cb(self.constellation)
         self.diff_decoder = digital.diff_decoder_bb(self.diff_modulus, digital.DIFF_DIFFERENTIAL)
@@ -142,9 +150,9 @@ class AdaptedOriginalTransceiver(gr.top_block):
         self.connect((self.crc_tx, 0), (self.mux, 2))
         self.connect(self.mux, self.mod, self.channel)
         
-        # RX
+        # RX (Channel -> AGC -> FLL -> RX Filter -> Symbol Sync -> Corr Est -> Equalizer -> Costas -> Decoder)
         self.connect(self.channel, self.agc, self.fll, self.rx_filter,
-                     self.symbol_sync, self.equalizer, self.costas, self.decoder, self.diff_decoder)
+                     self.symbol_sync, self.corr_est, self.equalizer, self.costas, self.decoder, self.diff_decoder)
                      
         if self.bps > 1:
             self.connect(self.diff_decoder, self.mapper, self.unpacker, self.correlator)
