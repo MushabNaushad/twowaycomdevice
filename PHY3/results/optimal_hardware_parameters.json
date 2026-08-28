@@ -1,0 +1,24 @@
+{
+  "BPSK": {
+    "modulation": "BPSK",
+    "hw_type": "sim",
+    "fll_loop_bw": 0.02,
+    "costas_bw": 0.03,
+    "sym_bw": 0.029,
+    "preamble_size": 32,
+    "pdr": 90.0,
+    "ber": 0.05,
+    "timestamp": "2026-08-29 00:36:02"
+  },
+  "QPSK": {
+    "modulation": "QPSK",
+    "hw_type": "sim",
+    "fll_loop_bw": 0.0628,
+    "costas_bw": 0.075,
+    "sym_bw": 0.135,
+    "preamble_size": 32,
+    "pdr": 60.0,
+    "ber": 0.2,
+    "timestamp": "2026-08-29 00:36:02"
+  }
+}

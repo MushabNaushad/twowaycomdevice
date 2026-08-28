@@ -16,6 +16,7 @@ PHY2/optimization/results/top_50000_low_ber_candidates.csv
 # --- Generated Dashboard Data Files ---
 PHY2/dashboard/software_data.js
 PHY2/dashboard/hardware_data.js
+PHY3/dashboard/hardware_data.js
 
 # --- Custom Config Temp Files ---
 PHY2/optimization/results/custom_config.json
