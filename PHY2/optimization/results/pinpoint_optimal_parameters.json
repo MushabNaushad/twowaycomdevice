@@ -1,0 +1,116 @@
+{
+  "BPSK": {
+    "modulation": "BPSK",
+    "ted_type": "TED_SIGNAL_TIMES_SLOPE_ML (y\u00b7y')",
+    "optimal_fll_bandwidth": 0.0314,
+    "optimal_costas_bandwidth": 0.11,
+    "optimal_symbol_sync_bandwidth": 0.043,
+    "optimal_preamble_length": 32,
+    "average_pdr": "80.0%",
+    "average_ber": "0.00000",
+    "top_5_configurations": [
+      {
+        "fll_bw": 0.0314,
+        "costas_bw": 0.11,
+        "sym_bw": 0.043,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.0628,
+        "costas_bw": 0.085,
+        "sym_bw": 0.029,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.0628,
+        "costas_bw": 0.115,
+        "sym_bw": 0.015,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.02,
+        "costas_bw": 0.025,
+        "sym_bw": 0.029,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.0314,
+        "costas_bw": 0.11,
+        "sym_bw": 0.061,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      }
+    ]
+  },
+  "QPSK": {
+    "modulation": "QPSK",
+    "ted_type": "TED_SIGNAL_TIMES_SLOPE_ML (y\u00b7y')",
+    "optimal_fll_bandwidth": 0.0314,
+    "optimal_costas_bandwidth": 0.075,
+    "optimal_symbol_sync_bandwidth": 0.081,
+    "optimal_preamble_length": 32,
+    "average_pdr": "80.0%",
+    "average_ber": "0.00000",
+    "top_5_configurations": [
+      {
+        "fll_bw": 0.0314,
+        "costas_bw": 0.075,
+        "sym_bw": 0.081,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.0314,
+        "costas_bw": 0.085,
+        "sym_bw": 0.061,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.0628,
+        "costas_bw": 0.075,
+        "sym_bw": 0.135,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.02,
+        "costas_bw": 0.035,
+        "sym_bw": 0.007,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      },
+      {
+        "fll_bw": 0.0314,
+        "costas_bw": 0.105,
+        "sym_bw": 0.047,
+        "preamble_size": 32,
+        "avg_pdr": 80.0,
+        "avg_ber": 0.0,
+        "score": 79.36
+      }
+    ]
+  }
+}

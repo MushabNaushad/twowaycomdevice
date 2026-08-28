@@ -1,0 +1,10 @@
+{
+  "preset": "exhaustive",
+  "new_trials": 707392,
+  "cumulative_trials": 747580,
+  "elapsed_sec": 1697.74,
+  "formatted_runtime": "28m 17s",
+  "throughput_trials_per_sec": 416.7,
+  "workers": 8,
+  "timestamp": "2026-08-28 11:20:11"
+}

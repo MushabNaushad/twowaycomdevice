@@ -1,0 +1,40 @@
+# ============================================
+# PHY2 CDP Project .gitignore
+# ============================================
+
+# --- Large Simulation Data (100MB+) ---
+PHY2/optimization/results/deep_sweep_results.json
+PHY2/optimization/results/deep_sweep_results.csv
+PHY2/adapted_original/results/ultra_fine_sweep_results.json
+PHY2/adapted_original/results/ultra_fine_sweep_results.csv
+
+# --- Top Candidates Extracts (10MB+) ---
+# (PHY2/hardware/top_50000_low_ber_candidates.* are TRACKED — needed for hardware testing)
+PHY2/optimization/results/top_50000_low_ber_candidates.json
+PHY2/optimization/results/top_50000_low_ber_candidates.csv
+
+# --- Generated Dashboard Data Files ---
+PHY2/dashboard/software_data.js
+PHY2/dashboard/hardware_data.js
+
+# --- Custom Config Temp Files ---
+PHY2/optimization/results/custom_config.json
+
+# --- Python Compiled / Cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# --- GNU Radio Generated ---
+*.grc.bak
+.gnuradio/
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

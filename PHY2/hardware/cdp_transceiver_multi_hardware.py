@@ -8,7 +8,7 @@
 # Title: PHY2 Universal Multi-Hardware Transceiver
 # Author: mushab404
 # Description: PHY2 Universal Multi-Hardware BPSK Transceiver (Pluto, BladeRF, RTL-SDR)
-# GNU Radio version: 3.10.12.0
+# GNU Radio version: 3.10.9.2
 
 from PyQt5 import Qt
 from gnuradio import qtgui
@@ -31,7 +31,6 @@ from gnuradio.eng_arg import eng_float, intx
 from gnuradio import gr, pdu
 from gnuradio import iio
 import sip
-import threading
 
 
 
@@ -58,7 +57,7 @@ class cdp_transceiver_multi_hardware(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "cdp_transceiver_multi_hardware")
+        self.settings = Qt.QSettings("GNU Radio", "cdp_transceiver_multi_hardware")
 
         try:
             geometry = self.settings.value("geometry")
@@ -66,7 +65,6 @@ class cdp_transceiver_multi_hardware(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(geometry)
         except BaseException as exc:
             print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
-        self.flowgraph_started = threading.Event()
 
         ##################################################
         # Variables
@@ -270,7 +268,7 @@ class cdp_transceiver_multi_hardware(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "cdp_transceiver_multi_hardware")
+        self.settings = Qt.QSettings("GNU Radio", "cdp_transceiver_multi_hardware")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -329,7 +327,6 @@ class cdp_transceiver_multi_hardware(gr.top_block, Qt.QWidget):
 
     def set_hdr(self, hdr):
         self.hdr = hdr
-        self.digital_protocol_formatter_bb_0.set_header_format(self.hdr)
 
     def get_fll_loop_bw(self):
         return self.fll_loop_bw
@@ -391,7 +388,6 @@ def main(top_block_cls=cdp_transceiver_multi_hardware, options=None):
     tb = top_block_cls()
 
     tb.start()
-    tb.flowgraph_started.set()
 
     tb.show()
 

@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" width="680" height="440" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;">
+<text x="340.0" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a">QPSK (y·y' TED): BER vs Costas Loop Bandwidth (0.005 to 1.000 rad/sym)</text>
+<g stroke="#e2e8f0" stroke-width="1">
+<line x1="85" y1="60.0" x2="510" y2="60.0" />
+<text x="75" y="64.0" text-anchor="end" font-size="10" fill="#64748b">1.0e+00</text>
+<line x1="85" y1="140.0" x2="510" y2="140.0" />
+<text x="75" y="144.0" text-anchor="end" font-size="10" fill="#64748b">1.0e-01</text>
+<line x1="85" y1="220.0" x2="510" y2="220.0" />
+<text x="75" y="224.0" text-anchor="end" font-size="10" fill="#64748b">1.0e-02</text>
+<line x1="85" y1="300.0" x2="510" y2="300.0" />
+<text x="75" y="304.0" text-anchor="end" font-size="10" fill="#64748b">1.0e-03</text>
+<line x1="85" y1="380.0" x2="510" y2="380.0" />
+<text x="75" y="384.0" text-anchor="end" font-size="10" fill="#64748b">1.0e-04</text>
+<line x1="85.0" y1="60" x2="85.0" y2="380" />
+<text x="85.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.01</text>
+<line x1="170.0" y1="60" x2="170.0" y2="380" />
+<text x="170.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.20</text>
+<line x1="255.0" y1="60" x2="255.0" y2="380" />
+<text x="255.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.40</text>
+<line x1="340.0" y1="60" x2="340.0" y2="380" />
+<text x="340.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.60</text>
+<line x1="425.0" y1="60" x2="425.0" y2="380" />
+<text x="425.0" y="398" text-anchor="middle" font-size="10" fill="#64748b">0.80</text>
+<line x1="509.99999999999994" y1="60" x2="509.99999999999994" y2="380" />
+<text x="509.99999999999994" y="398" text-anchor="middle" font-size="10" fill="#64748b">1.00</text>
+</g>
+<line x1="85" y1="380" x2="510" y2="380" stroke="#475569" stroke-width="2" />
+<line x1="85" y1="60" x2="85" y2="380" stroke="#475569" stroke-width="2" />
+<text x="297.5" y="425" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Costas Loop Bandwidth (rad/sym)</text>
+<text transform="rotate(-90)" x="-220.0" y="20" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Bit Error Rate (BER)</text>
+<path d="M 85.0 188.2 L 87.1 195.9 L 90.6 212.2 L 93.5 244.1 L 97.8 268.2 L 102.1 268.2 L 106.4 268.2 L 109.7 231.5 L 114.9 268.2 L 121.3 268.2 L 129.8 268.2 L 140.5 268.2 L 153.3 268.2 L 168.3 268.2 L 189.6 268.2 L 219.5 244.1 L 253.7 244.1 L 296.4 244.1 L 339.1 244.1 L 403.2 230.0 L 458.7 230.0 L 510.0 195.9" fill="none" stroke="#2563eb" stroke-width="2.2" />
+<circle cx="85.0" cy="188.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="87.1" cy="195.9" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="90.6" cy="212.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="244.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="97.8" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.1" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="109.7" cy="231.5" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="114.9" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="121.3" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="129.8" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="140.5" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.3" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="168.3" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="189.6" cy="268.2" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="219.5" cy="244.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="253.7" cy="244.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="296.4" cy="244.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="339.1" cy="244.1" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="403.2" cy="230.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="458.7" cy="230.0" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="195.9" r="3.5" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="70" x2="545" y2="70" stroke="#2563eb" stroke-width="2.5" />
+<circle cx="535" cy="70" r="3.5" fill="#2563eb" />
+<text x="552" y="74" font-size="11" font-weight="500" fill="#334155">SymSync = 0.010</text>
+<path d="M 85.0 191.8 L 87.1 195.9 L 90.6 212.2 L 93.5 268.2 L 97.8 268.2 L 102.1 268.2 L 106.4 268.2 L 109.7 218.1 L 114.9 268.2 L 121.3 268.2 L 129.8 268.2 L 140.5 268.2 L 153.3 268.2 L 168.3 268.2 L 189.6 268.2 L 219.5 268.2 L 253.7 268.2 L 296.4 268.2 L 339.1 268.2 L 403.2 244.1 L 458.7 244.1 L 510.0 220.0" fill="none" stroke="#16a34a" stroke-width="2.2" />
+<circle cx="85.0" cy="191.8" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="87.1" cy="195.9" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="90.6" cy="212.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="97.8" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.1" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="109.7" cy="218.1" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="114.9" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="121.3" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="129.8" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="140.5" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.3" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="168.3" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="189.6" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="219.5" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="253.7" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="296.4" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="339.1" cy="268.2" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="403.2" cy="244.1" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="458.7" cy="244.1" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="220.0" r="3.5" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="90" x2="545" y2="90" stroke="#16a34a" stroke-width="2.5" />
+<circle cx="535" cy="90" r="3.5" fill="#16a34a" />
+<text x="552" y="94" font-size="11" font-weight="500" fill="#334155">SymSync = 0.025</text>
+<path d="M 85.0 191.8 L 87.1 195.9 L 90.6 212.2 L 93.5 268.2 L 97.8 268.2 L 102.1 268.2 L 106.4 268.2 L 109.7 268.2 L 114.9 268.2 L 121.3 268.2 L 129.8 268.2 L 140.5 268.2 L 153.3 268.2 L 168.3 268.2 L 189.6 268.2 L 219.5 268.2 L 253.7 268.2 L 296.4 268.2 L 339.1 268.2 L 403.2 244.1 L 458.7 244.1 L 510.0 230.0" fill="none" stroke="#dc2626" stroke-width="2.2" />
+<circle cx="85.0" cy="191.8" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="87.1" cy="195.9" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="90.6" cy="212.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="97.8" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.1" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="109.7" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="114.9" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="121.3" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="129.8" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="140.5" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.3" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="168.3" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="189.6" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="219.5" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="253.7" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="296.4" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="339.1" cy="268.2" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="403.2" cy="244.1" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="458.7" cy="244.1" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="230.0" r="3.5" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="110" x2="545" y2="110" stroke="#dc2626" stroke-width="2.5" />
+<circle cx="535" cy="110" r="3.5" fill="#dc2626" />
+<text x="552" y="114" font-size="11" font-weight="500" fill="#334155">SymSync = 0.055</text>
+<path d="M 85.0 191.8 L 87.1 195.9 L 90.6 212.2 L 93.5 268.2 L 97.8 268.2 L 102.1 268.2 L 106.4 268.2 L 109.7 268.2 L 114.9 268.2 L 121.3 268.2 L 129.8 268.2 L 140.5 268.2 L 153.3 268.2 L 168.3 268.2 L 189.6 268.2 L 219.5 268.2 L 253.7 268.2 L 296.4 268.2 L 339.1 268.2 L 403.2 268.2 L 458.7 268.2 L 510.0 230.0" fill="none" stroke="#d97706" stroke-width="2.2" />
+<circle cx="85.0" cy="191.8" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="87.1" cy="195.9" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="90.6" cy="212.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="97.8" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.1" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="109.7" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="114.9" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="121.3" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="129.8" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="140.5" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.3" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="168.3" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="189.6" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="219.5" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="253.7" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="296.4" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="339.1" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="403.2" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="458.7" cy="268.2" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="230.0" r="3.5" fill="#d97706" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="130" x2="545" y2="130" stroke="#d97706" stroke-width="2.5" />
+<circle cx="535" cy="130" r="3.5" fill="#d97706" />
+<text x="552" y="134" font-size="11" font-weight="500" fill="#334155">SymSync = 0.115</text>
+<path d="M 85.0 191.8 L 87.1 195.9 L 90.6 212.2 L 93.5 268.2 L 97.8 268.2 L 102.1 268.2 L 106.4 268.2 L 109.7 251.3 L 114.9 268.2 L 121.3 268.2 L 129.8 268.2 L 140.5 268.2 L 153.3 268.2 L 168.3 268.2 L 189.6 268.2 L 219.5 268.2 L 253.7 268.2 L 296.4 268.2 L 339.1 244.1 L 403.2 244.1 L 458.7 230.0 L 510.0 200.6" fill="none" stroke="#9333ea" stroke-width="2.2" />
+<circle cx="85.0" cy="191.8" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="87.1" cy="195.9" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="90.6" cy="212.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="97.8" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.1" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="109.7" cy="251.3" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="114.9" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="121.3" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="129.8" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="140.5" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.3" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="168.3" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="189.6" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="219.5" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="253.7" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="296.4" cy="268.2" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="339.1" cy="244.1" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="403.2" cy="244.1" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="458.7" cy="230.0" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="200.6" r="3.5" fill="#9333ea" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="150" x2="545" y2="150" stroke="#9333ea" stroke-width="2.5" />
+<circle cx="535" cy="150" r="3.5" fill="#9333ea" />
+<text x="552" y="154" font-size="11" font-weight="500" fill="#334155">SymSync = 0.250</text>
+<path d="M 85.0 188.2 L 87.1 188.2 L 90.6 188.2 L 93.5 188.2 L 97.8 188.2 L 102.1 188.2 L 106.4 188.2 L 109.7 188.6 L 114.9 188.2 L 121.3 188.2 L 129.8 188.2 L 140.5 188.2 L 153.3 188.2 L 168.3 188.2 L 189.6 188.2 L 219.5 188.2 L 253.7 188.2 L 296.4 188.2 L 339.1 188.2 L 403.2 188.2 L 458.7 188.2 L 510.0 188.2" fill="none" stroke="#0891b2" stroke-width="2.2" />
+<circle cx="85.0" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="87.1" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="90.6" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="97.8" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.1" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="109.7" cy="188.6" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="114.9" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="121.3" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="129.8" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="140.5" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.3" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="168.3" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="189.6" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="219.5" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="253.7" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="296.4" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="339.1" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="403.2" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="458.7" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="188.2" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="170" x2="545" y2="170" stroke="#0891b2" stroke-width="2.5" />
+<circle cx="535" cy="170" r="3.5" fill="#0891b2" />
+<text x="552" y="174" font-size="11" font-weight="500" fill="#334155">SymSync = 0.500</text>
+<path d="M 85.0 188.2 L 87.1 188.2 L 90.6 188.2 L 93.5 188.2 L 97.8 188.2 L 102.1 188.2 L 106.4 188.2 L 109.7 188.2 L 114.9 188.2 L 121.3 188.2 L 129.8 188.2 L 140.5 188.2 L 153.3 188.2 L 168.3 188.2 L 189.6 188.2 L 219.5 188.2 L 253.7 188.2 L 296.4 188.2 L 339.1 188.2 L 403.2 188.2 L 458.7 188.2 L 510.0 188.2" fill="none" stroke="#4f46e5" stroke-width="2.2" />
+<circle cx="85.0" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="87.1" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="90.6" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="93.5" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="97.8" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="102.1" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="106.4" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="109.7" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="114.9" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="121.3" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="129.8" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="140.5" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="153.3" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="168.3" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="189.6" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="219.5" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="253.7" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="296.4" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="339.1" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="403.2" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="458.7" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<circle cx="510.0" cy="188.2" r="3.5" fill="#4f46e5" stroke="#ffffff" stroke-width="1.2" />
+<line x1="525" y1="190" x2="545" y2="190" stroke="#4f46e5" stroke-width="2.5" />
+<circle cx="535" cy="190" r="3.5" fill="#4f46e5" />
+<text x="552" y="194" font-size="11" font-weight="500" fill="#334155">SymSync = 1.000</text>
+</svg>
