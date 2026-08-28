@@ -33,6 +33,18 @@ options:
     state: enabled
 
 blocks:
+- name: hw_samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '2500000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 92.0]
+    rotation: 0
+    state: enabled
 - name: ADDR
   id: variable
   parameters:
@@ -347,7 +359,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 32e3
+    value: '32000'
   states:
     bus_sink: false
     bus_source: false
@@ -1450,7 +1462,7 @@ blocks:
     frequency: int(SDR_CF)
     fstop: '0'
     len_tag_key: ''
-    samplerate: int(samp_rate)
+    samplerate: int(hw_samp_rate)
     type: fc32
     uri: ADDR
   states:
@@ -1481,7 +1493,7 @@ blocks:
     minoutbuf: '0'
     quadrature: 'True'
     rfdc: 'True'
-    samplerate: int(samp_rate)
+    samplerate: int(hw_samp_rate)
     type: fc32
     uri: ADDR
   states:
@@ -1560,7 +1572,48 @@ blocks:
     marker8: '0'
     marker9: '0'
     name: '""'
-    nconnections: '1'
+    n- name: rational_resampler_xxx_tx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Upscaler: 32 kHz -> 2.5 MHz (625/8)'
+    decim: '8'
+    fbw: '0'
+    interp: '625'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1420, 240.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_rx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Decimator: 2.5 MHz -> 32 kHz (8/625)'
+    decim: '625'
+    fbw: '0'
+    interp: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 840.0]
+    rotation: 0
+    state: enabled
+
+connections: '1'
     size: '1024'
     style1: '0'
     style10: '0'
@@ -1651,7 +1704,48 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     name: '""'
-    nconnections: '1'
+    n- name: rational_resampler_xxx_tx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Upscaler: 32 kHz -> 2.5 MHz (625/8)'
+    decim: '8'
+    fbw: '0'
+    interp: '625'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1420, 240.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_rx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Decimator: 2.5 MHz -> 32 kHz (8/625)'
+    decim: '625'
+    fbw: '0'
+    interp: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 840.0]
+    rotation: 0
+    state: enabled
+
+connections: '1'
     norm_window: 'False'
     showports: 'False'
     tr_chan: '0'
@@ -1732,7 +1826,48 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     name: '""'
-    nconnections: '1'
+    n- name: rational_resampler_xxx_tx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Upscaler: 32 kHz -> 2.5 MHz (625/8)'
+    decim: '8'
+    fbw: '0'
+    interp: '625'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1420, 240.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_rx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Decimator: 2.5 MHz -> 32 kHz (8/625)'
+    decim: '625'
+    fbw: '0'
+    interp: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 840.0]
+    rotation: 0
+    state: enabled
+
+connections: '1'
     norm_window: 'False'
     showports: 'False'
     tr_chan: '0'
@@ -1816,7 +1951,48 @@ blocks:
     marker8: '-1'
     marker9: '-1'
     name: '""'
-    nconnections: '1'
+    n- name: rational_resampler_xxx_tx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Upscaler: 32 kHz -> 2.5 MHz (625/8)'
+    decim: '8'
+    fbw: '0'
+    interp: '625'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1420, 240.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_rx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Decimator: 2.5 MHz -> 32 kHz (8/625)'
+    decim: '625'
+    fbw: '0'
+    interp: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 840.0]
+    rotation: 0
+    state: enabled
+
+connections: '1'
     size: '2048'
     srate: samp_rate
     stemplot: 'False'
@@ -2159,6 +2335,47 @@ blocks:
     rotation: 0
     state: disabled
 
+- name: rational_resampler_xxx_tx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Upscaler: 32 kHz -> 2.5 MHz (625/8)'
+    decim: '8'
+    fbw: '0'
+    interp: '625'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1420, 240.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_rx
+  id: rational_resampler_ccc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Decimator: 2.5 MHz -> 32 kHz (8/625)'
+    decim: '625'
+    fbw: '0'
+    interp: '8'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 840.0]
+    rotation: 0
+    state: enabled
+
 connections:
 - [analog_agc_xx_0, '0', blocks_copy_1, '0']
 - [analog_agc_xx_0, '0', digital_fll_band_edge_cc_0, '0']
@@ -2192,8 +2409,9 @@ connections:
 - [blocks_stream_to_tagged_stream_0_0_0, '0', digital_crc32_bb_0, '0']
 - [blocks_stream_to_tagged_stream_0_0_0_0, '0', blocks_tagged_stream_mux_0, '0']
 - [blocks_stream_to_tagged_stream_0_0_0_0_0, '0', blocks_tagged_stream_mux_0, '3']
-- [blocks_tag_gate_0, '0', iio_pluto_sink_0, '0']
-- [blocks_tag_gate_0, '0', soapy_bladerf_sink_0, '0']
+- [blocks_tag_gate_0, '0', rational_resampler_xxx_tx, '0']
+- [rational_resampler_xxx_tx, '0', iio_pluto_sink_0, '0']
+- [rational_resampler_xxx_tx, '0', soapy_bladerf_sink_0, '0']
 - [blocks_tag_gate_0, '0', virtual_sink_0, '0']
 - [blocks_tag_gate_0, '0', virtual_sink_5, '0']
 - [blocks_tagged_stream_mux_0, '0', virtual_sink_0_1, '0']
@@ -2243,11 +2461,12 @@ connections:
 - [digital_symbol_sync_xx_0, '0', digital_linear_equalizer_0, '0']
 - [fft_filter_xxx_0, '0', digital_symbol_sync_xx_0, '0']
 - [iio_pluto_source_0, '0', blocks_copy_1_1, '0']
-- [iio_pluto_source_0, '0', dc_blocker_xx_0, '0']
+- [iio_pluto_source_0, '0', rational_resampler_xxx_rx, '0']
+- [rational_resampler_xxx_rx, '0', dc_blocker_xx_0, '0']
 - [pdu_tagged_stream_to_pdu_0, pdus, blocks_message_debug_0, print]
 - [root_raised_cosine_filter_0, '0', digital_symbol_sync_xx_0, '0']
 - [soapy_bladerf_source_0, '0', blocks_copy_1_1, '0']
-- [soapy_bladerf_source_0, '0', dc_blocker_xx_0, '0']
+- [soapy_bladerf_source_0, '0', rational_resampler_xxx_rx, '0']
 - [virtual_source_0_0, '0', blocks_copy_0, '0']
 - [virtual_source_0_0, '0', blocks_throttle2_0, '0']
 - [virtual_source_0_0, '0', virtual_sink_0_0, '0']

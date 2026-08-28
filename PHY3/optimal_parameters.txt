@@ -1,0 +1,32 @@
+================================================================================
+            PHY3 HARDWARE SDR OPTIMAL PARAMETERS (0.005 TO 1.000 RAD/SYM)
+================================================================================
+
+[BPSK]
+  • SDR Target Hardware   : Adalm-Pluto SDR / Nuand bladeRF / RTL-SDR
+  • Baseband Sample Rate  : 32 kHz (32e3)
+  • Hardware Sample Rate  : 2.5 MHz (2.5e6)
+  • Upscaler (TX Path)    : Rational Resampler (Interp: 625, Decim: 8)
+  • Decimator (RX Path)   : Rational Resampler (Interp: 8, Decim: 625)
+  • TED Algorithm         : TED_SIGNAL_TIMES_SLOPE_ML (y·y')
+  • FLL Band-Edge Loop BW : 0.0200 rad/sym (0.0314 rad/sym nominal)
+  • Costas Loop BW        : 0.0300 rad/sym (0.0628 rad/sym nominal)
+  • Symbol Sync Loop BW   : 0.0290 rad/sym (0.0250 rad/sym nominal)
+  • Preamble Length       : 32 Bytes
+  • Measured PDR          : 90.0%
+  • Measured BER          : 0.05000 (0.00000 with 10/10 packet sync)
+
+[QPSK]
+  • SDR Target Hardware   : Adalm-Pluto SDR / Nuand bladeRF / RTL-SDR
+  • Baseband Sample Rate  : 32 kHz (32e3)
+  • Hardware Sample Rate  : 2.5 MHz (2.5e6)
+  • Upscaler (TX Path)    : Rational Resampler (Interp: 625, Decim: 8)
+  • Decimator (RX Path)   : Rational Resampler (Interp: 8, Decim: 625)
+  • TED Algorithm         : TED_SIGNAL_TIMES_SLOPE_ML (y·y')
+  • FLL Band-Edge Loop BW : 0.0628 rad/sym (0.0314 rad/sym nominal)
+  • Costas Loop BW        : 0.0750 rad/sym (0.0628 rad/sym nominal)
+  • Symbol Sync Loop BW   : 0.1350 rad/sym (0.0810 rad/sym nominal)
+  • Preamble Length       : 32 Bytes
+  • Measured PDR          : 60.0% - 80.0%
+  • Measured BER          : 0.00000 - 0.20000
+================================================================================

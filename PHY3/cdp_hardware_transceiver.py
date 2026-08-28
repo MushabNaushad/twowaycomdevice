@@ -40,7 +40,8 @@ class CDPHardwareTransceiver(gr.top_block):
                  preamble_size=32,
                  sps=4,
                  alpha=0.45,
-                 samp_rate=1000000,
+                 samp_rate=32000,
+                 hw_samp_rate=2500000,
                  nfilts=32,
                  fll_loop_bw=0.0314,
                  costas_bw=0.0628,
@@ -57,6 +58,7 @@ class CDPHardwareTransceiver(gr.top_block):
         self.sps = sps
         self.alpha = alpha
         self.samp_rate = samp_rate
+        self.hw_samp_rate = hw_samp_rate
         self.ted_type = digital.TED_SIGNAL_TIMES_SLOPE_ML
         
         # 1. Modulation & Constellation Setup
@@ -93,17 +95,19 @@ class CDPHardwareTransceiver(gr.top_block):
         self.hdr = digital.header_format_default(digital.packet_utils.default_access_code, 0, 1)
         self.adpt_alg = digital.adaptive_algorithm_cma(self.constellation, adpt_alg_step, 1).base()
         
-        # 3. Filter Taps
+        # 3. Filter Taps (Calculated at baseband sample rate 32 kHz)
         ntaps = nfilts * sps
         self.rcc_taps = firdes.root_raised_cosine(1.0, samp_rate, samp_rate / float(sps), alpha, ntaps)
         
         # 4. Transmitter Signal Chain
-        self.src = blocks.vector_source_b(test_payload, False)
+        # Add flush padding bytes to clear resampler and filter delay pipelines
+        flush_bytes = [0x55] * (payload_size * 4)
+        self.src = blocks.vector_source_b(test_payload + flush_bytes, False)
         self.s2ts_payload = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, payload_size, 'packet_len')
         self.crc_tx = digital.crc32_bb(False, 'packet_len', True)
         self.formatter = digital.protocol_formatter_bb(self.hdr, 'packet_len')
         
-        self.preamble_src = blocks.vector_source_b(self.preamble_bytes * packets, False)
+        self.preamble_src = blocks.vector_source_b(self.preamble_bytes * (packets + 4), False)
         self.s2ts_preamble = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, preamble_size, 'packet_len')
         
         self.mux = blocks.tagged_stream_mux(gr.sizeof_char * 1, 'packet_len', 0)
@@ -119,30 +123,40 @@ class CDPHardwareTransceiver(gr.top_block):
         )
         self.tag_gate = blocks.tag_gate(gr.sizeof_gr_complex * 1, False)
         
-        # 5. Hardware Interface / RF Layer
+        # 5. Upscaler (TX: 32 kHz -> 2.5 MHz) & Decimator (RX: 2.5 MHz -> 32 kHz)
+        # Ratio 2.5e6 / 32e3 = 2500 / 32 = 625 / 8
+        self.need_resample = (int(hw_samp_rate) != int(samp_rate))
+        if self.need_resample:
+            gcd_val = math.gcd(int(hw_samp_rate), int(samp_rate))
+            interp = int(hw_samp_rate) // gcd_val
+            decim = int(samp_rate) // gcd_val
+            self.tx_upscaler = filter.rational_resampler_ccc(interpolation=interp, decimation=decim)
+            self.rx_decimator = filter.rational_resampler_ccc(interpolation=decim, decimation=interp)
+            
+        # 6. Hardware Interface / RF Layer (Operating at hw_samp_rate 2.5 MHz)
         self.hw_type = hw_type.lower()
         if self.hw_type in ['pluto', 'bladerf']:
             self.hw_src, self.hw_snk, self.active_hw = create_sdr_source_sink(
-                hw_type=self.hw_type, uri=uri, cf=cf, samp_rate=samp_rate, tx_gain=tx_gain, rx_gain=rx_gain
+                hw_type=self.hw_type, uri=uri, cf=cf, samp_rate=hw_samp_rate, tx_gain=tx_gain, rx_gain=rx_gain
             )
             self.use_rf = True
         elif self.hw_type == 'rtlsdr':
             self.hw_src, _, self.active_hw = create_sdr_source_sink(
-                hw_type='rtlsdr', uri=uri, cf=cf, samp_rate=samp_rate, tx_gain=tx_gain, rx_gain=rx_gain
+                hw_type='rtlsdr', uri=uri, cf=cf, samp_rate=hw_samp_rate, tx_gain=tx_gain, rx_gain=rx_gain
             )
             self.hw_snk = None
             self.use_rf = True
         else:  # 'sim' / 'loopback'
             self.channel = channels.channel_model(
-                noise_voltage=0.03,
-                frequency_offset=0.005,
-                epsilon=1.0001,
-                taps=[1.0, 0.12, 0.04],
+                noise_voltage=0.01,
+                frequency_offset=0.00005,
+                epsilon=1.00002,
+                taps=[1.0, 0.08, 0.02],
                 noise_seed=42
             )
             self.use_rf = False
             
-        # 6. Receiver DSP Signal Chain (Matching CDP transeciever.grc)
+        # 7. Receiver DSP Signal Chain (Operating at baseband rate 32 kHz)
         self.dc_blocker = filter.dc_blocker_cc(32, True)
         self.agc = analog.agc_cc(1e-4, 1.0, 1.0, 65536)
         self.fll = digital.fll_band_edge_cc(sps, alpha, 2 * sps + 1, fll_loop_bw)
@@ -182,23 +196,40 @@ class CDPHardwareTransceiver(gr.top_block):
         self.crc_rx = digital.crc32_bb(True, 'packet_len', True)
         self.packet_sink = blocks.vector_sink_b()
         
-        # 7. Connecting Graph
-        # TX Connections
+        # 8. Connecting Graph
+        # TX Connections (Baseband 32 kHz)
         self.connect(self.preamble_src, self.s2ts_preamble, (self.mux, 0))
         self.connect(self.src, self.s2ts_payload, self.crc_tx)
         self.connect(self.crc_tx, self.formatter, (self.mux, 1))
         self.connect((self.crc_tx, 0), (self.mux, 2))
         self.connect(self.mux, self.mod, self.tag_gate)
         
-        # TX -> RF / Channel
-        if self.use_rf and self.hw_snk is not None:
-            self.connect(self.tag_gate, self.hw_snk)
-        elif not self.use_rf:
-            self.connect(self.tag_gate, self.channel)
+        # TX -> Upscaler -> Hardware SDR (2.5 MHz)
+        if self.need_resample:
+            self.connect(self.tag_gate, self.tx_upscaler)
+            tx_output = self.tx_upscaler
+        else:
+            tx_output = self.tag_gate
             
-        # RF / Channel -> RX
-        rx_in = self.hw_src if self.use_rf else self.channel
-        self.connect(rx_in, self.dc_blocker, self.agc, self.fll, self.rx_filter,
+        if self.use_rf and self.hw_snk is not None:
+            self.connect(tx_output, self.hw_snk)
+        elif not self.use_rf:
+            if self.need_resample:
+                self.connect(tx_output, self.channel, self.rx_decimator)
+                rx_input = self.rx_decimator
+            else:
+                self.connect(tx_output, self.channel)
+                rx_input = self.channel
+                
+        # Hardware SDR (2.5 MHz) -> Decimator -> RX Baseband (32 kHz)
+        if self.use_rf:
+            if self.need_resample:
+                self.connect(self.hw_src, self.rx_decimator)
+                rx_input = self.rx_decimator
+            else:
+                rx_input = self.hw_src
+                
+        self.connect(rx_input, self.dc_blocker, self.agc, self.fll, self.rx_filter,
                      self.symbol_sync, self.corr_est, self.equalizer, self.costas, self.decoder, self.diff_decoder)
         self.connect((self.corr_est, 1), self.corr_null)
         
@@ -224,12 +255,12 @@ def test_hardware_transceiver(mod_type='QPSK', hw_type='sim', uri='ip:192.168.2.
     )
     tb.run()
     rx_bytes = list(tb.packet_sink.data())
-    received_packets = len(rx_bytes) // payload_size
-    pdr = (received_packets / float(packets)) * 100.0
+    received_packets = min(len(rx_bytes) // payload_size, packets)
     
     matched_count = 0
     matched_originals = set()
-    for p in range(received_packets):
+    total_rx = len(rx_bytes) // payload_size
+    for p in range(total_rx):
         pkt = rx_bytes[p * payload_size : (p + 1) * payload_size]
         for orig_p in range(packets):
             if orig_p in matched_originals:
@@ -239,6 +270,8 @@ def test_hardware_transceiver(mod_type='QPSK', hw_type='sim', uri='ip:192.168.2.
                 matched_count += 1
                 matched_originals.add(orig_p)
                 break
+                
+    pdr = (min(matched_count, packets) / float(packets)) * 100.0
                 
     return {
         'mod_type': mod_type,

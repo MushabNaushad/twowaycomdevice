@@ -9,11 +9,11 @@
     "cf_mhz": 433.98,
     "tx_gain": 20.0,
     "rx_gain": 30.0,
-    "pdr": 30.0,
-    "ber": 0.35,
-    "matched_packets": 3,
+    "pdr": 0.0,
+    "ber": 0.5,
+    "matched_packets": 0,
     "total_packets": 10,
-    "elapsed_sec": 0.0177
+    "elapsed_sec": 0.0657
   },
   {
     "mod_type": "BPSK",
@@ -25,11 +25,11 @@
     "cf_mhz": 433.98,
     "tx_gain": 20.0,
     "rx_gain": 30.0,
-    "pdr": 90.0,
-    "ber": 0.05,
-    "matched_packets": 9,
+    "pdr": 0.0,
+    "ber": 0.5,
+    "matched_packets": 0,
     "total_packets": 10,
-    "elapsed_sec": 0.0161
+    "elapsed_sec": 0.1214
   },
   {
     "mod_type": "QPSK",
@@ -41,11 +41,11 @@
     "cf_mhz": 433.98,
     "tx_gain": 20.0,
     "rx_gain": 30.0,
-    "pdr": 50.0,
-    "ber": 0.25,
-    "matched_packets": 5,
+    "pdr": 0.0,
+    "ber": 0.5,
+    "matched_packets": 0,
     "total_packets": 10,
-    "elapsed_sec": 0.014
+    "elapsed_sec": 0.0689
   },
   {
     "mod_type": "QPSK",
@@ -57,11 +57,11 @@
     "cf_mhz": 433.98,
     "tx_gain": 20.0,
     "rx_gain": 30.0,
-    "pdr": 50.0,
-    "ber": 0.25,
-    "matched_packets": 5,
+    "pdr": 0.0,
+    "ber": 0.5,
+    "matched_packets": 0,
     "total_packets": 10,
-    "elapsed_sec": 0.0152
+    "elapsed_sec": 0.0642
   },
   {
     "mod_type": "BPSK",
@@ -73,11 +73,11 @@
     "cf_mhz": 433.98,
     "tx_gain": 20.0,
     "rx_gain": 30.0,
-    "pdr": 90.0,
-    "ber": 0.05,
-    "matched_packets": 9,
+    "pdr": 0.0,
+    "ber": 0.5,
+    "matched_packets": 0,
     "total_packets": 10,
-    "elapsed_sec": 0.0151
+    "elapsed_sec": 0.1184
   },
   {
     "mod_type": "QPSK",

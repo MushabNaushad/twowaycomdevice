@@ -144,9 +144,6 @@ def run_hardware_optimization(hw_type='pluto',
             tb.run()
             
             rx_bytes = list(tb.packet_sink.data())
-            rx_pkts = len(rx_bytes) // payload_size
-            pdr = (rx_pkts / float(packets)) * 100.0
-            
             matched_originals = set()
             for p in range(rx_pkts):
                 pkt = rx_bytes[p * payload_size : (p + 1) * payload_size]
@@ -158,6 +155,7 @@ def run_hardware_optimization(hw_type='pluto',
                         matched += 1
                         matched_originals.add(orig_p)
                         break
+            pdr = (min(matched, packets) / float(packets)) * 100.0
         except KeyboardInterrupt:
             print("\n[USER] Optimization cancelled by user.")
             break

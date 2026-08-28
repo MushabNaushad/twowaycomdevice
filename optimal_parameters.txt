@@ -1,0 +1,55 @@
+================================================================================
+                    CDP OPTIMAL DSP PARAMETERS SUMMARY
+================================================================================
+
+1. PHY2 — Software Simulation Optimization (0.005 to 1.000 rad/sym)
+--------------------------------------------------------------------------------
+[BPSK]
+  • Timing Error Detector (TED) : TED_SIGNAL_TIMES_SLOPE_ML (y·y')
+  • FLL Band-Edge Loop BW       : 0.0314 rad/sym
+  • Costas Loop BW              : 0.1100 rad/sym
+  • Symbol Sync Loop BW         : 0.0430 rad/sym
+  • Preamble Length             : 32 Bytes
+  • Average PDR                 : 80.0%
+  • Average BER                 : 0.00000
+
+[QPSK]
+  • Timing Error Detector (TED) : TED_SIGNAL_TIMES_SLOPE_ML (y·y')
+  • FLL Band-Edge Loop BW       : 0.0314 rad/sym
+  • Costas Loop BW              : 0.0750 rad/sym
+  • Symbol Sync Loop BW         : 0.0810 rad/sym
+  • Preamble Length             : 32 Bytes
+  • Average PDR                 : 80.0%
+  • Average BER                 : 0.00000
+
+
+2. PHY3 — Physical SDR Hardware Optimization (Pluto / bladeRF / RTL-SDR)
+--------------------------------------------------------------------------------
+[BPSK]
+  • Target SDR Hardware         : Adalm-Pluto SDR / Nuand bladeRF / RTL-SDR
+  • Baseband Sample Rate        : 32 kHz (32e3)
+  • Hardware Sample Rate        : 2.5 MHz (2.5e6)
+  • Resampling (Upscale TX)     : Rational Resampler (Interp: 625, Decim: 8)
+  • Resampling (Decimate RX)    : Rational Resampler (Interp: 8, Decim: 625)
+  • Timing Error Detector (TED) : TED_SIGNAL_TIMES_SLOPE_ML (y·y')
+  • FLL Band-Edge Loop BW       : 0.0200 rad/sym (0.0314 rad/sym nominal)
+  • Costas Loop BW              : 0.0300 rad/sym (0.0628 rad/sym nominal)
+  • Symbol Sync Loop BW         : 0.0290 rad/sym (0.0250 rad/sym nominal)
+  • Preamble Length             : 32 Bytes
+  • Packet Delivery Ratio (PDR) : 90.0%
+  • Bit Error Rate (BER)        : 0.05000 (0.00000 with 10/10 packet sync)
+
+[QPSK]
+  • Target SDR Hardware         : Adalm-Pluto SDR / Nuand bladeRF / RTL-SDR
+  • Baseband Sample Rate        : 32 kHz (32e3)
+  • Hardware Sample Rate        : 2.5 MHz (2.5e6)
+  • Resampling (Upscale TX)     : Rational Resampler (Interp: 625, Decim: 8)
+  • Resampling (Decimate RX)    : Rational Resampler (Interp: 8, Decim: 625)
+  • Timing Error Detector (TED) : TED_SIGNAL_TIMES_SLOPE_ML (y·y')
+  • FLL Band-Edge Loop BW       : 0.0628 rad/sym (0.0314 rad/sym nominal)
+  • Costas Loop BW              : 0.0750 rad/sym (0.0628 rad/sym nominal)
+  • Symbol Sync Loop BW         : 0.1350 rad/sym (0.0810 rad/sym nominal)
+  • Preamble Length             : 32 Bytes
+  • Packet Delivery Ratio (PDR) : 60.0% - 80.0%
+  • Bit Error Rate (BER)        : 0.00000 - 0.20000
+================================================================================

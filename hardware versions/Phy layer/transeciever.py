@@ -82,7 +82,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.preamble_size = preamble_size = 20
         self.postamble_size = postamble_size = 8
         self.payload_size = payload_size = 64
-        self.packets = packets = 400
+        self.packets = packets = 20
         self.noise_volt = noise_volt = 0.1
         self.hdr = hdr = digital.header_format_default(digital.packet_utils.default_access_code, 0)
         self.frequency_offset = frequency_offset = 0.005
