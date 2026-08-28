@@ -13,7 +13,7 @@
     "ber": 0.35,
     "matched_packets": 3,
     "total_packets": 10,
-    "elapsed_sec": 0.0205
+    "elapsed_sec": 0.0177
   },
   {
     "mod_type": "BPSK",
@@ -29,7 +29,7 @@
     "ber": 0.05,
     "matched_packets": 9,
     "total_packets": 10,
-    "elapsed_sec": 0.0145
+    "elapsed_sec": 0.0161
   },
   {
     "mod_type": "QPSK",
@@ -45,7 +45,7 @@
     "ber": 0.25,
     "matched_packets": 5,
     "total_packets": 10,
-    "elapsed_sec": 0.0129
+    "elapsed_sec": 0.014
   },
   {
     "mod_type": "QPSK",
@@ -61,7 +61,7 @@
     "ber": 0.25,
     "matched_packets": 5,
     "total_packets": 10,
-    "elapsed_sec": 0.0132
+    "elapsed_sec": 0.0152
   },
   {
     "mod_type": "BPSK",
@@ -77,7 +77,7 @@
     "ber": 0.05,
     "matched_packets": 9,
     "total_packets": 10,
-    "elapsed_sec": 0.0133
+    "elapsed_sec": 0.0151
   },
   {
     "mod_type": "QPSK",
