@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_4a647e66d18c7945b6a32d4b62e1e357" kind="dir">
+    <compoundname>transport</compoundname>
+    <innerfile refid="transport_2api_8h">transport/api.h</innerfile>
+    <innerfile refid="transport_2transport__layer_8h">transport/transport_layer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/transport/"/>
+  </compounddef>
+</doxygen>

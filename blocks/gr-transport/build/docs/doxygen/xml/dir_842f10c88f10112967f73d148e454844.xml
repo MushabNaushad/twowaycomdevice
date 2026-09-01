@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_842f10c88f10112967f73d148e454844" kind="dir">
+    <compoundname>transport</compoundname>
+    <innerfile refid="gnuradio_2transport_2api_8h">gnuradio/transport/api.h</innerfile>
+    <innerfile refid="gnuradio_2transport_2transport__layer_8h">gnuradio/transport/transport_layer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/gnuradio/transport/"/>
+  </compounddef>
+</doxygen>
