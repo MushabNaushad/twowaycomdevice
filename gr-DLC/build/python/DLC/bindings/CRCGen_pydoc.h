@@ -16,30 +16,12 @@
 
 
 
- static const char *__doc_gr_DLC_CRCGen = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::CRCGen.
-
-To avoid accidental use of raw pointers, DLC::CRCGen's constructor is in a private implementation class. DLC::CRCGen::make is the public interface for creating new instances.
-
-Args:
-    scheme : )doc";
+ static const char *__doc_gr_DLC_CRCGen = R"doc()doc";
 
 
  static const char *__doc_gr_DLC_CRCGen_CRCGen_0 = R"doc()doc";
 
 
- static const char *__doc_gr_DLC_CRCGen_make = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::CRCGen.
-
-To avoid accidental use of raw pointers, DLC::CRCGen's constructor is in a private implementation class. DLC::CRCGen::make is the public interface for creating new instances.
-
-Args:
-    scheme : )doc";
+ static const char *__doc_gr_DLC_CRCGen_make = R"doc()doc";
 
   

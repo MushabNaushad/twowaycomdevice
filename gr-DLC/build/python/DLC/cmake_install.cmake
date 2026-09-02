@@ -1,4 +1,4 @@
-# Install script for directory: /home/maduwage/twowaycomdevice/gr-DLC/python/DLC
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/python/DLC
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,16 +44,16 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC" TYPE FILE FILES "/home/maduwage/twowaycomdevice/gr-DLC/python/DLC/__init__.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/python/DLC/__init__.py")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

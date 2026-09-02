@@ -16,30 +16,12 @@
 
 
 
- static const char *__doc_gr_DLC_bitStuffing = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::bitStuffing.
-
-To avoid accidental use of raw pointers, DLC::bitStuffing's constructor is in a private implementation class. DLC::bitStuffing::make is the public interface for creating new instances.
-
-Args:
-    flag : )doc";
+ static const char *__doc_gr_DLC_bitStuffing = R"doc()doc";
 
 
  static const char *__doc_gr_DLC_bitStuffing_bitStuffing_0 = R"doc()doc";
 
 
- static const char *__doc_gr_DLC_bitStuffing_make = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::bitStuffing.
-
-To avoid accidental use of raw pointers, DLC::bitStuffing's constructor is in a private implementation class. DLC::bitStuffing::make is the public interface for creating new instances.
-
-Args:
-    flag : )doc";
+ static const char *__doc_gr_DLC_bitStuffing_make = R"doc()doc";
 
   

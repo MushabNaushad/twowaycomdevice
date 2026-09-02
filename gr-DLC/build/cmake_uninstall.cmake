@@ -1,10 +1,10 @@
 # http://www.vtk.org/Wiki/CMake_FAQ#Can_I_do_.22make_uninstall.22_with_CMake.3F
 
-IF(NOT EXISTS "/home/maduwage/twowaycomdevice/gr-DLC/build/install_manifest.txt")
-  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/maduwage/twowaycomdevice/gr-DLC/build/install_manifest.txt\"")
-ENDIF(NOT EXISTS "/home/maduwage/twowaycomdevice/gr-DLC/build/install_manifest.txt")
+IF(NOT EXISTS "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/install_manifest.txt")
+  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/install_manifest.txt\"")
+ENDIF(NOT EXISTS "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/install_manifest.txt")
 
-FILE(READ "/home/maduwage/twowaycomdevice/gr-DLC/build/install_manifest.txt" files)
+FILE(READ "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/install_manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   MESSAGE(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")

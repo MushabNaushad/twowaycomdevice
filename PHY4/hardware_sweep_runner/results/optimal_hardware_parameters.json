@@ -1,0 +1,26 @@
+{
+  "BPSK": {
+    "modulation": "BPSK",
+    "tx_target": "sim",
+    "rx_target": "sim",
+    "ted_type": "TED_SIGNAL_TIMES_SLOPE_ML (y\u00b7y')",
+    "optimal_fll_bandwidth": 0.02,
+    "optimal_costas_bandwidth": 0.03,
+    "optimal_symbol_sync_bandwidth": 0.029,
+    "optimal_preamble_length": 32,
+    "pdr": "90.0%",
+    "ber": "0.05000"
+  },
+  "QPSK": {
+    "modulation": "QPSK",
+    "tx_target": "sim",
+    "rx_target": "sim",
+    "ted_type": "TED_SIGNAL_TIMES_SLOPE_ML (y\u00b7y')",
+    "optimal_fll_bandwidth": 0.0628,
+    "optimal_costas_bandwidth": 0.1,
+    "optimal_symbol_sync_bandwidth": 0.103,
+    "optimal_preamble_length": 32,
+    "pdr": "90.0%",
+    "ber": "0.05000"
+  }
+}

@@ -89,8 +89,30 @@ void deStuffing_impl::destuff_bits(pmt::pmt_t msg)
         shift_reg = (shift_reg << 1) | bit;
     }
 
-    // 4. Publish the destuffed PDU
-    pmt::pmt_t new_data = pmt::init_u8vector(out_buffer.size(), out_buffer.data());
+    // 4. Repack the destuffed bits into bytes (MSB first)
+    std::vector<uint8_t> repacked_buffer;
+    uint8_t current_byte = 0;
+    int bit_count = 0;
+
+    for (size_t i = 0; i < out_buffer.size(); i++) {
+        current_byte = (current_byte << 1) | (out_buffer[i] & 0x01);
+        bit_count++;
+        
+        if (bit_count == 8) {
+            repacked_buffer.push_back(current_byte);
+            current_byte = 0;
+            bit_count = 0;
+        }
+    }
+    
+    // Pad any remaining bits (though a valid PDU should be byte-aligned)
+    if (bit_count > 0) {
+        current_byte = current_byte << (8 - bit_count);
+        repacked_buffer.push_back(current_byte);
+    }
+
+    // 5. Publish the destuffed and repacked PDU
+    pmt::pmt_t new_data = pmt::init_u8vector(repacked_buffer.size(), repacked_buffer.data());
     pmt::pmt_t new_pdu = pmt::cons(meta, new_data);
     
     message_port_pub(pmt::mp("out"), new_pdu);

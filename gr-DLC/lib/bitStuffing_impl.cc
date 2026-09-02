@@ -69,19 +69,24 @@ void bitStuffing_impl::stuff_bits(pmt::pmt_t msg)
     uint8_t shift_reg = 0; 
 
     for (size_t i = 0; i < len; i++) {
-        uint8_t bit = in_data[i] & 0x01; // Ensure it's strictly 0 or 1
-        out_buffer.push_back(bit);
+        uint8_t current_byte = in_data[i];
         
-        // Shift left by 1 and add the new bit
-        shift_reg = (shift_reg << 1) | bit;
-
-        // Mask to look at only the last 6 bits (0x3F is 00111111 in binary)
-        // Check if those 6 bits equal 011111 (which is 0x1F in hex)
-        if ((shift_reg & 0x3F) == 0x1F) {
-            out_buffer.push_back(0); // Stuff the zero!
+        // Process each of the 8 bits in the packed byte (MSB first)
+        for (int b = 7; b >= 0; b--) {
+            uint8_t bit = (current_byte >> b) & 0x01;
+            out_buffer.push_back(bit);
             
-            // Push the newly stuffed zero into the shift register history
-            shift_reg = (shift_reg << 1) | 0;
+            // Shift left by 1 and add the new bit
+            shift_reg = (shift_reg << 1) | bit;
+
+            // Mask to look at only the last 6 bits (0x3F is 00111111 in binary)
+            // Check if those 6 bits equal 011111 (which is 0x1F in hex)
+            if ((shift_reg & 0x3F) == 0x1F) {
+                out_buffer.push_back(0); // Stuff the zero!
+                
+                // Push the newly stuffed zero into the shift register history
+                shift_reg = (shift_reg << 1) | 0;
+            }
         }
     }
 

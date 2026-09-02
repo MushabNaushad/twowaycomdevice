@@ -1,4 +1,4 @@
-# Install script for directory: /home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/python/DLC/bindings
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,12 +49,12 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "pythonapi" OR NOT CMAKE_INSTALL_COMPONENT)
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC/DLC_python.cpython-314-x86_64-linux-gnu.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC" TYPE MODULE FILES "/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/DLC_python.cpython-314-x86_64-linux-gnu.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC" TYPE MODULE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings/DLC_python.cpython-314-x86_64-linux-gnu.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC/DLC_python.cpython-314-x86_64-linux-gnu.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC/DLC_python.cpython-314-x86_64-linux-gnu.so")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC/DLC_python.cpython-314-x86_64-linux-gnu.so"
-         OLD_RPATH "/home/maduwage/twowaycomdevice/gr-DLC/build/lib:"
+         OLD_RPATH "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/python3.14/site-packages/gnuradio/DLC/DLC_python.cpython-314-x86_64-linux-gnu.so")
@@ -63,12 +63,12 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "pythonapi" OR NOT CMAKE_INSTALL_COMPONENT)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "pythonapi" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/DLC_python.dir/install-cxx-module-bmi-Release.cmake" OPTIONAL)
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/DLC_python.dir/install-cxx-module-bmi-Release.cmake" OPTIONAL)
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

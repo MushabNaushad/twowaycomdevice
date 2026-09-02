@@ -1,4 +1,4 @@
-# Install script for directory: /home/maduwage/twowaycomdevice/gr-DLC/lib
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/lib
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -55,8 +55,8 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
   endforeach()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE SHARED_LIBRARY FILES
-    "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/libgnuradio-DLC.so.1.0.0.0"
-    "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/libgnuradio-DLC.so.1.0.0"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/libgnuradio-DLC.so.1.0.0.0"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/libgnuradio-DLC.so.1.0.0"
     )
   foreach(file
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/libgnuradio-DLC.so.1.0.0.0"
@@ -72,14 +72,14 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE SHARED_LIBRARY FILES "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/libgnuradio-DLC.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64" TYPE SHARED_LIBRARY FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/libgnuradio-DLC.so")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC/gnuradio-DLCTargets.cmake")
     file(DIFFERENT _cmake_export_file_changed FILES
          "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC/gnuradio-DLCTargets.cmake"
-         "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/CMakeFiles/Export/31697105ed19fdb365cb4be6dd858297/gnuradio-DLCTargets.cmake")
+         "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/CMakeFiles/Export/31697105ed19fdb365cb4be6dd858297/gnuradio-DLCTargets.cmake")
     if(_cmake_export_file_changed)
       file(GLOB _cmake_old_config_files "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC/gnuradio-DLCTargets-*.cmake")
       if(_cmake_old_config_files)
@@ -92,19 +92,19 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     endif()
     unset(_cmake_export_file_changed)
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/CMakeFiles/Export/31697105ed19fdb365cb4be6dd858297/gnuradio-DLCTargets.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/CMakeFiles/Export/31697105ed19fdb365cb4be6dd858297/gnuradio-DLCTargets.cmake")
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
-    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/CMakeFiles/Export/31697105ed19fdb365cb4be6dd858297/gnuradio-DLCTargets-release.cmake")
+    file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/CMakeFiles/Export/31697105ed19fdb365cb4be6dd858297/gnuradio-DLCTargets-release.cmake")
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/cmake/Modules/gnuradio-DLCConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/cmake/Modules/gnuradio-DLCConfig.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maduwage/twowaycomdevice/gr-DLC/build/lib/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/maduwage/twowaycomdevice/gr-DLC
+CMAKE_SOURCE_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/maduwage/twowaycomdevice/gr-DLC/build
+CMAKE_BINARY_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build"
 
 # Utility rule file for uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/uninstall.dir/compiler_depend.make
 include CMakeFiles/uninstall.dir/progress.make
 
 CMakeFiles/uninstall:
-	/usr/bin/cmake -P /home/maduwage/twowaycomdevice/gr-DLC/build/cmake_uninstall.cmake
+	/usr/bin/cmake -P /home/methalabeywickrama/Documents/CDP\ Project/twowaycomdevice/gr-DLC/build/cmake_uninstall.cmake
 
 CMakeFiles/uninstall.dir/codegen:
 .PHONY : CMakeFiles/uninstall.dir/codegen
@@ -85,6 +85,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/maduwage/twowaycomdevice/gr-DLC /home/maduwage/twowaycomdevice/gr-DLC /home/maduwage/twowaycomdevice/gr-DLC/build /home/maduwage/twowaycomdevice/gr-DLC/build /home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)" uninstall
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/CMakeFiles/uninstall.dir/DependInfo.cmake" "--color=$(COLOR)" uninstall
 .PHONY : CMakeFiles/uninstall.dir/depend
 

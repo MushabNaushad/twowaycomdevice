@@ -15,21 +15,7 @@
  */
 
 
-static const char* __doc_gr_DLC_removeFlags = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
+static const char* __doc_gr_DLC_removeFlags = R"doc()doc";
 
 
-
-Args:
-    flag : )doc";
-
-
-static const char* __doc_gr_DLC_removeFlags_make = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-
-
-Args:
-    flag : )doc";
+static const char* __doc_gr_DLC_removeFlags_make = R"doc()doc";

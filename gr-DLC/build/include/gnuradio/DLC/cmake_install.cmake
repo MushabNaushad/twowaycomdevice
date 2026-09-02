@@ -1,4 +1,4 @@
-# Install script for directory: /home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,19 +44,19 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/gnuradio/DLC" TYPE FILE FILES
-    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/api.h"
-    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/addFlags.h"
-    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/removeFlags.h"
-    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/bitStuffing.h"
-    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/deStuffing.h"
-    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/CRCGen.h"
-    "/home/maduwage/twowaycomdevice/gr-DLC/include/gnuradio/DLC/CRCCheck.h"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC/api.h"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC/addFlags.h"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC/removeFlags.h"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC/bitStuffing.h"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC/deStuffing.h"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC/CRCGen.h"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/include/gnuradio/DLC/CRCCheck.h"
     )
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maduwage/twowaycomdevice/gr-DLC/build/include/gnuradio/DLC/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/include/gnuradio/DLC/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

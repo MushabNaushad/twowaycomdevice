@@ -10,9 +10,11 @@
 
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio import DLC
 from gnuradio import blocks
 import pmt
 from gnuradio import blocks, gr
+from gnuradio import digital
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
@@ -61,26 +63,52 @@ class test_transport(gr.top_block, Qt.QWidget):
         self.flowgraph_started = threading.Event()
 
         ##################################################
+        # Variables
+        ##################################################
+        self.samp_rate = samp_rate = 32000
+        self.flag = flag = 126
+
+        ##################################################
         # Blocks
         ##################################################
 
-        self.transport_transport_layer_1 = transport.transport_layer(4, 500, "responder", 200, 2, 1)
-        self.transport_transport_layer_0 = transport.transport_layer(4, 500, "initiator", 200, 1, 1)
+        self.transport_transport_layer_1 = transport.transport_layer(4, 500, "responder", 200, 0, 0)
+        self.transport_transport_layer_0 = transport.transport_layer(4, 500, "initiator", 200, 0, 0)
+        self.digital_crc32_async_bb_0_0 = digital.crc32_async_bb(True)
+        self.digital_crc32_async_bb_0 = digital.crc32_async_bb(False)
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_gr_complex*1, 1000, True, 0 if "auto" == "auto" else max( int(float(0.1) * 1000) if "auto" == "time" else int(0.1), 1) )
         self.blocks_null_source_0 = blocks.null_source(gr.sizeof_gr_complex*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Strobe"])), 2000)
         self.blocks_message_debug_0 = blocks.message_debug(True, gr.log_levels.info)
+        self.DLC_removeFlags_0_0 = DLC.removeFlags(flag)
+        self.DLC_removeFlags_0 = DLC.removeFlags(flag)
+        self.DLC_deStuffing_0_0 = DLC.deStuffing(126)
+        self.DLC_deStuffing_0 = DLC.deStuffing(126)
+        self.DLC_bitStuffing_0_0 = DLC.bitStuffing(126)
+        self.DLC_bitStuffing_0 = DLC.bitStuffing(126)
+        self.DLC_addFlags_0_0 = DLC.addFlags(flag, True)
+        self.DLC_addFlags_0 = DLC.addFlags(flag, True)
 
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.DLC_addFlags_0, 'out'), (self.DLC_removeFlags_0, 'pdu_in'))
+        self.msg_connect((self.DLC_addFlags_0_0, 'out'), (self.DLC_removeFlags_0_0, 'pdu_in'))
+        self.msg_connect((self.DLC_bitStuffing_0, 'out'), (self.DLC_addFlags_0, 'in'))
+        self.msg_connect((self.DLC_bitStuffing_0_0, 'out'), (self.DLC_addFlags_0_0, 'in'))
+        self.msg_connect((self.DLC_deStuffing_0, 'out'), (self.digital_crc32_async_bb_0_0, 'in'))
+        self.msg_connect((self.DLC_deStuffing_0_0, 'out'), (self.transport_transport_layer_0, 'pdu_in'))
+        self.msg_connect((self.DLC_removeFlags_0, 'pdu_out'), (self.DLC_deStuffing_0, 'in'))
+        self.msg_connect((self.DLC_removeFlags_0_0, 'pdu_out'), (self.DLC_deStuffing_0_0, 'in'))
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.transport_transport_layer_0, 'app_in'))
+        self.msg_connect((self.digital_crc32_async_bb_0, 'out'), (self.DLC_bitStuffing_0, 'in'))
+        self.msg_connect((self.digital_crc32_async_bb_0_0, 'out'), (self.transport_transport_layer_1, 'pdu_in'))
         self.msg_connect((self.transport_transport_layer_0, 'app_out'), (self.blocks_message_debug_0, 'print_pdu'))
-        self.msg_connect((self.transport_transport_layer_0, 'pdu_out'), (self.transport_transport_layer_1, 'pdu_in'))
+        self.msg_connect((self.transport_transport_layer_0, 'pdu_out'), (self.digital_crc32_async_bb_0, 'in'))
+        self.msg_connect((self.transport_transport_layer_1, 'pdu_out'), (self.DLC_bitStuffing_0_0, 'in'))
         self.msg_connect((self.transport_transport_layer_1, 'app_out'), (self.blocks_message_debug_0, 'print_pdu'))
-        self.msg_connect((self.transport_transport_layer_1, 'pdu_out'), (self.transport_transport_layer_0, 'pdu_in'))
         self.connect((self.blocks_null_source_0, 0), (self.blocks_throttle2_0, 0))
         self.connect((self.blocks_throttle2_0, 0), (self.blocks_null_sink_0, 0))
 
@@ -92,6 +120,18 @@ class test_transport(gr.top_block, Qt.QWidget):
         self.wait()
 
         event.accept()
+
+    def get_samp_rate(self):
+        return self.samp_rate
+
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+
+    def get_flag(self):
+        return self.flag
+
+    def set_flag(self, flag):
+        self.flag = flag
 
 
 

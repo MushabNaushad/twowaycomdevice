@@ -1,4 +1,4 @@
-# Install script for directory: /home/maduwage/twowaycomdevice/gr-DLC
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,51 +44,51 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/include/gnuradio/DLC/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/include/gnuradio/DLC/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/lib/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/lib/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/apps/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/apps/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/examples/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/examples/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/docs/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/docs/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/home/maduwage/twowaycomdevice/gr-DLC/build/grc/cmake_install.cmake")
+  include("/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/grc/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/maduwage/twowaycomdevice/gr-DLC/cmake/Modules/gnuradio-DLCConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/cmake/gnuradio-DLC" TYPE FILE FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/cmake/Modules/gnuradio-DLCConfig.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/manifests/DLC" TYPE FILE RENAME "MANIFEST-1.0.00.yml" FILES "/home/maduwage/twowaycomdevice/gr-DLC/MANIFEST.yml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/manifests/DLC" TYPE FILE RENAME "MANIFEST-1.0.00.yml" FILES "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/MANIFEST.yml")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maduwage/twowaycomdevice/gr-DLC/build/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -104,6 +104,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maduwage/twowaycomdevice/gr-DLC/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

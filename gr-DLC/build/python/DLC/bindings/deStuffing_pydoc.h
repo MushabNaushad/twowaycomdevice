@@ -16,30 +16,12 @@
 
 
 
- static const char *__doc_gr_DLC_deStuffing = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::deStuffing.
-
-To avoid accidental use of raw pointers, DLC::deStuffing's constructor is in a private implementation class. DLC::deStuffing::make is the public interface for creating new instances.
-
-Args:
-    flag : )doc";
+ static const char *__doc_gr_DLC_deStuffing = R"doc()doc";
 
 
  static const char *__doc_gr_DLC_deStuffing_deStuffing_0 = R"doc()doc";
 
 
- static const char *__doc_gr_DLC_deStuffing_make = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::deStuffing.
-
-To avoid accidental use of raw pointers, DLC::deStuffing's constructor is in a private implementation class. DLC::deStuffing::make is the public interface for creating new instances.
-
-Args:
-    flag : )doc";
+ static const char *__doc_gr_DLC_deStuffing_make = R"doc()doc";
 
   

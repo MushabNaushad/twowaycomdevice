@@ -16,30 +16,12 @@
 
 
 
- static const char *__doc_gr_DLC_CRCCheck = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::CRCCheck.
-
-To avoid accidental use of raw pointers, DLC::CRCCheck's constructor is in a private implementation class. DLC::CRCCheck::make is the public interface for creating new instances.
-
-Args:
-    scheme : )doc";
+ static const char *__doc_gr_DLC_CRCCheck = R"doc()doc";
 
 
  static const char *__doc_gr_DLC_CRCCheck_CRCCheck_0 = R"doc()doc";
 
 
- static const char *__doc_gr_DLC_CRCCheck_make = R"doc(<+description of block+>
-
-Constructor Specific Documentation:
-
-Return a shared_ptr to a new instance of DLC::CRCCheck.
-
-To avoid accidental use of raw pointers, DLC::CRCCheck's constructor is in a private implementation class. DLC::CRCCheck::make is the public interface for creating new instances.
-
-Args:
-    scheme : )doc";
+ static const char *__doc_gr_DLC_CRCCheck_make = R"doc()doc";
 
   

@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/maduwage/twowaycomdevice/gr-DLC
+CMAKE_SOURCE_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/maduwage/twowaycomdevice/gr-DLC/build
+CMAKE_BINARY_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,14 +142,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC//CMakeFiles/progress.marks
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles 0
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(CMAKE_COMMAND) -E cmake_progress_start "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/CMakeFiles" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC//CMakeFiles/progress.marks"
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/clean
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/clean
 .PHONY : clean
 
 # The main clean target
@@ -158,36 +158,36 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/preinstall
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/preinstall
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/rule:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/rule
-.PHONY : python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/rule
+python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/rule:
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/rule
+.PHONY : python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/rule
 
 # Convenience name for target.
-pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d: python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/rule
-.PHONY : pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d
+pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88: python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/rule
+.PHONY : pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88
 
 # fast build rule for target.
-pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d/fast:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/build.make python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/build
-.PHONY : pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d/fast
+pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88/fast:
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/build.make python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/build
+.PHONY : pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88/fast
 
 # Convenience name for target.
 python/DLC/CMakeFiles/copy_module_for_tests.dir/rule:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/CMakeFiles/copy_module_for_tests.dir/rule
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 python/DLC/CMakeFiles/copy_module_for_tests.dir/rule
 .PHONY : python/DLC/CMakeFiles/copy_module_for_tests.dir/rule
 
 # Convenience name for target.
@@ -196,7 +196,7 @@ copy_module_for_tests: python/DLC/CMakeFiles/copy_module_for_tests.dir/rule
 
 # fast build rule for target.
 copy_module_for_tests/fast:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(MAKE) $(MAKESILENT) -f python/DLC/CMakeFiles/copy_module_for_tests.dir/build.make python/DLC/CMakeFiles/copy_module_for_tests.dir/build
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(MAKE) $(MAKESILENT) -f python/DLC/CMakeFiles/copy_module_for_tests.dir/build.make python/DLC/CMakeFiles/copy_module_for_tests.dir/build
 .PHONY : copy_module_for_tests/fast
 
 # Help Target
@@ -213,7 +213,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... copy_module_for_tests"
-	@echo "... pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d"
+	@echo "... pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88"
 .PHONY : help
 
 
@@ -225,6 +225,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

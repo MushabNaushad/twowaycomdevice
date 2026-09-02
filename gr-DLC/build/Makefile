@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/maduwage/twowaycomdevice/gr-DLC
+CMAKE_SOURCE_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/maduwage/twowaycomdevice/gr-DLC/build
+CMAKE_BINARY_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles /home/maduwage/twowaycomdevice/gr-DLC/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/CMakeFiles" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build//CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -211,17 +211,17 @@ doxygen_target/fast:
 .PHONY : doxygen_target/fast
 
 #=============================================================================
-# Target rules for targets named pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d
+# Target rules for targets named pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88
 
 # Build rule for target.
-pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d
-.PHONY : pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d
+pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88
+.PHONY : pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88
 
 # fast build rule for target.
-pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d/fast:
-	$(MAKE) $(MAKESILENT) -f python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/build.make python/DLC/CMakeFiles/pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d.dir/build
-.PHONY : pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d/fast
+pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88/fast:
+	$(MAKE) $(MAKESILENT) -f python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/build.make python/DLC/CMakeFiles/pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88.dir/build
+.PHONY : pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88/fast
 
 #=============================================================================
 # Target rules for targets named copy_module_for_tests
@@ -292,7 +292,7 @@ help:
 	@echo "... copy_module_for_tests"
 	@echo "... doxygen_target"
 	@echo "... extracted_docstrings"
-	@echo "... pygen_python_DLC_1f7d84537a07391a8a75a1be74cc135d"
+	@echo "... pygen_python_DLC_f3bc3822b2f1e1f52486a9cd4e690f88"
 	@echo "... uninstall"
 	@echo "... DLC_python"
 	@echo "... gnuradio-DLC"

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/maduwage/twowaycomdevice/gr-DLC
+CMAKE_SOURCE_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/maduwage/twowaycomdevice/gr-DLC/build
+CMAKE_BINARY_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build"
 
 # Utility rule file for DLC_docstrings.
 
@@ -69,8 +69,8 @@ include python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/progress.make
 python/DLC/bindings/CMakeFiles/DLC_docstrings: python/DLC/bindings/docstring_status
 
 python/DLC/bindings/docstring_status:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/maduwage/twowaycomdevice/gr-DLC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Adding docstrings into DLC pybind headers ..."
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings && /usr/bin/python3 /home/maduwage/twowaycomdevice/gr-DLC/docs/doxygen/update_pydoc.py sub --json_path /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/extracted_docstrings.json --bindings_dir /home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings --output_dir /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings --filter gr::DLC
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Adding docstrings into DLC pybind headers ..."
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings" && /usr/bin/python3 /home/methalabeywickrama/Documents/CDP\ Project/twowaycomdevice/gr-DLC/docs/doxygen/update_pydoc.py sub --json_path /home/methalabeywickrama/Documents/CDP\ Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings/extracted_docstrings.json --bindings_dir /home/methalabeywickrama/Documents/CDP\ Project/twowaycomdevice/gr-DLC/python/DLC/bindings/docstrings --output_dir /home/methalabeywickrama/Documents/CDP\ Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings --filter gr::DLC
 
 python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/codegen:
 .PHONY : python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/codegen
@@ -85,10 +85,10 @@ python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/build: DLC_docstrings
 .PHONY : python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/build
 
 python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/clean:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings && $(CMAKE_COMMAND) -P CMakeFiles/DLC_docstrings.dir/cmake_clean.cmake
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings" && $(CMAKE_COMMAND) -P CMakeFiles/DLC_docstrings.dir/cmake_clean.cmake
 .PHONY : python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/clean
 
 python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/depend:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/maduwage/twowaycomdevice/gr-DLC /home/maduwage/twowaycomdevice/gr-DLC/python/DLC/bindings /home/maduwage/twowaycomdevice/gr-DLC/build /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/DependInfo.cmake "--color=$(COLOR)" DLC_docstrings
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/python/DLC/bindings" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/DependInfo.cmake" "--color=$(COLOR)" DLC_docstrings
 .PHONY : python/DLC/bindings/CMakeFiles/DLC_docstrings.dir/depend
 

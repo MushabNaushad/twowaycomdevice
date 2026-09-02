@@ -1,4 +1,4 @@
-# Install script for directory: /home/maduwage/twowaycomdevice/gr-DLC/grc
+# Install script for directory: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/grc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,18 +44,18 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES
-    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_addFlags.block.yml"
-    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_removeFlags.block.yml"
-    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_bitStuffing.block.yml"
-    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_deStuffing.block.yml"
-    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_CRCGen.block.yml"
-    "/home/maduwage/twowaycomdevice/gr-DLC/grc/DLC_CRCCheck.block.yml"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/grc/DLC_addFlags.block.yml"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/grc/DLC_removeFlags.block.yml"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/grc/DLC_bitStuffing.block.yml"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/grc/DLC_deStuffing.block.yml"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/grc/DLC_CRCGen.block.yml"
+    "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/grc/DLC_CRCCheck.block.yml"
     )
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/maduwage/twowaycomdevice/gr-DLC/build/grc/install_local_manifest.txt"
+  file(WRITE "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/grc/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

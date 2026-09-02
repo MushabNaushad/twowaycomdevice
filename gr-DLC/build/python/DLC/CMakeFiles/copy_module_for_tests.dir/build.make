@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/maduwage/twowaycomdevice/gr-DLC
+CMAKE_SOURCE_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/maduwage/twowaycomdevice/gr-DLC/build
+CMAKE_BINARY_DIR = "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build"
 
 # Utility rule file for copy_module_for_tests.
 
@@ -67,7 +67,7 @@ include python/DLC/CMakeFiles/copy_module_for_tests.dir/compiler_depend.make
 include python/DLC/CMakeFiles/copy_module_for_tests.dir/progress.make
 
 python/DLC/CMakeFiles/copy_module_for_tests:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC && /usr/bin/cmake -E copy_directory /home/maduwage/twowaycomdevice/gr-DLC/python/DLC /home/maduwage/twowaycomdevice/gr-DLC/build/test_modules/gnuradio/DLC/
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC" && /usr/bin/cmake -E copy_directory /home/methalabeywickrama/Documents/CDP\ Project/twowaycomdevice/gr-DLC/python/DLC /home/methalabeywickrama/Documents/CDP\ Project/twowaycomdevice/gr-DLC/build/test_modules/gnuradio/DLC/
 
 python/DLC/CMakeFiles/copy_module_for_tests.dir/codegen:
 .PHONY : python/DLC/CMakeFiles/copy_module_for_tests.dir/codegen
@@ -81,10 +81,10 @@ python/DLC/CMakeFiles/copy_module_for_tests.dir/build: copy_module_for_tests
 .PHONY : python/DLC/CMakeFiles/copy_module_for_tests.dir/build
 
 python/DLC/CMakeFiles/copy_module_for_tests.dir/clean:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC && $(CMAKE_COMMAND) -P CMakeFiles/copy_module_for_tests.dir/cmake_clean.cmake
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC" && $(CMAKE_COMMAND) -P CMakeFiles/copy_module_for_tests.dir/cmake_clean.cmake
 .PHONY : python/DLC/CMakeFiles/copy_module_for_tests.dir/clean
 
 python/DLC/CMakeFiles/copy_module_for_tests.dir/depend:
-	cd /home/maduwage/twowaycomdevice/gr-DLC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/maduwage/twowaycomdevice/gr-DLC /home/maduwage/twowaycomdevice/gr-DLC/python/DLC /home/maduwage/twowaycomdevice/gr-DLC/build /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC /home/maduwage/twowaycomdevice/gr-DLC/build/python/DLC/CMakeFiles/copy_module_for_tests.dir/DependInfo.cmake "--color=$(COLOR)" copy_module_for_tests
+	cd "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/python/DLC" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC" "/home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/gr-DLC/build/python/DLC/CMakeFiles/copy_module_for_tests.dir/DependInfo.cmake" "--color=$(COLOR)" copy_module_for_tests
 .PHONY : python/DLC/CMakeFiles/copy_module_for_tests.dir/depend
 
