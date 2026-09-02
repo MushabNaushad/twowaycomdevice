@@ -83,12 +83,12 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.postamble_size = postamble_size = 8
         self.pi = pi = 3.1415926
         self.payload_size = payload_size = 64
-        self.packets = packets = 50
+        self.packets = packets = 200
         self.hdr = hdr = digital.header_format_default(digital.packet_utils.default_access_code, 0)
         self.fll_loop_bw = fll_loop_bw = 0.0314
         self.costas_bw = costas_bw = 0.0628
         self.amble = amble = [0xc0, 0xaf]
-        self.adpt_alg = adpt_alg = digital.adaptive_algorithm_lms( QPSK_CONST, .0001).base()
+        self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( QPSK_CONST, .0001, 4).base()
         self.SDR_CF = SDR_CF = 433980000.0
         self.CH_GAIN = CH_GAIN = 20.0
         self.ADDR = ADDR = "ip:192.168.1.10"
@@ -268,6 +268,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.blocks_vector_source_x_0_0 = blocks.vector_source_b(amble, True, 1, [])
         self.blocks_unpack_k_bits_bb_1 = blocks.unpack_k_bits_bb(8)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
+        self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_char*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
         self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_gr_complex * 1, False)
         self.blocks_tag_gate_0.set_single_key("")
@@ -287,8 +288,6 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.blocks_copy_1_2.set_enabled(True)
         self.blocks_copy_1_1 = blocks.copy(gr.sizeof_gr_complex*1)
         self.blocks_copy_1_1.set_enabled(True)
-        self.blocks_copy_0 = blocks.copy(gr.sizeof_char*1)
-        self.blocks_copy_0.set_enabled(True)
         self.analog_agc_xx_0 = analog.agc_cc((1e-4), 1.0, 1.0, 65536)
 
 
@@ -297,7 +296,6 @@ class transeciever(gr.top_block, Qt.QWidget):
         ##################################################
         self.msg_connect((self.pdu_tagged_stream_to_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print'))
         self.connect((self.analog_agc_xx_0, 0), (self.digital_fll_band_edge_cc_0, 0))
-        self.connect((self.blocks_copy_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_copy_1_1, 0), (self.analog_agc_xx_0, 0))
         self.connect((self.blocks_copy_1_2, 0), (self.root_raised_cosine_filter_0, 0))
         self.connect((self.blocks_copy_2, 0), (self.digital_costas_loop_cc_0, 0))
@@ -311,7 +309,8 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_stream_to_tagged_stream_0_0_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 3))
         self.connect((self.blocks_tag_gate_0, 0), (self.iio_pluto_sink_0, 0))
         self.connect((self.blocks_tag_gate_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_copy_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_throttle2_0, 0))
+        self.connect((self.blocks_throttle2_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_1, 0), (self.blocks_copy_5, 0))
         self.connect((self.blocks_vector_source_x_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0_0, 0))
@@ -356,6 +355,7 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_rcc_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/float(self.sps), self.alpha, (self.nfilts*self.sps)))
+        self.blocks_throttle2_0.set_sample_rate(self.samp_rate)
         self.iio_pluto_sink_0.set_samplerate(int(self.samp_rate))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
