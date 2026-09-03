@@ -1,0 +1,992 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="classgr_1_1transport_1_1transport__layer__impl" kind="class" language="C++" prot="public">
+    <compoundname>gr::transport::transport_layer_impl</compoundname>
+    <basecompoundref refid="classgr_1_1transport_1_1transport__layer" prot="public" virt="non-virtual">gr::transport::transport_layer</basecompoundref>
+    <includes refid="transport__layer__impl_8h" local="no">transport_layer_impl.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1aa38410c572c1d8b1ee4187175aec43fd" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int gr::transport::transport_layer_impl::d_m</definition>
+        <argsstring></argsstring>
+        <name>d_m</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_m</qualifiedname>
+        <briefdescription>
+<para>Sequence-number bits (4). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="58" column="17" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a5168fd7c5b089aa655911b8a347e659c" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int gr::transport::transport_layer_impl::d_seq_space</definition>
+        <argsstring></argsstring>
+        <name>d_seq_space</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_seq_space</qualifiedname>
+        <briefdescription>
+<para>2^m — total sequence number space (16) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="59" column="17" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1af05c5c2418d7e7495d36051fee9b628f" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int gr::transport::transport_layer_impl::d_window_size</definition>
+        <argsstring></argsstring>
+        <name>d_window_size</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_window_size</qualifiedname>
+        <briefdescription>
+<para>2^(m-1) — max window size (8, SR constraint) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="60" column="17" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1ad2afc5d06be60edfe443c7154be4a104" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int gr::transport::transport_layer_impl::d_mtu_bytes</definition>
+        <argsstring></argsstring>
+        <name>d_mtu_bytes</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_mtu_bytes</qualifiedname>
+        <briefdescription>
+<para>Max DATA payload bytes per packet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="61" column="17" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a6a60f1b6cca68d6d3ec80d057a8ec2c4" prot="private" static="no" mutable="no">
+        <type>const int</type>
+        <definition>const int gr::transport::transport_layer_impl::d_rto_ms</definition>
+        <argsstring></argsstring>
+        <name>d_rto_ms</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_rto_ms</qualifiedname>
+        <briefdescription>
+<para>Retransmission timeout (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="62" column="17" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1ac2da4b7a15e74da41bd39ef9359f7256" prot="private" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string gr::transport::transport_layer_impl::d_role</definition>
+        <argsstring></argsstring>
+        <name>d_role</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_role</qualifiedname>
+        <briefdescription>
+<para>&quot;initiator&quot; or &quot;responder&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="63" column="25" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a4e3e31524befac91ebd278d590a54e2e" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6" kindref="member">NodeState</ref></type>
+        <definition>NodeState gr::transport::transport_layer_impl::d_state</definition>
+        <argsstring></argsstring>
+        <name>d_state</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="66" column="17" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a23efef1e56765dad753501762454fbee" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t gr::transport::transport_layer_impl::d_session_id</definition>
+        <argsstring></argsstring>
+        <name>d_session_id</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_session_id</qualifiedname>
+        <briefdescription>
+<para>Random nonce agreed during handshake. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="69" column="19" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a5f1e7ac9dbdeeea03ae1965cf62da0ae" prot="private" static="no" mutable="no">
+        <type>pmt::pmt_t</type>
+        <definition>pmt::pmt_t gr::transport::transport_layer_impl::d_payload_type_pmt</definition>
+        <argsstring></argsstring>
+        <name>d_payload_type_pmt</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_payload_type_pmt</qualifiedname>
+        <briefdescription>
+<para>PMT symbol: &quot;text&quot;, &quot;image&quot;, &quot;audio&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="70" column="19" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a8b7b8e145d7a98f9c23d877a20b56a42" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::transport::transport_layer_impl::d_send_base</definition>
+        <argsstring></argsstring>
+        <name>d_send_base</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_send_base</qualifiedname>
+        <briefdescription>
+<para>Absolute index of oldest unACK&apos;d packet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="73" column="11" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a43d8f30fbcd321feb3afaeedada97b4c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::transport::transport_layer_impl::d_next_seq_abs</definition>
+        <argsstring></argsstring>
+        <name>d_next_seq_abs</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_next_seq_abs</qualifiedname>
+        <briefdescription>
+<para>Absolute index of next packet to send. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="74" column="11" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1aef538604a3e86d115190e4f12cfb7863" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::transport::transport_layer_impl::d_total_packets_tx</definition>
+        <argsstring></argsstring>
+        <name>d_total_packets_tx</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_total_packets_tx</qualifiedname>
+        <briefdescription>
+<para>Total DATA frames for this session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="75" column="11" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a693c7c9eb6a1c87e73aeb3b33617c82c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; pmt::pmt_t &gt;</type>
+        <definition>std::vector&lt;pmt::pmt_t&gt; gr::transport::transport_layer_impl::d_tx_buffer</definition>
+        <argsstring></argsstring>
+        <name>d_tx_buffer</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_tx_buffer</qualifiedname>
+        <briefdescription>
+<para>[slot] = u8vector chunk; slot = absSEQ_SPACE </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="76" column="19" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a60df6b9c50c02dad676a053c2b9e5476" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; gr::transport::transport_layer_impl::d_acked</definition>
+        <argsstring></argsstring>
+        <name>d_acked</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_acked</qualifiedname>
+        <briefdescription>
+<para>[slot] = true when ACK received </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="77" column="25" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1af2466193a7f6b2a10ab53ef21181e6b2" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::transport::transport_layer_impl::d_rcv_base</definition>
+        <argsstring></argsstring>
+        <name>d_rcv_base</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_rcv_base</qualifiedname>
+        <briefdescription>
+<para>Modular seq_no of next expected in-order frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="80" column="11" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a5d878acb8ffd3e944489e66577a4b03a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::transport::transport_layer_impl::d_total_packets_rx</definition>
+        <argsstring></argsstring>
+        <name>d_total_packets_rx</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_total_packets_rx</qualifiedname>
+        <briefdescription>
+<para>Total expected DATA frames. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="81" column="11" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a492dedb4259b9e260399b4705603559e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int gr::transport::transport_layer_impl::d_packets_delivered</definition>
+        <argsstring></argsstring>
+        <name>d_packets_delivered</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_packets_delivered</qualifiedname>
+        <briefdescription>
+<para>Count of in-order packets delivered to app. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="82" column="11" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a7d3771f76062e534558c31803a6f9726" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; pmt::pmt_t &gt;</type>
+        <definition>std::vector&lt;pmt::pmt_t&gt; gr::transport::transport_layer_impl::d_rx_buffer</definition>
+        <argsstring></argsstring>
+        <name>d_rx_buffer</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_rx_buffer</qualifiedname>
+        <briefdescription>
+<para>[slot] = out-of-order buffered chunk </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="83" column="19" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a101092f7ec066c98d8cbc47db0f2be15" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; gr::transport::transport_layer_impl::d_received</definition>
+        <argsstring></argsstring>
+        <name>d_received</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_received</qualifiedname>
+        <briefdescription>
+<para>[slot] = true when frame is buffered </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="84" column="25" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a9da5c1c87ad4b9b7f713d3ce21067cef" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; gr::transport::transport_layer_impl::d_reassembled_data</definition>
+        <argsstring></argsstring>
+        <name>d_reassembled_data</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_reassembled_data</qualifiedname>
+        <briefdescription>
+<para>Growing reassembly buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="85" column="22" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a59303917fdd673cbb49ba02736e38aa1" prot="private" static="no" mutable="no">
+        <type>boost::asio::io_context</type>
+        <definition>boost::asio::io_context gr::transport::transport_layer_impl::d_io_ctx</definition>
+        <argsstring></argsstring>
+        <name>d_io_ctx</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_io_ctx</qualifiedname>
+        <briefdescription>
+<para>One timer per sequence slot + one extra slot (d_seq_space-1) for SYN and FIN retransmits. Total: d_seq_space timers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="90" column="32" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a7d65ed6649b59c4fd8fc13c901afff74" prot="private" static="no" mutable="no">
+        <type>boost::asio::executor_work_guard&lt; boost::asio::io_context::executor_type &gt;</type>
+        <definition>boost::asio::executor_work_guard&lt;boost::asio::io_context::executor_type&gt; gr::transport::transport_layer_impl::d_work_guard</definition>
+        <argsstring></argsstring>
+        <name>d_work_guard</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_work_guard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="92" column="32" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a05474ca9715aaada7eb4ef414b204696" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread gr::transport::transport_layer_impl::d_io_thread</definition>
+        <argsstring></argsstring>
+        <name>d_io_thread</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_io_thread</qualifiedname>
+        <briefdescription>
+<para>Runs d_io_ctx.run(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="93" column="32" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1a181ee01d044bd10b3999892630c7cc9d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; boost::asio::steady_timer &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;boost::asio::steady_timer&gt; &gt; gr::transport::transport_layer_impl::d_timers</definition>
+        <argsstring></argsstring>
+        <name>d_timers</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_timers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="94" column="19" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1afb58fdb6e401c34a485437bca459c6ba" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex gr::transport::transport_layer_impl::d_mutex</definition>
+        <argsstring></argsstring>
+        <name>d_mutex</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_mutex</qualifiedname>
+        <briefdescription>
+<para>Guards all state between scheduler &amp; io_thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="97" column="18" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classgr_1_1transport_1_1transport__layer__impl_1aacc064a4a6feabcd4a9bff29f0a17562" prot="private" static="no" mutable="no">
+        <type>std::mt19937_64</type>
+        <definition>std::mt19937_64 gr::transport::transport_layer_impl::d_rng</definition>
+        <argsstring></argsstring>
+        <name>d_rng</name>
+        <qualifiedname>gr::transport::transport_layer_impl::d_rng</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="100" column="23" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a7bc5f175973adfedc9892a07f2592fc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::handle_pdu_in</definition>
+        <argsstring>(pmt::pmt_t msg)</argsstring>
+        <name>handle_pdu_in</name>
+        <qualifiedname>gr::transport::transport_layer_impl::handle_pdu_in</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Entry point for PDUs arriving from the PHY/MAC layer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="106" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a7fa6b17e1bd03b33ee9274ab0e5a75dd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::handle_app_in</definition>
+        <argsstring>(pmt::pmt_t msg)</argsstring>
+        <name>handle_app_in</name>
+        <qualifiedname>gr::transport::transport_layer_impl::handle_app_in</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Entry point for application bitstream PDUs (initiator only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="108" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1aa96e520d1ee8f135231f645198918fe9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::fsm_idle</definition>
+        <argsstring>(pmt::pmt_t meta, pmt::pmt_t data, const std::string &amp;pkt_type)</argsstring>
+        <name>fsm_idle</name>
+        <qualifiedname>gr::transport::transport_layer_impl::fsm_idle</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="113" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a9e747c3400bb4b26db924649b47ab5be" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::fsm_syn_sent</definition>
+        <argsstring>(pmt::pmt_t meta, pmt::pmt_t data, const std::string &amp;pkt_type)</argsstring>
+        <name>fsm_syn_sent</name>
+        <qualifiedname>gr::transport::transport_layer_impl::fsm_syn_sent</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="114" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1ada1a53715b1018a063591982d7d8e86e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::fsm_syn_rcvd</definition>
+        <argsstring>(pmt::pmt_t meta, pmt::pmt_t data, const std::string &amp;pkt_type)</argsstring>
+        <name>fsm_syn_rcvd</name>
+        <qualifiedname>gr::transport::transport_layer_impl::fsm_syn_rcvd</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="115" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a66edd72112a1875b4e9ea0742e6e1edd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::fsm_tx_active</definition>
+        <argsstring>(pmt::pmt_t meta, pmt::pmt_t data, const std::string &amp;pkt_type)</argsstring>
+        <name>fsm_tx_active</name>
+        <qualifiedname>gr::transport::transport_layer_impl::fsm_tx_active</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="116" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a5b8f9686b739fed958b3731fc2ac718a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::fsm_rx_active</definition>
+        <argsstring>(pmt::pmt_t meta, pmt::pmt_t data, const std::string &amp;pkt_type)</argsstring>
+        <name>fsm_rx_active</name>
+        <qualifiedname>gr::transport::transport_layer_impl::fsm_rx_active</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="117" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a6fe4a1f43a3fa4f317ae25843a0bfdfa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::fsm_fin_sent</definition>
+        <argsstring>(pmt::pmt_t meta, pmt::pmt_t data, const std::string &amp;pkt_type)</argsstring>
+        <name>fsm_fin_sent</name>
+        <qualifiedname>gr::transport::transport_layer_impl::fsm_fin_sent</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="118" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1ae7cfcf4b12e3ccf5774cd8b55c9f1e1b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::advance_send_window</definition>
+        <argsstring>()</argsstring>
+        <name>advance_send_window</name>
+        <qualifiedname>gr::transport::transport_layer_impl::advance_send_window</qualifiedname>
+        <briefdescription>
+<para>Slide the send window forward over consecutive ACK&apos;d slots. Sends next buffered packet per slot advanced; triggers FIN when done. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="125" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a39035eee61ecb198b0f591a5ddb462da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::try_deliver_rx_buffer</definition>
+        <argsstring>()</argsstring>
+        <name>try_deliver_rx_buffer</name>
+        <qualifiedname>gr::transport::transport_layer_impl::try_deliver_rx_buffer</qualifiedname>
+        <briefdescription>
+<para>Deliver contiguous in-order received packets to app_out. Sends FIN_ACK and resets state when all packets are delivered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="129" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a77f9da705f2214e86497973bb069b31c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::packetize</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;raw)</argsstring>
+        <name>packetize</name>
+        <qualifiedname>gr::transport::transport_layer_impl::packetize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <briefdescription>
+<para>Fragment raw bytes into MTU-sized chunks; populate d_tx_buffer[]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="135" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a5d381a61a799f6e8b7171e5a24d0dbc7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::start_timer</definition>
+        <argsstring>(int slot)</argsstring>
+        <name>start_timer</name>
+        <qualifiedname>gr::transport::transport_layer_impl::start_timer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+<para>Arm (or re-arm) the RTO timer for the given sequence slot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="141" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a4863f05d09b5e316a469fc985379a395" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::cancel_timer</definition>
+        <argsstring>(int slot)</argsstring>
+        <name>cancel_timer</name>
+        <qualifiedname>gr::transport::transport_layer_impl::cancel_timer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+<para>Cancel the RTO timer for the given sequence slot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="143" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a1ec67df049c19f8857ddaba95acb322f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::on_timeout</definition>
+        <argsstring>(int slot, const boost::system::error_code &amp;ec)</argsstring>
+        <name>on_timeout</name>
+        <qualifiedname>gr::transport::transport_layer_impl::on_timeout</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>slot</declname>
+        </param>
+        <param>
+          <type>const boost::system::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+<para>Timer expiry callback — retransmits the unACK&apos;d packet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="145" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a981b91598dd0460ced3d86791f0e22dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>pmt::pmt_t</type>
+        <definition>pmt::pmt_t gr::transport::transport_layer_impl::build_meta</definition>
+        <argsstring>(const std::string &amp;pkt_type, int seq_no, uint64_t session_id, int total_packets=0, const std::string &amp;payload_type_str=&quot;&quot;)</argsstring>
+        <name>build_meta</name>
+        <qualifiedname>gr::transport::transport_layer_impl::build_meta</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_no</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total_packets</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload_type_str</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a PMT metadata dictionary for a control or data frame. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="151" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a4c67d1e2cbe4a2085ccd09e98804d6a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::send_ctrl_frame</definition>
+        <argsstring>(const std::string &amp;pkt_type, uint64_t session_id, int seq_no=-1, int total_packets=0, const std::string &amp;payload_type_str=&quot;&quot;)</argsstring>
+        <name>send_ctrl_frame</name>
+        <qualifiedname>gr::transport::transport_layer_impl::send_ctrl_frame</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pkt_type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>seq_no</declname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total_packets</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload_type_str</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Transmit a zero-payload control frame (SYN, SYN_ACK, ACK, FIN, FIN_ACK). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="158" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1adc16b0541e277f10611b970392c7e82d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::send_data_packet_locked</definition>
+        <argsstring>(int slot)</argsstring>
+        <name>send_data_packet_locked</name>
+        <qualifiedname>gr::transport::transport_layer_impl::send_data_packet_locked</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+<para>Transmit the DATA frame stored at the given window slot. Caller must hold d_mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="166" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a588ab1183e0bd272707ab44265a258d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::send_pdu</definition>
+        <argsstring>(pmt::pmt_t meta, pmt::pmt_t data)</argsstring>
+        <name>send_pdu</name>
+        <qualifiedname>gr::transport::transport_layer_impl::send_pdu</qualifiedname>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>meta</declname>
+        </param>
+        <param>
+          <type>pmt::pmt_t</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Publish a PMT cons pair to the pdu_out message port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="169" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a9fc83714fa7368d7a7236ad27efe51cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void gr::transport::transport_layer_impl::reset_state</definition>
+        <argsstring>()</argsstring>
+        <name>reset_state</name>
+        <qualifiedname>gr::transport::transport_layer_impl::reset_state</qualifiedname>
+        <briefdescription>
+<para>Reset all session state and return FSM to IDLE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="175" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1ae97bcb8127a483bdea0b67382b984cca" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t gr::transport::transport_layer_impl::generate_session_id</definition>
+        <argsstring>()</argsstring>
+        <name>generate_session_id</name>
+        <qualifiedname>gr::transport::transport_layer_impl::generate_session_id</qualifiedname>
+        <briefdescription>
+<para>Generate a random 64-bit session identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="177" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1a0cbf7b3a70fe22d9523e2ddc3b68133d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::transport::transport_layer_impl::transport_layer_impl</definition>
+        <argsstring>(int m, int rto_ms, const std::string &amp;node_role, int mtu_bytes)</argsstring>
+        <name>transport_layer_impl</name>
+        <qualifiedname>gr::transport::transport_layer_impl::transport_layer_impl</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>rto_ms</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_role</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>mtu_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="180" column="7"/>
+      </memberdef>
+      <memberdef kind="function" id="classgr_1_1transport_1_1transport__layer__impl_1ae4e29e7c15e8569d50abcf020452955a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>gr::transport::transport_layer_impl::~transport_layer_impl</definition>
+        <argsstring>()</argsstring>
+        <name>~transport_layer_impl</name>
+        <qualifiedname>gr::transport::transport_layer_impl::~transport_layer_impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="184" column="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+      <node id="2">
+        <label>gr::transport::transport_layer</label>
+        <link refid="classgr_1_1transport_1_1transport__layer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::transport::transport_layer_impl</label>
+        <link refid="classgr_1_1transport_1_1transport__layer__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>gr::block</label>
+      </node>
+      <node id="2">
+        <label>gr::transport::transport_layer</label>
+        <link refid="classgr_1_1transport_1_1transport__layer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>gr::transport::transport_layer_impl</label>
+        <link refid="classgr_1_1transport_1_1transport__layer__impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="54" column="5" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="55" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1ae7cfcf4b12e3ccf5774cd8b55c9f1e1b" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>advance_send_window</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a981b91598dd0460ced3d86791f0e22dc" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>build_meta</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a4863f05d09b5e316a469fc985379a395" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>cancel_timer</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a60df6b9c50c02dad676a053c2b9e5476" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_acked</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a59303917fdd673cbb49ba02736e38aa1" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_io_ctx</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a05474ca9715aaada7eb4ef414b204696" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_io_thread</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1aa38410c572c1d8b1ee4187175aec43fd" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_m</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1ad2afc5d06be60edfe443c7154be4a104" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_mtu_bytes</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1afb58fdb6e401c34a485437bca459c6ba" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_mutex</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a43d8f30fbcd321feb3afaeedada97b4c" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_next_seq_abs</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a492dedb4259b9e260399b4705603559e" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_packets_delivered</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a5f1e7ac9dbdeeea03ae1965cf62da0ae" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_payload_type_pmt</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1af2466193a7f6b2a10ab53ef21181e6b2" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_rcv_base</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a9da5c1c87ad4b9b7f713d3ce21067cef" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_reassembled_data</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a101092f7ec066c98d8cbc47db0f2be15" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_received</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1aacc064a4a6feabcd4a9bff29f0a17562" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_rng</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1ac2da4b7a15e74da41bd39ef9359f7256" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_role</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a6a60f1b6cca68d6d3ec80d057a8ec2c4" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_rto_ms</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a7d3771f76062e534558c31803a6f9726" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_rx_buffer</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a8b7b8e145d7a98f9c23d877a20b56a42" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_send_base</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a5168fd7c5b089aa655911b8a347e659c" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_seq_space</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a23efef1e56765dad753501762454fbee" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_session_id</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a4e3e31524befac91ebd278d590a54e2e" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_state</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a181ee01d044bd10b3999892630c7cc9d" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_timers</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a5d878acb8ffd3e944489e66577a4b03a" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_total_packets_rx</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1aef538604a3e86d115190e4f12cfb7863" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_total_packets_tx</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a693c7c9eb6a1c87e73aeb3b33617c82c" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_tx_buffer</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1af05c5c2418d7e7495d36051fee9b628f" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_window_size</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a7d65ed6649b59c4fd8fc13c901afff74" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>d_work_guard</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a6fe4a1f43a3fa4f317ae25843a0bfdfa" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>fsm_fin_sent</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1aa96e520d1ee8f135231f645198918fe9" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>fsm_idle</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a5b8f9686b739fed958b3731fc2ac718a" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>fsm_rx_active</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1ada1a53715b1018a063591982d7d8e86e" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>fsm_syn_rcvd</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a9e747c3400bb4b26db924649b47ab5be" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>fsm_syn_sent</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a66edd72112a1875b4e9ea0742e6e1edd" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>fsm_tx_active</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1ae97bcb8127a483bdea0b67382b984cca" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>generate_session_id</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a7fa6b17e1bd03b33ee9274ab0e5a75dd" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>handle_app_in</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a7bc5f175973adfedc9892a07f2592fc5" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>handle_pdu_in</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a3acbdcd95703f049c1c527ee2a025e86" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>make</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a3acbdcd95703f049c1c527ee2a025e86" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>make</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a1ec67df049c19f8857ddaba95acb322f" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>on_timeout</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a77f9da705f2214e86497973bb069b31c" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>packetize</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a9fc83714fa7368d7a7236ad27efe51cf" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>reset_state</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a4c67d1e2cbe4a2085ccd09e98804d6a8" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>send_ctrl_frame</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1adc16b0541e277f10611b970392c7e82d" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>send_data_packet_locked</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a588ab1183e0bd272707ab44265a258d1" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>send_pdu</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>sptr</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer_1a8ea7a693f30242febe9009b55402b6ac" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>sptr</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a5d381a61a799f6e8b7171e5a24d0dbc7" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>start_timer</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a0cbf7b3a70fe22d9523e2ddc3b68133d" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>transport_layer_impl</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1a39035eee61ecb198b0f591a5ddb462da" prot="private" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>try_deliver_rx_buffer</name></member>
+      <member refid="classgr_1_1transport_1_1transport__layer__impl_1ae4e29e7c15e8569d50abcf020452955a" prot="public" virt="non-virtual"><scope>gr::transport::transport_layer_impl</scope><name>~transport_layer_impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

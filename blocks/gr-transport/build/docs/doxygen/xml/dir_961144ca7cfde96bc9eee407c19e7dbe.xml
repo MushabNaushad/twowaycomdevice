@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="dir_961144ca7cfde96bc9eee407c19e7dbe" kind="dir">
+    <compoundname>bindings</compoundname>
+    <innerdir refid="dir_4d807411a6e0b38c1443c904ddfdd7d2">docstrings</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/python/transport/bindings/"/>
+  </compounddef>
+</doxygen>

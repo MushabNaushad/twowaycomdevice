@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.16.1" xml:lang="en-US">
+  <compounddef id="namespacegr_1_1transport" kind="namespace" language="C++">
+    <compoundname>gr::transport</compoundname>
+    <innerclass refid="classgr_1_1transport_1_1transport__layer" prot="public">gr::transport::transport_layer</innerclass>
+    <innerclass refid="classgr_1_1transport_1_1transport__layer__impl" prot="public">gr::transport::transport_layer_impl</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NodeState</name>
+        <qualifiedname>gr::transport::NodeState</qualifiedname>
+        <enumvalue id="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6aa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+<para>Default — listening; both roles start here. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6a22ee0e543a2820dcbb2dcc90ed8fdb7c" prot="public">
+          <name>SYN_SENT</name>
+          <briefdescription>
+<para>Initiator: SYN sent, awaiting SYN_ACK. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6a49d34a08daef0936f9ce5688aa6b990a" prot="public">
+          <name>SYN_RCVD</name>
+          <briefdescription>
+<para>Responder: SYN_ACK sent, awaiting first DATA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6a09a9e49c9df0a3bb91469b854c1c4cb1" prot="public">
+          <name>TX_ACTIVE</name>
+          <briefdescription>
+<para>Initiator: SR-ARQ sliding window in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6ab2df6adb5407ee29e9c3622b14805267" prot="public">
+          <name>RX_ACTIVE</name>
+          <briefdescription>
+<para>Responder: buffering/reassembling DATA frames. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacegr_1_1transport_1a42280d12e6aba90609079b09527707f6ae27fd903f53496b25124e5515da885c3" prot="public">
+          <name>FIN_SENT</name>
+          <briefdescription>
+<para>Initiator: FIN sent, awaiting FIN_ACK. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="32" column="5" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="32" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacegr_1_1transport_1aac0afd74e18b05e6f1bdcd93076c95fd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::transport::APP_MAGIC_0</definition>
+        <argsstring></argsstring>
+        <name>APP_MAGIC_0</name>
+        <qualifiedname>gr::transport::APP_MAGIC_0</qualifiedname>
+        <initializer>= 0xAB</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="44" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegr_1_1transport_1ab0a9198923c3289c8de8ab18764ba438" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::transport::APP_MAGIC_1</definition>
+        <argsstring></argsstring>
+        <name>APP_MAGIC_1</name>
+        <qualifiedname>gr::transport::APP_MAGIC_1</qualifiedname>
+        <initializer>= 0xCD</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="45" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegr_1_1transport_1a1aa91327a3f32dcf9e4f21921ebdd8f0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::transport::APP_TYPE_TEXT</definition>
+        <argsstring></argsstring>
+        <name>APP_TYPE_TEXT</name>
+        <qualifiedname>gr::transport::APP_TYPE_TEXT</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="46" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegr_1_1transport_1a3fd15e6d757cfa274484ca477a3f6ca6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::transport::APP_TYPE_IMAGE</definition>
+        <argsstring></argsstring>
+        <name>APP_TYPE_IMAGE</name>
+        <qualifiedname>gr::transport::APP_TYPE_IMAGE</qualifiedname>
+        <initializer>= 0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="47" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegr_1_1transport_1a4c44e72bca32263e1332bb4a4dcbe72a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t gr::transport::APP_TYPE_AUDIO</definition>
+        <argsstring></argsstring>
+        <name>APP_TYPE_AUDIO</name>
+        <qualifiedname>gr::transport::APP_TYPE_AUDIO</qualifiedname>
+        <initializer>= 0x03</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="48" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegr_1_1transport_1a6ed6bbbe6414f9c79c48a81ebd12902d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t gr::transport::APP_HDR_SIZE</definition>
+        <argsstring></argsstring>
+        <name>APP_HDR_SIZE</name>
+        <qualifiedname>gr::transport::APP_HDR_SIZE</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Fixed header length (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" line="49" column="31" bodyfile="/home/maduwage/twowaycomdevice/blocks/gr-transport/lib/transport_layer_impl.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/maduwage/twowaycomdevice/blocks/gr-transport/include/gnuradio/transport/transport_layer.h" line="16" column="3"/>
+  </compounddef>
+</doxygen>
