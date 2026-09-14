@@ -105,9 +105,9 @@ namespace gr {
       if (node_role != "initiator" && node_role != "responder")
           throw std::invalid_argument(
               "transport_layer: node_role must be 'initiator' or 'responder'");
-      if (m < 1 || m > 8)
+      if (m < 1 || m > 16)
           throw std::invalid_argument(
-              "transport_layer: m must be between 1 and 8");
+              "transport_layer: m must be between 1 and 16");
       if (mtu_bytes < 1)
           throw std::invalid_argument(
               "transport_layer: mtu_bytes must be positive");
@@ -362,6 +362,13 @@ namespace gr {
     void transport_layer_impl::fsm_idle(pmt::pmt_t meta, pmt::pmt_t /*data*/,
                                          const std::string& pkt_type)
     {
+      if (pkt_type == "FIN") {
+          // Peer may have missed our FIN_ACK — reply to let peer close session
+          uint64_t sid = pmt::to_uint64(
+              pmt::dict_ref(meta, pmt::mp("session_id"), pmt::from_uint64(0)));
+          send_ctrl_frame("FIN_ACK", sid);
+          return;
+      }
       if (pkt_type != "SYN") return;   // Ignore everything else in IDLE
 
       // Extract session parameters from the SYN frame
@@ -490,13 +497,33 @@ namespace gr {
     void transport_layer_impl::fsm_tx_active(pmt::pmt_t meta, pmt::pmt_t /*data*/,
                                               const std::string& pkt_type)
     {
+      if (pkt_type == "FIN_ACK") {
+          cancel_timer(d_seq_space - 1);
+          GR_LOG_INFO(d_logger, "TX_ACTIVE→IDLE: early FIN_ACK received — session closed");
+          reset_state();
+          return;
+      }
       if (pkt_type != "ACK") return;
 
       int seq_no = static_cast<int>(pmt::to_uint64(
           pmt::dict_ref(meta, pmt::mp("seq_no"), pmt::from_uint64(0))));
 
-      if (d_acked[seq_no]) return;   // Duplicate ACK — already processed
+      // Validate that seq_no falls within current TX window [d_send_base .. d_send_base + WINDOW_SIZE - 1]
+      bool in_window = false;
+      for (int i = 0; i < d_window_size; ++i) {
+          if ((d_send_base + i) < d_total_packets_tx &&
+              seq_no == ((d_send_base + i) % d_seq_space)) {
+              in_window = true;
+              break;
+          }
+      }
 
+      if (!in_window) {
+          // Stale or duplicate ACK from an earlier window cycle — ignore
+          return;
+      }
+
+      // Mark the slot as ACK'd and cancel its retransmission timer
       d_acked[seq_no] = true;
       cancel_timer(seq_no);
 
@@ -528,14 +555,23 @@ namespace gr {
       }
 
       if (!in_window) {
-          GR_LOG_WARN(d_logger,
-              "RX_ACTIVE: seq=" + std::to_string(seq_no) +
-              " outside window [" + std::to_string(d_rcv_base) +
-              ".." + std::to_string((d_rcv_base + d_window_size - 1) % d_seq_space) +
-              "] — sending ACK anyway to unblock sender");
-          // Send ACK to help the transmitter advance its window (e.g. if our earlier
-          // ACK was lost and this is a retransmit of an already-delivered packet).
-          send_ctrl_frame("ACK", d_session_id, seq_no);
+          // Check if this is a retransmit of an ALREADY DELIVERED packet from the past window:
+          // [d_rcv_base - WINDOW_SIZE .. d_rcv_base - 1] mod SEQ_SPACE
+          bool in_past_window = false;
+          for (int i = 1; i <= d_window_size; ++i) {
+              if (seq_no == ((d_rcv_base - i + d_seq_space) % d_seq_space)) {
+                  in_past_window = true;
+                  break;
+              }
+          }
+          if (in_past_window) {
+              // Re-send ACK to unblock transmitter for an already-delivered frame
+              send_ctrl_frame("ACK", d_session_id, seq_no);
+          } else {
+              GR_LOG_WARN(d_logger,
+                  "RX_ACTIVE: future seq=" + std::to_string(seq_no) +
+                  " outside window — discarded without ACK");
+          }
           return;
       }
 
