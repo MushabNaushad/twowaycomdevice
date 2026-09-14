@@ -64,8 +64,8 @@ class test_transport(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self.transport_transport_layer_1 = transport.transport_layer(4, 500, "responder", 200, 2, 1)
-        self.transport_transport_layer_0 = transport.transport_layer(4, 500, "initiator", 200, 1, 1)
+        self.transport_transport_layer_1 = transport.transport_layer(4, 500, "responder", 200)
+        self.transport_transport_layer_0 = transport.transport_layer(4, 500, "initiator", 200)
         self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_gr_complex*1, 1000, True, 0 if "auto" == "auto" else max( int(float(0.1) * 1000) if "auto" == "time" else int(0.1), 1) )
         self.blocks_null_source_0 = blocks.null_source(gr.sizeof_gr_complex*1)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)

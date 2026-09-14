@@ -226,7 +226,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 144.0]
+    coordinate: [944, 136.0]
     rotation: 0
     state: enabled
 - name: blocks_message_strobe_0

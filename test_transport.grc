@@ -45,13 +45,19 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [900, 200]
+    coordinate: [984, 184.0]
     rotation: 0
     state: enabled
 - name: blocks_message_strobe_0
   id: blocks_message_strobe
   parameters:
-    msg: pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17] + [ord(c) for c in "Hello from Strobe"]))
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    msg: pmt.cons(pmt.make_dict(), pmt.init_u8vector(25, [2, 1, 1, 0, 0, 0, 0, 17]
+      + [ord(c) for c in "Hello from Strobe"]))
     period: '2000'
   states:
     bus_sink: false
@@ -152,7 +158,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [592, 208.0]
+    coordinate: [624, 176.0]
     rotation: 0
     state: enabled
 
