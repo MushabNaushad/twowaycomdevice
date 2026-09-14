@@ -26,9 +26,8 @@ from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import gr, pdu
-from gnuradio import iio
-from gnuradio import soapy
 import sip
+import transeciever_epy_block_0 as epy_block_0  # embedded python block
 
 
 
@@ -81,55 +80,22 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.postamble_size = postamble_size = 8
         self.pi = pi = 3.1415926
         self.payload_size = payload_size = 64
-        self.packets = packets = 200
+        self.packets = packets = 50
         self.hdr = hdr = digital.header_format_default(digital.packet_utils.default_access_code, 0)
         self.fll_loop_bw = fll_loop_bw = 0.0314
         self.costas_bw = costas_bw = 0.0628
         self.amble = amble = [0xc0, 0xaf]
-        self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( QPSK_CONST, .0001, 4).base()
+        self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( QPSK_CONST, .005, 1).base()
         self.SDR_CF = SDR_CF = 433980000.0
         self.CH_GAIN = CH_GAIN = 20.0
+        self.BPSK_CONST = BPSK_CONST = digital.constellation_rect([1+0j, -1+0j], [0, 1],
+        2, 2, 1, 1, 1).base()
         self.ADDR = ADDR = "ip:192.168.1.10"
 
         ##################################################
         # Blocks
         ##################################################
 
-        self.soapy_rtlsdr_source_0 = None
-        dev = 'driver=rtlsdr'
-        stream_args = 'bufflen=16384'
-        tune_args = ['']
-        settings = ['']
-
-        def _set_soapy_rtlsdr_source_0_gain_mode(channel, agc):
-            self.soapy_rtlsdr_source_0.set_gain_mode(channel, agc)
-            if not agc:
-                  self.soapy_rtlsdr_source_0.set_gain(channel, self._soapy_rtlsdr_source_0_gain_value)
-        self.set_soapy_rtlsdr_source_0_gain_mode = _set_soapy_rtlsdr_source_0_gain_mode
-
-        def _set_soapy_rtlsdr_source_0_gain(channel, name, gain):
-            self._soapy_rtlsdr_source_0_gain_value = gain
-            if not self.soapy_rtlsdr_source_0.get_gain_mode(channel):
-                self.soapy_rtlsdr_source_0.set_gain(channel, gain)
-        self.set_soapy_rtlsdr_source_0_gain = _set_soapy_rtlsdr_source_0_gain
-
-        def _set_soapy_rtlsdr_source_0_bias(bias):
-            if 'biastee' in self._soapy_rtlsdr_source_0_setting_keys:
-                self.soapy_rtlsdr_source_0.write_setting('biastee', bias)
-        self.set_soapy_rtlsdr_source_0_bias = _set_soapy_rtlsdr_source_0_bias
-
-        self.soapy_rtlsdr_source_0 = soapy.source(dev, "fc32", 1, '',
-                                  stream_args, tune_args, settings)
-
-        self._soapy_rtlsdr_source_0_setting_keys = [a.key for a in self.soapy_rtlsdr_source_0.get_setting_info()]
-
-        self.soapy_rtlsdr_source_0.set_sample_rate(0, samp_rate)
-        self.soapy_rtlsdr_source_0.set_frequency(0, SDR_CF)
-        self.soapy_rtlsdr_source_0.set_frequency_correction(0, 0)
-        self.set_soapy_rtlsdr_source_0_bias(bool(False))
-        self._soapy_rtlsdr_source_0_gain_value = CH_GAIN
-        self.set_soapy_rtlsdr_source_0_gain_mode(0, bool(False))
-        self.set_soapy_rtlsdr_source_0_gain(0, 'TUNER', CH_GAIN)
         self.root_raised_cosine_filter_0 = filter.fir_filter_ccf(
             1,
             firdes.root_raised_cosine(
@@ -222,14 +188,12 @@ class transeciever(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.qtgui_edit_box_msg_0 = qtgui.edit_box_msg(qtgui.STRING, "MESSAGE", "TX Message", False, False, '', None)
+        self._qtgui_edit_box_msg_0_win = sip.wrapinstance(self.qtgui_edit_box_msg_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_edit_box_msg_0_win)
         self.pdu_tagged_stream_to_pdu_0 = pdu.tagged_stream_to_pdu(gr.types.byte_t, 'packet_len')
-        self.iio_pluto_sink_0 = iio.fmcomms2_sink_fc32(ADDR if ADDR else iio.get_pluto_uri(), [True, True], 32768, False)
-        self.iio_pluto_sink_0.set_len_tag_key('')
-        self.iio_pluto_sink_0.set_bandwidth(20000000)
-        self.iio_pluto_sink_0.set_frequency(int(SDR_CF))
-        self.iio_pluto_sink_0.set_samplerate(int(samp_rate))
-        self.iio_pluto_sink_0.set_attenuation(0, CH_GAIN)
-        self.iio_pluto_sink_0.set_filter_params('Auto', '', 0, 0)
+        self.pdu_pdu_to_tagged_stream_0 = pdu.pdu_to_tagged_stream(gr.types.byte_t, 'packet_len')
+        self.epy_block_0 = epy_block_0.TextToPDU()
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_cc(
             digital.TED_SIGNAL_TIMES_SLOPE_ML,
             sps,
@@ -244,6 +208,7 @@ class transeciever(gr.top_block, Qt.QWidget):
             [])
         self.digital_protocol_formatter_bb_0 = digital.protocol_formatter_bb(hdr, 'packet_len')
         self.digital_map_bb_0 = digital.map_bb([0,1,3,2])
+        self.digital_linear_equalizer_0 = digital.linear_equalizer(11, 1, adpt_alg, True, [], "")
         self.digital_fll_band_edge_cc_0 = digital.fll_band_edge_cc(sps, alpha, (2* sps +1), fll_loop_bw)
         self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(4, digital.DIFF_DIFFERENTIAL)
         self.digital_crc32_bb_1 = digital.crc32_bb(True, 'packet_len', True)
@@ -261,18 +226,15 @@ class transeciever(gr.top_block, Qt.QWidget):
             log=False,
             truncate=False)
         self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(QPSK_CONST)
-        self.blocks_vector_source_x_2 = blocks.vector_source_b([p +48 for p in range(packets) for _ in range(payload_size)], False, 1, )
         self.blocks_vector_source_x_0_0_0 = blocks.vector_source_b(amble, True, 1, [])
         self.blocks_vector_source_x_0_0 = blocks.vector_source_b(amble, True, 1, [])
         self.blocks_unpack_k_bits_bb_1 = blocks.unpack_k_bits_bb(8)
         self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
-        self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_char*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
         self.blocks_tagged_stream_mux_0 = blocks.tagged_stream_mux(gr.sizeof_char*1, 'packet_len', 0)
         self.blocks_tag_gate_0 = blocks.tag_gate(gr.sizeof_gr_complex * 1, False)
         self.blocks_tag_gate_0.set_single_key("")
         self.blocks_stream_to_tagged_stream_0_0_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, postamble_size, "packet_len")
         self.blocks_stream_to_tagged_stream_0_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, preamble_size, "packet_len")
-        self.blocks_stream_to_tagged_stream_0_0_0 = blocks.stream_to_tagged_stream(gr.sizeof_char, 1, payload_size, "packet_len")
         self.blocks_repack_bits_bb_1 = blocks.repack_bits_bb(1, 8, 'packet_len', True, gr.GR_MSB_FIRST)
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(1, 8, "", False, gr.GR_MSB_FIRST)
         self.blocks_message_debug_0 = blocks.message_debug(True, gr.log_levels.info)
@@ -280,40 +242,42 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.blocks_copy_5.set_enabled(True)
         self.blocks_copy_4 = blocks.copy(gr.sizeof_char*1)
         self.blocks_copy_4.set_enabled(True)
-        self.blocks_copy_2 = blocks.copy(gr.sizeof_gr_complex*1)
-        self.blocks_copy_2.set_enabled(True)
+        self.blocks_copy_3_1 = blocks.copy(gr.sizeof_char*1)
+        self.blocks_copy_3_1.set_enabled(True)
         self.blocks_copy_1_2 = blocks.copy(gr.sizeof_gr_complex*1)
         self.blocks_copy_1_2.set_enabled(True)
         self.blocks_copy_1_1 = blocks.copy(gr.sizeof_gr_complex*1)
         self.blocks_copy_1_1.set_enabled(True)
+        self.blocks_copy_0 = blocks.copy(gr.sizeof_char*1)
+        self.blocks_copy_0.set_enabled(True)
         self.analog_agc_xx_0 = analog.agc_cc((1e-4), 1.0, 1.0, 65536)
 
 
         ##################################################
         # Connections
         ##################################################
+        self.msg_connect((self.epy_block_0, 'pdu_out'), (self.pdu_pdu_to_tagged_stream_0, 'pdus'))
         self.msg_connect((self.pdu_tagged_stream_to_pdu_0, 'pdus'), (self.blocks_message_debug_0, 'print'))
+        self.msg_connect((self.qtgui_edit_box_msg_0, 'msg'), (self.epy_block_0, 'msg_in'))
         self.connect((self.analog_agc_xx_0, 0), (self.digital_fll_band_edge_cc_0, 0))
+        self.connect((self.blocks_copy_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_copy_1_1, 0), (self.analog_agc_xx_0, 0))
         self.connect((self.blocks_copy_1_2, 0), (self.root_raised_cosine_filter_0, 0))
-        self.connect((self.blocks_copy_2, 0), (self.digital_costas_loop_cc_0, 0))
+        self.connect((self.blocks_copy_3_1, 0), (self.digital_crc32_bb_0, 0))
         self.connect((self.blocks_copy_4, 0), (self.blocks_repack_bits_bb_1, 0))
         self.connect((self.blocks_copy_5, 0), (self.blocks_repack_bits_bb_0, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.blocks_tagged_stream_mux_0, 2))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.digital_protocol_formatter_bb_0, 0))
         self.connect((self.blocks_repack_bits_bb_1, 0), (self.digital_crc32_bb_1, 0))
-        self.connect((self.blocks_stream_to_tagged_stream_0_0_0, 0), (self.digital_crc32_bb_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 0))
         self.connect((self.blocks_stream_to_tagged_stream_0_0_0_0_0, 0), (self.blocks_tagged_stream_mux_0, 3))
-        self.connect((self.blocks_tag_gate_0, 0), (self.iio_pluto_sink_0, 0))
+        self.connect((self.blocks_tag_gate_0, 0), (self.blocks_copy_1_1, 0))
         self.connect((self.blocks_tag_gate_0, 0), (self.qtgui_freq_sink_x_0, 0))
-        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_throttle2_0, 0))
-        self.connect((self.blocks_throttle2_0, 0), (self.digital_constellation_modulator_0, 0))
+        self.connect((self.blocks_tagged_stream_mux_0, 0), (self.blocks_copy_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.digital_correlate_access_code_xx_ts_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_1, 0), (self.blocks_copy_5, 0))
         self.connect((self.blocks_vector_source_x_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0_0, 0))
         self.connect((self.blocks_vector_source_x_0_0_0, 0), (self.blocks_stream_to_tagged_stream_0_0_0_0_0, 0))
-        self.connect((self.blocks_vector_source_x_2, 0), (self.blocks_stream_to_tagged_stream_0_0_0, 0))
         self.connect((self.digital_constellation_decoder_cb_0, 0), (self.digital_diff_decoder_bb_0, 0))
         self.connect((self.digital_constellation_modulator_0, 0), (self.blocks_tag_gate_0, 0))
         self.connect((self.digital_correlate_access_code_xx_ts_0, 0), (self.blocks_copy_4, 0))
@@ -323,11 +287,12 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.connect((self.digital_crc32_bb_1, 0), (self.pdu_tagged_stream_to_pdu_0, 0))
         self.connect((self.digital_diff_decoder_bb_0, 0), (self.digital_map_bb_0, 0))
         self.connect((self.digital_fll_band_edge_cc_0, 0), (self.blocks_copy_1_2, 0))
+        self.connect((self.digital_linear_equalizer_0, 0), (self.digital_costas_loop_cc_0, 0))
         self.connect((self.digital_map_bb_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.digital_protocol_formatter_bb_0, 0), (self.blocks_tagged_stream_mux_0, 1))
-        self.connect((self.digital_symbol_sync_xx_0, 0), (self.blocks_copy_2, 0))
+        self.connect((self.digital_symbol_sync_xx_0, 0), (self.digital_linear_equalizer_0, 0))
+        self.connect((self.pdu_pdu_to_tagged_stream_0, 0), (self.blocks_copy_3_1, 0))
         self.connect((self.root_raised_cosine_filter_0, 0), (self.digital_symbol_sync_xx_0, 0))
-        self.connect((self.soapy_rtlsdr_source_0, 0), (self.blocks_copy_1_1, 0))
 
 
     def closeEvent(self, event):
@@ -353,12 +318,9 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_rcc_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/float(self.sps), self.alpha, (self.nfilts*self.sps)))
-        self.blocks_throttle2_0.set_sample_rate(self.samp_rate)
-        self.iio_pluto_sink_0.set_samplerate(int(self.samp_rate))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
         self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
-        self.soapy_rtlsdr_source_0.set_sample_rate(0, self.samp_rate)
 
     def get_nfilts(self):
         return self.nfilts
@@ -434,16 +396,12 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_payload_size(self, payload_size):
         self.payload_size = payload_size
-        self.blocks_stream_to_tagged_stream_0_0_0.set_packet_len(self.payload_size)
-        self.blocks_stream_to_tagged_stream_0_0_0.set_packet_len_pmt(self.payload_size)
-        self.blocks_vector_source_x_2.set_data([p +48 for p in range(self.packets) for _ in range(self.payload_size)], )
 
     def get_packets(self):
         return self.packets
 
     def set_packets(self, packets):
         self.packets = packets
-        self.blocks_vector_source_x_2.set_data([p +48 for p in range(self.packets) for _ in range(self.payload_size)], )
 
     def get_hdr(self):
         return self.hdr
@@ -484,16 +442,18 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_SDR_CF(self, SDR_CF):
         self.SDR_CF = SDR_CF
-        self.iio_pluto_sink_0.set_frequency(int(self.SDR_CF))
-        self.soapy_rtlsdr_source_0.set_frequency(0, self.SDR_CF)
 
     def get_CH_GAIN(self):
         return self.CH_GAIN
 
     def set_CH_GAIN(self, CH_GAIN):
         self.CH_GAIN = CH_GAIN
-        self.iio_pluto_sink_0.set_attenuation(0,self.CH_GAIN)
-        self.set_soapy_rtlsdr_source_0_gain(0, 'TUNER', self.CH_GAIN)
+
+    def get_BPSK_CONST(self):
+        return self.BPSK_CONST
+
+    def set_BPSK_CONST(self, BPSK_CONST):
+        self.BPSK_CONST = BPSK_CONST
 
     def get_ADDR(self):
         return self.ADDR
