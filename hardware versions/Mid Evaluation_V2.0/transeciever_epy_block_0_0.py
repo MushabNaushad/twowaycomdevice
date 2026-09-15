@@ -1,5 +1,5 @@
 """
-Embedded Python Block: PacketFramerTX with Repetition
+Embedded Python Block: PacketFramerTX
 """
 import numpy as np
 from gnuradio import gr
@@ -7,13 +7,15 @@ import pmt
 import zlib
 
 class PacketFramerTX(gr.basic_block):
-    def __init__(self, preamble_len=32, postamble_len=16, repeat_count=1):
+    def __init__(self, my_id="A", peer_id="B", preamble_len=32, postamble_len=16, repeat_count=5):
         gr.basic_block.__init__(
             self,
             name="Packet Framer TX",
             in_sig=None,
             out_sig=None
         )
+        self.my_id = str(my_id)
+        self.peer_id = str(peer_id)
         self.preamble_len = preamble_len
         self.postamble_len = postamble_len
         self.repeat_count = int(repeat_count)
@@ -23,44 +25,41 @@ class PacketFramerTX(gr.basic_block):
         self.set_msg_handler(pmt.intern("msg_in"), self.handle_msg)
         self.message_port_register_out(pmt.intern("pdu_out"))
 
-    def set_repeat_count(self, repeat_count):
-        self.repeat_count = int(repeat_count)
-
     def handle_msg(self, msg):
-        try:
-            py_val = pmt.to_python(msg)
-            if isinstance(py_val, tuple) and len(py_val) == 2:
-                payload = bytes(py_val[1])
-                text = payload.decode('utf-8', errors='replace')
-            elif isinstance(py_val, str):
-                text = py_val
-                payload = text.encode('utf-8')
-            elif isinstance(py_val, (bytes, bytearray)):
-                payload = bytes(py_val)
-                text = payload.decode('utf-8', errors='replace')
-            else:
-                text = str(py_val)
-                payload = text.encode('utf-8')
-        except Exception as e:
-            print(f"[TX Error] Failed to parse input message: {e}", flush=True)
+        py_val = pmt.to_python(msg)
+        if isinstance(py_val, tuple):
+            text = bytes(py_val[1]).decode('utf-8', errors='replace')
+        else:
+            text = str(py_val)
+
+        if not text:
             return
 
-        if not payload:
-            return
+        # Prepend addresses if user typed raw text without headers
+        if not (">" in text and ":" in text):
+            text = f"{self.my_id}>{self.peer_id}:{text}"
 
-        # Frame construction
-        preamble = bytes([0xAA] * self.preamble_len)
-        length_hdr = len(payload).to_bytes(2, byteorder='big')
-        crc = zlib.crc32(payload).to_bytes(4, byteorder='big')
-        postamble = bytes([0xAA] * self.postamble_len)
+        payload = text.encode('utf-8')
+        is_ack = "ACK_" in text
+        repeats = 1 if is_ack else self.repeat_count
 
-        frame = preamble + self.sync_word + length_hdr + payload + crc + postamble
+        # Framing: [Preamble] + [Sync Word] + [Length] + [Payload] + [CRC32] + [Postamble]
+        frame = (
+            bytes([0xAA] * self.preamble_len) +
+            self.sync_word +
+            len(payload).to_bytes(2, 'big') +
+            payload +
+            zlib.crc32(payload).to_bytes(4, 'big') +
+            bytes([0xAA] * self.postamble_len)
+        )
 
-        # Create PDU
         vec = pmt.init_u8vector(len(frame), list(frame))
         pdu = pmt.cons(pmt.PMT_NIL, vec)
 
-        # Publish N times
-        print(f"[TX] Broadcasting '{text}' ({self.repeat_count} times)...", flush=True)
-        for _ in range(self.repeat_count):
+        for _ in range(repeats):
             self.message_port_pub(pmt.intern("pdu_out"), pdu)
+
+        if is_ack:
+            print(f"[TX] Sent ACK back to {self.peer_id}", flush=True)
+        else:
+            print(f"[TX] Broadcast message to {self.peer_id} ({repeats}x): {text.split(':', 1)[1]}", flush=True)

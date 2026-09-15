@@ -166,7 +166,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0628'
+    value: '0.15'
   states:
     bus_sink: false
     bus_source: false
@@ -347,7 +347,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2.5e6
+    value: 1.5e6
   states:
     bus_sink: false
     bus_source: false
@@ -371,7 +371,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.025'
+    value: '0.0250'
   states:
     bus_sink: false
     bus_source: false
@@ -422,7 +422,7 @@ blocks:
     max_gain: '65536'
     maxoutbuf: '0'
     minoutbuf: '0'
-    rate: 1e-4
+    rate: 1e-2
     reference: '1.0'
     type: complex
   states:
@@ -1147,7 +1147,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1064, 512.0]
+    coordinate: [1072, 540.0]
     rotation: 0
     state: enabled
 - name: digital_correlate_access_code_xx_ts_0
@@ -1463,8 +1463,8 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    postamble_len: '8'
-    preamble_len: '8'
+    postamble_len: '16'
+    preamble_len: '16'
     repeat_count: '5'
   states:
     _io_cache: ('Packet Framer TX', 'PacketFramerTX', [('preamble_len', '32'), ('postamble_len',
@@ -1530,7 +1530,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    max_bit_errors: '5'
+    max_bit_errors: '1'
     max_payload_len: '4096'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -1763,7 +1763,7 @@ blocks:
     bus_structure: null
     coordinate: [768, 1248.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_edit_box_msg_0
   id: qtgui_edit_box_msg
   parameters:
@@ -2153,7 +2153,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [256, 1208.0]
+    coordinate: [264, 1228.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_0

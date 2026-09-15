@@ -166,7 +166,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0628'
+    value: '0.2'
   states:
     bus_sink: false
     bus_source: false
@@ -422,7 +422,7 @@ blocks:
     max_gain: '65536'
     maxoutbuf: '0'
     minoutbuf: '0'
-    rate: 1e-4
+    rate: 1e-2
     reference: '1.0'
     type: complex
   states:
@@ -1461,8 +1461,8 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    my_id: '"A"'
-    peer_id: '"B"'
+    my_id: '"B"'
+    peer_id: '"A"'
     postamble_len: '16'
     preamble_len: '16'
     repeat_count: '5'
@@ -1543,8 +1543,8 @@ blocks:
     max_payload_len: '4096'
     maxoutbuf: '0'
     minoutbuf: '0'
-    my_id: '"A"'
-    peer_id: '"B"'
+    my_id: '"B"'
+    peer_id: '"A"'
   states:
     _io_cache: ('Packet Deframer RX', 'PacketDeframerRX', [('my_id', "'A'"), ('peer_id',
       "'B'"), ('max_bit_errors', '1'), ('max_payload_len', '512')], [('0', 'byte',
@@ -1632,7 +1632,7 @@ blocks:
     bus_structure: null
     coordinate: [264, 972.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: pdu_pdu_to_tagged_stream_0
   id: pdu_pdu_to_tagged_stream
   parameters:
@@ -2259,7 +2259,7 @@ blocks:
     bus_structure: null
     coordinate: [256, 1208.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: virtual_sink_0
   id: virtual_sink
   parameters:
