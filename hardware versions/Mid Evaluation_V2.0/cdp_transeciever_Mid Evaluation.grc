@@ -101,7 +101,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '433980000.0'
+    value: '410000000.0'
   states:
     bus_sink: false
     bus_source: false
@@ -347,7 +347,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2.5e6
+    value: 1.5e6
   states:
     bus_sink: false
     bus_source: false
@@ -371,7 +371,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0250'
+    value: '0.025'
   states:
     bus_sink: false
     bus_source: false
@@ -659,7 +659,7 @@ blocks:
     bus_structure: null
     coordinate: [560, 2112.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_copy_4
   id: blocks_copy
   parameters:
@@ -678,7 +678,7 @@ blocks:
     bus_structure: null
     coordinate: [936, 1728.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_copy_5
   id: blocks_copy
   parameters:
@@ -695,9 +695,28 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1256, 2096.0]
+    coordinate: [1240, 2056.0]
     rotation: 0
-    state: enabled
+    state: disabled
+- name: blocks_copy_5_0
+  id: blocks_copy
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    showports: 'False'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1520, 2136.0]
+    rotation: 0
+    state: disabled
 - name: blocks_message_debug_0
   id: blocks_message_debug
   parameters:
@@ -712,7 +731,7 @@ blocks:
     bus_structure: null
     coordinate: [1968, 1600.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_repack_bits_bb_0
   id: blocks_repack_bits_bb
   parameters:
@@ -732,7 +751,7 @@ blocks:
     bus_structure: null
     coordinate: [1432, 2040.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_repack_bits_bb_1
   id: blocks_repack_bits_bb
   parameters:
@@ -752,7 +771,7 @@ blocks:
     bus_structure: null
     coordinate: [1120, 1624.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_skiphead_0
   id: blocks_skiphead
   parameters:
@@ -787,7 +806,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 2024.0]
+    coordinate: [544, 2008.0]
     rotation: 0
     state: disabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0
@@ -808,7 +827,7 @@ blocks:
     bus_structure: null
     coordinate: [1768, 1848.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_stream_to_tagged_stream_0_0_0_0_0
   id: blocks_stream_to_tagged_stream
   parameters:
@@ -827,7 +846,7 @@ blocks:
     bus_structure: null
     coordinate: [1760, 2216.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_tag_gate_0
   id: blocks_tag_gate
   parameters:
@@ -856,7 +875,7 @@ blocks:
     lengthtagname: packet_len
     maxoutbuf: '0'
     minoutbuf: '0'
-    ninputs: '4'
+    ninputs: '2'
     tag_preserve_head_pos: '0'
     type: byte
     vlen: '1'
@@ -866,7 +885,7 @@ blocks:
     bus_structure: null
     coordinate: [2040, 1992.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_throttle2_0
   id: blocks_throttle2
   parameters:
@@ -935,7 +954,7 @@ blocks:
     bus_structure: null
     coordinate: [1064, 2040.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_vector_source_x_0
   id: blocks_vector_source_x
   parameters:
@@ -975,7 +994,7 @@ blocks:
     bus_structure: null
     coordinate: [1520, 1840.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_vector_source_x_0_0_0
   id: blocks_vector_source_x
   parameters:
@@ -995,7 +1014,7 @@ blocks:
     bus_structure: null
     coordinate: [1536, 2208.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_vector_source_x_2
   id: blocks_vector_source_x
   parameters:
@@ -1149,7 +1168,7 @@ blocks:
     bus_structure: null
     coordinate: [616, 1608.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_costas_loop_cc_0
   id: digital_costas_loop_cc
   parameters:
@@ -1185,7 +1204,7 @@ blocks:
     bus_structure: null
     coordinate: [800, 2080.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_crc32_bb_1
   id: digital_crc32_bb
   parameters:
@@ -1203,7 +1222,7 @@ blocks:
     bus_structure: null
     coordinate: [1336, 1552.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_descrambler_bb_0
   id: digital_descrambler_bb
   parameters:
@@ -1329,7 +1348,7 @@ blocks:
     bus_structure: null
     coordinate: [1760, 1960.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_scrambler_bb_0
   id: digital_scrambler_bb
   parameters:
@@ -1404,6 +1423,138 @@ blocks:
     bus_structure: null
     coordinate: [232, 2312.0]
     rotation: 180
+    state: disabled
+- name: epy_block_0_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Block: PacketFramerTX\n\"\"\"\nimport numpy\
+      \ as np\nfrom gnuradio import gr\nimport pmt\nimport zlib\n\nclass PacketFramerTX(gr.basic_block):\n\
+      \    def __init__(self, my_id=\"A\", peer_id=\"B\", preamble_len=32, postamble_len=16,\
+      \ repeat_count=5):\n        gr.basic_block.__init__(\n            self,\n  \
+      \          name=\"Packet Framer TX\",\n            in_sig=None,\n          \
+      \  out_sig=None\n        )\n        self.my_id = str(my_id)\n        self.peer_id\
+      \ = str(peer_id)\n        self.preamble_len = preamble_len\n        self.postamble_len\
+      \ = postamble_len\n        self.repeat_count = int(repeat_count)\n        self.sync_word\
+      \ = bytes([0x1A, 0xCF, 0xFC, 0x1D])\n\n        self.message_port_register_in(pmt.intern(\"\
+      msg_in\"))\n        self.set_msg_handler(pmt.intern(\"msg_in\"), self.handle_msg)\n\
+      \        self.message_port_register_out(pmt.intern(\"pdu_out\"))\n\n    def\
+      \ handle_msg(self, msg):\n        py_val = pmt.to_python(msg)\n        if isinstance(py_val,\
+      \ tuple):\n            text = bytes(py_val[1]).decode('utf-8', errors='replace')\n\
+      \        else:\n            text = str(py_val)\n\n        if not text:\n   \
+      \         return\n\n        # Prepend addresses if user typed raw text without\
+      \ headers\n        if not (\">\" in text and \":\" in text):\n            text\
+      \ = f\"{self.my_id}>{self.peer_id}:{text}\"\n\n        payload = text.encode('utf-8')\n\
+      \        is_ack = \"ACK_\" in text\n        repeats = 1 if is_ack else self.repeat_count\n\
+      \n        # Framing: [Preamble] + [Sync Word] + [Length] + [Payload] + [CRC32]\
+      \ + [Postamble]\n        frame = (\n            bytes([0xAA] * self.preamble_len)\
+      \ +\n            self.sync_word +\n            len(payload).to_bytes(2, 'big')\
+      \ +\n            payload +\n            zlib.crc32(payload).to_bytes(4, 'big')\
+      \ +\n            bytes([0xAA] * self.postamble_len)\n        )\n\n        vec\
+      \ = pmt.init_u8vector(len(frame), list(frame))\n        pdu = pmt.cons(pmt.PMT_NIL,\
+      \ vec)\n\n        for _ in range(repeats):\n            self.message_port_pub(pmt.intern(\"\
+      pdu_out\"), pdu)\n\n        if is_ack:\n            print(f\"[TX] Sent ACK back\
+      \ to {self.peer_id}\", flush=True)\n        else:\n            print(f\"[TX]\
+      \ Broadcast message to {self.peer_id} ({repeats}x): {text.split(':', 1)[1]}\"\
+      , flush=True)"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    my_id: '"A"'
+    peer_id: '"B"'
+    postamble_len: '16'
+    preamble_len: '16'
+    repeat_count: '5'
+  states:
+    _io_cache: ('Packet Framer TX', 'PacketFramerTX', [('my_id', "'A'"), ('peer_id',
+      "'B'"), ('preamble_len', '32'), ('postamble_len', '16'), ('repeat_count', '5')],
+      [('msg_in', 'message', 1)], [('pdu_out', 'message', 1)], '', ['my_id', 'peer_id',
+      'postamble_len', 'preamble_len', 'repeat_count'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2096, 2272.0]
+    rotation: 180
+    state: enabled
+- name: epy_block_0_0_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nEmbedded Python Block: PacketDeframerRX with ACK generation\n\
+      \"\"\"\nimport numpy as np\nfrom gnuradio import gr\nimport pmt\nimport zlib\n\
+      \nclass PacketDeframerRX(gr.sync_block):\n    STATE_SYNC = 0\n    STATE_HEADER\
+      \ = 1\n    STATE_PAYLOAD_CRC = 2\n\n    def __init__(self, my_id=\"A\", peer_id=\"\
+      B\", max_bit_errors=1, max_payload_len=512):\n        gr.sync_block.__init__(\n\
+      \            self,\n            name=\"Packet Deframer RX\",\n            in_sig=[np.uint8],\n\
+      \            out_sig=None\n        )\n        self.my_id = str(my_id)\n    \
+      \    self.peer_id = str(peer_id)\n        self.max_bit_errors = max_bit_errors\n\
+      \        self.max_payload_len = max_payload_len\n        self.sync_target =\
+      \ 0x1ACFFC1D\n\n        self.state = self.STATE_SYNC\n        self.shift_reg\
+      \ = 0\n        self.bit_buf = 0\n        self.bit_count = 0\n        self.byte_buf\
+      \ = bytearray()\n        self.payload_len = 0\n        self.target_bytes = 0\n\
+      \n        # Message port to feed ACK back to TX\n        self.message_port_register_out(pmt.intern(\"\
+      ack_out\"))\n\n    def work(self, input_items, output_items):\n        in_bits\
+      \ = input_items[0]\n\n        for bit in in_bits:\n            b = int(bit)\
+      \ & 1\n\n            if self.state == self.STATE_SYNC:\n                self.shift_reg\
+      \ = ((self.shift_reg << 1) | b) & 0xFFFFFFFF\n                xor_diff = self.shift_reg\
+      \ ^ self.sync_target\n                if bin(xor_diff).count('1') <= self.max_bit_errors:\n\
+      \                    self.state = self.STATE_HEADER\n                    self.bit_buf\
+      \ = 0\n                    self.bit_count = 0\n                    self.byte_buf\
+      \ = bytearray()\n                    self.target_bytes = 2\n\n            elif\
+      \ self.state == self.STATE_HEADER:\n                self.bit_buf = (self.bit_buf\
+      \ << 1) | b\n                self.bit_count += 1\n                if self.bit_count\
+      \ == 8:\n                    self.byte_buf.append(self.bit_buf)\n          \
+      \          self.bit_buf = 0\n                    self.bit_count = 0\n      \
+      \              if len(self.byte_buf) == self.target_bytes:\n               \
+      \         self.payload_len = int.from_bytes(self.byte_buf, 'big')\n        \
+      \                if 0 < self.payload_len <= self.max_payload_len:\n        \
+      \                    self.state = self.STATE_PAYLOAD_CRC\n                 \
+      \           self.byte_buf = bytearray()\n                            self.target_bytes\
+      \ = self.payload_len + 4\n                        else:\n                  \
+      \          self.state = self.STATE_SYNC\n\n            elif self.state == self.STATE_PAYLOAD_CRC:\n\
+      \                self.bit_buf = (self.bit_buf << 1) | b\n                self.bit_count\
+      \ += 1\n                if self.bit_count == 8:\n                    self.byte_buf.append(self.bit_buf)\n\
+      \                    self.bit_buf = 0\n                    self.bit_count =\
+      \ 0\n                    if len(self.byte_buf) == self.target_bytes:\n     \
+      \                   payload = bytes(self.byte_buf[:self.payload_len])\n    \
+      \                    rx_crc = int.from_bytes(self.byte_buf[self.payload_len:],\
+      \ 'big')\n\n                        if rx_crc == zlib.crc32(payload):\n    \
+      \                        msg_str = payload.decode('utf-8', errors='replace')\n\
+      \                            self._handle_valid_packet(msg_str)\n\n        \
+      \                self.state = self.STATE_SYNC\n                        self.shift_reg\
+      \ = 0\n\n        return len(in_bits)\n\n    def _handle_valid_packet(self, raw_str):\n\
+      \        # Format expectation: SRC>DST:MESSAGE\n        if \">\" not in raw_str\
+      \ or \":\" not in raw_str:\n            return\n\n        header, message =\
+      \ raw_str.split(\":\", 1)\n        src, dst = header.split(\">\", 1)\n\n   \
+      \     # 1. Reject self-reception (TX bleed)\n        if src == self.my_id:\n\
+      \            return\n\n        # 2. Reject messages directed to other stations\n\
+      \        if dst != self.my_id:\n            return\n\n        # 3. Handle packet\n\
+      \        if message.startswith(\"ACK_\"):\n            print(f\"\\n>>> [SUCCESS]\
+      \ Peer received: {message[4:]}\", flush=True)\n        else:\n            print(f\"\
+      \\n========================================\", flush=True)\n            print(f\"\
+      [RX FROM {src}]: {message}\", flush=True)\n            print(f\"========================================\"\
+      , flush=True)\n\n            # Auto-respond with ACK (Sent 1x to avoid channel\
+      \ clutter)\n            ack_payload = f\"{self.my_id}>{self.peer_id}:ACK_{message}\"\
+      \n            self.message_port_pub(pmt.intern(\"ack_out\"), pmt.intern(ack_payload))"
+    affinity: ''
+    alias: ''
+    comment: ''
+    max_bit_errors: '1'
+    max_payload_len: '4096'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    my_id: '"A"'
+    peer_id: '"B"'
+  states:
+    _io_cache: ('Packet Deframer RX', 'PacketDeframerRX', [('my_id', "'A'"), ('peer_id',
+      "'B'"), ('max_bit_errors', '1'), ('max_payload_len', '512')], [('0', 'byte',
+      1)], [('ack_out', 'message', 1)], '', ['max_bit_errors', 'max_payload_len',
+      'my_id', 'peer_id'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [376, 1744.0]
+    rotation: 180
     state: enabled
 - name: fft_filter_xxx_0
   id: fft_filter_xxx
@@ -1432,7 +1583,7 @@ blocks:
     alias: ''
     attenuation1: CH_GAIN
     bandwidth: '20000000'
-    buffer_size: '32768'
+    buffer_size: '4096'
     comment: ''
     cyclic: 'False'
     filter: ''
@@ -1458,7 +1609,7 @@ blocks:
     alias: ''
     bandwidth: '20000000'
     bbdc: 'True'
-    buffer_size: '32768'
+    buffer_size: '4096'
     comment: ''
     filter: ''
     filter_source: '''Auto'''
@@ -1498,6 +1649,23 @@ blocks:
     bus_structure: null
     coordinate: [216, 2232.0]
     rotation: 0
+    state: disabled
+- name: pdu_pdu_to_tagged_stream_0_0
+  id: pdu_pdu_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag: packet_len
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2080, 2192.0]
+    rotation: 0
     state: enabled
 - name: pdu_tagged_stream_to_pdu_0
   id: pdu_tagged_stream_to_pdu
@@ -1515,7 +1683,7 @@ blocks:
     bus_structure: null
     coordinate: [1600, 1624.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_const_sink_x_0
   id: qtgui_const_sink_x
   parameters:
@@ -1608,6 +1776,98 @@ blocks:
     coordinate: [768, 1248.0]
     rotation: 0
     state: disabled
+- name: qtgui_const_sink_x_1
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: ''
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '""'
+    nconnections: '1'
+    size: '1024'
+    style1: '0'
+    style10: '0'
+    style2: '0'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '2'
+    xmin: '-2'
+    ymax: '2'
+    ymin: '-2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2904, 600.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_edit_box_msg_0
   id: qtgui_edit_box_msg
   parameters:
@@ -1628,6 +1888,28 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [480, 2272.0]
+    rotation: 180
+    state: disabled
+- name: qtgui_edit_box_msg_0_0
+  id: qtgui_edit_box_msg
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: ''
+    is_pair: 'False'
+    is_static: 'False'
+    key: ''
+    label: '"TX Message"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: string
+    value: '"MESSAGE"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2344, 2232.0]
     rotation: 180
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -2014,7 +2296,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2304, 2032.0]
+    coordinate: [2368, 2000.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_1
@@ -2250,7 +2532,9 @@ connections:
 - [blocks_copy_3_1, '0', digital_crc32_bb_0, '0']
 - [blocks_copy_4, '0', blocks_repack_bits_bb_1, '0']
 - [blocks_copy_5, '0', blocks_repack_bits_bb_0, '0']
-- [blocks_repack_bits_bb_0, '0', blocks_tagged_stream_mux_0, '2']
+- [blocks_copy_5_0, '0', blocks_tagged_stream_mux_0, '1']
+- [blocks_copy_5_0, '0', digital_protocol_formatter_bb_0, '0']
+- [blocks_repack_bits_bb_0, '0', blocks_tagged_stream_mux_0, '1']
 - [blocks_repack_bits_bb_0, '0', digital_protocol_formatter_bb_0, '0']
 - [blocks_repack_bits_bb_1, '0', blocks_copy_3_0, '0']
 - [blocks_repack_bits_bb_1, '0', digital_crc32_bb_1, '0']
@@ -2258,8 +2542,6 @@ connections:
 - [blocks_skiphead_0, '0', root_raised_cosine_filter_0, '0']
 - [blocks_stream_to_tagged_stream_0_0_0, '0', blocks_copy_3, '0']
 - [blocks_stream_to_tagged_stream_0_0_0, '0', digital_crc32_bb_0, '0']
-- [blocks_stream_to_tagged_stream_0_0_0_0, '0', blocks_tagged_stream_mux_0, '0']
-- [blocks_stream_to_tagged_stream_0_0_0_0_0, '0', blocks_tagged_stream_mux_0, '3']
 - [blocks_tag_gate_0, '0', iio_pluto_sink_0, '0']
 - [blocks_tag_gate_0, '0', soapy_bladerf_sink_0, '0']
 - [blocks_tag_gate_0, '0', virtual_sink_0, '0']
@@ -2285,8 +2567,10 @@ connections:
 - [digital_constellation_modulator_0_0, '0', blocks_tag_gate_0, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', blocks_copy_4, '0']
 - [digital_correlate_access_code_xx_ts_0, '0', digital_descrambler_bb_0, '0']
+- [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_1, '0']
 - [digital_costas_loop_cc_0, '0', qtgui_freq_sink_x_1, '0']
 - [digital_costas_loop_cc_0, '0', virtual_sink_3, '0']
+- [digital_crc32_bb_0, '0', blocks_copy_5_0, '0']
 - [digital_crc32_bb_0, '0', blocks_unpack_k_bits_bb_1, '0']
 - [digital_crc32_bb_1, '0', pdu_tagged_stream_to_pdu_0, '0']
 - [digital_descrambler_bb_0, '0', blocks_repack_bits_bb_1, '0']
@@ -2296,17 +2580,20 @@ connections:
 - [digital_fll_band_edge_cc_0, '0', blocks_skiphead_0, '0']
 - [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
-- [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '1']
+- [digital_protocol_formatter_bb_0, '0', blocks_tagged_stream_mux_0, '0']
 - [digital_scrambler_bb_0, '0', blocks_repack_bits_bb_0, '0']
 - [digital_symbol_sync_xx_0, '0', blocks_copy_2, '0']
 - [digital_symbol_sync_xx_0, '0', digital_linear_equalizer_0, '0']
 - [epy_block_0, pdu_out, pdu_pdu_to_tagged_stream_0, pdus]
+- [epy_block_0_0, pdu_out, pdu_pdu_to_tagged_stream_0_0, pdus]
 - [fft_filter_xxx_0, '0', digital_symbol_sync_xx_0, '0']
 - [iio_pluto_source_0, '0', blocks_copy_1_1, '0']
 - [iio_pluto_source_0, '0', dc_blocker_xx_0, '0']
 - [pdu_pdu_to_tagged_stream_0, '0', blocks_copy_3_1, '0']
+- [pdu_pdu_to_tagged_stream_0_0, '0', virtual_sink_0_1, '0']
 - [pdu_tagged_stream_to_pdu_0, pdus, blocks_message_debug_0, print]
 - [qtgui_edit_box_msg_0, msg, epy_block_0, msg_in]
+- [qtgui_edit_box_msg_0_0, msg, epy_block_0_0, msg_in]
 - [root_raised_cosine_filter_0, '0', digital_symbol_sync_xx_0, '0']
 - [soapy_bladerf_source_0, '0', blocks_copy_1_1, '0']
 - [soapy_bladerf_source_0, '0', dc_blocker_xx_0, '0']
@@ -2323,6 +2610,7 @@ connections:
 - [virtual_source_2, '0', digital_constellation_decoder_cb_0_0, '0']
 - [virtual_source_2, '0', qtgui_const_sink_x_0, '0']
 - [virtual_source_2_0, '0', digital_correlate_access_code_xx_ts_0, '0']
+- [virtual_source_2_0, '0', epy_block_0_0_0, '0']
 - [virtual_source_3, '0', qtgui_time_sink_x_0, '0']
 - [virtual_source_4, '0', qtgui_freq_sink_x_0, '0']
 - [virtual_source_5, '0', blocks_stream_to_tagged_stream_0_0_0, '0']
