@@ -26,7 +26,6 @@ from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import gr, pdu
 from gnuradio import iio
-from gnuradio import soapy
 import sip
 import threading
 import transeciever_epy_block_0_0 as epy_block_0_0  # embedded python block
@@ -90,7 +89,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.costas_bw = costas_bw = 0.0628
         self.amble = amble = [0xc0, 0xaf]
         self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( QPSK_CONST, .005, 1).base()
-        self.SDR_CF = SDR_CF = 410000000.0
+        self.SDR_CF = SDR_CF = 425000000.0
         self.CH_GAIN = CH_GAIN = 20.0
         self.BPSK_CONST = BPSK_CONST = digital.constellation_rect([1+0j, -1+0j], [0, 1],
         2, 2, 1, 1, 1).base()
@@ -100,41 +99,6 @@ class transeciever(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self.soapy_rtlsdr_source_0 = None
-        dev = 'driver=rtlsdr'
-        stream_args = 'bufflen=4096'
-        tune_args = ['']
-        settings = ['']
-
-        def _set_soapy_rtlsdr_source_0_gain_mode(channel, agc):
-            self.soapy_rtlsdr_source_0.set_gain_mode(channel, agc)
-            if not agc:
-                  self.soapy_rtlsdr_source_0.set_gain(channel, self._soapy_rtlsdr_source_0_gain_value)
-        self.set_soapy_rtlsdr_source_0_gain_mode = _set_soapy_rtlsdr_source_0_gain_mode
-
-        def _set_soapy_rtlsdr_source_0_gain(channel, name, gain):
-            self._soapy_rtlsdr_source_0_gain_value = gain
-            if not self.soapy_rtlsdr_source_0.get_gain_mode(channel):
-                self.soapy_rtlsdr_source_0.set_gain(channel, gain)
-        self.set_soapy_rtlsdr_source_0_gain = _set_soapy_rtlsdr_source_0_gain
-
-        def _set_soapy_rtlsdr_source_0_bias(bias):
-            if 'biastee' in self._soapy_rtlsdr_source_0_setting_keys:
-                self.soapy_rtlsdr_source_0.write_setting('biastee', bias)
-        self.set_soapy_rtlsdr_source_0_bias = _set_soapy_rtlsdr_source_0_bias
-
-        self.soapy_rtlsdr_source_0 = soapy.source(dev, "fc32", 1, '',
-                                  stream_args, tune_args, settings)
-
-        self._soapy_rtlsdr_source_0_setting_keys = [a.key for a in self.soapy_rtlsdr_source_0.get_setting_info()]
-
-        self.soapy_rtlsdr_source_0.set_sample_rate(0, samp_rate)
-        self.soapy_rtlsdr_source_0.set_frequency(0, SDR_CF)
-        self.soapy_rtlsdr_source_0.set_frequency_correction(0, 0)
-        self.set_soapy_rtlsdr_source_0_bias(bool(False))
-        self._soapy_rtlsdr_source_0_gain_value = CH_GAIN
-        self.set_soapy_rtlsdr_source_0_gain_mode(0, bool(False))
-        self.set_soapy_rtlsdr_source_0_gain(0, 'TUNER', CH_GAIN)
         self.root_raised_cosine_filter_0 = filter.fir_filter_ccf(
             1,
             firdes.root_raised_cosine(
@@ -272,6 +236,16 @@ class transeciever(gr.top_block, Qt.QWidget):
         self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
         self.pdu_pdu_to_tagged_stream_0_0 = pdu.pdu_to_tagged_stream(gr.types.byte_t, 'packet_len')
+        self.iio_pluto_source_0 = iio.fmcomms2_source_fc32(ADDR if ADDR else iio.get_pluto_uri(), [True, True], 4096)
+        self.iio_pluto_source_0.set_len_tag_key('packet_len')
+        self.iio_pluto_source_0.set_frequency(int(SDR_CF))
+        self.iio_pluto_source_0.set_samplerate(int(samp_rate))
+        self.iio_pluto_source_0.set_gain_mode(0, 'slow_attack')
+        self.iio_pluto_source_0.set_gain(0, 64)
+        self.iio_pluto_source_0.set_quadrature(True)
+        self.iio_pluto_source_0.set_rfdc(True)
+        self.iio_pluto_source_0.set_bbdc(True)
+        self.iio_pluto_source_0.set_filter_params('Auto', '', 0, 0)
         self.iio_pluto_sink_0 = iio.fmcomms2_sink_fc32(ADDR if ADDR else iio.get_pluto_uri(), [True, True], 4096, False)
         self.iio_pluto_sink_0.set_len_tag_key('')
         self.iio_pluto_sink_0.set_bandwidth(20000000)
@@ -279,8 +253,8 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.iio_pluto_sink_0.set_samplerate(int(samp_rate))
         self.iio_pluto_sink_0.set_attenuation(0, CH_GAIN)
         self.iio_pluto_sink_0.set_filter_params('Auto', '', 0, 0)
-        self.epy_block_0_0_0 = epy_block_0_0_0.PacketDeframerRX(max_bit_errors=1, max_payload_len=4096)
-        self.epy_block_0_0 = epy_block_0_0.PacketFramerTX(preamble_len=16, postamble_len=16, repeat_count=5)
+        self.epy_block_0_0_0 = epy_block_0_0_0.PacketDeframer(max_bit_errors=1, max_payload_len=4096)
+        self.epy_block_0_0 = epy_block_0_0.PacketFramer(preamble_len=32, postamble_len=32, repeat_count=5)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_cc(
             digital.TED_SIGNAL_TIMES_SLOPE_ML,
             sps,
@@ -295,7 +269,7 @@ class transeciever(gr.top_block, Qt.QWidget):
             [])
         self.digital_fll_band_edge_cc_0 = digital.fll_band_edge_cc(sps, alpha, (2* sps +1), fll_loop_bw)
         self.digital_diff_decoder_bb_0_0 = digital.diff_decoder_bb(2, digital.DIFF_DIFFERENTIAL)
-        self.digital_costas_loop_cc_0 = digital.costas_loop_cc(0.2, BPSK_CONST.arity(), False)
+        self.digital_costas_loop_cc_0 = digital.costas_loop_cc(costas_bw, BPSK_CONST.arity(), False)
         self.digital_constellation_modulator_0_0 = digital.generic_mod(
             constellation=BPSK_CONST,
             differential=True,
@@ -341,9 +315,9 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.connect((self.digital_diff_decoder_bb_0_0, 0), (self.blocks_unpack_k_bits_bb_0_0, 0))
         self.connect((self.digital_fll_band_edge_cc_0, 0), (self.blocks_copy_1_2, 0))
         self.connect((self.digital_symbol_sync_xx_0, 0), (self.blocks_copy_2, 0))
+        self.connect((self.iio_pluto_source_0, 0), (self.blocks_copy_1_1, 0))
         self.connect((self.pdu_pdu_to_tagged_stream_0_0, 0), (self.blocks_copy_0, 0))
         self.connect((self.root_raised_cosine_filter_0, 0), (self.digital_symbol_sync_xx_0, 0))
-        self.connect((self.soapy_rtlsdr_source_0, 0), (self.blocks_copy_1_1, 0))
 
 
     def closeEvent(self, event):
@@ -370,10 +344,10 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.set_rcc_taps(firdes.root_raised_cosine(1, self.samp_rate, self.samp_rate/float(self.sps), self.alpha, (self.nfilts*self.sps)))
         self.iio_pluto_sink_0.set_samplerate(int(self.samp_rate))
+        self.iio_pluto_source_0.set_samplerate(int(self.samp_rate))
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
         self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
-        self.soapy_rtlsdr_source_0.set_sample_rate(0, self.samp_rate)
 
     def get_nfilts(self):
         return self.nfilts
@@ -469,6 +443,7 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_costas_bw(self, costas_bw):
         self.costas_bw = costas_bw
+        self.digital_costas_loop_cc_0.set_loop_bandwidth(self.costas_bw)
 
     def get_amble(self):
         return self.amble
@@ -488,7 +463,7 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_SDR_CF(self, SDR_CF):
         self.SDR_CF = SDR_CF
         self.iio_pluto_sink_0.set_frequency(int(self.SDR_CF))
-        self.soapy_rtlsdr_source_0.set_frequency(0, self.SDR_CF)
+        self.iio_pluto_source_0.set_frequency(int(self.SDR_CF))
 
     def get_CH_GAIN(self):
         return self.CH_GAIN
@@ -496,7 +471,6 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_CH_GAIN(self, CH_GAIN):
         self.CH_GAIN = CH_GAIN
         self.iio_pluto_sink_0.set_attenuation(0,self.CH_GAIN)
-        self.set_soapy_rtlsdr_source_0_gain(0, 'TUNER', self.CH_GAIN)
 
     def get_BPSK_CONST(self):
         return self.BPSK_CONST

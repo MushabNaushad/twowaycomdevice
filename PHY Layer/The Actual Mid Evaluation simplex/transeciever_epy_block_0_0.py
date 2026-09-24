@@ -1,16 +1,16 @@
 """
-Embedded Python Block: PacketFramerTX with Repetition
+Embedded Python Block: PacketFramer 
 """
 import numpy as np
 from gnuradio import gr
 import pmt
 import zlib
 
-class PacketFramerTX(gr.basic_block):
+class PacketFramer(gr.basic_block):
     def __init__(self, preamble_len=32, postamble_len=16, repeat_count=1):
         gr.basic_block.__init__(
             self,
-            name="Packet Framer TX",
+            name="Packet Framer",
             in_sig=None,
             out_sig=None
         )
@@ -48,7 +48,7 @@ class PacketFramerTX(gr.basic_block):
         if not payload:
             return
 
-        # Frame construction
+        
         preamble = bytes([0xAA] * self.preamble_len)
         length_hdr = len(payload).to_bytes(2, byteorder='big')
         crc = zlib.crc32(payload).to_bytes(4, byteorder='big')
@@ -56,11 +56,11 @@ class PacketFramerTX(gr.basic_block):
 
         frame = preamble + self.sync_word + length_hdr + payload + crc + postamble
 
-        # Create PDU
+       
         vec = pmt.init_u8vector(len(frame), list(frame))
         pdu = pmt.cons(pmt.PMT_NIL, vec)
 
-        # Publish N times
+        
         print(f"[TX] Broadcasting '{text}' ({self.repeat_count} times)...", flush=True)
         for _ in range(self.repeat_count):
             self.message_port_pub(pmt.intern("pdu_out"), pdu)

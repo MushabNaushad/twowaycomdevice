@@ -1,11 +1,11 @@
 """
-Embedded Python Block: PacketDeframerRX
+Embedded Python Block: PacketDeframer
 """
 import numpy as np
 from gnuradio import gr
 import zlib
 
-class PacketDeframerRX(gr.sync_block):
+class PacketDeframer(gr.sync_block):
     STATE_SYNC = 0
     STATE_HEADER = 1
     STATE_PAYLOAD_CRC = 2
@@ -13,14 +13,13 @@ class PacketDeframerRX(gr.sync_block):
     def __init__(self, max_bit_errors=1, max_payload_len=512):
         gr.sync_block.__init__(
             self,
-            name="Packet Deframer RX",
+            name="Packet Deframer",
             in_sig=[np.uint8],
             out_sig=None
         )
         self.max_bit_errors = max_bit_errors
         self.max_payload_len = max_payload_len
-        self.sync_target = 0x1ACFFC1D  # Matches TX sync word
-
+        self.sync_target = 0x1ACFFC1D  
         self.state = self.STATE_SYNC
         self.shift_reg = 0
         self.bit_buf = 0
@@ -39,7 +38,7 @@ class PacketDeframerRX(gr.sync_block):
                 self.shift_reg = ((self.shift_reg << 1) | b) & 0xFFFFFFFF
                 xor_diff = self.shift_reg ^ self.sync_target
                 
-                # Check for sync match (allowing bit errors over RF)
+               
                 if bin(xor_diff).count('1') <= self.max_bit_errors:
                     self.state = self.STATE_HEADER
                     self.bit_buf = 0
@@ -59,9 +58,9 @@ class PacketDeframerRX(gr.sync_block):
                         if 0 < self.payload_len <= self.max_payload_len:
                             self.state = self.STATE_PAYLOAD_CRC
                             self.byte_buf = bytearray()
-                            self.target_bytes = self.payload_len + 4  # payload + 4 CRC bytes
+                            self.target_bytes = self.payload_len + 4 
                         else:
-                            # False trigger / corrupted header
+                            
                             self.state = self.STATE_SYNC
 
             elif self.state == self.STATE_PAYLOAD_CRC:

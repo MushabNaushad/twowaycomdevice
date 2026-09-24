@@ -101,7 +101,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '410000000.0'
+    value: '425000000.0'
   states:
     bus_sink: false
     bus_source: false
@@ -166,7 +166,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.15'
+    value: '0.0628'
   states:
     bus_sink: false
     bus_source: false
@@ -982,8 +982,8 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    postamble_len: '16'
-    preamble_len: '16'
+    postamble_len: '32'
+    preamble_len: '32'
     repeat_count: '5'
   states:
     _io_cache: ('Packet Framer', 'PacketFramer', [('preamble_len', '32'), ('postamble_len',
@@ -1116,7 +1116,7 @@ blocks:
     bus_structure: null
     coordinate: [264, 972.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: pdu_pdu_to_tagged_stream_0_0
   id: pdu_pdu_to_tagged_stream
   parameters:
@@ -1595,7 +1595,7 @@ blocks:
     bus_structure: null
     coordinate: [264, 1228.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: virtual_sink_0
   id: virtual_sink
   parameters:
@@ -1902,4 +1902,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: 3.10.9.2
+  grc_version: 3.10.12.0
