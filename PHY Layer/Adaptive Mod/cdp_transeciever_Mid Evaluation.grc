@@ -49,7 +49,7 @@ blocks:
   id: variable_constellation_rect
   parameters:
     comment: ''
-    const_points: '[1+0j, -1+0j]'
+    const_points: '[-1+0j, 1+0j]'
     imag_sect: '1'
     precision: '8'
     real_sect: '2'
@@ -87,7 +87,7 @@ blocks:
     real_sect: '2'
     rot_sym: '4'
     soft_dec_lut: None
-    sym_map: '[0, 1, 3, 2]'
+    sym_map: '[0, 1, 2, 3]'
     w_imag_sect: '1'
     w_real_sect: '1'
   states:
@@ -116,7 +116,7 @@ blocks:
     cons: QPSK_CONST
     delta: '10.0'
     ffactor: '0.99'
-    modulus: '4'
+    modulus: '1'
     step_size: '.1'
     type: cma
   states:
@@ -150,6 +150,27 @@ blocks:
     coordinate: [208, 92.0]
     rotation: 0
     state: enabled
+- name: ep
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.9999'
+    step: '0.0001'
+    stop: '1.0001'
+    value: '1'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1272, 2016.0]
+    rotation: 0
+    state: enabled
 - name: fll_loop_bw
   id: variable
   parameters:
@@ -160,6 +181,48 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [480, 16.0]
+    rotation: 0
+    state: enabled
+- name: fo
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-0.01'
+    step: '0.001'
+    stop: '0.01'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 2016.0]
+    rotation: 0
+    state: enabled
+- name: nv
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: ''
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.1'
+    stop: '1'
+    value: '.5'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [872, 2016.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -255,7 +318,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1608, 200.0]
+    coordinate: [1568, 200.0]
     rotation: 0
     state: enabled
 - name: blocks_repack_bits_bb_0_1
@@ -275,7 +338,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1608, 312.0]
+    coordinate: [1568, 312.0]
     rotation: 0
     state: enabled
 - name: blocks_selector_0
@@ -298,7 +361,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1400, 248.0]
+    coordinate: [1352, 248.0]
     rotation: 0
     state: enabled
 - name: blocks_selector_0_0
@@ -321,7 +384,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2160, 216.0]
+    coordinate: [2248, 216.0]
     rotation: 0
     state: enabled
 - name: blocks_selector_0_0_0
@@ -387,7 +450,28 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2376, 360.0]
+    coordinate: [2464, 360.0]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 1840.0]
     rotation: 0
     state: enabled
 - name: blocks_unpack_k_bits_bb_0_0_0
@@ -438,13 +522,34 @@ blocks:
     coordinate: [2136, 1376.0]
     rotation: 0
     state: enabled
+- name: channels_channel_model_0
+  id: channels_channel_model
+  parameters:
+    affinity: ''
+    alias: ''
+    block_tags: 'False'
+    comment: ''
+    epsilon: ep
+    freq_offset: fo
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_voltage: nv
+    seed: '0'
+    taps: '1.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1112, 1808.0]
+    rotation: 0
+    state: enabled
 - name: digital_chunks_to_symbols_xx_0
   id: digital_chunks_to_symbols_xx
   parameters:
     affinity: ''
     alias: ''
     comment: ''
-    dimension: '2'
+    dimension: '1'
     in_type: byte
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -455,7 +560,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1952, 472.0]
+    coordinate: [2440, 472.0]
     rotation: 0
     state: enabled
 - name: digital_chunks_to_symbols_xx_0_0
@@ -464,7 +569,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    dimension: '2'
+    dimension: '1'
     in_type: byte
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -475,7 +580,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1912, 216.0]
+    coordinate: [2008, 216.0]
     rotation: 0
     state: enabled
 - name: digital_chunks_to_symbols_xx_0_1
@@ -484,7 +589,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    dimension: '2'
+    dimension: '1'
     in_type: byte
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -495,7 +600,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1912, 328.0]
+    coordinate: [1984, 328.0]
     rotation: 0
     state: enabled
 - name: digital_constellation_decoder_cb_0_0_0
@@ -552,12 +657,12 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    mark_delay: '32'
+    mark_delay: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
     sps: '1'
     symbols: '[-1.0 if b == ''0'' else 1.0 for b in f"{0x1ACFFC1D:032b}"]'
-    threshold: '0.85'
+    threshold: '0.75'
     threshold_method: digital.THRESHOLD_DYNAMIC
   states:
     bus_sink: false
@@ -671,6 +776,57 @@ blocks:
     coordinate: [1744, 1368.0]
     rotation: 0
     state: enabled
+- name: digital_diff_encoder_bb_0
+  id: digital_diff_encoder_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    coding: digital.DIFF_DIFFERENTIAL
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    modulus: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1872, 456.0]
+    rotation: 0
+    state: enabled
+- name: digital_diff_encoder_bb_0_0
+  id: digital_diff_encoder_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    coding: digital.DIFF_DIFFERENTIAL
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    modulus: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1760, 200.0]
+    rotation: 0
+    state: enabled
+- name: digital_diff_encoder_bb_0_1
+  id: digital_diff_encoder_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    coding: digital.DIFF_DIFFERENTIAL
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    modulus: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1744, 312.0]
+    rotation: 0
+    state: enabled
 - name: digital_fll_band_edge_cc_0
   id: digital_fll_band_edge_cc
   parameters:
@@ -698,7 +854,7 @@ blocks:
     alias: ''
     comment: ''
     guard_interval: '0'
-    header_len: '200'
+    header_len: '33'
     header_padding: '0'
     items_per_symbol: '1'
     length_tag_key: '"payload_symbols"'
@@ -708,7 +864,7 @@ blocks:
     samp_rate: samp_rate
     special_tags: ()
     timing_tag_key: '"rx_time"'
-    trigger_tag_key: '""'
+    trigger_tag_key: '"time_est"'
     type: complex
   states:
     bus_sink: false
@@ -744,7 +900,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    map: '[0,1,3,2]'
+    map: '[0, 1, 2, 3]'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
@@ -785,63 +941,49 @@ blocks:
   id: epy_block
   parameters:
     _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt\n\nclass\
-      \ HeaderRecoveryBlock(gr.sync_block):\n    \"\"\"\n    Correlates for CCSDS\
-      \ 32-bit ASM (0x1ACFFC1D) on an unpacked bit stream.\n    Decodes MCS and Payload\
-      \ Length, and outputs:\n      - 'len_out'     : Payload byte length (connects\
-      \ to Unpacked Payload Decoder)\n      - 'mcs_out'     : 0 for BPSK, 1 for QPSK\
-      \ (connects to Selector o_index)\n      - 'header_data' : Dict with payload_symbols\
-      \ (connects to Header/Payload Demux)\n    \"\"\"\n    CCSDS_ASM = 0x1ACFFC1D\n\
-      \n    def __init__(self):\n        gr.sync_block.__init__(\n            self,\n\
-      \            name=\"Header Recovery & MCS Decoder\",\n            in_sig=[np.uint8],\n\
-      \            out_sig=[]\n        )\n        # Message output ports\n       \
-      \ self.message_port_register_out(pmt.intern(\"len_out\"))\n        self.message_port_register_out(pmt.intern(\"\
-      mcs_out\"))\n        self.message_port_register_out(pmt.intern(\"header_data\"\
-      ))\n\n        self.shift_reg = 0\n        self.state = \"SEARCH_SYNC\"\n   \
-      \     self.header_bits = []\n        self.header_len_bits = 8 + 16  # 1 byte\
-      \ MCS (8 bits) + 2 bytes Length (16 bits)\n\n    def work(self, input_items,\
-      \ output_items):\n        in_bits = input_items[0]\n\n        for b in in_bits:\n\
-      \            bit = int(b) & 0x01\n\n            if self.state == \"SEARCH_SYNC\"\
-      :\n                self.shift_reg = ((self.shift_reg << 1) & 0xFFFFFFFF) | bit\n\
-      \                if self.shift_reg == self.CCSDS_ASM:\n                    self.state\
-      \ = \"READ_HEADER\"\n                    self.header_bits = []\n\n         \
-      \   elif self.state == \"READ_HEADER\":\n                self.header_bits.append(bit)\n\
-      \                if len(self.header_bits) == self.header_len_bits:\n       \
-      \             # 1. Convert bit list to bytes\n                    hdr_bytes\
-      \ = bytearray()\n                    for i in range(0, self.header_len_bits,\
-      \ 8):\n                        byte_val = 0\n                        for j in\
-      \ range(8):\n                            byte_val = (byte_val << 1) | self.header_bits[i\
-      \ + j]\n                        hdr_bytes.append(byte_val)\n\n             \
-      \       # 2. Extract fields\n                    mcs_id = hdr_bytes[0]\n   \
-      \                 payload_len = (hdr_bytes[1] << 8) | hdr_bytes[2]\n       \
-      \             selected_mcs = 1 if mcs_id == 1 else 0\n\n                   \
-      \ # 3. Calculate payload symbols for Header/Payload Demux\n                \
-      \    # (BPSK = 8 syms/byte; QPSK = 4 syms/byte)\n                    syms =\
-      \ (payload_len * 8) if (selected_mcs == 0) else (payload_len * 4)\n        \
-      \            demux_info = pmt.make_dict()\n                    demux_info =\
-      \ pmt.dict_add(demux_info, pmt.intern(\"payload_symbols\"), pmt.from_long(syms))\n\
-      \n                    # ---------------- Publish Outputs ----------------\n\
-      \                    # 1. Total payload byte length to Decoder Sink\n      \
-      \              self.message_port_pub(pmt.intern(\"len_out\"), pmt.from_long(payload_len))\n\
-      \n                    # 2. Modulation index (0 or 1) to Selector\n         \
-      \           self.message_port_pub(pmt.intern(\"mcs_out\"), pmt.from_long(selected_mcs))\n\
-      \n                    # 3. Symbol count dict to Header/Payload Demux\n     \
-      \               self.message_port_pub(pmt.intern(\"header_data\"), demux_info)\n\
-      \n                    # Reset state for next frame\n                    self.shift_reg\
-      \ = 0\n                    self.state = \"SEARCH_SYNC\"\n\n        return len(in_bits)\n"
+      \ HeaderRecoveryBlock(gr.sync_block):\n    def __init__(self):\n        gr.sync_block.__init__(\n\
+      \            self,\n            name=\"Header Recovery & MCS Decoder\",\n  \
+      \          in_sig=[np.uint8],\n            out_sig=[]\n        )\n        self.message_port_register_out(pmt.intern(\"\
+      len_out\"))\n        self.message_port_register_out(pmt.intern(\"mcs_out\"))\n\
+      \        self.message_port_register_out(pmt.intern(\"header_data\"))\n     \
+      \   self.bit_buf = []\n\n    def work(self, input_items, output_items):\n  \
+      \      in_bits = input_items[0]\n        for b in in_bits:\n            self.bit_buf.append(int(b)\
+      \ & 1)\n\n            # 33 bits: 1 trailing sync bit + 32 metadata bits\n  \
+      \          if len(self.bit_buf) == 33:\n                # Discard index 0 (the\
+      \ boundary sync bit)\n                meta_bits = self.bit_buf[1:]\n       \
+      \         \n                raw_bytes = bytearray()\n                for i in\
+      \ range(0, 32, 8):\n                    byte_val = 0\n                    for\
+      \ j in range(8):\n                        byte_val = (byte_val << 1) | meta_bits[i\
+      \ + j]\n                    raw_bytes.append(byte_val)\n\n                b0,\
+      \ b1, b2, b3 = raw_bytes[0], raw_bytes[1], raw_bytes[2], raw_bytes[3]\n    \
+      \            valid = False\n\n                # Case 1: Normal phase\n     \
+      \           if ((b0 + b1 + b2) & 0xFF) == b3:\n                    valid = True\n\
+      \                # Case 2: Inverted 180 deg phase\n                elif (((~b0\
+      \ & 0xFF) + (~b1 & 0xFF) + (~b2 & 0xFF)) & 0xFF) == (~b3 & 0xFF):\n        \
+      \            b0, b1, b2 = (~b0) & 0xFF, (~b1) & 0xFF, (~b2) & 0xFF\n       \
+      \             valid = True\n\n                if valid:\n                  \
+      \  selected_mcs = 1 if b0 == 1 else 0\n                    payload_len = (b1\
+      \ << 8) | b2\n                    syms = (payload_len * 8) if selected_mcs ==\
+      \ 0 else (payload_len * 4)\n\n                    print(f\"[RX] Header Valid!\
+      \ MCS={selected_mcs} ({'QPSK' if selected_mcs==1 else 'BPSK'}), Payload={payload_len}\
+      \ bytes ({syms} syms)\", flush=True)\n\n                    demux_info = pmt.make_dict()\n\
+      \                    demux_info = pmt.dict_add(demux_info, pmt.intern(\"payload_symbols\"\
+      ), pmt.from_long(syms))\n\n                    self.message_port_pub(pmt.intern(\"\
+      header_data\"), demux_info)\n                    self.message_port_pub(pmt.intern(\"\
+      len_out\"), pmt.from_long(payload_len))\n                    self.message_port_pub(\n\
+      \                        pmt.intern(\"mcs_out\"),\n                        pmt.cons(pmt.PMT_NIL,\
+      \ pmt.from_long(selected_mcs))\n                    )\n                else:\n\
+      \                    print(f\"[RX] Header Checksum Failed (Raw: {list(raw_bytes)})\"\
+      , flush=True)\n\n                self.bit_buf.clear()\n\n        return len(in_bits)\n"
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: '(''Header Recovery & MCS Decoder'', ''HeaderRecoveryBlock'', [], [(''0'',
-      ''byte'', 1)], [(''header_data'', ''message'', 1), (''mcs_out'', ''message'',
-      1), (''len_out'', ''message'', 1)], "\n    Correlates for CCSDS 32-bit ASM (0x1ACFFC1D)
-      on an unpacked bit stream.\n    Decodes MCS and Payload Length, and outputs:\n      -
-      ''len_out''     : Payload byte length (connects to Unpacked Payload Decoder)\n      -
-      ''mcs_out''     : 0 for BPSK, 1 for QPSK (connects to Selector o_index)\n      -
-      ''header_data'' : Dict with payload_symbols (connects to Header/Payload Demux)\n    ",
-      [])'
+    _io_cache: ('Header Recovery & MCS Decoder', 'HeaderRecoveryBlock', [], [('0',
+      'byte', 1)], [('header_data', 'message', 1), ('mcs_out', 'message', 1), ('len_out',
+      'message', 1)], '', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -853,37 +995,35 @@ blocks:
   parameters:
     _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt\nimport\
       \ struct\nimport zlib\n\nclass AdaptivePayloadGenerator(gr.basic_block):\n \
-      \   \"\"\"\n    Appends CRC32 to incoming payload.\n    Outputs:\n      - 'payload_out':\
-      \ PDU containing (payload + CRC32)\n      - 'len_out': Total length of (payload\
-      \ + CRC32) as an integer PMT\n    \"\"\"\n    def __init__(self):\n        gr.basic_block.__init__(\n\
-      \            self,\n            name=\"Adaptive Payload Generator\",\n     \
-      \       in_sig=[],\n            out_sig=[]\n        )\n        self.message_port_register_in(pmt.intern(\"\
+      \   def __init__(self):\n        gr.basic_block.__init__(\n            self,\n\
+      \            name=\"Adaptive Payload Generator\",\n            in_sig=[],\n\
+      \            out_sig=[]\n        )\n        self.message_port_register_in(pmt.intern(\"\
       in\"))\n        self.message_port_register_out(pmt.intern(\"payload_out\"))\n\
       \        self.message_port_register_out(pmt.intern(\"len_out\"))\n        self.set_msg_handler(pmt.intern(\"\
-      in\"), self.handle_msg)\n\n    def handle_msg(self, msg):\n        if not pmt.is_pair(msg):\n\
-      \            return\n\n        meta = pmt.car(msg)\n        data_pmt = pmt.cdr(msg)\n\
-      \        payload = bytes(pmt.u8vector_elements(data_pmt))\n\n        # Calculate\
-      \ and append CRC32 (4 bytes, big-endian)\n        crc = zlib.crc32(payload)\
-      \ & 0xFFFFFFFF\n        crc_bytes = struct.pack(\"!I\", crc)\n        framed_payload\
-      \ = payload + crc_bytes\n        total_len = len(framed_payload)\n\n       \
-      \ # Add payload length to metadata\n        if not pmt.is_dict(meta):\n    \
-      \        meta = pmt.make_dict()\n        meta = pmt.dict_add(meta, pmt.intern(\"\
-      payload_len\"), pmt.from_long(total_len))\n\n        # 1. Output the framed\
-      \ payload PDU\n        out_vec = pmt.init_u8vector(total_len, list(framed_payload))\n\
-      \        self.message_port_pub(pmt.intern(\"payload_out\"), pmt.cons(meta, out_vec))\n\
-      \n        # 2. Output the total payload length\n        self.message_port_pub(pmt.intern(\"\
-      len_out\"), pmt.from_long(total_len))\n"
+      in\"), self.handle_msg)\n\n    def handle_msg(self, msg):\n        raw_bytes\
+      \ = b\"\"\n        if pmt.is_symbol(msg):\n            raw_bytes = pmt.symbol_to_string(msg).encode('utf-8')\n\
+      \        elif pmt.is_string(msg):\n            raw_bytes = pmt.to_python(msg).encode('utf-8')\n\
+      \        elif pmt.is_pair(msg):\n            cdr = pmt.cdr(msg)\n          \
+      \  if pmt.is_u8vector(cdr):\n                raw_bytes = bytes(pmt.u8vector_elements(cdr))\n\
+      \            elif pmt.is_string(cdr) or pmt.is_symbol(cdr):\n              \
+      \  raw_bytes = pmt.to_python(cdr).encode('utf-8')\n        else:\n         \
+      \   return\n\n        if len(raw_bytes) == 0:\n            return\n\n      \
+      \  # Append CRC32 (4 bytes, big-endian)\n        crc = zlib.crc32(raw_bytes)\
+      \ & 0xFFFFFFFF\n        framed_payload = raw_bytes + struct.pack(\"!I\", crc)\n\
+      \        total_len = len(framed_payload)\n\n        print(f\"\\n[TX] Transmitting:\
+      \ '{raw_bytes.decode('utf-8', errors='replace')}' ({total_len} bytes framed)\"\
+      , flush=True)\n\n        out_vec = pmt.init_u8vector(total_len, list(framed_payload))\n\
+      \        self.message_port_pub(pmt.intern(\"payload_out\"), pmt.cons(pmt.PMT_NIL,\
+      \ out_vec))\n        self.message_port_pub(pmt.intern(\"len_out\"), pmt.from_long(total_len))\n"
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: '(''Adaptive Payload Generator'', ''AdaptivePayloadGenerator'', [],
-      [(''in'', ''message'', 1)], [(''len_out'', ''message'', 1), (''payload_out'',
-      ''message'', 1)], "\n    Appends CRC32 to incoming payload.\n    Outputs:\n      -
-      ''payload_out'': PDU containing (payload + CRC32)\n      - ''len_out'': Total
-      length of (payload + CRC32) as an integer PMT\n    ", [])'
+    _io_cache: ('Adaptive Payload Generator', 'AdaptivePayloadGenerator', [], [('in',
+      'message', 1)], [('len_out', 'message', 1), ('payload_out', 'message', 1)],
+      '', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -894,51 +1034,44 @@ blocks:
   id: epy_block
   parameters:
     _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt\nimport\
-      \ struct\n\nclass AdaptiveHeaderGenerator(gr.basic_block):\n    \"\"\"\n   \
-      \ Constructs the BPSK Header frame and emits the current MCS \n    to switch\
-      \ the transmitter modulation selector.\n    \"\"\"\n    def __init__(self, preamble_len=8,\
+      \ struct\n\nclass AdaptiveHeaderGenerator(gr.basic_block):\n    def __init__(self,\
       \ default_mcs=0):\n        gr.basic_block.__init__(\n            self,\n   \
       \         name=\"Adaptive Header Generator\",\n            in_sig=[],\n    \
-      \        out_sig=[]\n        )\n        self.preamble_len = max(1, int(preamble_len))\n\
-      \        self.current_mcs = 1 if default_mcs == 1 else 0\n\n        self.sync_word\
-      \ = 0x1ACFFC1D\n        self.postamble = bytes([0x55, 0x55])\n\n        # Message\
-      \ Ports\n        self.message_port_register_in(pmt.intern(\"len_in\"))\n   \
-      \     self.message_port_register_in(pmt.intern(\"mcs_in\"))\n        self.message_port_register_out(pmt.intern(\"\
+      \        out_sig=[]\n        )\n        self.current_mcs = 1 if default_mcs\
+      \ == 1 else 0\n\n        self.message_port_register_in(pmt.intern(\"len_in\"\
+      ))\n        self.message_port_register_in(pmt.intern(\"mcs_in\"))\n        self.message_port_register_out(pmt.intern(\"\
       header_out\"))\n        self.message_port_register_out(pmt.intern(\"mcs_out\"\
-      ))  # <--- Connects to TX Selector o_index\n\n        self.set_msg_handler(pmt.intern(\"\
-      len_in\"), self.handle_len)\n        self.set_msg_handler(pmt.intern(\"mcs_in\"\
-      ), self.handle_mcs)\n\n    def handle_mcs(self, msg):\n        val = None\n\
-      \        if pmt.is_integer(msg):\n            val = pmt.to_long(msg)\n     \
-      \   elif pmt.is_symbol(msg) or pmt.is_string(msg):\n            s = pmt.symbol_to_string(msg)\
-      \ if pmt.is_symbol(msg) else pmt.symbol_name(msg)\n            val = 1 if s.upper()\
-      \ == \"QPSK\" else 0\n        elif pmt.is_pair(msg):\n            cdr = pmt.cdr(msg)\n\
-      \            if pmt.is_integer(cdr):\n                val = pmt.to_long(cdr)\n\
-      \n        if val is not None:\n            self.current_mcs = 1 if val == 1\
-      \ else 0\n\n    def handle_len(self, msg):\n        total_len = 0\n        if\
-      \ pmt.is_integer(msg):\n            total_len = pmt.to_long(msg)\n        elif\
-      \ pmt.is_pair(msg):\n            total_len = pmt.length(pmt.cdr(msg))\n    \
-      \    else:\n            return\n\n        preamble = bytes([0xAA] * self.preamble_len)\n\
-      \        sync_bytes = struct.pack(\"!I\", self.sync_word)\n        mcs_byte\
-      \ = struct.pack(\"!B\", self.current_mcs)\n        len_bytes = struct.pack(\"\
-      !H\", total_len)\n\n        header = preamble + sync_bytes + mcs_byte + len_bytes\
-      \ + self.postamble\n\n        # 1. Output the header PDU\n        out_vec =\
-      \ pmt.init_u8vector(len(header), list(header))\n        self.message_port_pub(pmt.intern(\"\
-      header_out\"), pmt.cons(pmt.PMT_NIL, out_vec))\n\n        # 2. Output MCS index\
-      \ to switch the payload selector\n        self.message_port_pub(pmt.intern(\"\
-      mcs_out\"), pmt.from_long(self.current_mcs))\n"
+      ))\n\n        self.set_msg_handler(pmt.intern(\"len_in\"), self.handle_len)\n\
+      \        self.set_msg_handler(pmt.intern(\"mcs_in\"), self.handle_mcs)\n\n \
+      \   def handle_mcs(self, msg):\n        val = None\n        if pmt.is_integer(msg):\n\
+      \            val = pmt.to_long(msg)\n        elif pmt.is_pair(msg):\n      \
+      \      cdr = pmt.cdr(msg)\n            if pmt.is_integer(cdr):\n           \
+      \     val = pmt.to_long(cdr)\n        elif pmt.is_symbol(msg) or pmt.is_string(msg):\n\
+      \            s = pmt.symbol_to_string(msg) if pmt.is_symbol(msg) else pmt.symbol_name(msg)\n\
+      \            val = 1 if s.upper() == \"QPSK\" else 0\n\n        if val is not\
+      \ None:\n            self.current_mcs = 1 if val == 1 else 0\n\n    def handle_len(self,\
+      \ msg):\n        total_len = 0\n        if pmt.is_integer(msg):\n          \
+      \  total_len = pmt.to_long(msg)\n        elif pmt.is_pair(msg):\n          \
+      \  total_len = pmt.length(pmt.cdr(msg))\n        else:\n            return\n\
+      \n        mcs_byte = struct.pack(\"!B\", self.current_mcs)\n        len_bytes\
+      \ = struct.pack(\"!H\", total_len)\n        chk = (self.current_mcs + (total_len\
+      \ >> 8) + (total_len & 0xFF)) & 0xFF\n        chk_byte = struct.pack(\"!B\"\
+      , chk)\n\n        # 4 bytes metadata = 32 bits\n        metadata_frame = mcs_byte\
+      \ + len_bytes + chk_byte\n\n        out_vec = pmt.init_u8vector(len(metadata_frame),\
+      \ list(metadata_frame))\n        self.message_port_pub(pmt.intern(\"header_out\"\
+      ), pmt.cons(pmt.PMT_NIL, out_vec))\n        self.message_port_pub(\n       \
+      \     pmt.intern(\"mcs_out\"),\n            pmt.cons(pmt.PMT_NIL, pmt.from_long(self.current_mcs))\n\
+      \        )\n"
     affinity: ''
     alias: ''
     comment: ''
     default_mcs: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
-    preamble_len: '16'
   states:
-    _io_cache: ('Adaptive Header Generator', 'AdaptiveHeaderGenerator', [('preamble_len',
-      '8'), ('default_mcs', '0')], [('mcs_in', 'message', 1), ('len_in', 'message',
-      1)], [('mcs_out', 'message', 1), ('header_out', 'message', 1)], '\n    Constructs
-      the BPSK Header frame and emits the current MCS \n    to switch the transmitter
-      modulation selector.\n    ', ['preamble_len'])
+    _io_cache: ('Adaptive Header Generator', 'AdaptiveHeaderGenerator', [('default_mcs',
+      '0')], [('len_in', 'message', 1), ('mcs_in', 'message', 1)], [('mcs_out', 'message',
+      1), ('header_out', 'message', 1)], '', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -1005,61 +1138,42 @@ blocks:
   parameters:
     _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt\nimport\
       \ struct\nimport zlib\n\nclass UnpackedPayloadDecoderSink(gr.sync_block):\n\
-      \    \"\"\"\n    Accepts an unpacked bit stream (np.uint8 values: 0 or 1).\n\
-      \    Collects bits, packs them into bytes (MSB-first), validates CRC32,\n  \
-      \  and prints the message to stdout.\n    \n    Length control:\n      - 'len_in'\
-      \ message port (connect from Header Recovery Block 'len_out')\n      - OR 'packet_len'\
-      \ stream tag\n    \"\"\"\n    def __init__(self, length_tag_key=\"packet_len\"\
-      ):\n        gr.sync_block.__init__(\n            self,\n            name=\"\
-      Unpacked Payload Decoder & CRC Sink\",\n            in_sig=[np.uint8],\n   \
-      \         out_sig=[]\n        )\n        self.length_tag_key = str(length_tag_key)\n\
-      \        self.bit_buf = []\n        self.expected_payload_bytes = 0\n\n    \
-      \    # Message port to receive the expected payload byte length\n        self.message_port_register_in(pmt.intern(\"\
+      \    \"\"\"\n    Collects unpacked payload bits, drops idle noise, validates\
+      \ CRC32,\n    and prints decoded messages to stdout.\n    \"\"\"\n    def __init__(self,\
+      \ length_tag_key=\"packet_len\"):\n        gr.sync_block.__init__(\n       \
+      \     self,\n            name=\"Unpacked Payload Decoder & CRC Sink\",\n   \
+      \         in_sig=[np.uint8],\n            out_sig=[]\n        )\n        self.bit_buf\
+      \ = []\n        self.expected_payload_bytes = 0\n\n        self.message_port_register_in(pmt.intern(\"\
       len_in\"))\n        self.set_msg_handler(pmt.intern(\"len_in\"), self.handle_len)\n\
-      \n    def handle_len(self, msg):\n        \"\"\"Receives the total payload byte\
-      \ length (data + 4 bytes CRC).\"\"\"\n        if pmt.is_integer(msg):\n    \
-      \        self.expected_payload_bytes = pmt.to_long(msg)\n        elif pmt.is_pair(msg):\n\
-      \            cdr = pmt.cdr(msg)\n            if pmt.is_integer(cdr):\n     \
-      \           self.expected_payload_bytes = pmt.to_long(cdr)\n\n    def process_packet(self,\
-      \ raw_bytes):\n        if len(raw_bytes) < 4:\n            print(f\"[RX PAYLOAD]\
-      \ Frame too short ({len(raw_bytes)} bytes, min 4 for CRC).\")\n            return\n\
-      \n        # Suffix is 4-byte CRC32\n        payload = bytes(raw_bytes[:-4])\n\
-      \        rx_crc = struct.unpack(\"!I\", bytes(raw_bytes[-4:]))[0]\n        calc_crc\
-      \ = zlib.crc32(payload) & 0xFFFFFFFF\n\n        if rx_crc == calc_crc:\n   \
-      \         try:\n                text_msg = payload.decode(\"utf-8\")\n     \
-      \           print(\"\\n==================== [PAYLOAD RECEIVED] ====================\"\
-      )\n                print(f\"Status       : CRC VALID (0x{rx_crc:08X})\")\n \
-      \               print(f\"Payload Size : {len(payload)} bytes\")\n          \
-      \      print(f\"Message (str): {text_msg}\")\n                print(f\"Message\
-      \ (hex): {payload.hex(' ')}\")\n                print(\"============================================================\\\
-      n\")\n            except UnicodeDecodeError:\n                print(\"\\n====================\
+      \n    def handle_len(self, msg):\n        val = 0\n        if pmt.is_integer(msg):\n\
+      \            val = pmt.to_long(msg)\n        elif pmt.is_pair(msg):\n      \
+      \      cdr = pmt.cdr(msg)\n            if pmt.is_integer(cdr):\n           \
+      \     val = pmt.to_long(cdr)\n\n        if val > 0:\n            self.expected_payload_bytes\
+      \ = val\n            self.bit_buf.clear()  # Flush any residual noise bits\n\
+      \n    def process_packet(self, raw_bytes):\n        if len(raw_bytes) < 4:\n\
+      \            return\n\n        payload = bytes(raw_bytes[:-4])\n        rx_crc\
+      \ = struct.unpack(\"!I\", bytes(raw_bytes[-4:]))[0]\n        calc_crc = zlib.crc32(payload)\
+      \ & 0xFFFFFFFF\n\n        if rx_crc == calc_crc:\n            try:\n       \
+      \         text_msg = payload.decode(\"utf-8\")\n                print(\"\\n====================\
       \ [PAYLOAD RECEIVED] ====================\")\n                print(f\"Status\
       \       : CRC VALID (0x{rx_crc:08X})\")\n                print(f\"Payload Size\
-      \ : {len(payload)} bytes (binary data)\")\n                print(f\"Message\
-      \ (hex): {payload.hex(' ')}\")\n                print(\"============================================================\\\
-      n\")\n        else:\n            print(\"\\n-------------------- [CRC ERROR]\
-      \ --------------------\")\n            print(f\"Status       : CRC MISMATCH!\"\
-      )\n            print(f\"Expected CRC : 0x{calc_crc:08X}\")\n            print(f\"\
-      Received CRC : 0x{rx_crc:08X}\")\n            print(f\"Total Bytes  : {len(raw_bytes)}\
-      \ bytes\")\n            print(\"-----------------------------------------------------\\\
-      n\")\n\n    def work(self, input_items, output_items):\n        in_bits = input_items[0]\n\
-      \        nread = self.nitems_read(0)\n        tags = self.get_tags_in_window(0,\
-      \ 0, len(in_bits))\n\n        # Check for stream tag length override\n     \
-      \   for tag in tags:\n            tag_name = pmt.to_python(tag.key)\n      \
-      \      if tag_name == self.length_tag_key:\n                val = int(pmt.to_python(tag.value))\n\
-      \                self.expected_payload_bytes = val\n\n        for b in in_bits:\n\
-      \            self.bit_buf.append(int(b) & 0x01)\n\n            # Check if we\
-      \ have accumulated all bits for the expected frame\n            if self.expected_payload_bytes\
-      \ > 0:\n                needed_bits = self.expected_payload_bytes * 8\n    \
-      \            if len(self.bit_buf) >= needed_bits:\n                    target_bits\
-      \ = self.bit_buf[:needed_bits]\n                    self.bit_buf = self.bit_buf[needed_bits:]\n\
-      \n                    # Pack 8 unpacked bits into 1 byte (MSB-first)\n     \
-      \               packed = bytearray()\n                    for i in range(0,\
-      \ needed_bits, 8):\n                        byte_val = 0\n                 \
-      \       for j in range(8):\n                            byte_val = (byte_val\
-      \ << 1) | target_bits[i + j]\n                        packed.append(byte_val)\n\
-      \n                    self.process_packet(packed)\n                    self.expected_payload_bytes\
-      \ = 0\n\n        return len(in_bits)\n"
+      \ : {len(payload)} bytes\")\n                print(f\"Message (str): {text_msg}\"\
+      )\n                print(\"============================================================\\\
+      n\", flush=True)\n            except UnicodeDecodeError:\n                print(f\"\
+      \\n[RX PAYLOAD] Binary Data ({len(payload)} bytes), CRC OK (0x{rx_crc:08X})\\\
+      n\", flush=True)\n        else:\n            print(f\"\\n[RX PAYLOAD] CRC MISMATCH!\
+      \ Calc: 0x{calc_crc:08X}, Rx: 0x{rx_crc:08X}\\n\", flush=True)\n\n    def work(self,\
+      \ input_items, output_items):\n        in_bits = input_items[0]\n\n        #\
+      \ Drop idle channel noise if no packet length has been set\n        if self.expected_payload_bytes\
+      \ == 0:\n            return len(in_bits)\n\n        needed_bits = self.expected_payload_bytes\
+      \ * 8\n        for b in in_bits:\n            self.bit_buf.append(int(b) & 0x01)\n\
+      \            if len(self.bit_buf) == needed_bits:\n                packed =\
+      \ bytearray()\n                for i in range(0, needed_bits, 8):\n        \
+      \            byte_val = 0\n                    for j in range(8):\n        \
+      \                byte_val = (byte_val << 1) | self.bit_buf[i + j]\n        \
+      \            packed.append(byte_val)\n\n                self.process_packet(packed)\n\
+      \                self.expected_payload_bytes = 0\n                self.bit_buf.clear()\n\
+      \                break\n\n        return len(in_bits)\n"
     affinity: ''
     alias: ''
     comment: ''
@@ -1067,17 +1181,64 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: '(''Unpacked Payload Decoder & CRC Sink'', ''UnpackedPayloadDecoderSink'',
-      [(''length_tag_key'', "''packet_len''")], [(''0'', ''byte'', 1), (''len_in'',
-      ''message'', 1)], [], "\n    Accepts an unpacked bit stream (np.uint8 values:
-      0 or 1).\n    Collects bits, packs them into bytes (MSB-first), validates CRC32,\n    and
-      prints the message to stdout.\n    \n    Length control:\n      - ''len_in''
-      message port (connect from Header Recovery Block ''len_out'')\n      - OR ''packet_len''
-      stream tag\n    ", [''length_tag_key''])'
+    _io_cache: ('Unpacked Payload Decoder & CRC Sink', 'UnpackedPayloadDecoderSink',
+      [('length_tag_key', "'packet_len'")], [('0', 'byte', 1), ('len_in', 'message',
+      1)], [], '\n    Collects unpacked payload bits, drops idle noise, validates
+      CRC32,\n    and prints decoded messages to stdout.\n    ', [])
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [1240, 1600.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_3
+  id: epy_block
+  parameters:
+    _source_code: "import numpy as np\nfrom gnuradio import gr\nimport pmt\n\nclass\
+      \ SyncWordInserter(gr.basic_block):\n    \"\"\"\n    Prepends raw (unencoded)\
+      \ Preamble and CCSDS Sync Word (0x1ACFFC1D)\n    AFTER differential encoding.\n\
+      \    \"\"\"\n    def __init__(self, preamble_bytes=4):\n        gr.basic_block.__init__(\n\
+      \            self,\n            name=\"Sync Word Inserter (Post-Diff)\",\n \
+      \           in_sig=[np.uint8],\n            out_sig=[np.uint8]\n        )\n\
+      \        self.preamble_bytes = max(1, int(preamble_bytes))\n        self.sync_word\
+      \ = 0x1ACFFC1D\n        \n        # Prevent double packet_len tag propagation\n\
+      \        self.set_tag_propagation_policy(gr.TPP_DONT)\n\n        # 1. Build\
+      \ unencoded preamble bits (0xAA -> 10101010)\n        preamble_bits = []\n \
+      \       for _ in range(self.preamble_bytes):\n            for i in range(7,\
+      \ -1, -1):\n                preamble_bits.append((0xAA >> i) & 1)\n\n      \
+      \  # 2. Build unencoded 32-bit sync word bits\n        sync_bits = [(self.sync_word\
+      \ >> i) & 1 for i in range(31, -1, -1)]\n\n        self.prefix_bits = np.array(preamble_bits\
+      \ + sync_bits, dtype=np.uint8)\n        self.prefix_len = len(self.prefix_bits)\n\
+      \n    def general_work(self, input_items, output_items):\n        in0 = input_items[0]\n\
+      \        out = output_items[0]\n        nin = len(in0)\n\n        if nin ==\
+      \ 0:\n            return 0\n\n        tags = self.get_tags_in_window(0, 0, nin)\n\
+      \        tag_offset = None\n        tag_val = None\n        for tag in tags:\n\
+      \            if pmt.to_python(tag.key) == \"packet_len\":\n                tag_offset\
+      \ = tag.offset - self.nitems_read(0)\n                tag_val = pmt.to_python(tag.value)\n\
+      \                break\n\n        if tag_offset is not None and tag_offset ==\
+      \ 0:\n            total_out = self.prefix_len + nin\n            if len(out)\
+      \ < total_out:\n                return 0\n\n            out[:self.prefix_len]\
+      \ = self.prefix_bits\n            out[self.prefix_len:total_out] = in0\n\n \
+      \           new_tag_val = tag_val + self.prefix_len\n            self.add_item_tag(0,\
+      \ self.nitems_written(0), pmt.intern(\"packet_len\"), pmt.from_long(new_tag_val))\n\
+      \n            self.consume(0, nin)\n            return total_out\n        else:\n\
+      \            n_copy = min(len(out), nin)\n            out[:n_copy] = in0[:n_copy]\n\
+      \            self.consume(0, n_copy)\n            return n_copy\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    preamble_bytes: '4'
+  states:
+    _io_cache: ('Sync Word Inserter (Post-Diff)', 'SyncWordInserter', [('preamble_bytes',
+      '4')], [('0', 'byte', 1)], [('0', 'byte', 1)], '\n    Prepends raw (unencoded)
+      Preamble and CCSDS Sync Word (0x1ACFFC1D)\n    AFTER differential encoding.\n    ',
+      ['preamble_bytes'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2104, 464.0]
     rotation: 0
     state: enabled
 - name: iio_pluto_sink_0
@@ -1103,9 +1264,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2840, 220.0]
+    coordinate: [2928, 220.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: iio_pluto_source_0
   id: iio_pluto_source
   parameters:
@@ -1136,7 +1297,7 @@ blocks:
     bus_structure: null
     coordinate: [424, 692.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: interp_fir_filter_xxx_0
   id: interp_fir_filter_xxx
   parameters:
@@ -1153,7 +1314,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2600, 360.0]
+    coordinate: [2688, 360.0]
     rotation: 0
     state: enabled
 - name: pdu_pdu_to_tagged_stream_0_0
@@ -1290,7 +1451,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2840, 408.0]
+    coordinate: [2928, 408.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_x_1
@@ -1434,6 +1595,32 @@ blocks:
     coordinate: [2640, 656.0]
     rotation: 0
     state: enabled
+- name: virtual_sink_1
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: TX
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2944, 504.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_2
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: RX
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1416, 1848.0]
+    rotation: 0
+    state: enabled
 - name: virtual_sink_2_1
   id: virtual_sink
   parameters:
@@ -1512,12 +1699,38 @@ blocks:
     coordinate: [848, 1592.0]
     rotation: 0
     state: enabled
+- name: virtual_source_2
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: RX
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 632.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_3
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: TX
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 1848.0]
+    rotation: 0
+    state: enabled
 
 connections:
 - [analog_agc_xx_0, '0', digital_fll_band_edge_cc_0, '0']
-- [blocks_repack_bits_bb_0, '0', digital_chunks_to_symbols_xx_0, '0']
-- [blocks_repack_bits_bb_0_0, '0', digital_chunks_to_symbols_xx_0_0, '0']
-- [blocks_repack_bits_bb_0_1, '0', digital_chunks_to_symbols_xx_0_1, '0']
+- [blocks_repack_bits_bb_0, '0', digital_diff_encoder_bb_0, '0']
+- [blocks_repack_bits_bb_0_0, '0', digital_diff_encoder_bb_0_0, '0']
+- [blocks_repack_bits_bb_0_1, '0', digital_diff_encoder_bb_0_1, '0']
 - [blocks_selector_0, '0', blocks_repack_bits_bb_0_0, '0']
 - [blocks_selector_0, '1', blocks_repack_bits_bb_0_1, '0']
 - [blocks_selector_0_0, '0', blocks_tagged_stream_mux_0, '1']
@@ -1525,9 +1738,11 @@ connections:
 - [blocks_selector_0_1, '0', digital_costas_loop_cc_0_0_0, '0']
 - [blocks_selector_0_1, '1', digital_costas_loop_cc_0, '0']
 - [blocks_tagged_stream_mux_0, '0', interp_fir_filter_xxx_0, '0']
+- [blocks_throttle2_0, '0', channels_channel_model_0, '0']
 - [blocks_unpack_k_bits_bb_0_0_0, '0', epy_block_0, '0']
 - [blocks_unpack_k_bits_bb_0_0_0_0, '0', blocks_selector_0_0_0, '0']
 - [blocks_unpack_k_bits_bb_0_1, '0', blocks_selector_0_0_0, '1']
+- [channels_channel_model_0, '0', virtual_sink_2, '0']
 - [digital_chunks_to_symbols_xx_0, '0', blocks_tagged_stream_mux_0, '0']
 - [digital_chunks_to_symbols_xx_0_0, '0', blocks_selector_0_0, '0']
 - [digital_chunks_to_symbols_xx_0_1, '0', blocks_selector_0_0, '1']
@@ -1542,6 +1757,9 @@ connections:
 - [digital_diff_decoder_bb_0_0_0, '0', blocks_unpack_k_bits_bb_0_0_0, '0']
 - [digital_diff_decoder_bb_0_0_0_0, '0', blocks_unpack_k_bits_bb_0_0_0_0, '0']
 - [digital_diff_decoder_bb_0_1, '0', digital_map_bb_0_0, '0']
+- [digital_diff_encoder_bb_0, '0', epy_block_3, '0']
+- [digital_diff_encoder_bb_0_0, '0', digital_chunks_to_symbols_xx_0_0, '0']
+- [digital_diff_encoder_bb_0_1, '0', digital_chunks_to_symbols_xx_0_1, '0']
 - [digital_fll_band_edge_cc_0, '0', root_raised_cosine_filter_0, '0']
 - [digital_header_payload_demux_0, '0', digital_costas_loop_cc_0_0, '0']
 - [digital_header_payload_demux_0, '1', blocks_selector_0_1, '0']
@@ -1560,9 +1778,11 @@ connections:
 - [epy_block_0_0_1, mcs_out, blocks_selector_0, oindex]
 - [epy_block_0_0_1, mcs_out, blocks_selector_0_0, iindex]
 - [epy_block_1, tx_mcs_feedback, virtual_sink_0, '0']
+- [epy_block_3, '0', digital_chunks_to_symbols_xx_0, '0']
 - [iio_pluto_source_0, '0', analog_agc_xx_0, '0']
 - [interp_fir_filter_xxx_0, '0', iio_pluto_sink_0, '0']
 - [interp_fir_filter_xxx_0, '0', qtgui_freq_sink_x_0, '0']
+- [interp_fir_filter_xxx_0, '0', virtual_sink_1, '0']
 - [pdu_pdu_to_tagged_stream_0_0, '0', blocks_selector_0, '0']
 - [pdu_pdu_to_tagged_stream_0_0_0, '0', blocks_repack_bits_bb_0, '0']
 - [qtgui_edit_box_msg_0_0, msg, epy_block_0_0, in]
@@ -1571,6 +1791,8 @@ connections:
 - [virtual_source_1, '0', digital_header_payload_demux_0, '0']
 - [virtual_source_1_0, '0', epy_block_0_0_1, mcs_in]
 - [virtual_source_1_1, '0', epy_block_2, '0']
+- [virtual_source_2, '0', analog_agc_xx_0, '0']
+- [virtual_source_3, '0', blocks_throttle2_0, '0']
 
 metadata:
   file_format: 1

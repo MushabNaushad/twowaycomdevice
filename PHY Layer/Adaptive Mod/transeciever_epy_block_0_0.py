@@ -5,12 +5,6 @@ import struct
 import zlib
 
 class AdaptivePayloadGenerator(gr.basic_block):
-    """
-    Appends CRC32 to incoming payload.
-    Outputs:
-      - 'payload_out': PDU containing (payload + CRC32)
-      - 'len_out': Total length of (payload + CRC32) as an integer PMT
-    """
     def __init__(self):
         gr.basic_block.__init__(
             self,
@@ -24,27 +18,30 @@ class AdaptivePayloadGenerator(gr.basic_block):
         self.set_msg_handler(pmt.intern("in"), self.handle_msg)
 
     def handle_msg(self, msg):
-        if not pmt.is_pair(msg):
+        raw_bytes = b""
+        if pmt.is_symbol(msg):
+            raw_bytes = pmt.symbol_to_string(msg).encode('utf-8')
+        elif pmt.is_string(msg):
+            raw_bytes = pmt.to_python(msg).encode('utf-8')
+        elif pmt.is_pair(msg):
+            cdr = pmt.cdr(msg)
+            if pmt.is_u8vector(cdr):
+                raw_bytes = bytes(pmt.u8vector_elements(cdr))
+            elif pmt.is_string(cdr) or pmt.is_symbol(cdr):
+                raw_bytes = pmt.to_python(cdr).encode('utf-8')
+        else:
             return
 
-        meta = pmt.car(msg)
-        data_pmt = pmt.cdr(msg)
-        payload = bytes(pmt.u8vector_elements(data_pmt))
+        if len(raw_bytes) == 0:
+            return
 
-        # Calculate and append CRC32 (4 bytes, big-endian)
-        crc = zlib.crc32(payload) & 0xFFFFFFFF
-        crc_bytes = struct.pack("!I", crc)
-        framed_payload = payload + crc_bytes
+        # Append CRC32 (4 bytes, big-endian)
+        crc = zlib.crc32(raw_bytes) & 0xFFFFFFFF
+        framed_payload = raw_bytes + struct.pack("!I", crc)
         total_len = len(framed_payload)
 
-        # Add payload length to metadata
-        if not pmt.is_dict(meta):
-            meta = pmt.make_dict()
-        meta = pmt.dict_add(meta, pmt.intern("payload_len"), pmt.from_long(total_len))
+        print(f"\n[TX] Transmitting: '{raw_bytes.decode('utf-8', errors='replace')}' ({total_len} bytes framed)", flush=True)
 
-        # 1. Output the framed payload PDU
         out_vec = pmt.init_u8vector(total_len, list(framed_payload))
-        self.message_port_pub(pmt.intern("payload_out"), pmt.cons(meta, out_vec))
-
-        # 2. Output the total payload length
+        self.message_port_pub(pmt.intern("payload_out"), pmt.cons(pmt.PMT_NIL, out_vec))
         self.message_port_pub(pmt.intern("len_out"), pmt.from_long(total_len))
