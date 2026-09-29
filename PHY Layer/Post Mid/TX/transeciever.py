@@ -96,7 +96,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.iio_pluto_sink_0.set_samplerate(int(samp_rate))
         self.iio_pluto_sink_0.set_attenuation(0, CH_GAIN)
         self.iio_pluto_sink_0.set_filter_params('Auto', '', 0, 0)
-        self.epy_block_0_0 = epy_block_0_0.PacketFramerTX(preamble_len=512, postamble_len=32, repeat_count=25)
+        self.epy_block_0_0 = epy_block_0_0.PacketFramerTX(preamble_len=512, postamble_len=256, repeat_count=50)
         self.digital_constellation_modulator_0_0 = digital.generic_mod(
             constellation=BPSK_CONST,
             differential=True,

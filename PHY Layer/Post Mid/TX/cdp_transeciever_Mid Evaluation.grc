@@ -652,9 +652,9 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    postamble_len: '32'
+    postamble_len: '256'
     preamble_len: '512'
-    repeat_count: '25'
+    repeat_count: '50'
   states:
     _io_cache: ('Packet Framer TX', 'PacketFramerTX', [('preamble_len', '32'), ('postamble_len',
       '16'), ('repeat_count', '1')], [('msg_in', 'message', 1)], [('pdu_out', 'message',
