@@ -24,7 +24,6 @@ from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import iio
 import mpsk_stage6_epy_block_0 as epy_block_0  # embedded python block
-import mpsk_stage6_epy_block_1 as epy_block_1  # embedded python block
 import sip
 import threading
 
@@ -67,21 +66,22 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.sps = sps = 4
-        self.nfilts = nfilts = 32
-        self.bpsk = bpsk = digital.constellation_rect([-1+0j, 1+0j], [0, 1],
-        4, 2, 2, 1, 1).base()
-        self.variable_adaptive_algorithm_0 = variable_adaptive_algorithm_0 = digital.adaptive_algorithm_cma( bpsk, .0001, 4).base()
-        self.timing_loop_bw = timing_loop_bw = 6.28/100.0
-        self.taps = taps = [1.0, 0.25-0.25j, 0.50 + 0.10j, -0.3 + 0.2j]
-        self.samp_rate = samp_rate = 5e5
-        self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 11*sps*nfilts)
         self.qpsk = qpsk = digital.constellation_rect([0.707+0.707j, -0.707+0.707j, -0.707-0.707j, 0.707-0.707j], [0, 1, 2, 3],
         4, 2, 2, 1, 1).base()
+        self.nfilts = nfilts = 32
+        self.variable_adaptive_algorithm_0 = variable_adaptive_algorithm_0 = digital.adaptive_algorithm_cma( qpsk, .0001, 4).base()
+        self.timing_loop_bw = timing_loop_bw = 6.28/100.0
+        self.time_offset = time_offset = 1.00
+        self.taps = taps = [1.0, 0.25-0.25j, 0.50 + 0.10j, -0.3 + 0.2j]
+        self.samp_rate = samp_rate = 1e6
+        self.rrc_taps = rrc_taps = firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 11*sps*nfilts)
         self.phase_bw = phase_bw = 6.28/100.0
         self.noise_volt = noise_volt = 0.0001
         self.freq_offset = freq_offset = 0
         self.excess_bw = excess_bw = 0.35
-        self.arity = arity = 2
+        self.eq_gain = eq_gain = 0.01
+        self.delay = delay = 50
+        self.arity = arity = 4
 
         ##################################################
         # Blocks
@@ -133,6 +133,13 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
             self.controls_grid_layout_1.setRowStretch(r, 1)
         for c in range(2, 3):
             self.controls_grid_layout_1.setColumnStretch(c, 1)
+        self._time_offset_range = qtgui.Range(0.999, 1.001, 0.0001, 1.00, 200)
+        self._time_offset_win = qtgui.RangeWidget(self._time_offset_range, self.set_time_offset, "Timing Offset", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.controls_grid_layout_0.addWidget(self._time_offset_win, 0, 2, 1, 1)
+        for r in range(0, 1):
+            self.controls_grid_layout_0.setRowStretch(r, 1)
+        for c in range(2, 3):
+            self.controls_grid_layout_0.setColumnStretch(c, 1)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             1024, #size
             "", #name
@@ -185,23 +192,16 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
             self.controls_grid_layout_0.setRowStretch(r, 1)
         for c in range(0, 1):
             self.controls_grid_layout_0.setColumnStretch(c, 1)
-        self.iio_pluto_source_0 = iio.fmcomms2_source_fc32("192.168.1.10" if "192.168.1.10" else iio.get_pluto_uri(), [True, True], 4096)
-        self.iio_pluto_source_0.set_len_tag_key('')
-        self.iio_pluto_source_0.set_frequency(int(433e6))
+        self.iio_pluto_source_0 = iio.fmcomms2_source_fc32("192.168.1.10" if "192.168.1.10" else iio.get_pluto_uri(), [True, True], 32768)
+        self.iio_pluto_source_0.set_len_tag_key('packet_len')
+        self.iio_pluto_source_0.set_frequency(2400000000)
         self.iio_pluto_source_0.set_samplerate(int(samp_rate))
         self.iio_pluto_source_0.set_gain_mode(0, 'slow_attack')
-        self.iio_pluto_source_0.set_gain(0, 30)
+        self.iio_pluto_source_0.set_gain(0, 64)
         self.iio_pluto_source_0.set_quadrature(True)
         self.iio_pluto_source_0.set_rfdc(True)
         self.iio_pluto_source_0.set_bbdc(True)
         self.iio_pluto_source_0.set_filter_params('Auto', '', 0, 0)
-        self.iio_pluto_sink_0 = iio.fmcomms2_sink_fc32("192.168.1.10" if "192.168.1.10" else iio.get_pluto_uri(), [True, True], 32768, False)
-        self.iio_pluto_sink_0.set_len_tag_key('')
-        self.iio_pluto_sink_0.set_bandwidth(20000000)
-        self.iio_pluto_sink_0.set_frequency(int(433e6))
-        self.iio_pluto_sink_0.set_samplerate(int(samp_rate))
-        self.iio_pluto_sink_0.set_attenuation(0, 20)
-        self.iio_pluto_sink_0.set_filter_params('Auto', '', 0, 0)
         self._freq_offset_range = qtgui.Range(-0.1, 0.1, 0.001, 0, 200)
         self._freq_offset_win = qtgui.RangeWidget(self._freq_offset_range, self.set_freq_offset, "Frequency Offset", "counter_slider", float, QtCore.Qt.Horizontal)
         self.controls_grid_layout_0.addWidget(self._freq_offset_win, 0, 1, 1, 1)
@@ -209,41 +209,41 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
             self.controls_grid_layout_0.setRowStretch(r, 1)
         for c in range(1, 2):
             self.controls_grid_layout_0.setColumnStretch(c, 1)
-        self.epy_block_1 = epy_block_1.blk(message="Hello", preamble_size=500, repeat_count=20, time_interval=0.001)
-        self.epy_block_0 = epy_block_0.blk(filename="output.txt", max_payload_len=4096)
+        self._eq_gain_range = qtgui.Range(0.0, 0.1, 0.001, 0.01, 200)
+        self._eq_gain_win = qtgui.RangeWidget(self._eq_gain_range, self.set_eq_gain, "Equalizer: rate", "slider", float, QtCore.Qt.Horizontal)
+        self.controls_grid_layout_1.addWidget(self._eq_gain_win, 0, 1, 1, 1)
+        for r in range(0, 1):
+            self.controls_grid_layout_1.setRowStretch(r, 1)
+        for c in range(1, 2):
+            self.controls_grid_layout_1.setColumnStretch(c, 1)
+        self.epy_block_0 = epy_block_0.blk(mode='int')
         self.digital_pfb_clock_sync_xxx_0 = digital.pfb_clock_sync_ccf(sps, timing_loop_bw, rrc_taps, nfilts, (nfilts/2), 1.5, 2)
-        self.digital_map_bb_0 = digital.map_bb([0,1])
+        self.digital_map_bb_0 = digital.map_bb([0,1,2,3])
         self.digital_linear_equalizer_0 = digital.linear_equalizer(15, 2, variable_adaptive_algorithm_0, True, [ ], 'corr_est')
-        self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(2, digital.DIFF_DIFFERENTIAL)
+        self.digital_diff_decoder_bb_0 = digital.diff_decoder_bb(4, digital.DIFF_DIFFERENTIAL)
         self.digital_costas_loop_cc_0 = digital.costas_loop_cc(phase_bw, arity, False)
-        self.digital_constellation_modulator_0 = digital.generic_mod(
-            constellation=bpsk,
-            differential=True,
-            samples_per_symbol=2,
-            pre_diff_code=True,
-            excess_bw=0.35,
-            verbose=False,
-            log=False,
-            truncate=False)
-        self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(bpsk)
-        self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(1)
-        self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(8, 1, "", False, gr.GR_MSB_FIRST)
+        self.digital_constellation_decoder_cb_0 = digital.constellation_decoder_cb(qpsk)
+        self._delay_range = qtgui.Range(0, 200, 1, 50, 200)
+        self._delay_win = qtgui.RangeWidget(self._delay_range, self.set_delay, "Delay", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_grid_layout.addWidget(self._delay_win, 1, 0, 1, 1)
+        for r in range(1, 2):
+            self.top_grid_layout.setRowStretch(r, 1)
+        for c in range(0, 1):
+            self.top_grid_layout.setColumnStretch(c, 1)
+        self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(2)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_repack_bits_bb_0, 0), (self.digital_constellation_modulator_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.epy_block_0, 0))
         self.connect((self.digital_constellation_decoder_cb_0, 0), (self.digital_diff_decoder_bb_0, 0))
-        self.connect((self.digital_constellation_modulator_0, 0), (self.iio_pluto_sink_0, 0))
         self.connect((self.digital_costas_loop_cc_0, 0), (self.digital_constellation_decoder_cb_0, 0))
         self.connect((self.digital_costas_loop_cc_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.digital_diff_decoder_bb_0, 0), (self.digital_map_bb_0, 0))
         self.connect((self.digital_linear_equalizer_0, 0), (self.digital_costas_loop_cc_0, 0))
         self.connect((self.digital_map_bb_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
         self.connect((self.digital_pfb_clock_sync_xxx_0, 0), (self.digital_linear_equalizer_0, 0))
-        self.connect((self.epy_block_1, 0), (self.blocks_repack_bits_bb_0, 0))
         self.connect((self.iio_pluto_source_0, 0), (self.digital_pfb_clock_sync_xxx_0, 0))
 
 
@@ -262,19 +262,19 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.sps = sps
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), 0.35, 11*self.sps*self.nfilts))
 
+    def get_qpsk(self):
+        return self.qpsk
+
+    def set_qpsk(self, qpsk):
+        self.qpsk = qpsk
+        self.digital_constellation_decoder_cb_0.set_constellation(self.qpsk)
+
     def get_nfilts(self):
         return self.nfilts
 
     def set_nfilts(self, nfilts):
         self.nfilts = nfilts
         self.set_rrc_taps(firdes.root_raised_cosine(self.nfilts, self.nfilts, 1.0/float(self.sps), 0.35, 11*self.sps*self.nfilts))
-
-    def get_bpsk(self):
-        return self.bpsk
-
-    def set_bpsk(self, bpsk):
-        self.bpsk = bpsk
-        self.digital_constellation_decoder_cb_0.set_constellation(self.bpsk)
 
     def get_variable_adaptive_algorithm_0(self):
         return self.variable_adaptive_algorithm_0
@@ -289,6 +289,12 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
         self.timing_loop_bw = timing_loop_bw
         self.digital_pfb_clock_sync_xxx_0.set_loop_bandwidth(self.timing_loop_bw)
 
+    def get_time_offset(self):
+        return self.time_offset
+
+    def set_time_offset(self, time_offset):
+        self.time_offset = time_offset
+
     def get_taps(self):
         return self.taps
 
@@ -300,7 +306,6 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.iio_pluto_sink_0.set_samplerate(int(self.samp_rate))
         self.iio_pluto_source_0.set_samplerate(int(self.samp_rate))
 
     def get_rrc_taps(self):
@@ -309,12 +314,6 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
     def set_rrc_taps(self, rrc_taps):
         self.rrc_taps = rrc_taps
         self.digital_pfb_clock_sync_xxx_0.update_taps(self.rrc_taps)
-
-    def get_qpsk(self):
-        return self.qpsk
-
-    def set_qpsk(self, qpsk):
-        self.qpsk = qpsk
 
     def get_phase_bw(self):
         return self.phase_bw
@@ -340,6 +339,18 @@ class mpsk_stage6(gr.top_block, Qt.QWidget):
 
     def set_excess_bw(self, excess_bw):
         self.excess_bw = excess_bw
+
+    def get_eq_gain(self):
+        return self.eq_gain
+
+    def set_eq_gain(self, eq_gain):
+        self.eq_gain = eq_gain
+
+    def get_delay(self):
+        return self.delay
+
+    def set_delay(self, delay):
+        self.delay = delay
 
     def get_arity(self):
         return self.arity

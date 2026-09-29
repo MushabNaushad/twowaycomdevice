@@ -1,0 +1,837 @@
+options:
+  parameters:
+    author: ''
+    catch_exceptions: 'True'
+    category: Custom
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: mpsk_stage6
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: mpsk_stage6.grc
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 20.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: arity
+  id: variable
+  parameters:
+    comment: ''
+    value: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [272, 20.0]
+    rotation: 0
+    state: enabled
+- name: bpsk
+  id: variable_constellation_rect
+  parameters:
+    comment: ''
+    const_points: '[-1+0j, 1+0j]'
+    imag_sect: '2'
+    precision: '8'
+    real_sect: '2'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: '[0, 1]'
+    w_imag_sect: '1'
+    w_real_sect: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [216, 348.0]
+    rotation: 0
+    state: enabled
+- name: excess_bw
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.35'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 20.0]
+    rotation: 0
+    state: enabled
+- name: freq_offset
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 'controls@0: 0,1,1,1'
+    label: Frequency Offset
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-0.1'
+    step: '0.001'
+    stop: '0.1'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 500.0]
+    rotation: 0
+    state: enabled
+- name: nfilts
+  id: variable
+  parameters:
+    comment: ''
+    value: '32'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 20.0]
+    rotation: 0
+    state: enabled
+- name: noise_volt
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 'controls@0: 0,0,1,1'
+    label: Noise Voltage
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.01'
+    stop: '1'
+    value: '0.0001'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 160.0]
+    rotation: 0
+    state: enabled
+- name: phase_bw
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 'controls@1: 0,2,1,1'
+    label: 'Phase: Bandwidth'
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.0'
+    step: '0.01'
+    stop: '1.0'
+    value: 6.28/100.0
+    widget: slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 1048.0]
+    rotation: 0
+    state: enabled
+- name: qpsk
+  id: variable_constellation_rect
+  parameters:
+    comment: ''
+    const_points: '[0.707+0.707j, -0.707+0.707j, -0.707-0.707j, 0.707-0.707j]'
+    imag_sect: '2'
+    precision: '8'
+    real_sect: '2'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: '[0, 1, 2, 3]'
+    w_imag_sect: '1'
+    w_real_sect: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 340.0]
+    rotation: 0
+    state: enabled
+- name: rrc_taps
+  id: variable
+  parameters:
+    comment: ''
+    value: firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(sps), 0.35, 11*sps*nfilts)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [768, 20.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 5e5
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 20.0]
+    rotation: 0
+    state: enabled
+- name: sps
+  id: variable
+  parameters:
+    comment: ''
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [344, 20.0]
+    rotation: 0
+    state: enabled
+- name: taps
+  id: variable
+  parameters:
+    comment: ''
+    value: '[1.0, 0.25-0.25j, 0.50 + 0.10j, -0.3 + 0.2j]'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 20.0]
+    rotation: 0
+    state: enabled
+- name: timing_loop_bw
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: 'controls@1: 0,0,1,1'
+    label: 'Time: BW'
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.0'
+    step: '0.01'
+    stop: '0.2'
+    value: 6.28/100.0
+    widget: slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 800.0]
+    rotation: 0
+    state: enabled
+- name: variable_adaptive_algorithm_0
+  id: variable_adaptive_algorithm
+  parameters:
+    comment: ''
+    cons: bpsk
+    delta: '10.0'
+    ffactor: '0.99'
+    modulus: '4'
+    step_size: '.0001'
+    type: cma
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 660.0]
+    rotation: 0
+    state: true
+- name: blocks_repack_bits_bb_0
+  id: blocks_repack_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    align_output: 'False'
+    comment: ''
+    endianness: gr.GR_MSB_FIRST
+    k: '8'
+    l: '1'
+    len_tag_key: '""'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 860.0]
+    rotation: 0
+    state: enabled
+- name: blocks_unpack_k_bits_bb_0
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 564.0]
+    rotation: 0
+    state: enabled
+- name: controls
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: 0,0,1,2
+    label0: Channel
+    label1: Receiver
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Tab 2
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 788.0]
+    rotation: 0
+    state: enabled
+- name: digital_constellation_decoder_cb_0
+  id: digital_constellation_decoder_cb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: bpsk
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [888, 452.0]
+    rotation: 180
+    state: true
+- name: digital_constellation_modulator_0
+  id: digital_constellation_modulator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: bpsk
+    differential: 'True'
+    excess_bw: '0.35'
+    log: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_symbol: '2'
+    truncate: 'False'
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [904, 828.0]
+    rotation: 0
+    state: enabled
+- name: digital_costas_loop_cc_0
+  id: digital_costas_loop_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    order: arity
+    use_snr: 'False'
+    w: phase_bw
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1256, 468.0]
+    rotation: 180
+    state: enabled
+- name: digital_diff_decoder_bb_0
+  id: digital_diff_decoder_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    coding: digital.DIFF_DIFFERENTIAL
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    modulus: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [640, 444.0]
+    rotation: 180
+    state: enabled
+- name: digital_linear_equalizer_0
+  id: digital_linear_equalizer
+  parameters:
+    adapt_after_training: 'True'
+    affinity: ''
+    alg: variable_adaptive_algorithm_0
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_taps: '15'
+    sps: '2'
+    training_sequence: '[ ]'
+    training_start_tag: corr_est
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1208, 140.0]
+    rotation: 0
+    state: enabled
+- name: digital_map_bb_0
+  id: digital_map_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    map: '[0,1]'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 452.0]
+    rotation: 180
+    state: enabled
+- name: digital_pfb_clock_sync_xxx_0
+  id: digital_pfb_clock_sync_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    filter_size: nfilts
+    init_phase: nfilts/2
+    loop_bw: timing_loop_bw
+    max_dev: '1.5'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    osps: '2'
+    sps: sps
+    taps: rrc_taps
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [672, 144.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "import sys\nimport struct\nimport zlib\nimport datetime\nimport\
+      \ numpy as np\nfrom gnuradio import gr\n\nclass blk(gr.sync_block):\n    \"\"\
+      \"\n    Packet Receiver & Decoder Sink:\n    Detects CCSDS sync marker (0x1ACFFC1D),\
+      \ verifies CRC32,\n    and logs both VALID packets and CRC ERRORS to console\
+      \ and disk.\n    \"\"\"\n    def __init__(self, filename=\"rx_output.txt\",\
+      \ max_payload_len=512):\n        gr.sync_block.__init__(\n            self,\n\
+      \            name='Packet RX Decoder',\n            in_sig=[np.uint8],\n   \
+      \         out_sig=None\n        )\n        self.filename = filename\n      \
+      \  self.max_payload_len = int(max_payload_len)\n        \n        # Standard\
+      \ CCSDS 32-bit Attached Sync Marker (ASM): 0x1ACFFC1D\n        self.sync_word\
+      \ = bytes([0x1A, 0xCF, 0xFC, 0x1D])\n        self.buffer = bytearray()\n   \
+      \     \n        # Performance counters\n        self.total_frames = 0\n    \
+      \    self.valid_count = 0\n        self.error_count = 0\n        \n        self.log_file\
+      \ = open(self.filename, \"a\", buffering=1, encoding=\"utf-8\")\n\n    def work(self,\
+      \ input_items, output_items):\n        in0 = input_items[0]\n        if len(in0)\
+      \ == 0:\n            return 0\n\n        self.buffer.extend(in0.tobytes())\n\
+      \n        while True:\n            # 1. Search for sync word\n            sync_idx\
+      \ = self.buffer.find(self.sync_word)\n            if sync_idx == -1:\n     \
+      \           # Keep last 3 bytes in case marker spans across work() buffer chunks\n\
+      \                if len(self.buffer) > 3:\n                    del self.buffer[:-3]\n\
+      \                break\n\n            # Discard preceding noise/preamble\n \
+      \           del self.buffer[:sync_idx]\n\n            # 2. Wait until Sync (4B)\
+      \ + Length Header (2B) have arrived\n            if len(self.buffer) < 6:\n\
+      \                break\n\n            payload_len = struct.unpack('>H', self.buffer[4:6])[0]\n\
+      \n            # 3. Guard against corrupted length fields\n            # If bit\
+      \ errors hit length header and report an impossible size,\n            # drop\
+      \ sync marker and continue scanning rather than hanging.\n            if payload_len\
+      \ > self.max_payload_len:\n                del self.buffer[:4]\n           \
+      \     continue\n\n            total_pkt_len = 4 + 2 + payload_len + 4  # Sync\
+      \ + Len + Payload + CRC32\n\n            # 4. Wait for full frame arrival\n\
+      \            if len(self.buffer) < total_pkt_len:\n                break\n\n\
+      \            # 5. Extract fields and compute CRC\n            self.total_frames\
+      \ += 1\n            payload = self.buffer[6:6 + payload_len]\n            rx_crc\
+      \ = struct.unpack('>I', self.buffer[6 + payload_len:total_pkt_len])[0]\n   \
+      \         calc_crc = zlib.crc32(payload) & 0xFFFFFFFF\n            \n      \
+      \      timestamp = datetime.datetime.now().strftime(\"%Y-%m-%d %H:%M:%S.%f\"\
+      )[:-3]\n\n            if rx_crc == calc_crc:\n                self.valid_count\
+      \ += 1\n                text = payload.decode('utf-8', errors='replace')\n \
+      \               log_entry = (\n                    f\"[{timestamp}] Frame #{self.total_frames}\
+      \ [VALID] | \"\n                    f\"Len: {payload_len}B | CRC: 0x{rx_crc:08X}\
+      \ | \"\n                    f\"Data: {text}\\n\"\n                )\n      \
+      \      else:\n                self.error_count += 1\n                # Format\
+      \ first 16 bytes as hex for quick RF inspection\n                hex_preview\
+      \ = ' '.join(f'{b:02X}' for b in payload[:16])\n                if len(payload)\
+      \ > 16:\n                    hex_preview += ' ...'\n                corrupted_text\
+      \ = payload.decode('latin1', errors='replace')\n                \n         \
+      \       log_entry = (\n                    f\"[{timestamp}] Frame #{self.total_frames}\
+      \ [CRC ERROR] | \"\n                    f\"Len: {payload_len}B | Expected CRC:\
+      \ 0x{calc_crc:08X} | \"\n                    f\"Got CRC: 0x{rx_crc:08X} | \"\
+      \n                    f\"Raw: [{hex_preview}] | \"\n                    f\"\
+      Corrupted Text: {repr(corrupted_text)}\\n\"\n                )\n\n         \
+      \   # Output to terminal\n            sys.stdout.write(log_entry)\n        \
+      \    sys.stdout.flush()\n\n            # Output to file\n            self.log_file.write(log_entry)\n\
+      \            self.log_file.flush()\n\n            # Advance buffer past this\
+      \ packet\n            del self.buffer[:total_pkt_len]\n\n        return len(in0)\n\
+      \n    def stop(self):\n        if self.log_file and not self.log_file.closed:\n\
+      \            per = (self.error_count / self.total_frames * 100.0) if self.total_frames\
+      \ > 0 else 0.0\n            summary = (\n                f\"\\n--- Demodulation\
+      \ Session Summary ---\\n\"\n                f\"Total Frames Detected: {self.total_frames}\\\
+      n\"\n                f\"Valid Packets:        {self.valid_count}\\n\"\n    \
+      \            f\"CRC Failures:         {self.error_count}\\n\"\n            \
+      \    f\"Packet Error Rate:    {per:.2f}%\\n\"\n                f\"------------------------------------\\\
+      n\"\n            )\n            sys.stdout.write(summary)\n            sys.stdout.flush()\n\
+      \            self.log_file.write(summary)\n            self.log_file.close()\n\
+      \        return True"
+    affinity: ''
+    alias: ''
+    comment: ''
+    filename: '"output.txt"'
+    max_payload_len: '4096'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Packet RX Decoder', 'blk', [('filename', "'rx_output.txt'"), ('max_payload_len',
+      '512')], [('0', 'byte', 1)], [], '\nPacket Receiver & Decoder Sink:\nDetects
+      CCSDS sync marker (0x1ACFFC1D), verifies CRC32,\nand logs both VALID packets
+      and CRC ERRORS to console and disk.\n', ['filename', 'max_payload_len'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 564.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_1
+  id: epy_block
+  parameters:
+    _source_code: "import time\nimport struct\nimport zlib\nimport numpy as np\nfrom\
+      \ gnuradio import gr\n\nclass blk(gr.sync_block):\n    \"\"\"\n    Packet Transmitter\
+      \ Source Block:\n    Constructs [Preamble + CCSDS Sync + Length + Payload +\
+      \ CRC32] frames.\n    Sends `repeat_count` packets back-to-back, pauses for\
+      \ `time_interval` seconds,\n    and repeats indefinitely.\n    \"\"\"\n    def\
+      \ __init__(self, \n                 message=\"Hello QPSK World!\", \n      \
+      \           preamble_size=32, \n                 repeat_count=5, \n        \
+      \         time_interval=2.0):\n        gr.sync_block.__init__(\n           \
+      \ self,\n            name='Packet TX Source',\n            in_sig=None,\n  \
+      \          out_sig=[np.uint8]\n        )\n        self.message = str(message)\n\
+      \        self.preamble_size = max(0, int(preamble_size))\n        self.repeat_count\
+      \ = max(1, int(repeat_count))\n        self.time_interval = max(0.0, float(time_interval))\n\
+      \n        # Standard CCSDS 32-bit Attached Sync Marker (ASM): 0x1ACFFC1D\n \
+      \       self.sync_word = bytes([0x1A, 0xCF, 0xFC, 0x1D])\n        \n       \
+      \ self.running = True\n        self.burst_count = 0\n        self.buffer = bytearray()\n\
+      \        self.packet = self._build_packet()\n\n    def _build_packet(self):\n\
+      \        payload = self.message.encode('utf-8')\n        # Alternating 10101010\
+      \ bit pattern (0xAA) for symbol clock recovery\n        preamble = bytes([0xAA]\
+      \ * self.preamble_size)\n        length_header = struct.pack('>H', len(payload))\n\
+      \        crc = struct.pack('>I', zlib.crc32(payload) & 0xFFFFFFFF)\n       \
+      \ return preamble + self.sync_word + length_header + payload + crc\n\n    def\
+      \ _sleep_interruptible(self, seconds):\n        \"\"\"Sleeps in small slices\
+      \ to allow GRC to stop immediately without hanging.\"\"\"\n        start = time.time()\n\
+      \        while (time.time() - start) < seconds and self.running:\n         \
+      \   time.sleep(0.02)\n\n    def work(self, input_items, output_items):\n   \
+      \     out = output_items[0]\n        n_req = len(out)\n\n        # When the\
+      \ burst buffer is completely drained\n        if len(self.buffer) == 0:\n  \
+      \          if not self.running:\n                return -1\n\n            #\
+      \ Pause between bursts after the first burst has been sent\n            if self.burst_count\
+      \ > 0 and self.time_interval > 0:\n                self._sleep_interruptible(self.time_interval)\n\
+      \                if not self.running:\n                    return -1\n\n   \
+      \         # Queue repeat_count packets back-to-back\n            for _ in range(self.repeat_count):\n\
+      \                self.buffer.extend(self.packet)\n            self.burst_count\
+      \ += 1\n\n        n_to_send = min(n_req, len(self.buffer))\n        out[:n_to_send]\
+      \ = np.frombuffer(self.buffer[:n_to_send], dtype=np.uint8)\n        del self.buffer[:n_to_send]\n\
+      \n        return n_to_send\n\n    def stop(self):\n        self.running = False\n\
+      \        return True\n\n    # GRC runtime parameter callbacks\n    def set_message(self,\
+      \ message):\n        self.message = str(message)\n        self.packet = self._build_packet()\n\
+      \n    def set_preamble_size(self, preamble_size):\n        self.preamble_size\
+      \ = max(0, int(preamble_size))\n        self.packet = self._build_packet()\n\
+      \n    def set_repeat_count(self, repeat_count):\n        self.repeat_count =\
+      \ max(1, int(repeat_count))\n\n    def set_time_interval(self, time_interval):\n\
+      \        self.time_interval = max(0.0, float(time_interval))"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    message: '"Hello"'
+    minoutbuf: '0'
+    preamble_size: '500'
+    repeat_count: '20'
+    time_interval: '0.001'
+  states:
+    _io_cache: ('Packet TX Source', 'blk', [('message', "'Hello QPSK World!'"), ('preamble_size',
+      '32'), ('repeat_count', '5'), ('time_interval', '2.0')], [], [('0', 'byte',
+      1)], '\nPacket Transmitter Source Block:\nConstructs [Preamble + CCSDS Sync
+      + Length + Payload + CRC32] frames.\nSends `repeat_count` packets back-to-back,
+      pauses for `time_interval` seconds,\nand repeats indefinitely.\n', ['message',
+      'preamble_size', 'repeat_count', 'time_interval'])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 844.0]
+    rotation: 0
+    state: enabled
+- name: iio_pluto_sink_0
+  id: iio_pluto_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    attenuation1: '20'
+    bandwidth: '20000000'
+    buffer_size: '32768'
+    comment: ''
+    cyclic: 'False'
+    filter: ''
+    filter_source: '''Auto'''
+    fpass: '0'
+    frequency: int(433e6)
+    fstop: '0'
+    len_tag_key: ''
+    samplerate: int(samp_rate)
+    type: fc32
+    uri: '"192.168.1.10"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1232, 772.0]
+    rotation: 0
+    state: enabled
+- name: iio_pluto_source_0
+  id: iio_pluto_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bandwidth: '2000000'
+    bbdc: 'True'
+    buffer_size: '4096'
+    comment: ''
+    filter: ''
+    filter_source: '''Auto'''
+    fpass: '0'
+    frequency: int(433e6)
+    fstop: '0'
+    gain1: '''slow_attack'''
+    len_tag_key: ''
+    manual_gain1: '30'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    quadrature: 'True'
+    rfdc: 'True'
+    samplerate: int(samp_rate)
+    type: fc32
+    uri: '"192.168.1.10"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 112.0]
+    rotation: 0
+    state: enabled
+- name: note_0
+  id: note
+  parameters:
+    alias: ''
+    comment: 'The CMA equalizer has been
+
+      replaced by a Linear Equalizer
+
+      and an Adaptive Algorithm for
+
+      version 3.9'
+    note: CMA equalizer replaced
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [216, 676.0]
+    rotation: 0
+    state: true
+- name: qtgui_const_sink_x_0
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"red"'
+    color2: '"red"'
+    color3: '"red"'
+    color4: '"red"'
+    color5: '"red"'
+    color6: '"red"'
+    color7: '"red"'
+    color8: '"red"'
+    color9: '"red"'
+    comment: ''
+    grid: 'False'
+    gui_hint: 'received@0: 0,0,1,1'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '""'
+    nconnections: '1'
+    size: '1024'
+    style1: '0'
+    style10: '0'
+    style2: '0'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '2'
+    xmin: '-2'
+    ymax: '2'
+    ymin: '-2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 348.0]
+    rotation: 180
+    state: enabled
+- name: received
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: 2,0,1,1
+    label0: Constellation
+    label1: Symbols
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Tab 2
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 924.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [blocks_repack_bits_bb_0, '0', digital_constellation_modulator_0, '0']
+- [blocks_unpack_k_bits_bb_0, '0', epy_block_0, '0']
+- [digital_constellation_decoder_cb_0, '0', digital_diff_decoder_bb_0, '0']
+- [digital_constellation_modulator_0, '0', iio_pluto_sink_0, '0']
+- [digital_costas_loop_cc_0, '0', digital_constellation_decoder_cb_0, '0']
+- [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_0, '0']
+- [digital_diff_decoder_bb_0, '0', digital_map_bb_0, '0']
+- [digital_linear_equalizer_0, '0', digital_costas_loop_cc_0, '0']
+- [digital_map_bb_0, '0', blocks_unpack_k_bits_bb_0, '0']
+- [digital_pfb_clock_sync_xxx_0, '0', digital_linear_equalizer_0, '0']
+- [epy_block_1, '0', blocks_repack_bits_bb_0, '0']
+- [iio_pluto_source_0, '0', digital_pfb_clock_sync_xxx_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
