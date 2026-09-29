@@ -3,7 +3,7 @@ Embedded Python Block: Burst Packet Framer TX
 - Outputs packed byte PDUs directly to pdu_pdu_to_tagged_stream
 - Zero idle transmission (idle between bursts = complete silence)
 - Zero postamble / trailing idle
-- Frame layout: [preamble] [1A CF FC 1D] [len: 2B][msg_id: 1B][rep: 1B][n_reps: 1B] [payload] [CRC32: 4B]
+- Frame layout: [preamble] [1A CF FC 1D] [len: 2B][dest_id: 1B][msg_id: 1B][rep: 1B][n_reps: 1B] [payload] [CRC32: 4B]
 - CRC32 covers header + payload
 """
 import zlib
@@ -14,13 +14,14 @@ SYNC_WORD = bytes([0x1A, 0xCF, 0xFC, 0x1D])
 
 
 class PacketFramerTX(gr.basic_block):
-    def __init__(self, preamble_len=64, repeat_count=5, max_payload_len=1024, preamble_byte=0xFF):
+    def __init__(self, peer_id=1, preamble_len=64, repeat_count=5, max_payload_len=1024, preamble_byte=0xFF):
         gr.basic_block.__init__(
             self,
             name="Packet Framer TX (Burst)",
             in_sig=None,
             out_sig=None,
         )
+        self.peer_id = int(peer_id) & 0xFF
         self.preamble_len = int(preamble_len)
         self.repeat_count = int(repeat_count)
         self.max_payload_len = int(max_payload_len)
@@ -64,10 +65,10 @@ class PacketFramerTX(gr.basic_block):
         n_reps = max(1, min(255, self.repeat_count))
 
         preamble = bytes([self.preamble_byte]) * self.preamble_len
-        print(f"[TX] msg #{msg_id}: '{payload.decode('utf-8', 'replace')}' ({n_reps} bursts queued)", flush=True)
+        print(f"[TX] msg #{msg_id} (to peer {self.peer_id}): '{payload.decode('utf-8', 'replace')}' ({n_reps} bursts queued)", flush=True)
 
         for rep in range(n_reps):
-            header = len(payload).to_bytes(2, "big") + bytes([msg_id, rep, n_reps])
+            header = len(payload).to_bytes(2, "big") + bytes([self.peer_id, msg_id, rep, n_reps])
             crc = zlib.crc32(header + payload).to_bytes(4, "big")
             frame = preamble + SYNC_WORD + header + payload + crc
 

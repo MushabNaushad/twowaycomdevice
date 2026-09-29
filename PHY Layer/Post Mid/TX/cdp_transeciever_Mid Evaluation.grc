@@ -101,7 +101,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2.4e9
+    value: 433e6
   states:
     bus_sink: false
     bus_source: false
@@ -661,7 +661,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     preamble_byte: '0xFF'
-    preamble_len: '350'
+    preamble_len: '512'
     repeat_count: '50'
   states:
     _io_cache: ('Packet Framer TX (Burst)', 'PacketFramerTX', [('preamble_len', '64'),
@@ -671,7 +671,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [960, 1804.0]
+    coordinate: [888, 1804.0]
     rotation: 180
     state: enabled
 - name: epy_block_0_0_0

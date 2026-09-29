@@ -4,6 +4,7 @@ Embedded Python Block: Fast Burst Packet Deframer RX
 - Positive correlation search only (180-deg phase ambiguity resolved upstream by diff decoder)
 - 1-bit false sync backtracking (prevents dropped frames on noise triggers)
 - Full CRC32 verification over header + payload
+- Destination address filtering: drops frames where dest_id != peer_id
 - Message deduplication: displays payload once per msg_id, then logs burst statistics
 """
 import zlib
@@ -12,17 +13,18 @@ import pmt
 from gnuradio import gr
 
 SYNC_WORD = bytes([0x1A, 0xCF, 0xFC, 0x1D])
-HDR_BYTES = 5  # len (2B) + msg_id (1B) + rep (1B) + n_reps (1B)
+HDR_BYTES = 6  # len (2B) + dest_id (1B) + msg_id (1B) + rep (1B) + n_reps (1B)
 
 
 class PacketDeframerRX(gr.sync_block):
-    def __init__(self, max_bit_errors=2, max_payload_len=1024, bit_rate=375000):
+    def __init__(self, peer_id=1, max_bit_errors=2, max_payload_len=1024, bit_rate=375000):
         gr.sync_block.__init__(
             self,
             name="Packet Deframer RX (Fast Burst)",
             in_sig=[np.uint8],
             out_sig=None,
         )
+        self.peer_id = int(peer_id) & 0xFF
         self.max_bit_errors = int(max_bit_errors)
         self.max_payload_len = int(max_payload_len)
         self.bit_rate = float(bit_rate)
@@ -54,7 +56,7 @@ class PacketDeframerRX(gr.sync_block):
         self._cur_reps = set()
 
     def _deliver(self, header, payload):
-        msg_id, rep, n_reps = header[2], header[3], header[4]
+        dest_id, msg_id, rep, n_reps = header[2], header[3], header[4], header[5]
         if msg_id != self._cur_id:
             self._flush_summary()
             self._cur_id, self._cur_nreps = msg_id, n_reps
@@ -64,6 +66,7 @@ class PacketDeframerRX(gr.sync_block):
             print("=" * 40 + "\n", flush=True)
 
             meta = pmt.make_dict()
+            meta = pmt.dict_add(meta, pmt.intern("dest_id"), pmt.from_long(dest_id))
             meta = pmt.dict_add(meta, pmt.intern("msg_id"), pmt.from_long(msg_id))
             meta = pmt.dict_add(meta, pmt.intern("n_reps"), pmt.from_long(n_reps))
             vec = pmt.init_u8vector(len(payload), list(payload))
@@ -123,8 +126,11 @@ class PacketDeframerRX(gr.sync_block):
             self.n_sync += 1
 
             if zlib.crc32(hdr + payload) == int.from_bytes(rx_crc, "big"):
-                self.n_ok += 1
-                self._deliver(hdr, payload)
+                dest_id = hdr[2]
+                if dest_id == self.peer_id:
+                    self.n_ok += 1
+                    self._deliver(hdr, payload)
+                # Frame addressed to another peer: discard silently
                 self._buf = buf[end:].copy()  # Advance past valid frame
             else:
                 self.n_crc_fail += 1
