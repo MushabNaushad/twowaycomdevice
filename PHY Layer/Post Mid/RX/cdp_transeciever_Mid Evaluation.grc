@@ -74,7 +74,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 92.0]
+    coordinate: [424, 88.0]
     rotation: 0
     state: enabled
 - name: QPSK_CONST
@@ -116,7 +116,7 @@ blocks:
     cons: BPSK_CONST
     delta: '10.0'
     ffactor: '0.99'
-    modulus: '2'
+    modulus: '4'
     step_size: '.01'
     type: cma
   states:
@@ -142,7 +142,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0628'
+    value: '0.02'
   states:
     bus_sink: false
     bus_source: false
@@ -154,7 +154,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0314'
+    value: '0.01'
   states:
     bus_sink: false
     bus_source: false
@@ -190,7 +190,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0.0628'
+    value: '0.020'
   states:
     bus_sink: false
     bus_source: false
@@ -205,19 +205,19 @@ blocks:
     alias: ''
     comment: ''
     gain: '1.0'
-    max_gain: '65536'
+    max_gain: '1000'
     maxoutbuf: '0'
     minoutbuf: '0'
-    rate: 1e-2
+    rate: 1e-3
     reference: '1.0'
     type: complex
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 832.0]
+    coordinate: [728, 736.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_copy_0
   id: blocks_copy
   parameters:
@@ -272,9 +272,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 984.0]
+    coordinate: [736, 896.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_copy_1_1
   id: blocks_copy
   parameters:
@@ -291,7 +291,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 908.0]
+    coordinate: [512, 896.0]
     rotation: 0
     state: enabled
 - name: blocks_copy_1_2
@@ -485,7 +485,7 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    order: QPSK_CONST.arity()
+    order: BPSK_CONST.arity()
     use_snr: 'False'
     w: costas_bw
   states:
@@ -535,7 +535,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    filter_size: 2* sps +1
+    filter_size: 11* sps +1
     maxoutbuf: '0'
     minoutbuf: '0'
     rolloff: alpha
@@ -595,7 +595,7 @@ blocks:
     constellation: digital.constellation_bpsk().base()
     damping: '1.0'
     loop_bw: sym_bw
-    max_dev: '1.5'
+    max_dev: '0.05'
     maxoutbuf: '0'
     minoutbuf: '0'
     nfilters: '128'
@@ -668,64 +668,87 @@ blocks:
 - name: epy_block_0_0_0
   id: epy_block
   parameters:
-    _source_code: "\"\"\"\nEmbedded Python Block: PacketDeframerRX\n\"\"\"\nimport\
-      \ numpy as np\nfrom gnuradio import gr\nimport zlib\n\nclass PacketDeframerRX(gr.sync_block):\n\
-      \    STATE_SYNC = 0\n    STATE_HEADER = 1\n    STATE_PAYLOAD_CRC = 2\n\n   \
-      \ def __init__(self, max_bit_errors=1, max_payload_len=512):\n        gr.sync_block.__init__(\n\
-      \            self,\n            name=\"Packet Deframer RX\",\n            in_sig=[np.uint8],\n\
-      \            out_sig=None\n        )\n        self.max_bit_errors = max_bit_errors\n\
-      \        self.max_payload_len = max_payload_len\n        self.sync_target =\
-      \ 0x1ACFFC1D  # Matches TX sync word\n\n        self.state = self.STATE_SYNC\n\
-      \        self.shift_reg = 0\n        self.bit_buf = 0\n        self.bit_count\
-      \ = 0\n        self.byte_buf = bytearray()\n        self.payload_len = 0\n \
-      \       self.target_bytes = 0\n\n    def work(self, input_items, output_items):\n\
-      \        in_bits = input_items[0]\n\n        for bit in in_bits:\n         \
-      \   b = int(bit) & 1\n\n            if self.state == self.STATE_SYNC:\n    \
-      \            self.shift_reg = ((self.shift_reg << 1) | b) & 0xFFFFFFFF\n   \
-      \             xor_diff = self.shift_reg ^ self.sync_target\n               \
-      \ \n                # Check for sync match (allowing bit errors over RF)\n \
-      \               if bin(xor_diff).count('1') <= self.max_bit_errors:\n      \
-      \              self.state = self.STATE_HEADER\n                    self.bit_buf\
-      \ = 0\n                    self.bit_count = 0\n                    self.byte_buf\
-      \ = bytearray()\n                    self.target_bytes = 2\n\n            elif\
-      \ self.state == self.STATE_HEADER:\n                self.bit_buf = (self.bit_buf\
-      \ << 1) | b\n                self.bit_count += 1\n                if self.bit_count\
-      \ == 8:\n                    self.byte_buf.append(self.bit_buf)\n          \
-      \          self.bit_buf = 0\n                    self.bit_count = 0\n      \
-      \              if len(self.byte_buf) == self.target_bytes:\n               \
-      \         self.payload_len = int.from_bytes(self.byte_buf, 'big')\n        \
-      \                if 0 < self.payload_len <= self.max_payload_len:\n        \
-      \                    self.state = self.STATE_PAYLOAD_CRC\n                 \
-      \           self.byte_buf = bytearray()\n                            self.target_bytes\
-      \ = self.payload_len + 4  # payload + 4 CRC bytes\n                        else:\n\
-      \                            # False trigger / corrupted header\n          \
-      \                  self.state = self.STATE_SYNC\n\n            elif self.state\
-      \ == self.STATE_PAYLOAD_CRC:\n                self.bit_buf = (self.bit_buf <<\
-      \ 1) | b\n                self.bit_count += 1\n                if self.bit_count\
-      \ == 8:\n                    self.byte_buf.append(self.bit_buf)\n          \
-      \          self.bit_buf = 0\n                    self.bit_count = 0\n      \
-      \              if len(self.byte_buf) == self.target_bytes:\n               \
-      \         payload = bytes(self.byte_buf[:self.payload_len])\n              \
-      \          rx_crc = int.from_bytes(self.byte_buf[self.payload_len:], 'big')\n\
-      \                        calc_crc = zlib.crc32(payload)\n\n                \
-      \        if rx_crc == calc_crc:\n                            msg_str = payload.decode('utf-8',\
-      \ errors='replace')\n                            print(f\"\\n========================================\"\
-      , flush=True)\n                            print(f\"[RX RECEIVED]: {msg_str}\"\
-      , flush=True)\n                            print(f\"========================================\\\
-      n\", flush=True)\n                        else:\n                          \
-      \  print(f\"[RX CRC ERROR] Expected: {calc_crc:#010x}, Received: {rx_crc:#010x}\"\
-      , flush=True)\n\n                        self.state = self.STATE_SYNC\n    \
-      \                    self.shift_reg = 0\n\n        return len(in_bits)\n"
+    _source_code: "\"\"\"\nEmbedded Python Block: Fast Burst Packet Deframer RX\n\
+      - Vectorized NumPy sliding-window sync detection (fast C execution, minimal\
+      \ GIL load)\n- Positive correlation search only (180-deg phase ambiguity resolved\
+      \ upstream by diff decoder)\n- 1-bit false sync backtracking (prevents dropped\
+      \ frames on noise triggers)\n- Full CRC32 verification over header + payload\n\
+      - Message deduplication: displays payload once per msg_id, then logs burst statistics\n\
+      \"\"\"\nimport zlib\nimport numpy as np\nimport pmt\nfrom gnuradio import gr\n\
+      \nSYNC_WORD = bytes([0x1A, 0xCF, 0xFC, 0x1D])\nHDR_BYTES = 5  # len (2B) + msg_id\
+      \ (1B) + rep (1B) + n_reps (1B)\n\n\nclass PacketDeframerRX(gr.sync_block):\n\
+      \    def __init__(self, max_bit_errors=2, max_payload_len=1024, bit_rate=375000):\n\
+      \        gr.sync_block.__init__(\n            self,\n            name=\"Packet\
+      \ Deframer RX (Fast Burst)\",\n            in_sig=[np.uint8],\n            out_sig=None,\n\
+      \        )\n        self.max_bit_errors = int(max_bit_errors)\n        self.max_payload_len\
+      \ = int(max_payload_len)\n        self.bit_rate = float(bit_rate)\n\n      \
+      \  # Bipolar template (+1 / -1) for correlation\n        self._sync = np.unpackbits(np.frombuffer(SYNC_WORD,\
+      \ np.uint8)).astype(np.int16) * 2 - 1\n        self._buf = np.zeros(0, dtype=np.uint8)\n\
+      \n        self.n_sync = 0\n        self.n_ok = 0\n        self.n_crc_fail =\
+      \ 0\n        self.n_bad_len = 0\n\n        self._bits_total = 0\n        self._bits_at_last_ok\
+      \ = 0\n        self._cur_id = None\n        self._cur_reps = set()\n       \
+      \ self._cur_nreps = 0\n\n        self.message_port_register_out(pmt.intern(\"\
+      pdu_out\"))\n        self.message_port_register_out(pmt.intern(\"text_out\"\
+      ))\n\n    def _flush_summary(self):\n        if self._cur_id is not None:\n\
+      \            got, n = len(self._cur_reps), self._cur_nreps\n            loss\
+      \ = 100.0 * (n - got) / max(n, 1)\n            print(f\"[RX] msg #{self._cur_id}:\
+      \ {got}/{n} bursts OK (Loss: {loss:.0f}%)\", flush=True)\n        self._cur_id\
+      \ = None\n        self._cur_reps = set()\n\n    def _deliver(self, header, payload):\n\
+      \        msg_id, rep, n_reps = header[2], header[3], header[4]\n        if msg_id\
+      \ != self._cur_id:\n            self._flush_summary()\n            self._cur_id,\
+      \ self._cur_nreps = msg_id, n_reps\n            text = payload.decode(\"utf-8\"\
+      , errors=\"replace\")\n            print(\"\\n\" + \"=\" * 40, flush=True)\n\
+      \            print(f\"[RX RECEIVED] #{msg_id}: {text}\", flush=True)\n     \
+      \       print(\"=\" * 40 + \"\\n\", flush=True)\n\n            meta = pmt.make_dict()\n\
+      \            meta = pmt.dict_add(meta, pmt.intern(\"msg_id\"), pmt.from_long(msg_id))\n\
+      \            meta = pmt.dict_add(meta, pmt.intern(\"n_reps\"), pmt.from_long(n_reps))\n\
+      \            vec = pmt.init_u8vector(len(payload), list(payload))\n        \
+      \    self.message_port_pub(pmt.intern(\"pdu_out\"), pmt.cons(meta, vec))\n \
+      \           self.message_port_pub(pmt.intern(\"text_out\"), pmt.intern(text))\n\
+      \n        self._cur_reps.add(rep)\n        self._bits_at_last_ok = self._bits_total\n\
+      \n    def work(self, input_items, output_items):\n        bits = input_items[0]\
+      \ & 1\n        self._bits_total += len(bits)\n        self._buf = np.concatenate((self._buf,\
+      \ bits)) if len(self._buf) else bits.copy()\n\n        # Flush transmission\
+      \ stats once channel has been quiet for > 0.5s of air time\n        if self._cur_id\
+      \ is not None and self._bits_total - self._bits_at_last_ok > 0.5 * self.bit_rate:\n\
+      \            self._flush_summary()\n\n        thr = 32 - 2 * self.max_bit_errors\n\
+      \        hdr_bits = 32 + HDR_BYTES * 8\n\n        while True:\n            buf\
+      \ = self._buf\n            if len(buf) < hdr_bits:\n                return len(bits)\n\
+      \n            # Fast matrix dot product over 32-bit window (only positive peaks)\n\
+      \            pm = buf.astype(np.int16) * 2 - 1\n            corr = np.lib.stride_tricks.sliding_window_view(pm,\
+      \ 32) @ self._sync\n            cand = np.flatnonzero(corr >= thr)\n\n     \
+      \       if cand.size == 0:\n                self._buf = buf[-31:].copy()  #\
+      \ Preserve trailing bits that might begin a sync word\n                return\
+      \ len(bits)\n\n            i = int(cand[0])\n\n            if len(buf) < i +\
+      \ hdr_bits:\n                self._buf = buf[i:].copy()  # Await complete header\
+      \ bits\n                return len(bits)\n\n            header = np.packbits(buf[i\
+      \ + 32 : i + hdr_bits]).tobytes()\n            length = int.from_bytes(header[:2],\
+      \ \"big\")\n\n            if length == 0 or length > self.max_payload_len:\n\
+      \                self.n_bad_len += 1\n                self._buf = buf[i + 1:].copy()\
+      \  # Backtrack 1 bit past false sync\n                continue\n\n         \
+      \   end = i + 32 + (HDR_BYTES + length + 4) * 8\n            if len(buf) < end:\n\
+      \                self._buf = buf[i:].copy()  # Await complete frame body bits\n\
+      \                return len(bits)\n\n            body = np.packbits(buf[i +\
+      \ 32 : end]).tobytes()\n            hdr, payload, rx_crc = body[:HDR_BYTES],\
+      \ body[HDR_BYTES : HDR_BYTES + length], body[-4:]\n            self.n_sync +=\
+      \ 1\n\n            if zlib.crc32(hdr + payload) == int.from_bytes(rx_crc, \"\
+      big\"):\n                self.n_ok += 1\n                self._deliver(hdr,\
+      \ payload)\n                self._buf = buf[end:].copy()  # Advance past valid\
+      \ frame\n            else:\n                self.n_crc_fail += 1\n         \
+      \       self._buf = buf[i + 1:].copy()  # Backtrack 1 bit past false sync\n\n\
+      \        return len(bits)"
     affinity: ''
     alias: ''
+    bit_rate: '375000'
     comment: ''
     max_bit_errors: '1'
     max_payload_len: '8192'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('Packet Deframer RX', 'PacketDeframerRX', [('max_bit_errors', '1'),
-      ('max_payload_len', '512')], [('0', 'byte', 1)], [], '', ['max_bit_errors',
+    _io_cache: ('Packet Deframer RX (Fast Burst)', 'PacketDeframerRX', [('max_bit_errors',
+      '2'), ('max_payload_len', '1024'), ('bit_rate', '375000')], [('0', 'byte', 1)],
+      [('text_out', 'message', 1), ('pdu_out', 'message', 1)], '', ['bit_rate', 'max_bit_errors',
       'max_payload_len'])
     bus_sink: false
     bus_source: false
@@ -1187,7 +1210,7 @@ blocks:
     interp: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    ntaps: 11*sps
+    ntaps: 11*sps+1
     samp_rate: samp_rate
     sym_rate: samp_rate/float(sps)
     type: fir_filter_ccf

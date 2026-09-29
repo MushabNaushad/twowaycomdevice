@@ -662,7 +662,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1080, 1760.0]
+    coordinate: [792, 840.0]
     rotation: 180
     state: enabled
 - name: epy_block_0_0_0
@@ -804,7 +804,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1016, 1608.0]
+    coordinate: [776, 720.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -1010,7 +1010,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1376, 1740.0]
+    coordinate: [1072, 824.0]
     rotation: 180
     state: enabled
 - name: qtgui_freq_sink_x_0
@@ -1232,7 +1232,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1320, 1600.0]
+    coordinate: [1080, 712.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_2
