@@ -720,7 +720,7 @@ blocks:
     alias: ''
     comment: ''
     max_bit_errors: '1'
-    max_payload_len: '4096'
+    max_payload_len: '8192'
     maxoutbuf: '0'
     minoutbuf: '0'
   states:

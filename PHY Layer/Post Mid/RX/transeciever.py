@@ -227,7 +227,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.iio_pluto_source_0.set_rfdc(True)
         self.iio_pluto_source_0.set_bbdc(True)
         self.iio_pluto_source_0.set_filter_params('Auto', '', 0, 0)
-        self.epy_block_0_0_0 = epy_block_0_0_0.PacketDeframerRX(max_bit_errors=1, max_payload_len=4096)
+        self.epy_block_0_0_0 = epy_block_0_0_0.PacketDeframerRX(max_bit_errors=1, max_payload_len=8192)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_cc(
             digital.TED_SIGNAL_TIMES_SLOPE_ML,
             sps,
