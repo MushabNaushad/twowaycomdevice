@@ -72,11 +72,11 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.sym_bw = sym_bw = 0.020
         self.sps = sps = 4
         self.samp_rate = samp_rate = 1.5e6
-        self.fll_loop_bw = fll_loop_bw = 0.01
+        self.fll_loop_bw = fll_loop_bw = 0.006
         self.costas_bw = costas_bw = 0.02
         self.alpha = alpha = 0.35
         self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( BPSK_CONST, .01, 4).base()
-        self.SDR_CF = SDR_CF = 2.4e9
+        self.SDR_CF = SDR_CF = 433e6
         self.QPSK_CONST = QPSK_CONST = digital.constellation_rect([-1-1j, -1+1j, 1+1j, 1-1j], [0, 1, 3, 2],
         4, 2, 2, 1, 1).base()
         self.CH_GAIN = CH_GAIN = 20.0
