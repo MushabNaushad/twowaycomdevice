@@ -11,6 +11,7 @@
 
 from PyQt5 import Qt
 from gnuradio import qtgui
+from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import digital
 from gnuradio import filter
@@ -68,13 +69,13 @@ class transeciever(gr.top_block, Qt.QWidget):
         ##################################################
         self.BPSK_CONST = BPSK_CONST = digital.constellation_rect([1+0j, -1+0j], [0, 1],
         2, 2, 1, 1, 1).base()
-        self.sym_bw = sym_bw = 0.0628
+        self.sym_bw = sym_bw = 0.020
         self.sps = sps = 4
         self.samp_rate = samp_rate = 1.5e6
-        self.fll_loop_bw = fll_loop_bw = 0.0314
-        self.costas_bw = costas_bw = 0.0628
+        self.fll_loop_bw = fll_loop_bw = 0.01
+        self.costas_bw = costas_bw = 0.02
         self.alpha = alpha = 0.35
-        self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( BPSK_CONST, .01, 2).base()
+        self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( BPSK_CONST, .01, 4).base()
         self.SDR_CF = SDR_CF = 2.4e9
         self.QPSK_CONST = QPSK_CONST = digital.constellation_rect([-1-1j, -1+1j, 1+1j, 1-1j], [0, 1, 3, 2],
         4, 2, 2, 1, 1).base()
@@ -92,7 +93,7 @@ class transeciever(gr.top_block, Qt.QWidget):
                 samp_rate,
                 (samp_rate/float(sps)),
                 alpha,
-                (11*sps)))
+                (11*sps+1)))
         self.qtgui_freq_sink_x_1 = qtgui.freq_sink_c(
             1024, #size
             window.WIN_BLACKMAN_hARRIS, #wintype
@@ -227,38 +228,37 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.iio_pluto_source_0.set_rfdc(True)
         self.iio_pluto_source_0.set_bbdc(True)
         self.iio_pluto_source_0.set_filter_params('Auto', '', 0, 0)
-        self.epy_block_0_0_0 = epy_block_0_0_0.PacketDeframerRX(max_bit_errors=1, max_payload_len=8192)
+        self.epy_block_0_0_0 = epy_block_0_0_0.PacketDeframerRX(max_bit_errors=1, max_payload_len=8192, bit_rate=375000)
         self.digital_symbol_sync_xx_0 = digital.symbol_sync_cc(
             digital.TED_SIGNAL_TIMES_SLOPE_ML,
             sps,
             sym_bw,
             1.0,
             1.0,
-            1.5,
+            0.05,
             2,
             digital.constellation_bpsk().base(),
             digital.IR_MMSE_8TAP,
             128,
             [])
         self.digital_linear_equalizer_0 = digital.linear_equalizer(15, 2, adpt_alg, True, [], "")
-        self.digital_fll_band_edge_cc_0 = digital.fll_band_edge_cc(sps, alpha, (2* sps +1), fll_loop_bw)
+        self.digital_fll_band_edge_cc_0 = digital.fll_band_edge_cc(sps, alpha, (11* sps +1), fll_loop_bw)
         self.digital_diff_decoder_bb_0_0 = digital.diff_decoder_bb(2, digital.DIFF_DIFFERENTIAL)
-        self.digital_costas_loop_cc_0 = digital.costas_loop_cc(costas_bw, QPSK_CONST.arity(), False)
+        self.digital_costas_loop_cc_0 = digital.costas_loop_cc(costas_bw, BPSK_CONST.arity(), False)
         self.digital_constellation_decoder_cb_0_0 = digital.constellation_decoder_cb(BPSK_CONST)
         self.blocks_unpack_k_bits_bb_0_0 = blocks.unpack_k_bits_bb(1)
         self.blocks_copy_1_2 = blocks.copy(gr.sizeof_gr_complex*1)
         self.blocks_copy_1_2.set_enabled(True)
         self.blocks_copy_1_1 = blocks.copy(gr.sizeof_gr_complex*1)
         self.blocks_copy_1_1.set_enabled(True)
-        self.blocks_copy_1_0 = blocks.copy(gr.sizeof_gr_complex*1)
-        self.blocks_copy_1_0.set_enabled(True)
+        self.analog_agc_xx_0 = analog.agc_cc((1e-3), 1.0, 1.0, 1000)
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_copy_1_0, 0), (self.digital_fll_band_edge_cc_0, 0))
-        self.connect((self.blocks_copy_1_1, 0), (self.blocks_copy_1_0, 0))
+        self.connect((self.analog_agc_xx_0, 0), (self.digital_fll_band_edge_cc_0, 0))
+        self.connect((self.blocks_copy_1_1, 0), (self.analog_agc_xx_0, 0))
         self.connect((self.blocks_copy_1_2, 0), (self.root_raised_cosine_filter_0, 0))
         self.connect((self.blocks_unpack_k_bits_bb_0_0, 0), (self.epy_block_0_0_0, 0))
         self.connect((self.digital_constellation_decoder_cb_0_0, 0), (self.digital_diff_decoder_bb_0_0, 0))
@@ -302,7 +302,7 @@ class transeciever(gr.top_block, Qt.QWidget):
     def set_sps(self, sps):
         self.sps = sps
         self.digital_symbol_sync_xx_0.set_sps(self.sps)
-        self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
+        self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps+1)))
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -311,7 +311,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.iio_pluto_source_0.set_samplerate(int(self.samp_rate))
         self.qtgui_freq_sink_x_1.set_frequency_range(0, self.samp_rate)
-        self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
+        self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps+1)))
 
     def get_fll_loop_bw(self):
         return self.fll_loop_bw
@@ -332,7 +332,7 @@ class transeciever(gr.top_block, Qt.QWidget):
 
     def set_alpha(self, alpha):
         self.alpha = alpha
-        self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps)))
+        self.root_raised_cosine_filter_0.set_taps(firdes.root_raised_cosine(1, self.samp_rate, (self.samp_rate/float(self.sps)), self.alpha, (11*self.sps+1)))
 
     def get_adpt_alg(self):
         return self.adpt_alg
