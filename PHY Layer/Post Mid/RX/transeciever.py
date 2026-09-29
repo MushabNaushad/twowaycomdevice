@@ -75,7 +75,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.costas_bw = costas_bw = 0.0628
         self.alpha = alpha = 0.35
         self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( BPSK_CONST, .01, 2).base()
-        self.SDR_CF = SDR_CF = 410000000.0
+        self.SDR_CF = SDR_CF = 2.4e9
         self.QPSK_CONST = QPSK_CONST = digital.constellation_rect([-1-1j, -1+1j, 1+1j, 1-1j], [0, 1, 3, 2],
         4, 2, 2, 1, 1).base()
         self.CH_GAIN = CH_GAIN = 20.0
