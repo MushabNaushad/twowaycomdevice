@@ -75,7 +75,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.costas_bw = costas_bw = 0.0628
         self.alpha = alpha = 0.35
         self.adpt_alg = adpt_alg = digital.adaptive_algorithm_cma( BPSK_CONST, .01, 2).base()
-        self.SDR_CF = SDR_CF = 410000000.0
+        self.SDR_CF = SDR_CF = 2.4e9
         self.QPSK_CONST = QPSK_CONST = digital.constellation_rect([-1-1j, -1+1j, 1+1j, 1-1j], [0, 1, 3, 2],
         4, 2, 2, 1, 1).base()
         self.CH_GAIN = CH_GAIN = 20.0
@@ -96,7 +96,7 @@ class transeciever(gr.top_block, Qt.QWidget):
         self.iio_pluto_sink_0.set_samplerate(int(samp_rate))
         self.iio_pluto_sink_0.set_attenuation(0, CH_GAIN)
         self.iio_pluto_sink_0.set_filter_params('Auto', '', 0, 0)
-        self.epy_block_0_0 = epy_block_0_0.PacketFramerTX(preamble_len=512, postamble_len=256, repeat_count=50)
+        self.epy_block_0_0 = epy_block_0_0.PacketFramerTX(preamble_len=350, postamble_len=32, repeat_count=50)
         self.digital_constellation_modulator_0_0 = digital.generic_mod(
             constellation=BPSK_CONST,
             differential=True,

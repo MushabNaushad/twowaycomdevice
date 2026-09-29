@@ -101,7 +101,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '410000000.0'
+    value: 2.4e9
   states:
     bus_sink: false
     bus_source: false
@@ -652,8 +652,8 @@ blocks:
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    postamble_len: '256'
-    preamble_len: '512'
+    postamble_len: '32'
+    preamble_len: '350'
     repeat_count: '50'
   states:
     _io_cache: ('Packet Framer TX', 'PacketFramerTX', [('preamble_len', '32'), ('postamble_len',
