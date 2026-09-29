@@ -616,49 +616,58 @@ blocks:
 - name: epy_block_0_0
   id: epy_block
   parameters:
-    _source_code: "\"\"\"\nEmbedded Python Block: PacketFramerTX with Repetition\n\
-      \"\"\"\nimport numpy as np\nfrom gnuradio import gr\nimport pmt\nimport zlib\n\
-      \nclass PacketFramerTX(gr.basic_block):\n    def __init__(self, preamble_len=32,\
-      \ postamble_len=16, repeat_count=1):\n        gr.basic_block.__init__(\n   \
-      \         self,\n            name=\"Packet Framer TX\",\n            in_sig=None,\n\
-      \            out_sig=None\n        )\n        self.preamble_len = preamble_len\n\
-      \        self.postamble_len = postamble_len\n        self.repeat_count = int(repeat_count)\n\
-      \        self.sync_word = bytes([0x1A, 0xCF, 0xFC, 0x1D])\n\n        self.message_port_register_in(pmt.intern(\"\
-      msg_in\"))\n        self.set_msg_handler(pmt.intern(\"msg_in\"), self.handle_msg)\n\
-      \        self.message_port_register_out(pmt.intern(\"pdu_out\"))\n\n    def\
-      \ set_repeat_count(self, repeat_count):\n        self.repeat_count = int(repeat_count)\n\
-      \n    def handle_msg(self, msg):\n        try:\n            py_val = pmt.to_python(msg)\n\
-      \            if isinstance(py_val, tuple) and len(py_val) == 2:\n          \
-      \      payload = bytes(py_val[1])\n                text = payload.decode('utf-8',\
-      \ errors='replace')\n            elif isinstance(py_val, str):\n           \
-      \     text = py_val\n                payload = text.encode('utf-8')\n      \
-      \      elif isinstance(py_val, (bytes, bytearray)):\n                payload\
-      \ = bytes(py_val)\n                text = payload.decode('utf-8', errors='replace')\n\
-      \            else:\n                text = str(py_val)\n                payload\
-      \ = text.encode('utf-8')\n        except Exception as e:\n            print(f\"\
-      [TX Error] Failed to parse input message: {e}\", flush=True)\n            return\n\
-      \n        if not payload:\n            return\n\n        # Frame construction\n\
-      \        preamble = bytes([0xAA] * self.preamble_len)\n        length_hdr =\
-      \ len(payload).to_bytes(2, byteorder='big')\n        crc = zlib.crc32(payload).to_bytes(4,\
-      \ byteorder='big')\n        postamble = bytes([0xAA] * self.postamble_len)\n\
-      \n        frame = preamble + self.sync_word + length_hdr + payload + crc + postamble\n\
-      \n        # Create PDU\n        vec = pmt.init_u8vector(len(frame), list(frame))\n\
-      \        pdu = pmt.cons(pmt.PMT_NIL, vec)\n\n        # Publish N times\n   \
-      \     print(f\"[TX] Broadcasting '{text}' ({self.repeat_count} times)...\",\
-      \ flush=True)\n        for _ in range(self.repeat_count):\n            self.message_port_pub(pmt.intern(\"\
-      pdu_out\"), pdu)\n"
+    _source_code: "\"\"\"\nEmbedded Python Block: Burst Packet Framer TX\n- Outputs\
+      \ packed byte PDUs directly to pdu_pdu_to_tagged_stream\n- Zero idle transmission\
+      \ (idle between bursts = complete silence)\n- Zero postamble / trailing idle\n\
+      - Frame layout: [preamble] [1A CF FC 1D] [len: 2B][msg_id: 1B][rep: 1B][n_reps:\
+      \ 1B] [payload] [CRC32: 4B]\n- CRC32 covers header + payload\n\"\"\"\nimport\
+      \ zlib\nimport pmt\nfrom gnuradio import gr\n\nSYNC_WORD = bytes([0x1A, 0xCF,\
+      \ 0xFC, 0x1D])\n\n\nclass PacketFramerTX(gr.basic_block):\n    def __init__(self,\
+      \ preamble_len=64, repeat_count=5, max_payload_len=1024, preamble_byte=0xFF):\n\
+      \        gr.basic_block.__init__(\n            self,\n            name=\"Packet\
+      \ Framer TX (Burst)\",\n            in_sig=None,\n            out_sig=None,\n\
+      \        )\n        self.preamble_len = int(preamble_len)\n        self.repeat_count\
+      \ = int(repeat_count)\n        self.max_payload_len = int(max_payload_len)\n\
+      \        self.preamble_byte = int(preamble_byte) & 0xFF\n        self._msg_id\
+      \ = 0\n\n        self.message_port_register_in(pmt.intern(\"msg_in\"))\n   \
+      \     self.set_msg_handler(pmt.intern(\"msg_in\"), self.handle_msg)\n      \
+      \  self.message_port_register_out(pmt.intern(\"pdu_out\"))\n\n    @staticmethod\n\
+      \    def _extract_payload(msg):\n        if pmt.is_pair(msg):\n            data\
+      \ = pmt.cdr(msg)\n            if pmt.is_u8vector(data):\n                return\
+      \ bytes(pmt.u8vector_elements(data))\n            return str(pmt.to_python(data)).encode(\"\
+      utf-8\")\n        if pmt.is_symbol(msg):\n            return pmt.symbol_to_string(msg).encode(\"\
+      utf-8\")\n        val = pmt.to_python(msg)\n        if isinstance(val, (bytes,\
+      \ bytearray)):\n            return bytes(val)\n        return str(val).encode(\"\
+      utf-8\")\n\n    def handle_msg(self, msg):\n        try:\n            payload\
+      \ = self._extract_payload(msg)\n        except Exception as e:\n           \
+      \ print(f\"[TX] Could not parse message: {e}\", flush=True)\n            return\n\
+      \n        if not payload:\n            return\n\n        if len(payload) > self.max_payload_len:\n\
+      \            print(f\"[TX] Payload {len(payload)} B truncated to {self.max_payload_len}\
+      \ B\", flush=True)\n            payload = payload[:self.max_payload_len]\n\n\
+      \        msg_id = self._msg_id\n        self._msg_id = (self._msg_id + 1) &\
+      \ 0xFF\n        n_reps = max(1, min(255, self.repeat_count))\n\n        preamble\
+      \ = bytes([self.preamble_byte]) * self.preamble_len\n        print(f\"[TX] msg\
+      \ #{msg_id}: '{payload.decode('utf-8', 'replace')}' ({n_reps} bursts queued)\"\
+      , flush=True)\n\n        for rep in range(n_reps):\n            header = len(payload).to_bytes(2,\
+      \ \"big\") + bytes([msg_id, rep, n_reps])\n            crc = zlib.crc32(header\
+      \ + payload).to_bytes(4, \"big\")\n            frame = preamble + SYNC_WORD\
+      \ + header + payload + crc\n\n            vec = pmt.init_u8vector(len(frame),\
+      \ list(frame))\n            self.message_port_pub(pmt.intern(\"pdu_out\"), pmt.cons(pmt.PMT_NIL,\
+      \ vec))"
     affinity: ''
     alias: ''
     comment: ''
+    max_payload_len: '8196'
     maxoutbuf: '0'
     minoutbuf: '0'
-    postamble_len: '32'
+    preamble_byte: '0xFF'
     preamble_len: '350'
     repeat_count: '50'
   states:
-    _io_cache: ('Packet Framer TX', 'PacketFramerTX', [('preamble_len', '32'), ('postamble_len',
-      '16'), ('repeat_count', '1')], [('msg_in', 'message', 1)], [('pdu_out', 'message',
-      1)], '', ['postamble_len', 'preamble_len', 'repeat_count'])
+    _io_cache: ('Packet Framer TX (Burst)', 'PacketFramerTX', [('preamble_len', '64'),
+      ('repeat_count', '5'), ('max_payload_len', '1024'), ('preamble_byte', '255')],
+      [('msg_in', 'message', 1)], [('pdu_out', 'message', 1)], '', ['max_payload_len',
+      'preamble_byte', 'preamble_len', 'repeat_count'])
     bus_sink: false
     bus_source: false
     bus_structure: null
@@ -1010,7 +1019,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1376, 1740.0]
+    coordinate: [1392, 1756.0]
     rotation: 180
     state: enabled
 - name: qtgui_freq_sink_x_0
