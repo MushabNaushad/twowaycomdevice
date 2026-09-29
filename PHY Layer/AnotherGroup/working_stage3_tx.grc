@@ -272,7 +272,7 @@ blocks:
     alias: ''
     begin_tag: pmt.PMT_NIL
     comment: ''
-    file: C:\Users\Isula\Desktop\UNI\Sem 03\Communication Design Project\Project10_nisal\payload.txt
+    file: /home/methalabeywickrama/Documents/CDP Project/twowaycomdevice/PHY Layer/AnotherGroup/payload.txt
     length: '0'
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -284,7 +284,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 312.0]
+    coordinate: [56, 316.0]
     rotation: 0
     state: enabled
 - name: controls
